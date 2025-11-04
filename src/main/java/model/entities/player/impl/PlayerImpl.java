@@ -1,5 +1,6 @@
 package model.entities.player.impl;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.Model;
 import model.entities.player.api.Player;
 import model.entities.player.api.PlayerSnapshot;
@@ -7,6 +8,9 @@ import model.entities.player.api.PlayerSnapshot;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Default physics-backed implementation of the controllable player.
+ */
 public final class PlayerImpl implements Player {
     private static final double GRAVITY = 2000.0;
     private static final double MOVE_ACCELERATION = 1200.0;
@@ -31,6 +35,21 @@ public final class PlayerImpl implements Player {
     private boolean rightPressed;
     private boolean jumpQueued;
 
+    /**
+     * Builds a new player instance bound to the given level geometry.
+     *
+     * @param startX      initial horizontal position
+     * @param startY      initial vertical position
+     * @param width       player width
+     * @param height      player height
+     * @param worldWidth  world width
+     * @param worldHeight world height
+     * @param platforms   level platforms used for collision checks
+     */
+    @SuppressFBWarnings(
+        value = "EI_EXPOSE_REP2",
+        justification = "The platform list is shared intentionally for collision checks"
+    )
     public PlayerImpl(
         final double startX,
         final double startY,
@@ -109,9 +128,9 @@ public final class PlayerImpl implements Player {
                 continue;
             }
             if (vx > 0.0) {
-                newX = platform.x - width;
+                newX = platform.getX() - width;
             } else if (vx < 0.0) {
-                newX = platform.x + platform.width;
+                newX = platform.getX() + platform.getWidth();
             }
             vx = 0.0;
         }
@@ -141,10 +160,10 @@ public final class PlayerImpl implements Player {
                 continue;
             }
             if (vy > 0.0) {
-                newY = platform.y - height;
+                newY = platform.getY() - height;
                 grounded = true;
             } else if (vy < 0.0) {
-                newY = platform.y + platform.height;
+                newY = platform.getY() + platform.getHeight();
             }
             vy = 0.0;
         }
@@ -174,7 +193,7 @@ public final class PlayerImpl implements Player {
     }
 
     private static boolean overlapsVertically(final double y, final double height, final Model.Platform platform) {
-        return y < platform.y + platform.height && y + height > platform.y;
+        return y < platform.getY() + platform.getHeight() && y + height > platform.getY();
     }
 
     private static boolean intersects(
@@ -184,9 +203,9 @@ public final class PlayerImpl implements Player {
         final double height,
         final Model.Platform platform
     ) {
-        return x < platform.x + platform.width
-            && x + width > platform.x
-            && y < platform.y + platform.height
-            && y + height > platform.y;
+        return x < platform.getX() + platform.getWidth()
+            && x + width > platform.getX()
+            && y < platform.getY() + platform.getHeight()
+            && y + height > platform.getY();
     }
 }

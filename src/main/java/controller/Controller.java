@@ -4,7 +4,9 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.Model;
 import view.View;
 
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.swing.SwingUtilities;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -19,6 +21,7 @@ public final class Controller extends KeyAdapter implements ActionListener {
     private final View view;
     private final Timer timer;
     private long lastUpdateTime;
+    private boolean gameOverNotified;
 
     /**
      * Creates a controller that updates the given model and view.
@@ -54,7 +57,21 @@ public final class Controller extends KeyAdapter implements ActionListener {
         final double deltaSeconds = (now - lastUpdateTime) / 1_000_000_000.0;
         lastUpdateTime = now;
         model.update(deltaSeconds);
-        view.setGameState(model.snapshot());
+        final Model.GameState state = model.snapshot();
+        view.setGameState(state);
+        if (state.isGameOver() && !gameOverNotified) {
+            gameOverNotified = true;
+            stop();
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(
+                    view,
+                    "Game over! You ran out of health.\nCoins collected: " + state.getCoinsCollected(),
+                    "Hop Tales",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+                terminateApplication();
+            });
+        }
     }
 
     @Override
@@ -87,5 +104,10 @@ public final class Controller extends KeyAdapter implements ActionListener {
             default:
                 break;
         }
+    }
+
+    @SuppressFBWarnings(value = "DM_EXIT", justification = "The application should terminate when health reaches zero")
+    private static void terminateApplication() {
+        System.exit(0);
     }
 }

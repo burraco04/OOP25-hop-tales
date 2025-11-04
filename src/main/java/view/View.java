@@ -1,6 +1,10 @@
 package view;
 
 import model.Model;
+import model.Model.CoinSnapshot;
+import model.Model.GameState;
+import model.Model.HazardSnapshot;
+import model.Model.Platform;
 import model.entities.player.api.PlayerSnapshot;
 
 import javax.imageio.ImageIO;
@@ -21,39 +25,48 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * Swing view that renders the current {@link Model.GameState}.
+ * Swing panel that renders the current game state.
  */
-public class View extends JPanel {
-    private static final String PLAYER_SPRITE_SHEET = "bozza_player_1_vers_3.png";
-    private static final int PLAYER_FRAME_COUNT = 2;
-    private static final long FRAME_DURATION_NANOS = 150_000_000L;
+public final class View extends JPanel {
+    private static final long serialVersionUID = 1L;
+
+    private static final String PLAYER_SPRITE = "bozza_player_1_vers_3.png";
+
     private static final Color SKY_COLOR = new Color(142, 202, 230);
     private static final Color PLATFORM_COLOR = new Color(87, 117, 144);
-    private static final Color OUTLINE_COLOR = new Color(28, 52, 71);
+    private static final Color HAZARD_COLOR = new Color(214, 40, 57, 180);
+    private static final Color HUD_BACKGROUND = new Color(0, 0, 0, 150);
+    private static final Color HUD_TEXT_COLOR = Color.WHITE;
+    private static final Color COIN_FILL = new Color(255, 193, 7);
+    private static final Color COIN_BORDER = new Color(204, 140, 0);
+    private static final Color PLAYER_FALLBACK = new Color(241, 96, 111);
+    private static final Color PLAYER_OUTLINE = new Color(28, 52, 71);
+    private static final Color SHADOW_COLOR = new Color(0, 0, 0, 90);
+    private static final Color HEALTH_BAR_FILL = new Color(235, 87, 87);
 
-    private transient BufferedImage[] playerSprites;
-    private transient int currentSpriteIndex;
-    private transient long lastFrameChangeNanos;
-    private transient Model.GameState gameState;
+    private static final int HUD_PADDING = 16;
+    private static final int HUD_WIDTH = 300;
+    private static final int HUD_HEIGHT = 140;
+    private static final int SHADOW_HEIGHT = 12;
+    private static final double CAMERA_HALF = 0.5;
 
-    /**
-     * Creates the view with preset dimensions and assets.
-     */
+    private static final long FRAME_DURATION_NANOS = 150_000_000L;
+
+    private transient BufferedImage[] playerFrames;
+    private transient int currentFrameIndex;
+    private transient long lastFrameUpdate;
+    private transient GameState gameState;
+
     public View() {
         setPreferredSize(new Dimension(Model.WORLD_WIDTH, Model.WORLD_HEIGHT));
         setBackground(SKY_COLOR);
         setDoubleBuffered(true);
         setFocusable(true);
-        this.playerSprites = loadPlayerSprites();
-        this.lastFrameChangeNanos = System.nanoTime();
+        this.playerFrames = loadPlayerFrames();
+        this.lastFrameUpdate = System.nanoTime();
     }
 
-    /**
-     * Updates the state to render on the next paint pass.
-     *
-     * @param state immutable snapshot of the world
-     */
-    public void setGameState(final Model.GameState state) {
+    public void setGameState(final GameState state) {
         SwingUtilities.invokeLater(() -> {
             this.gameState = state;
             advanceAnimation();
@@ -74,20 +87,23 @@ public class View extends JPanel {
             return;
         }
 
+        final PlayerSnapshot player = gameState.getPlayer();
         final double cameraX = clamp(
-            gameState.player.x + gameState.player.width / 2.0 - getWidth() / 2.0,
+            player.getX() + player.getWidth() * CAMERA_HALF - getWidth() * CAMERA_HALF,
             0.0,
-            Math.max(0.0, gameState.worldWidth - getWidth())
+            Math.max(0.0, gameState.getWorldWidth() - getWidth())
         );
         final double cameraY = clamp(
-            gameState.player.y + gameState.player.height / 2.0 - getHeight() / 2.0,
+            player.getY() + player.getHeight() * CAMERA_HALF - getHeight() * CAMERA_HALF,
             0.0,
-            Math.max(0.0, gameState.worldHeight - getHeight())
+            Math.max(0.0, gameState.getWorldHeight() - getHeight())
         );
         g2d.translate(-cameraX, -cameraY);
 
+        drawHazards(g2d);
         drawPlatforms(g2d);
-        drawPlayer(g2d);
+        drawCoins(g2d);
+        drawPlayer(g2d, player);
 
         g2d.translate(cameraX, cameraY);
         drawHud(g2d);
@@ -104,138 +120,179 @@ public class View extends JPanel {
     }
 
     private void drawPlatforms(final Graphics2D g2d) {
-        if (gameState.platforms.isEmpty()) {
-            return;
-        }
         g2d.setColor(PLATFORM_COLOR);
-        for (final Model.Platform platform : gameState.platforms) {
-            g2d.fill(new RoundRectangle2D.Double(platform.x, platform.y, platform.width, platform.height, 12.0, 12.0));
+        for (final Platform platform : gameState.getPlatforms()) {
+            g2d.fill(new RoundRectangle2D.Double(
+                platform.getX(),
+                platform.getY(),
+                platform.getWidth(),
+                platform.getHeight(),
+                12.0,
+                12.0
+            ));
         }
     }
 
-    private void drawPlayer(final Graphics2D g2d) {
-        final PlayerSnapshot player = gameState.player;
-        final int shadowWidth = (int) Math.round(player.width * 0.8);
-        final int shadowHeight = 12;
-        final int shadowX = (int) Math.round(player.x + (player.width - shadowWidth) / 2.0);
-        final int shadowY = (int) Math.round(player.y + player.height - shadowHeight / 2.0);
-        g2d.setColor(new Color(0, 0, 0, player.onGround ? 90 : 40));
-        g2d.fillOval(shadowX, shadowY, shadowWidth, shadowHeight);
+    private void drawHazards(final Graphics2D g2d) {
+        g2d.setColor(HAZARD_COLOR);
+        for (final HazardSnapshot hazard : gameState.getHazards()) {
+            g2d.fill(new RoundRectangle2D.Double(
+                hazard.getX(),
+                hazard.getY(),
+                hazard.getWidth(),
+                hazard.getHeight(),
+                10.0,
+                10.0
+            ));
+        }
+    }
 
-        final BufferedImage sprite = currentSprite();
+    private void drawCoins(final Graphics2D g2d) {
+        g2d.setStroke(new BasicStroke(1.5f));
+        for (final CoinSnapshot coin : gameState.getCoins()) {
+            if (coin.isCollected()) {
+                continue;
+            }
+            final double diameter = coin.getRadius() * 2.0;
+            final int drawX = (int) Math.round(coin.getCenterX() - coin.getRadius());
+            final int drawY = (int) Math.round(coin.getCenterY() - coin.getRadius());
+            final int drawDiameter = (int) Math.round(diameter);
+            g2d.setColor(COIN_FILL);
+            g2d.fillOval(drawX, drawY, drawDiameter, drawDiameter);
+            g2d.setColor(COIN_BORDER);
+            g2d.drawOval(drawX, drawY, drawDiameter, drawDiameter);
+        }
+    }
+
+    private void drawPlayer(final Graphics2D g2d, final PlayerSnapshot player) {
+        final int shadowWidth = (int) Math.round(player.getWidth() * 0.8);
+        final int shadowX = (int) Math.round(player.getX() + (player.getWidth() - shadowWidth) * 0.5);
+        final int shadowY = (int) Math.round(player.getY() + player.getHeight() - SHADOW_HEIGHT * 0.5);
+        g2d.setColor(SHADOW_COLOR);
+        g2d.fillOval(shadowX, shadowY, shadowWidth, SHADOW_HEIGHT);
+
+        final BufferedImage sprite = currentFrame();
         if (sprite != null) {
-            final int drawWidth = (int) Math.round(player.width);
-            final int drawHeight = (int) Math.round(player.height);
-            if (player.facingRight) {
-                g2d.drawImage(
-                    sprite,
-                    (int) Math.round(player.x),
-                    (int) Math.round(player.y),
-                    drawWidth,
-                    drawHeight,
-                    null
-                );
+            final int drawWidth = (int) Math.round(player.getWidth());
+            final int drawHeight = (int) Math.round(player.getHeight());
+            final int drawX = (int) Math.round(player.getX());
+            final int drawY = (int) Math.round(player.getY());
+            if (player.isFacingRight()) {
+                g2d.drawImage(sprite, drawX, drawY, drawWidth, drawHeight, null);
             } else {
-                g2d.drawImage(
-                    sprite,
-                    (int) Math.round(player.x + player.width),
-                    (int) Math.round(player.y),
-                    -drawWidth,
-                    drawHeight,
-                    null
-                );
+                g2d.drawImage(sprite, drawX + drawWidth, drawY, -drawWidth, drawHeight, null);
             }
         } else {
-            g2d.setColor(new Color(241, 96, 111));
-            g2d.fillRoundRect(
-                (int) Math.round(player.x),
-                (int) Math.round(player.y),
-                (int) Math.round(player.width),
-                (int) Math.round(player.height),
-                16,
-                16
-            );
-            g2d.setColor(OUTLINE_COLOR);
+            final int drawX = (int) Math.round(player.getX());
+            final int drawY = (int) Math.round(player.getY());
+            final int drawWidth = (int) Math.round(player.getWidth());
+            final int drawHeight = (int) Math.round(player.getHeight());
+            g2d.setColor(PLAYER_FALLBACK);
+            g2d.fillRoundRect(drawX, drawY, drawWidth, drawHeight, 16, 16);
+            g2d.setColor(PLAYER_OUTLINE);
             g2d.setStroke(new BasicStroke(2.0f));
-            g2d.drawRoundRect(
-                (int) Math.round(player.x),
-                (int) Math.round(player.y),
-                (int) Math.round(player.width),
-                (int) Math.round(player.height),
-                16,
-                16
-            );
+            g2d.drawRoundRect(drawX, drawY, drawWidth, drawHeight, 16, 16);
         }
     }
 
     private void drawHud(final Graphics2D g2d) {
-        final int padding = 16;
-        final int width = 280;
-        final int height = 84;
-        g2d.setColor(new Color(0, 0, 0, 120));
-        g2d.fillRoundRect(padding, padding, width, height, 16, 16);
-        g2d.setColor(Color.WHITE);
+        g2d.setColor(HUD_BACKGROUND);
+        g2d.fillRoundRect(HUD_PADDING, HUD_PADDING, HUD_WIDTH, HUD_HEIGHT, 16, 16);
+        g2d.setColor(HUD_TEXT_COLOR);
         g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 16.0f));
-        g2d.drawString("Hop Tales", padding + 16, padding + 28);
+        g2d.drawString("Hop Tales", HUD_PADDING + 16, HUD_PADDING + 28);
         g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 14.0f));
-        g2d.drawString("Move: A / D or Left / Right", padding + 16, padding + 48);
-        g2d.drawString("Jump: Space or W / Up", padding + 16, padding + 68);
+        g2d.drawString("Move: A / D or Left / Right", HUD_PADDING + 16, HUD_PADDING + 48);
+        g2d.drawString("Jump: Space or W / Up", HUD_PADDING + 16, HUD_PADDING + 68);
+        g2d.drawString(
+            String.format("Coins: %d / %d", gameState.getCoinsCollected(), gameState.getTotalCoins()),
+            HUD_PADDING + 16,
+            HUD_PADDING + 88
+        );
+        g2d.drawString(
+            String.format("Health: %.1f / %.1f", gameState.getHealth(), gameState.getMaxHealth()),
+            HUD_PADDING + 16,
+            HUD_PADDING + 108
+        );
+        drawHealthBar(g2d, HUD_PADDING + 16, HUD_PADDING + 116, gameState.getHealth(), gameState.getMaxHealth());
+    }
+
+    private void drawHealthBar(
+        final Graphics2D g2d,
+        final int startX,
+        final int startY,
+        final double health,
+        final double maxHealth
+    ) {
+        final int segments = (int) Math.round(maxHealth);
+        final double clampedHealth = Math.max(0.0, Math.min(health, maxHealth));
+        for (int index = 0; index < segments; index++) {
+            final double remaining = clampedHealth - index;
+            final double fillRatio = Math.max(0.0, Math.min(1.0, remaining));
+            final int pipX = startX + index * 26;
+            g2d.setColor(HEALTH_BAR_FILL);
+            g2d.fillRoundRect(pipX, startY, (int) Math.round(20 * fillRatio), 10, 8, 8);
+            g2d.setColor(Color.WHITE);
+            g2d.drawRoundRect(pipX, startY, 20, 10, 8, 8);
+        }
     }
 
     private void advanceAnimation() {
-        if (playerSprites == null || playerSprites.length == 0) {
+        if (playerFrames == null || playerFrames.length == 0) {
             return;
         }
         final long now = System.nanoTime();
-        if (now - lastFrameChangeNanos >= FRAME_DURATION_NANOS) {
-            currentSpriteIndex = (currentSpriteIndex + 1) % playerSprites.length;
-            lastFrameChangeNanos = now;
+        if (now - lastFrameUpdate >= FRAME_DURATION_NANOS) {
+            currentFrameIndex = (currentFrameIndex + 1) % playerFrames.length;
+            lastFrameUpdate = now;
         }
     }
 
-    private BufferedImage currentSprite() {
-        if (playerSprites == null || playerSprites.length == 0) {
+    private BufferedImage currentFrame() {
+        if (playerFrames == null || playerFrames.length == 0) {
             return null;
         }
-        return playerSprites[currentSpriteIndex % playerSprites.length];
+        return playerFrames[currentFrameIndex];
     }
 
-    private BufferedImage[] loadPlayerSprites() {
-        final BufferedImage spriteSheet = loadSprite(PLAYER_SPRITE_SHEET);
-        if (spriteSheet == null) {
-            return null;
-        }
-        final int frameWidth = spriteSheet.getWidth();
-        final int frameHeight = spriteSheet.getHeight() / PLAYER_FRAME_COUNT;
-        if (frameWidth <= 0 || frameHeight <= 0) {
-            return null;
-        }
-        final BufferedImage[] frames = new BufferedImage[PLAYER_FRAME_COUNT];
-        for (int i = 0; i < PLAYER_FRAME_COUNT; i++) {
-            frames[i] = spriteSheet.getSubimage(0, i * frameHeight, frameWidth, frameHeight);
-        }
-        return frames;
-    }
-
-    private BufferedImage loadSprite(final String name) {
-        // Try the classpath first (standard Gradle resources folder)
-        try (InputStream stream = View.class.getResourceAsStream("/" + name)) {
+    private BufferedImage[] loadPlayerFrames() {
+        try (InputStream stream = View.class.getResourceAsStream("/" + PLAYER_SPRITE)) {
             if (stream != null) {
-                return ImageIO.read(stream);
+                return sliceFrames(ImageIO.read(stream));
             }
         } catch (IOException ignored) {
-            // Fallbacks will be tried below
+            // fall back to filesystem
         }
-        // Fallback to custom res directory
-        final Path path = Path.of("src", "main", "res", name);
+        final Path path = Path.of("src", "main", "res", PLAYER_SPRITE);
         if (Files.exists(path)) {
             try (InputStream stream = Files.newInputStream(path)) {
-                return ImageIO.read(stream);
+                return sliceFrames(ImageIO.read(stream));
             } catch (IOException ignored) {
-                return null;
+                return new BufferedImage[0];
             }
         }
-        return null;
+        return new BufferedImage[0];
+    }
+
+    private BufferedImage[] sliceFrames(final BufferedImage sheet) {
+        if (sheet == null) {
+            return new BufferedImage[0];
+        }
+        if (sheet.getWidth() >= sheet.getHeight() * 2) {
+            final int frameWidth = sheet.getWidth() / 2;
+            final int frameHeight = sheet.getHeight();
+            return new BufferedImage[] {
+                sheet.getSubimage(0, 0, frameWidth, frameHeight),
+                sheet.getSubimage(frameWidth, 0, frameWidth, frameHeight)
+            };
+        } else {
+            final int frameWidth = sheet.getWidth();
+            final int frameHeight = sheet.getHeight() / 2;
+            return new BufferedImage[] {
+                sheet.getSubimage(0, 0, frameWidth, frameHeight),
+                sheet.getSubimage(0, frameHeight, frameWidth, frameHeight)
+            };
+        }
     }
 
     private double clamp(final double value, final double min, final double max) {

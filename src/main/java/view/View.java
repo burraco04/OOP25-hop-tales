@@ -1,15 +1,5 @@
 package view;
 
-import model.Model;
-import model.Model.CoinSnapshot;
-import model.Model.GameState;
-import model.Model.HazardSnapshot;
-import model.Model.Platform;
-import model.entities.player.api.PlayerSnapshot;
-
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,6 +13,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import model.Model;
+import model.Model.CoinSnapshot;
+import model.Model.GameState;
+import model.Model.HazardSnapshot;
+import model.Model.Platform;
+import model.entities.player.api.PlayerSnapshot;
 
 /**
  * Swing panel that renders the current game state.

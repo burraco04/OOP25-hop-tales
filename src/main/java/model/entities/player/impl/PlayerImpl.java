@@ -1,12 +1,12 @@
 package model.entities.player.impl;
 
+import java.util.List;
+import java.util.Objects;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.Model;
 import model.entities.player.api.Player;
 import model.entities.player.api.PlayerSnapshot;
-
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Default physics-backed implementation of the controllable player.

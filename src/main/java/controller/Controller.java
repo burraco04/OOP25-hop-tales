@@ -1,16 +1,17 @@
 package controller;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import model.Model;
-import view.View;
-
-import javax.swing.JOptionPane;
-import javax.swing.Timer;
-import javax.swing.SwingUtilities;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import model.Model;
+import view.View;
 
 /**
  * Coordinates the interaction between the game model, view, and user input.

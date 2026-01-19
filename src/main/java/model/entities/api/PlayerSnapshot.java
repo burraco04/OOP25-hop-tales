@@ -1,4 +1,4 @@
-package model.entities.player.api;
+package model.entities.api;
 
 /**
  * Immutable description of the player's state used by the view layer.

@@ -1,6 +1,6 @@
-package model.entities.player.api;
+package model.entities.api;
 
-import model.entities.player.commons.Entity;
+import model.entities.commons.Entity;
 
 public interface Enemy extends Entity{
     /**

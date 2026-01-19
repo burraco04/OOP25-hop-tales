@@ -1,4 +1,4 @@
-package model.entities.player.commons;
+package model.entities.commons;
 
 public interface Entity {
     /**

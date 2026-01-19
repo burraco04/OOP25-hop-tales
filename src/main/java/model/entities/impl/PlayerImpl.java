@@ -1,7 +1,7 @@
-package model.entities.player.impl;
+package model.entities.impl;
 
-import model.entities.player.api.Player;
-import model.entities.player.api.PlayerSnapshot;
+import model.entities.api.Player;
+import model.entities.api.PlayerSnapshot;
 
 /**
  * Default physics-backed implementation of the controllable player.

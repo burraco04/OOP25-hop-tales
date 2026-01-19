@@ -1,8 +1,8 @@
-package model.entities.player.impl;
+package model.entities.impl;
 
-import model.entities.player.api.Enemy;
-import model.entities.player.api.EnemySnapshot;
-import model.entities.player.api.EnemyType;
+import model.entities.api.Enemy;
+import model.entities.api.EnemySnapshot;
+import model.entities.api.EnemyType;
 
 /**
  * Default implementation of an enemy entity.

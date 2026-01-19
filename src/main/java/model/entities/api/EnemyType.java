@@ -1,4 +1,4 @@
-package model.entities.player.api;
+package model.entities.api;
 
 public enum EnemyType {
     WALKER,

@@ -1,8 +1,8 @@
 package model;
 
-import model.entities.player.api.Player;
-import model.entities.player.api.PlayerSnapshot;
-import model.entities.player.impl.PlayerImpl;
+import model.entities.api.Player;
+import model.entities.api.PlayerSnapshot;
+import model.entities.impl.PlayerImpl;
 
 import java.util.ArrayList;
 import java.util.List;

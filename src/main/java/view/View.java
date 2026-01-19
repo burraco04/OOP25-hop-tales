@@ -23,7 +23,7 @@ import model.Model.CoinSnapshot;
 import model.Model.GameState;
 import model.Model.HazardSnapshot;
 import model.Model.Platform;
-import model.entities.player.api.PlayerSnapshot;
+import model.entities.api.PlayerSnapshot;
 
 /**
  * Swing panel that renders the current game state.

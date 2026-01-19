@@ -1,5 +1,17 @@
 package view.api;
 
-public interface view {
-      void showMainMenu();
+/**
+ * boh.
+ */
+
+public interface View {
+/**
+ * manda al menu.
+ */
+void showMainMenu();
+
+/**
+ * scegli il livello.
+ */
+void showLevels();
 }

@@ -1,24 +1,59 @@
 package view.impl;
 
 import javax.swing.JFrame;
+import controller.api.ControllerMenu;
+import view.api.View;
 
-import view.api.view;
+/**
+ * make view.
+ */
 
-public class SwingView implements view {
-
+public class SwingView implements View {
+    private static final int HEIGHT = 600;
+    private static final int WIDTH = 800;
     private final JFrame frame;
+    private ControllerMenu controller;
 
+    /**
+     * swing view.
+     */
     public SwingView() {
-        this.frame = new JFrame("HOP TALES");
+        this.frame = new JFrame("PENALDO & PESSI");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.setSize(800, 600);
-       
+        this.frame.setSize(WIDTH, HEIGHT);
     }
+
+    /**
+     * set controller.
+     *
+     * @param controller creo controller
+     */
+
+    public void setController(final ControllerMenu controller) {
+    this.controller = controller;
+    }
+
+    /**
+     * mostra il pannello del menu.
+     */
 
     @Override
     public void showMainMenu() {
-        this.frame.setContentPane(new Menu(null, "gioca"));
+        this.frame.setContentPane(new Menu(this.controller));
         this.frame.setVisible(true);
-       
+        this.frame.revalidate();
+        this.frame.repaint();
     }
+
+    /**
+     * mostra il pannello dei livelli.
+     */
+
+    @Override
+    public void showLevels() {
+        this.frame.setContentPane(new ChooseLevelPanel(this.controller));
+        this.frame.revalidate();
+        this.frame.repaint();
+    }
+
 }

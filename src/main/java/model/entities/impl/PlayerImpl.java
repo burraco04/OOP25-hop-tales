@@ -144,4 +144,29 @@ public final class PlayerImpl implements Player {
     public boolean hasPowerUp() {
         return powerUpped;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setX(final int x) {
+        this.x = x;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setY(final int y) {
+        this.y = y;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isFloating() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isFloating'");
+    }
 }

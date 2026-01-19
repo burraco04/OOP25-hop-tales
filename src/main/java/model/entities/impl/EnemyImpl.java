@@ -84,6 +84,31 @@ public final class EnemyImpl implements Enemy {
         return new EnemySnapshot(x, y, width, height, type, alive);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setX(final int x) {
+        this.x = x;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setY(final int y) {
+        this.y = y;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isFloating() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isFloating'");
+    }
+
 
     
 }

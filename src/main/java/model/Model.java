@@ -85,10 +85,7 @@ public class Model {
             PLAYER_START_X,
             PLAYER_START_Y,
             PLAYER_WIDTH,
-            PLAYER_HEIGHT,
-            WORLD_WIDTH,
-            WORLD_HEIGHT,
-            platforms
+            PLAYER_HEIGHT
         );
         this.lastPlayerSnapshot = player.snapshot();
     }

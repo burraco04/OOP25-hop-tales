@@ -1,9 +1,11 @@
 package model.entities.player.api;
 
+import model.entities.player.commons.Entity;
+
 /**
  * Abstraction over the controllable player entity.
  */
-public interface Player {
+public interface Player extends Entity {
     /**
      * Updates the pressed state of the left movement input.
      *
@@ -22,13 +24,16 @@ public interface Player {
      * Signals that a jump should be attempted on the next update.
      */
     void queueJump();
-
-    /**
-     * Advances the player simulation.
-     *
-     * @param deltaSeconds elapsed time in seconds since the last update
+    /** 
+     * @return the {@link Player} current health points 
      */
-    void update(double deltaSeconds);
+    int getHealthPoints();
+    
+    /**
+     * 
+     * @return whether the {@link Player} currently own the power-up
+     */
+    boolean hasPowerUp();
 
     /**
      * @return an immutable snapshot representing the current player state

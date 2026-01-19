@@ -4,7 +4,10 @@ import model.entities.player.api.Enemy;
 import model.entities.player.api.EnemySnapshot;
 import model.entities.player.api.EnemyType;
 
-public final class EnemyImpl implements Enemy{
+/**
+ * Default implementation of an enemy entity.
+ */
+public final class EnemyImpl implements Enemy {
 
     private static final double DEFAULT_SPEED = 100.0;
 
@@ -18,7 +21,16 @@ public final class EnemyImpl implements Enemy{
     private double vx = DEFAULT_SPEED;
 
 
-    public EnemyImpl(double x, double y, double width, double height, EnemyType type) {
+    /**
+     * Creates an enemy with the provided initial state.
+     *
+     * @param x starting left coordinate
+     * @param y starting top coordinate
+     * @param width enemy width
+     * @param height enemy height
+     * @param type enemy type
+     */
+    public EnemyImpl(final double x, final double y, final double width, final double height, final EnemyType type) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -27,6 +39,7 @@ public final class EnemyImpl implements Enemy{
     }
 
 
+    /** {@inheritDoc} */
     @Override
     public void update(double deltaSecond) {
         if (!alive) {
@@ -35,31 +48,37 @@ public final class EnemyImpl implements Enemy{
         x += vx * deltaSecond;
     }
 
+    /** {@inheritDoc} */
     @Override
     public double getX() { 
         return x; 
     }
 
+    /** {@inheritDoc} */
     @Override
     public double getY() { 
         return y; 
     }
 
+    /** {@inheritDoc} */
     @Override
     public double getWidth() { 
         return width; 
     }
 
+    /** {@inheritDoc} */
     @Override
     public double getHeight() { 
         return height; 
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isAlive() { 
         return alive; 
     }
 
+    /** {@inheritDoc} */
     @Override
     public EnemySnapshot getSnapshot() {
         return new EnemySnapshot(x, y, width, height, type, alive);

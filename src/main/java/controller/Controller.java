@@ -18,6 +18,9 @@ import view.View;
  */
 public final class Controller extends KeyAdapter implements ActionListener {
     private static final int TARGET_FPS = 60;
+    private static final int MILLIS_PER_SECOND = 1000;
+    private static final double NANOS_PER_SECOND = 1_000_000_000.0;
+    private static final int EXIT_SUCCESS = 0;
     private final Model model;
     private final View view;
     private final Timer timer;
@@ -34,7 +37,7 @@ public final class Controller extends KeyAdapter implements ActionListener {
     public Controller(final Model model, final View view) {
         this.model = model;
         this.view = view;
-        this.timer = new Timer(1000 / TARGET_FPS, this);
+        this.timer = new Timer(MILLIS_PER_SECOND / TARGET_FPS, this);
     }
 
     /**
@@ -52,10 +55,15 @@ public final class Controller extends KeyAdapter implements ActionListener {
         this.timer.stop();
     }
 
+    /**
+     * Advances the game simulation on each timer tick.
+     *
+     * @param event timer event
+     */
     @Override
     public void actionPerformed(final ActionEvent event) {
         final long now = System.nanoTime();
-        final double deltaSeconds = (now - lastUpdateTime) / 1_000_000_000.0;
+        final double deltaSeconds = (now - lastUpdateTime) / NANOS_PER_SECOND;
         lastUpdateTime = now;
         model.update(deltaSeconds);
         final Model.GameState state = model.snapshot();
@@ -75,16 +83,32 @@ public final class Controller extends KeyAdapter implements ActionListener {
         }
     }
 
+    /**
+     * Handles key press events for player input.
+     *
+     * @param event key event
+     */
     @Override
     public void keyPressed(final KeyEvent event) {
         handleKeyEvent(event, true);
     }
 
+    /**
+     * Handles key release events for player input.
+     *
+     * @param event key event
+     */
     @Override
     public void keyReleased(final KeyEvent event) {
         handleKeyEvent(event, false);
     }
 
+    /**
+     * Routes a key event to the appropriate model action.
+     *
+     * @param event key event
+     * @param pressed {@code true} when the key is pressed
+     */
     private void handleKeyEvent(final KeyEvent event, final boolean pressed) {
         switch (event.getKeyCode()) {
             case KeyEvent.VK_LEFT:
@@ -107,8 +131,11 @@ public final class Controller extends KeyAdapter implements ActionListener {
         }
     }
 
+    /**
+     * Terminates the application process.
+     */
     @SuppressFBWarnings(value = "DM_EXIT", justification = "The application should terminate when health reaches zero")
     private static void terminateApplication() {
-        System.exit(0);
+        System.exit(EXIT_SUCCESS);
     }
 }

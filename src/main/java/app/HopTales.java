@@ -13,6 +13,9 @@ import java.awt.event.WindowEvent;
  * Entry point for the Hop Tales platformer application.
  */
 public final class HopTales {
+    /**
+     * Prevents instantiation of the application entry point.
+     */
     private HopTales() {
     }
 

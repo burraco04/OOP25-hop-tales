@@ -28,9 +28,6 @@ public final class PlayerImpl implements Player {
      * @param startY      initial vertical position
      * @param width       player width
      * @param height      player height
-     * @param worldWidth  world width
-     * @param worldHeight world height
-     * @param platforms   level platforms used for collision checks
      */
 
     public PlayerImpl(
@@ -126,7 +123,7 @@ public final class PlayerImpl implements Player {
      */
     @Override
     public boolean isAlive() {
-        return (healthPoints > 0) ? true : false;
+        return (healthPoints > 0);
     }
 
     /**

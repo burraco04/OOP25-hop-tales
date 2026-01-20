@@ -1,6 +1,10 @@
 package model.entities.commons;
 
+/**
+ * Abstraction defining every entity's behaviour. 
+ */
 public interface Entity {
+
     /**
      * @return the entity's left coordinate.
      */
@@ -16,17 +20,16 @@ public interface Entity {
      * 
      * @param x the new horizontal value.
      */
-    void setX(final int x);
+    void setX(int x);
 
     /**
      * Set the entity's vertical position value.
      * 
      * @param y the new vertical value.
      */
-    void setY(final int y);
+    void setY(int y);
 
-    /**
-     * 
+    /** 
      * @return whether the {@link Entity} is floating or not.
      */
     boolean isFloating();
@@ -45,7 +48,6 @@ public interface Entity {
      * @return true if the entity is alive.
      */
     boolean isAlive();
-
 
     /**
      * Updates entity logic.

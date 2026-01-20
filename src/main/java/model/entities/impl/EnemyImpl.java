@@ -20,7 +20,6 @@ public final class EnemyImpl implements Enemy {
     private boolean alive = true;
     private double vx = DEFAULT_SPEED;
 
-
     /**
      * Creates an enemy with the provided initial state.
      *
@@ -41,7 +40,7 @@ public final class EnemyImpl implements Enemy {
 
     /** {@inheritDoc} */
     @Override
-    public void update(double deltaSecond) {
+    public void update(final double deltaSecond) {
         if (!alive) {
             return;
         }
@@ -109,6 +108,4 @@ public final class EnemyImpl implements Enemy {
         throw new UnsupportedOperationException("Unimplemented method 'isFloating'");
     }
 
-
-    
 }

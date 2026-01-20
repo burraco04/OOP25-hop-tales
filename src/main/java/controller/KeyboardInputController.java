@@ -1,19 +1,29 @@
 package controller;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import controller.impl.PlayerController;
 
-public class KeyboardInputController extends KeyAdapter{
+/**
+ * Class responsible for taking the user's input.
+ */
+public final class KeyboardInputController extends KeyAdapter {
     private PlayerController playerController; 
 
-    public KeyboardInputController(){
+    /**
+     * Create a {@KeyboardInputController}.
+     */
+    public KeyboardInputController() {
         super();
         this.playerController = new PlayerController();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(final KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
                 playerController.setW();
@@ -34,8 +44,12 @@ public class KeyboardInputController extends KeyAdapter{
                 break;
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(final KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
                 playerController.negatesW();

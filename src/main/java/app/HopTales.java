@@ -1,6 +1,6 @@
 package app;
 
-import controller.Controller;
+import controller.GameController;
 import model.Model;
 import view.View;
 
@@ -34,7 +34,7 @@ public final class HopTales {
     private static void launch() {
         final Model model = new Model();
         final View view = new View();
-        final Controller controller = new Controller(model, view);
+        final GameController controller = new GameController();
 
         final JFrame frame = new JFrame("Hop Tales");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,7 +51,6 @@ public final class HopTales {
             }
         });
 
-        view.addKeyListener(controller);
         SwingUtilities.invokeLater(view::requestFocusInWindow);
 
         controller.start();

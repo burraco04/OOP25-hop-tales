@@ -8,15 +8,15 @@ import controller.impl.PlayerController;
 /**
  * Class responsible for taking the user's input.
  */
-public final class KeyboardInputController extends KeyAdapter {
+public final class KeyboardInputManager extends KeyAdapter {
     private PlayerController playerController; 
 
     /**
      * Create a {@KeyboardInputController}.
      */
-    public KeyboardInputController() {
+    public KeyboardInputManager(final PlayerController playerController) {
         super();
-        this.playerController = new PlayerController();
+        this.playerController = playerController;
     }
 
     /**

@@ -1,18 +1,14 @@
 package controller.impl;
 
 import controller.api.ControllerObserver;
+import model.GameConstants;
 import model.entities.api.Player;
-import model.entities.impl.PlayerImpl;
 import java.lang.Math;
 
 /**
  * Controller responsible for the behaviour of {@link Player}.
  */
 public final class PlayerController implements ControllerObserver {
-    private static final int HEIGHT = 420;
-    private static final int WIDTH = 240;
-    private static final int PLAYER_SPEED = 3;
-    private static final int GRAVITY = 1;    
     private boolean w;
     private boolean a;
     private boolean s;
@@ -23,13 +19,13 @@ public final class PlayerController implements ControllerObserver {
     /**
      * Create a {@PlayerController}.
      */
-    public PlayerController() {
+    public PlayerController(final Player player) {
         this.w = false;
         this.a = false;
         this.s = false;
         this.d = false;
         this.space = false;
-        this.player = new PlayerImpl(0, 0, WIDTH, HEIGHT);
+        this.player = player ;
     }
     
     /**
@@ -38,18 +34,18 @@ public final class PlayerController implements ControllerObserver {
     @Override
     public void update() {
         if ((w || space) && !player.isFloating()) {
-            player.setY(Math.max(((int) player.getY() + PLAYER_SPEED), 0));
+            player.setY(Math.max(((int) player.getY() + GameConstants.PLAYER_SPEED), 0));
         }
         if (a) {
-            player.setX((int) player.getX() - PLAYER_SPEED);
+            player.setX((int) player.getX() - GameConstants.PLAYER_SPEED);
         }
         if (d) {
-            player.setX((int) player.getX() + PLAYER_SPEED);
+            player.setX((int) player.getX() + GameConstants.PLAYER_SPEED);
         }
         if (s && player.isFloating()) {
-            player.setY(Math.max(((int) player.getY() - PLAYER_SPEED), 0));
+            player.setY(Math.max(((int) player.getY() - GameConstants.PLAYER_SPEED), 0));
         }
-        player.setY(Math.max(((int) player.getY() - GRAVITY), 0));
+        player.setY(Math.max(((int) player.getY() - GameConstants.GRAVITY), 0));
     }
 
     /**

@@ -1,0 +1,15 @@
+package model;
+
+/**
+ * Class used for storing constants shared by classes present in the model section of the project.
+ */
+public class GameConstants {
+
+    public static final int PLAYER_HEIGHT = 420;
+    public static final int PLAYER_WIDTH = 240;
+    public static final int PLAYER_SPEED = 3;
+    public static final int GRAVITY = 1;
+    public static final int COIN_VALUE = 5;
+
+    private GameConstants(){}
+}

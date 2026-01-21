@@ -14,4 +14,14 @@ void showMainMenu();
  * scegli il livello.
  */
 void showLevels();
+
+/**
+ * open shop.
+ */
+void showShop();
+
+/**
+ * open options.
+ */
+void showOptions();
 }

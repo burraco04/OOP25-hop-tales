@@ -7,6 +7,10 @@ package controller.api;
 public enum State {
     MAIN_MENU,
 
-    CHOOSE_LEVEL
+    CHOOSE_LEVEL,
+
+    SHOP,
+
+    OPTIONS
 
 }

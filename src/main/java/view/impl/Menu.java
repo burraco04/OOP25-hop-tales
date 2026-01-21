@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 
 import controller.api.ControllerMenu;
 import controller.api.State;
-
 import view.utils.ButtonFactory;
 import view.utils.FontFactory;
 
@@ -48,6 +47,9 @@ public final class Menu extends JPanel {
         final JButton shop = this.buttonFactory.buildbutton("shop");
 
         start.addActionListener(e -> controller.handleEvent(State.CHOOSE_LEVEL, Optional.empty()));
+        options.addActionListener(e -> controller.handleEvent(State.OPTIONS, Optional.empty()));
+        shop.addActionListener(e -> controller.handleEvent(State.SHOP, Optional.empty()));
+
         start.setAlignmentX(CENTER_ALIGNMENT);
         options.setAlignmentX(CENTER_ALIGNMENT);
         shop.setAlignmentX(CENTER_ALIGNMENT);

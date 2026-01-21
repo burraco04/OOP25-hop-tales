@@ -1,12 +1,18 @@
 package view.impl;
 
+import java.awt.Color;
+import java.util.Optional;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import controller.api.ControllerMenu;
+import controller.api.State;
+import view.utils.ButtonBackFactory;
 import view.utils.ButtonFactory;
+import view.utils.TopBarPanel;
 
 /**
  * pannel.
@@ -16,6 +22,8 @@ public final class ChooseLevelPanel extends JPanel {
     private static final float TITLE_SIZE = 50F;
     private static final int PADDING = 50;
     private final transient ButtonFactory buttonFactory = new ButtonFactory();
+    private final transient ButtonBackFactory buttonbackFactory = new ButtonBackFactory();
+    private final TopBarPanel topBarpan = new TopBarPanel();
 
     /**
      * choose level.
@@ -26,6 +34,7 @@ public final class ChooseLevelPanel extends JPanel {
     public ChooseLevelPanel(final ControllerMenu controller) {
 
         final JLabel title = new JLabel("GIVE ME SOME PENALTY");
+        setBackground(Color.GREEN);
 
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         final JButton level1 = this.buttonFactory.buildbutton("penalty");
@@ -39,6 +48,13 @@ public final class ChooseLevelPanel extends JPanel {
         level2.setAlignmentX(CENTER_ALIGNMENT);
         level3.setAlignmentX(CENTER_ALIGNMENT);
 
+        final JButton back = this.buttonbackFactory.buildbackbutton();
+
+        back.addActionListener(e -> controller.handleEvent(State.MAIN_MENU, Optional.empty()));
+
+        final JPanel topBar = topBarpan.buildTopPanel(back);
+
+        this.add(topBar);
         this.add(title);
         this.add(Box.createVerticalStrut(PADDING));
         this.add(level1);

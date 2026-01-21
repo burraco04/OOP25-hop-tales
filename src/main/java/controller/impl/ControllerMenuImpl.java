@@ -34,6 +34,10 @@ public class ControllerMenuImpl implements ControllerMenu {
         case MAIN_MENU -> view.showMainMenu();
 
         case CHOOSE_LEVEL -> view.showLevels();
+
+        case SHOP -> view.showShop();
+
+        case OPTIONS -> view.showOptions();
      }
     }
 }

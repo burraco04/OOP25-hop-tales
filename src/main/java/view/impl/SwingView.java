@@ -56,4 +56,26 @@ public class SwingView implements View {
         this.frame.repaint();
     }
 
+    /**
+     * mostra il pannello dei livelli.
+     */
+
+    @Override
+    public void showShop() {
+        this.frame.setContentPane(new Shop(this.controller));
+        this.frame.revalidate();
+        this.frame.repaint();
+    }
+
+    /**
+     * mostra il pannello dei livelli.
+     */
+
+    @Override
+    public void showOptions() {
+        this.frame.setContentPane(new Options(this.controller));
+        this.frame.revalidate();
+        this.frame.repaint();
+    }
+
 }

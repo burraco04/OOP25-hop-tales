@@ -14,6 +14,7 @@ public class Coin implements Tangible {
      * Constructor for the coin.
      * 
      * @param x horizontal position.
+     * 
      * @param y vertical position.
      */
     public Coin(final int x, final int y) {

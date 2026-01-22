@@ -1,5 +1,7 @@
 package view.impl;
 
+import model.Camera;
+
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -14,6 +16,7 @@ import model.World;
 
 public class Level1 extends JPanel {
     private final World world;
+    private final Camera camera = new Camera();
 
     public Level1(final String levelPath) {
         this.world = new World();
@@ -24,17 +27,28 @@ public class Level1 extends JPanel {
             world.addEntity(EntityFactory.create(e));
         }
 
-        new Timer(16, e -> repaint()).start();
+        new Timer(16, e -> { update(); repaint();}).start();
         
         setBackground(Color.CYAN);
 }
+
+//Non c è player 
+private void update() {
+    final var player = world.getPlayer();
+    camera.update(
+        player.getX(),
+        getWidth(),
+        world.getLevelWidth()
+    );
+}
+
 
 @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
 
         for (final var entity : world.getEntities()) {
-            entity.draw(g);
+            entity.draw(g, camera.getX());
         }
     }
 }

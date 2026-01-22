@@ -35,10 +35,10 @@ public class Grass implements Entity {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics g, int camX) {
          g.drawImage(
             image,
-            x * TILE_SIZE,
+            x * TILE_SIZE - camX,  //Per lo spostamendo della x di camera
             y * TILE_SIZE,
             TILE_SIZE,
             TILE_SIZE,

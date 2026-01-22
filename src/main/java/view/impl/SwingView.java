@@ -78,4 +78,11 @@ public class SwingView implements View {
         this.frame.repaint();
     }
 
+    @Override
+    public void showLevel1() {
+        this.frame.setContentPane(new Level1("Level/Level1.json"));
+        this.frame.revalidate();
+        this.frame.repaint(); 
+    }
+
 }

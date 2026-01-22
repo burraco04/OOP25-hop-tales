@@ -11,6 +11,8 @@ public enum State {
 
     SHOP,
 
-    OPTIONS
+    OPTIONS,
+
+    LEVEL_1,
 
 }

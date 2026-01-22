@@ -29,7 +29,7 @@ public final class FontFactory {
             font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/Font/" + nameFont + ".ttf"))
             .deriveFont(fontSize);
         } catch (FontFormatException | IOException e) {
-            JOptionPane.showMessageDialog(component, "non si carica");
+            JOptionPane.showMessageDialog(component, "non si carica il font");
         } 
         return font;
 

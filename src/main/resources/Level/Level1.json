@@ -1,0 +1,12 @@
+{
+  "name": "Level 1",
+  "spawnPointX": 1,
+  "spawnPointY": 1,
+  "entities": [
+    {
+      "type": "grass",
+      "x": 0,
+      "y": 0
+     
+    }
+    ]}

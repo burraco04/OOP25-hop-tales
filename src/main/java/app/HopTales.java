@@ -1,58 +1,31 @@
 package app;
 
-import controller.GameController;
-import model.Model;
-import view.View;
+import java.util.Optional;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import controller.api.ControllerMenu;
+import controller.api.State;
+import controller.impl.ControllerMenuImpl;
+import view.impl.SwingView;
 
 /**
- * Entry point for the Hop Tales platformer application.
+ * start.
  */
 public final class HopTales {
-    /**
-     * Prevents instantiation of the application entry point.
-     */
+
     private HopTales() {
+        // Impedisce l'istanziazione.
     }
 
     /**
-     * Launches the Swing application on the event dispatch thread.
+     * avvio gioco.
      *
-     * @param args command line arguments (unused)
+     * @param args  start argomenti riga comando
      */
     public static void main(final String[] args) {
-        SwingUtilities.invokeLater(HopTales::launch);
-    }
 
-    /**
-     * Builds the MVC components and shows the main window.
-     */
-    private static void launch() {
-        final Model model = new Model();
-        final View view = new View();
-        final GameController controller = new GameController();
-
-        final JFrame frame = new JFrame("Hop Tales");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.add(view);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(final WindowEvent event) {
-                controller.stop();
-            }
-        });
-
-        SwingUtilities.invokeLater(view::requestFocusInWindow);
-
-        controller.start();
+        final SwingView view = new SwingView();
+        final ControllerMenu controller = new ControllerMenuImpl(view);
+        view.setController(controller);
+        controller.handleEvent(State.MAIN_MENU, Optional.empty());
     }
 }

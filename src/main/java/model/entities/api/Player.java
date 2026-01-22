@@ -26,13 +26,12 @@ public interface Player extends Entity {
      */
     void queueJump();
 
-    /** 
+    /**  
      * @return the {@link Player} current health points. 
      */
     int getHealthPoints();
     
-    /**
-     * 
+    /** 
      * @return whether the {@link Player} currently owns the power-up.
      */
     boolean hasPowerUp();

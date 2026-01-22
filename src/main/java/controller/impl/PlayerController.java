@@ -3,7 +3,6 @@ package controller.impl;
 import controller.api.ControllerObserver;
 import model.GameConstants;
 import model.entities.api.Player;
-import java.lang.Math;
 
 /**
  * Controller responsible for the behaviour of {@link Player}.
@@ -18,6 +17,8 @@ public final class PlayerController implements ControllerObserver {
     
     /**
      * Create a {@PlayerController}.
+     * 
+     * @param player the player instance.
      */
     public PlayerController(final Player player) {
         this.w = false;
@@ -25,7 +26,7 @@ public final class PlayerController implements ControllerObserver {
         this.s = false;
         this.d = false;
         this.space = false;
-        this.player = player ;
+        this.player = player;
     }
     
     /**
@@ -43,9 +44,9 @@ public final class PlayerController implements ControllerObserver {
             player.setX((int) player.getX() + GameConstants.PLAYER_SPEED);
         }
         if (s && player.isFloating()) {
-            player.setY(Math.max(((int) player.getY() - GameConstants.PLAYER_SPEED), 0));
+            player.setY(Math.max((int) player.getY() - GameConstants.PLAYER_SPEED, 0));
         }
-        player.setY(Math.max(((int) player.getY() - GameConstants.GRAVITY), 0));
+        player.setY(Math.max((int) player.getY() - GameConstants.GRAVITY, 0));
     }
 
     /**

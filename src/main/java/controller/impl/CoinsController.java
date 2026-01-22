@@ -7,14 +7,23 @@ import model.objects.CoinManager;
 /**
  * Controller responsible for the {@link CoinManager}.
  */
-public class CoinsController implements ControllerObserver {
+public final class CoinsController implements ControllerObserver {
     private final CoinManager coinManager;
     private final Player player;
     
-    public CoinsController(final Player player){
-        coinManager = new CoinManager((int) player.getWidth(), (int) player.getHeight());
+    /**
+     * Constructor for the class.
+     * 
+     * @param player the player instance.
+     */
+    public CoinsController(final Player player) {
+        coinManager = new CoinManager();
         this.player = player;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update() {
         coinManager.checkPossibleCollection((int) player.getX(), (int) player.getY());

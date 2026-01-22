@@ -48,6 +48,8 @@ public final class ChooseLevelPanel extends JPanel {
         level2.setAlignmentX(CENTER_ALIGNMENT);
         level3.setAlignmentX(CENTER_ALIGNMENT);
 
+        level1.addActionListener(e -> controller.handleEvent(State.LEVEL_1, Optional.empty()));
+
         final JButton back = this.buttonbackFactory.buildbackbutton();
 
         back.addActionListener(e -> controller.handleEvent(State.MAIN_MENU, Optional.empty()));

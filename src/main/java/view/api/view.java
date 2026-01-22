@@ -24,4 +24,9 @@ void showShop();
  * open options.
  */
 void showOptions();
+
+/**
+ * open options.
+ */
+void showLevel1();
 }

@@ -13,6 +13,8 @@ public final class KeyboardInputManager extends KeyAdapter {
 
     /**
      * Create a {@KeyboardInputController}.
+     * 
+     * @param playerController instance of the controller responsible for handling the inputs.
      */
     public KeyboardInputManager(final PlayerController playerController) {
         super();

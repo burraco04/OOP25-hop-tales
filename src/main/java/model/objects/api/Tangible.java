@@ -13,5 +13,4 @@ public interface Tangible {
      */
     boolean isTouched(int x, int y);
 
-
 }

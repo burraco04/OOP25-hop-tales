@@ -123,7 +123,7 @@ public final class PlayerImpl implements Player {
      */
     @Override
     public boolean isAlive() {
-        return (healthPoints > 0);
+        return healthPoints > 0;
     }
 
     /**

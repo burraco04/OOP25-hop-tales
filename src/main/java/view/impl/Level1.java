@@ -34,12 +34,12 @@ public class Level1 extends JPanel {
 
 //Non c è player 
 private void update() {
-    final var player = world.getPlayer();
+    /*final var player = world.getPlayer();
     camera.update(
         player.getX(),
         getWidth(),
         world.getLevelWidth()
-    );
+    );*/
 }
 
 

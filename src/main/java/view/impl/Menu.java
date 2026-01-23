@@ -25,8 +25,8 @@ public final class Menu extends JPanel {
     private static final long serialVersionUID = 1L;
     private static final String TITLE_FONT = "SuperShiny";
     private static final float TITLE_SIZE = 100f;
-    private static final int WIDTH = 0;
-    private static final int HEIGHT = 0;
+    private static final int WIDTH = 1;
+    private static final int HEIGHT = 1;
     private final transient FontFactory fontFactory = new FontFactory();
     private final transient ButtonFactory buttonFactory = new ButtonFactory();
     private transient BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);

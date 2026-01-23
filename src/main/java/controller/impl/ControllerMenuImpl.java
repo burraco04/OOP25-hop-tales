@@ -19,7 +19,6 @@ public class ControllerMenuImpl implements ControllerMenu {
      *
      * @param view active view
      */
-
     public ControllerMenuImpl(final View view) {
         this.view = view;
     }

@@ -2,6 +2,7 @@ package controller.impl;
 
 import controller.api.ControllerObserver;
 import model.GameConstants;
+import model.World;
 import model.entities.api.Player;
 
 /**
@@ -13,20 +14,20 @@ public final class PlayerController implements ControllerObserver {
     private boolean s;
     private boolean d;
     private boolean space;
-    private final Player player;
+    private final World world;
     
     /**
      * Create a {@PlayerController}.
      * 
      * @param player the player instance.
      */
-    public PlayerController(final Player player) {
+    public PlayerController(final World world) {
         this.w = false;
         this.a = false;
         this.s = false;
         this.d = false;
         this.space = false;
-        this.player = player;
+        this.world = world;
     }
     
     /**
@@ -34,6 +35,7 @@ public final class PlayerController implements ControllerObserver {
      */
     @Override
     public void update() {
+        Player player = world.getPlayer();
         if ((w || space) && !player.isFloating()) {
             player.setY(Math.max(((int) player.getY() + GameConstants.PLAYER_SPEED), 0));
         }

@@ -29,6 +29,7 @@ public final class KeyboardInputManager extends KeyAdapter {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
                 playerController.setW();
+                System.out.println("ciao");
                 break;
             case KeyEvent.VK_A:
                 playerController.setA();

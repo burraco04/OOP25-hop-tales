@@ -7,33 +7,35 @@ import javax.swing.Timer;
 import controller.api.ControllerObserver;
 import controller.impl.CoinsController;
 import controller.impl.PlayerController;
-import model.entities.api.Player;
-import model.entities.impl.PlayerImpl;
+import model.GameConstants;
+import model.World;
+import view.api.View;
 
 /**
  * Coordinates every {@link ControllerObserver}, calling their methods whenever it's time for an update.
  */
 public final class GameController implements ActionListener {
-    private static final int TARGET_UPS = 60;
-    private static final int MILLIS_PER_SECOND = 1000;
-    private static final int STARTING_POSITION = 0;
-    private static final int HEIGHT = 420;
-    private static final int WIDTH = 240;
+
     private final PlayerController playerController;
+    @SuppressWarnings("unused")
     private final KeyboardInputManager kim;
     private final CoinsController coinsController;
-    private final Player player;
     private final Timer timer;
+    private final View view;
+    private final World world;
 
     /**
      * Creates a controller.
      */
-    public GameController() {
-        this.player = new PlayerImpl(STARTING_POSITION, STARTING_POSITION, WIDTH, HEIGHT);
-        this.playerController = new PlayerController(player);
+    public GameController(final View view) {
+        this.view = view;
+        this.world = new World();
+        this.playerController = new PlayerController(this.world);
         this.kim = new KeyboardInputManager(playerController);
-        this.coinsController = new CoinsController(player);
-        this.timer = new Timer(MILLIS_PER_SECOND / TARGET_UPS, this); 
+        this.coinsController = new CoinsController(this.world);
+        this.timer = new Timer(GameConstants.MILLIS_PER_SECOND / GameConstants.TARGET_UPS, this);
+        this.start();
+        this.view.showLevel1(this.world, this.kim);
     }
 
     /**

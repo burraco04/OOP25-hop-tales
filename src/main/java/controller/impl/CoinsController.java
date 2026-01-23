@@ -1,6 +1,7 @@
 package controller.impl;
 
 import controller.api.ControllerObserver;
+import model.World;
 import model.entities.api.Player;
 import model.objects.CoinManager;
 
@@ -8,17 +9,15 @@ import model.objects.CoinManager;
  * Controller responsible for the {@link CoinManager}.
  */
 public final class CoinsController implements ControllerObserver {
-    private final CoinManager coinManager;
-    private final Player player;
+    private final World world;
     
     /**
      * Constructor for the class.
      * 
      * @param player the player instance.
      */
-    public CoinsController(final Player player) {
-        coinManager = new CoinManager();
-        this.player = player;
+    public CoinsController(final World world) {
+        this.world = world;
     }
     
     /**
@@ -26,7 +25,8 @@ public final class CoinsController implements ControllerObserver {
      */
     @Override
     public void update() {
-        coinManager.checkPossibleCollection((int) player.getX(), (int) player.getY());
+        Player player = world.getPlayer();
+        world.getCoinManager().checkPossibleCollection((int) player.getX(), (int) player.getY());
     }
 
 }

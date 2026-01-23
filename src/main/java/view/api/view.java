@@ -1,5 +1,8 @@
 package view.api;
 
+import controller.KeyboardInputManager;
+import model.World;
+
 /**
  * boh.
  */
@@ -28,5 +31,5 @@ void showOptions();
 /**
  * open options.
  */
-void showLevel1();
+void showLevel1(World world, KeyboardInputManager kim);
 }

@@ -2,6 +2,7 @@ package controller.impl;
 
 import java.util.Optional;
 
+import controller.GameController;
 import controller.api.ControllerMenu;
 import controller.api.State;
 import view.api.View;
@@ -38,7 +39,7 @@ public class ControllerMenuImpl implements ControllerMenu {
 
         case OPTIONS -> view.showOptions();
 
-        case LEVEL_1 -> view.showLevel1();
+        case LEVEL_1 -> new GameController(this.view);
      }
     }
 }

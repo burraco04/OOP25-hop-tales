@@ -2,6 +2,16 @@ package model;
 
 public class Camera {
     private int x;
+    private int screenWidth;
+    private int maxX;
+    private int marginX;
+    private final int levelWidth;
+
+    public Camera(final int levelWidth, final int screenWidth) {
+        this.levelWidth = levelWidth;
+        this.maxX = levelWidth - screenWidth;
+        this.marginX = screenWidth / 4;
+    }
 
     public int getX() {
         return x;
@@ -10,9 +20,10 @@ public class Camera {
     /**
      * Camera orizzontale che segue il player quando supera marginX
      */
-    public void update(int playerX, int screenWidth,  int levelWidth) {
-        final int marginX = 200;
-
+    public void update(int playerX, int screenWidth) {
+        this.maxX = levelWidth - screenWidth;
+        this.marginX = screenWidth / 4;
+        
         //Player troppo a destra
         if (playerX - x > screenWidth - marginX) {
             x = playerX - (screenWidth - marginX);
@@ -28,7 +39,6 @@ public class Camera {
         }
 
         // limite destro
-        final int maxX = levelWidth - screenWidth;
         if (x > maxX) {
             x = maxX;
         }

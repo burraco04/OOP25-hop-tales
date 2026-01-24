@@ -5,13 +5,14 @@ import java.util.List;
 
 import model.entities.api.Player;
 import model.entities.impl.PlayerImpl;
-import model.entity.Entity;
 import model.objects.CoinManager;
+import model.objects.api.Tangible;
 
-
-
+/**
+ * create class world.
+ */
 public class World {
-    private final List<Entity> entities = new ArrayList<>();
+    private final List<Tangible> entities = new ArrayList<>();
     private final Player player;
     private final CoinManager coinManager;
     private final int levelWidth;
@@ -25,11 +26,21 @@ public class World {
     }
     //Serve anche il player per la camera
 
-    public void addEntity(final Entity e) {
-        entities.add(e);
+    /**
+     * add all the entities at the world
+     *
+     * @param list list of entitties
+     */
+    public void addEntities(final List<Tangible> list) {
+        entities.addAll(list);
     }
 
-    public List<Entity> getEntities() {
+    /**
+     * return the entities
+     *
+     * @return the entities
+     */
+    public List<Tangible> getEntities() {
         return entities;
     }
 
@@ -41,7 +52,6 @@ public class World {
         return coinManager;
     }
 
-    // getter larghezza livello
     public int getLevelWidth() {
         return levelWidth;
     }

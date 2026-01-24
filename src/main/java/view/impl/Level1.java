@@ -20,21 +20,8 @@ public class Level1 extends JPanel {
     private static final long serialVersionUID = 1L;
     private static final int MILLISEC = 16;
     private final World world;
-<<<<<<< HEAD
     private final Camera camera;
     private final KeyboardInputManager kim;
-=======
-    private final Camera camera = new Camera();
-    
-
-    /**
-     * carica il livello1.
-     *
-     * @param levelPath percorso del filejson
-     */
-    public Level1(final String levelPath) {
-        this.world = new World();
->>>>>>> origin/branch_levels
 
     public Level1(final String levelPath, final World world, final KeyboardInputManager kim) {
         this.world = world;
@@ -51,24 +38,15 @@ public class Level1 extends JPanel {
         setBackground(Color.CYAN);
         this.addKeyListener(kim);
         
-}
+    }
 
 //Non c è player 
 private void update() {
-<<<<<<< HEAD
     final var player = world.getPlayer();
     camera.update(
         (int) player.getX(),
         this.getWidth()
     );
-=======
-    /*final var player = world.getPlayer();
-    camera.update(
-        player.getX(),
-        getWidth(),
-        world.getLevelWidth()
-    );*/
->>>>>>> origin/branch_levels
 }
 
 /**

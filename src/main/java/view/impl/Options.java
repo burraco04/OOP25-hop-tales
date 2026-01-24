@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.AudioManager;
 import controller.api.ControllerMenu;
 import controller.api.State;
 import view.utils.ButtonBackFactory;

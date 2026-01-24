@@ -2,6 +2,7 @@ package view.impl;
 
 import javax.swing.JFrame;
 
+import controller.AudioManager;
 import controller.KeyboardInputManager;
 import controller.api.ControllerMenu;
 import model.World;
@@ -24,6 +25,8 @@ public class SwingView implements View {
         this.frame = new JFrame("PENALDO & PESSI");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setSize(WIDTH, HEIGHT);
+        AudioManager.load("MenuOST", "/sounds/MenuSoundtrack.wav");
+        AudioManager.play("MenuOST");
     }
 
     /**

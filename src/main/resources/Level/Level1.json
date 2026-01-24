@@ -4,12 +4,22 @@
   "spawnPointY": 1,
   "entities": [
     {
-      "type": "grass",
-      "x": 5,
-      "y": 20 
+      "type": "green_grass",
+      "x": 0,
+      "y": 26,
+      "macro": {
+        "type": "fill",
+        "width": 100,
+        "height": 1
+      }
     },
     {
       "type": "grass",
-      "x": 6,
-      "y": 20 
+      "x": 0,
+      "y": 27,
+      "macro": {
+        "type": "fill",
+        "width": 100,
+        "height": 20
+      } 
     }]}

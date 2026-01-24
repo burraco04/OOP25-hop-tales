@@ -3,31 +3,37 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.entity.Entity;
+import model.objects.api.Tangible;
 
-
-
+/**
+ * create class world.
+ */
 public class World {
-    private final List<Entity> entities = new ArrayList<>();
-
-    //Serve anche il player per la camera
-
+    private final List<Tangible> entities = new ArrayList<>();
     private int levelWidth;
 
-    public void addEntity(final Entity e) {
-        entities.add(e);
+    /**
+     * add all the entities at the world
+     *
+     * @param list list of entitties
+     */
+    public void addEntities(final List<Tangible> list) {
+        entities.addAll(list);
     }
 
-    public List<Entity> getEntities() {
+    /**
+     * return the entities
+     *
+     * @return the entities
+     */
+    public List<Tangible> getEntities() {
         return entities;
     }
 
-    // setter della dimensione del livello (da JSON)
-    public void setLevelSize(int width, int height) {
+   public void setLevelSize(int width, int height) {
         this.levelWidth = width;
     }
-
-    // getter larghezza livello
+    
     public int getLevelWidth() {
         return levelWidth;
     }

@@ -1,5 +1,7 @@
 package model.objects.impl;
 
+import java.awt.Graphics;
+
 import model.GameConstants;
 import model.objects.api.Tangible;
 
@@ -33,6 +35,24 @@ public class Coin implements Tangible {
         } else {
            return false; 
         }    
+    }
+
+    @Override
+    public int getX() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getX'");
+    }
+
+    @Override
+    public int getY() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getY'");
+    }
+
+    @Override
+    public void draw(Graphics g, int camX, int x, int y) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'draw'");
     }
 
 }

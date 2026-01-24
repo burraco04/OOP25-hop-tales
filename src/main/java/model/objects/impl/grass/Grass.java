@@ -32,21 +32,33 @@ public final class Grass implements Tangible {
         ).getImage();
      }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getX() {
         return x;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getY() {
         return y;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void draw(final Graphics g, final int camX, final int x, final int y) {
-        draw.drawPanel(g, image, x, y);
+    public void draw(final Graphics g, final int camX) {
+        draw.drawPanel(g, image, this.x, this.y);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isTouched(int x, int y) {
         // TODO Auto-generated method stub

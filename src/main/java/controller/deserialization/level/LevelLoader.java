@@ -1,6 +1,8 @@
 package controller.deserialization.level;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 
 import com.google.gson.Gson;
@@ -8,7 +10,7 @@ import com.google.gson.Gson;
 /**
  * change the file json in gson.
  */
-public class LevelLoader {
+public final class LevelLoader {
 
     private static final Gson GSON = new Gson();
     
@@ -30,8 +32,8 @@ public class LevelLoader {
         }
          try (var reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
             return GSON.fromJson(reader, LevelData.class);
-        } catch (final Exception e) {
-            throw new RuntimeException("Errore nel parsing JSON ");
+        }  catch (IOException e) {
+        throw new UncheckedIOException(e);
         }
     }
 }

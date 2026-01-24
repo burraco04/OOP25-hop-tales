@@ -11,6 +11,7 @@ public final class GameConstants {
     public static final int GRAVITY = 1;
     public static final int COIN_VALUE = 5;
     public static final int COIN_POSITION = 50;
+    public static final int TILE_SIZE = 36; //pixel
 
     private GameConstants() { }
 

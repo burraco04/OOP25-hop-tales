@@ -9,9 +9,9 @@ public final class MacroData {
     private int height;
 
    /**
-    *type of block. 
+    * type of block.
     *
-    * @return the type
+    * @return return type
     */
     public String getType() {
         return type; 
@@ -19,18 +19,18 @@ public final class MacroData {
 
 
     /**
-    *type of block. 
+    * type of block.
     *
-    * @return the type
+    * @return return type
     */
     public int getWidth() { 
         return width;
     }
 
     /**
-    *type of block. 
+    * type of block.
     *
-    * @return the type
+    * @return return type
     */
     public int getHeight() {
         return height;

@@ -1,16 +1,22 @@
 package model.objects.impl;
 
 import java.awt.Graphics;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 
 import model.GameConstants;
 import model.objects.api.Tangible;
+import view.utils.Draw;
 
 /**
  * Class defining coins instances.
  */
 public class Coin implements Tangible {
-    private final double x;
-    private final double y;
+    private final int x;
+    private final int y;
+    private final Image image;
+    private final Draw draw = new Draw();
 
     /**
      * Constructor for the coin.
@@ -19,10 +25,13 @@ public class Coin implements Tangible {
      * 
      * @param y vertical position.
      */
-    public Coin(final int x, final int y) {
+     public Coin(final int x, final int y) {
         this.x = x;
         this.y = y;
-    }
+        this.image = new ImageIcon(
+            getClass().getResource("/img/coin_gold.png")
+        ).getImage();
+     }
 
     /**
      * {@inheritDoc}
@@ -37,22 +46,28 @@ public class Coin implements Tangible {
         }    
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getX() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getX'");
+        return x;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getY() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getY'");
+      return y;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void draw(Graphics g, int camX, int x, int y) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'draw'");
+    public void draw(final Graphics g, int camX) {
+        draw.drawPanel(g, image, this.x, this.y);
     }
 
 }

@@ -3,11 +3,12 @@ package view.utils;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import model.GameConstants;
+
 /**
- * calss draw
+ * calss draw.
  */
 public final class Draw {
-    public static final int TILE_SIZE = 32; //pixel
 
     /**
      * function for paint the.
@@ -17,13 +18,13 @@ public final class Draw {
      * @param x parameter x
      * @param y parametr y
      */
-    public void drawPanel(final Graphics g, final Image image, final int x, final int y ){
+    public void drawPanel(final Graphics g, final Image image, final int x, final int y ) {
         g.drawImage(
             image,
-            x * TILE_SIZE,
-            y * TILE_SIZE,
-            TILE_SIZE,
-            TILE_SIZE,
+            x * GameConstants.TILE_SIZE,
+            y * GameConstants.TILE_SIZE,
+            GameConstants.TILE_SIZE,
+            GameConstants.TILE_SIZE,
             null
         );
     }

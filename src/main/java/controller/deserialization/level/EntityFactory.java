@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.objects.api.Tangible;
+import model.objects.impl.Coin;
 import model.objects.impl.brick.Brick;
 import model.objects.impl.grass.Grass;
 import model.objects.impl.grass.GreenGrass;
@@ -23,8 +24,8 @@ public final class EntityFactory {
      * @param data data
      * @return lista tangibile
      */
-    public final static List<Tangible> create(final EntityData data) {
-    
+    public static List<Tangible> create(final EntityData data) {
+
      final List<Tangible> entities = new ArrayList<>();
 
      if (data.getMacro() == null) {
@@ -67,6 +68,7 @@ public final class EntityFactory {
             case "grass" -> new Grass(x, y);
             case "brick" -> new Brick(x, y);
             case "green_grass" -> new GreenGrass(x, y);
+            case "coin_gold" -> new Coin(x, y);
             default -> throw new IllegalArgumentException("Tipo entita sconosciuta: ");
         };
     }

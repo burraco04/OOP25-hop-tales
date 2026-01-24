@@ -23,25 +23,37 @@ public final class GreenGrass implements Tangible{
         ).getImage();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getX() {
         return x;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getY() {
         return y;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isTouched(int x, int y) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isTouched'");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void draw(Graphics g, int camX, int x, int y) {
-         draw.drawPanel(g, image, x, y);
+    public void draw(final Graphics g, int camX) {
+         draw.drawPanel(g, image, this.x, this.y);
     }
     
 }

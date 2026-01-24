@@ -7,7 +7,6 @@ import view.api.View;
 /**
  * make view.
  */
-
 public class SwingView implements View {
     private static final int HEIGHT = 600;
     private static final int WIDTH = 800;

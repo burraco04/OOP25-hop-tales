@@ -15,9 +15,11 @@ import controller.deserialization.level.LevelLoader;
 import model.World;
 
 public class Level1 extends JPanel {
+    private static final long serialVersionUID = 1L;
+    private static final int MILLISEC = 16;
     private final World world;
     private final Camera camera = new Camera();
-    private final static int MILLISEC = 16;
+    
 
     /**
      * carica il livello1.
@@ -49,14 +51,14 @@ private void update() {
 }
 
 /**
- * paint the pannel.
+ * {@inheritDoc}
  */
 @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
 
         for (final var entity : world.getEntities()) {
-            entity.draw(g, camera.getX(), entity.getX(), entity.getY());
+            entity.draw(g, camera.getX());
         }
     }
 }

@@ -4,7 +4,7 @@ package controller.deserialization.level;
  * ciao.
  */
 public class EntityData {
-    
+
     private String type;
     private int x;
     private int y;

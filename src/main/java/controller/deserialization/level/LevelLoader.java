@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 public final class LevelLoader {
 
     private static final Gson GSON = new Gson();
-    
+
     private LevelLoader() {
 
     }
@@ -24,7 +24,7 @@ public final class LevelLoader {
      * @param path of the files
      * @return the GSON
      */
-    public static final LevelData load(final String path) {
+    public static LevelData load(final String path) {
         final var in = LevelLoader.class.getClassLoader().getResourceAsStream(path);
 
         if (in == null) {
@@ -32,7 +32,7 @@ public final class LevelLoader {
         }
          try (var reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
             return GSON.fromJson(reader, LevelData.class);
-        }  catch (IOException e) {
+        } catch (final IOException e) {
         throw new UncheckedIOException(e);
         }
     }

@@ -15,7 +15,7 @@ public interface Tangible {
     int getX();
 
     /**
-     * return y
+     * return y.
      *
      * @return return y
      */
@@ -30,7 +30,7 @@ public interface Tangible {
     boolean isTouched(int x, int y);
 
     /**
-     * paint the entities in to the pannel
+     * paint the entities in to the pannel.
      *
      * @param g graphics
      * @param camX camera

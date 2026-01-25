@@ -15,8 +15,6 @@ import view.utils.Draw;
 public class Coin implements Tangible {
     private final int x;
     private final int y;
-    private final Image image;
-    private final Draw draw = new Draw();
 
     /**
      * Constructor for the coin.
@@ -28,9 +26,6 @@ public class Coin implements Tangible {
     public Coin(final int x, final int y) {
         this.x = x;
         this.y = y;
-        this.image = new ImageIcon(
-            getClass().getResource("/img/coin_gold.png")
-        ).getImage();
      }
 
     /**
@@ -66,8 +61,8 @@ public class Coin implements Tangible {
      * {@inheritDoc}
      */
     @Override
-    public void draw(final Graphics g, int camX) {
-        draw.drawPanel(g, image, this.x, this.y);
+    public String getType() {
+        return "coin";
     }
 
 }

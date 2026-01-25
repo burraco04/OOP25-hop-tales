@@ -12,15 +12,10 @@ public final class GreenGrass implements Tangible{
 
     private final int x;
     private final int y;
-    private final Image image;
-    private final Draw draw = new Draw();
 
      public GreenGrass(final int x, final int y) {
         this.x = x;
         this.y = y;
-        this.image = new ImageIcon(
-            getClass().getResource("/img/green_grass.png")
-        ).getImage();
     }
 
     /**
@@ -48,12 +43,9 @@ public final class GreenGrass implements Tangible{
         throw new UnsupportedOperationException("Unimplemented method 'isTouched'");
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void draw(final Graphics g, int camX) {
-         draw.drawPanel(g, image, this.x, this.y);
+    public String getType() {
+        return "green_grass";
     }
     
 }

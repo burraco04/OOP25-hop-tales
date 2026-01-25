@@ -30,10 +30,9 @@ public interface Tangible {
     boolean isTouched(int x, int y);
 
     /**
-     * paint the entities in to the pannel.
+     * return type.
      *
-     * @param g graphics
-     * @param camX camera
+     * @return return type
      */
-    void draw(Graphics g, int camX);
+    String getType();
 }

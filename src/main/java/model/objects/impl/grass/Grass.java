@@ -15,8 +15,6 @@ public final class Grass implements Tangible {
 
     private final int x;
     private final int y;
-    private final Image image;
-    private final Draw draw = new Draw();
 
      /**
       * class grass.
@@ -27,9 +25,6 @@ public final class Grass implements Tangible {
      public Grass(final int x, final int y) {
         this.x = x;
         this.y = y;
-        this.image = new ImageIcon(
-            getClass().getResource("/img/grass.png")
-        ).getImage();
      }
 
     /**
@@ -47,15 +42,7 @@ public final class Grass implements Tangible {
     public int getY() {
         return y;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void draw(final Graphics g, final int camX) {
-        draw.drawPanel(g, image, this.x, this.y);
-    }
-
+    
     /**
      * {@inheritDoc}
      */
@@ -63,6 +50,14 @@ public final class Grass implements Tangible {
     public boolean isTouched(int x, int y) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isTouched'");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getType() {
+        return "grass";
     }
 
 }

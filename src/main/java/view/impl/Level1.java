@@ -12,7 +12,9 @@ import controller.deserialization.level.EntityFactory;
 import controller.deserialization.level.LevelData;
 import controller.deserialization.level.LevelLoader;
 import model.Camera;
+import model.GameConstants;
 import model.World;
+import view.utils.Draw;
 
 public class Level1 extends JPanel {
     private static final long serialVersionUID = 1L;
@@ -68,7 +70,9 @@ private void update() {
         }
 
         for (final var entity : world.getEntities()) {
-            entity.draw(g, camera.getX());
+         final var img = Draw.get(entity.getType());
+         g.drawImage(img, entity.getX() * GameConstants.TILE_SIZE, entity.getY() * GameConstants.TILE_SIZE,
+          GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
         }
     }
 

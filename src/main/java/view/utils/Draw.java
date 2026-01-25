@@ -2,6 +2,12 @@ package view.utils;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import model.GameConstants;
 
@@ -9,23 +15,34 @@ import model.GameConstants;
  * calss draw.
  */
 public final class Draw {
+    private static final Map<String, Image> CACHE = new HashMap<>();
+    
+    private Draw() { }
 
-    /**
-     * function for paint the.
-     *
-     * @param g g
-     * @param image image of the 
-     * @param x parameter x
-     * @param y parametr y
-     */
-    public void drawPanel(final Graphics g, final Image image, final int x, final int y ) {
-        g.drawImage(
-            image,
-            x * GameConstants.TILE_SIZE,
-            y * GameConstants.TILE_SIZE,
-            GameConstants.TILE_SIZE,
-            GameConstants.TILE_SIZE,
-            null
-        );
+    public static Image get(final String type) {
+        if(CACHE.containsKey(type)){
+            return CACHE.get(type);
+        } else {
+        return CACHE.computeIfAbsent(type, Draw::load);
+        }
+    }
+
+    private static Image load(final String type) {
+        final String path = switch (type) {
+            case "grass"       -> "img/grass.png"; 
+            case "green_grass" -> "img/green_grass.png";
+            case "brick"       -> "img/brick.png";
+            case "coin"        -> "img/coin_gold.png";
+            default -> throw new IllegalArgumentException("Tipo sprite sconosciuto: " + type);
+        };
+
+        try (var in = Draw.class.getClassLoader().getResourceAsStream(path)) {
+            if (in == null) {
+                throw new IllegalArgumentException("Sprite non trovato in resources: " + path);
+            }
+            return ImageIO.read(in);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

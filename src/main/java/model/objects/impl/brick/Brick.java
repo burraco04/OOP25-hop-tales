@@ -15,8 +15,6 @@ public final class Brick implements Tangible {
 
     private final int x;
     private final int y;
-    private final Image image;
-    private final Draw draw = new Draw();
 
     /**
      * create object brick.
@@ -27,9 +25,6 @@ public final class Brick implements Tangible {
     public Brick(final int x, final int y) {
         this.x = x;
         this.y = y;
-        this.image = new ImageIcon(
-            getClass().getResource("/img/brick.png")
-        ).getImage();
     }
 
     /**
@@ -51,10 +46,7 @@ public final class Brick implements Tangible {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void draw(final Graphics g, final int camX) {
-        draw.drawPanel(g, image, this.x, this.y);
-    }
+    
 
     /**
      * {@inheritDoc}
@@ -63,5 +55,10 @@ public final class Brick implements Tangible {
     public boolean isTouched(final int x, final int y) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isTouched'");
+    }
+
+    @Override
+    public String getType() {
+        return "brick";
     }
 }

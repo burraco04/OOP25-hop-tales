@@ -18,7 +18,7 @@ public class World {
     private final int levelWidth;
 
     public World() {
-        this.player = new PlayerImpl(GameConstants.STARTING_POSITION, GameConstants.STARTING_POSITION,
+        this.player = new PlayerImpl(GameConstants.STARTING_POSITION_X, GameConstants.STARTING_POSITION_Y,
                                      GameConstants.PLAYER_WIDTH, GameConstants.PLAYER_HEIGHT);
         this.coinManager = new CoinManager();
         this.levelWidth = GameConstants.LEVEL_1_WIDTH;

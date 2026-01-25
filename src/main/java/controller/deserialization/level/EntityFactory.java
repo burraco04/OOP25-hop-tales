@@ -26,13 +26,13 @@ public final class EntityFactory {
      */
     public static List<Tangible> create(final EntityData data) {
 
-     final List<Tangible> entities = new ArrayList<>();
+        final List<Tangible> entities = new ArrayList<>();
 
-     if (data.getMacro() == null) {
+        if (data.getMacro() == null) {
             entities.add(createSingle(data.getType(), data.getX(), data.getY()));
             return entities;
         }
-    final MacroData macro = data.getMacro();
+        final MacroData macro = data.getMacro();
 
         switch (macro.getType()) {
             case "fill" -> {

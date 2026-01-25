@@ -37,7 +37,7 @@ public final class PlayerController implements ControllerObserver {
     public void update() {
         Player player = world.getPlayer();
         if ((w || space) && !player.isFloating()) {
-            player.setY(Math.max(((int) player.getY() + GameConstants.PLAYER_SPEED), 0));
+            player.setY(Math.max(((int) player.getY() - GameConstants.PLAYER_SPEED), 0));
         }
         if (a) {
             player.setX((int) player.getX() - GameConstants.PLAYER_SPEED);
@@ -46,9 +46,9 @@ public final class PlayerController implements ControllerObserver {
             player.setX((int) player.getX() + GameConstants.PLAYER_SPEED);
         }
         if (s && player.isFloating()) {
-            player.setY(Math.max((int) player.getY() - GameConstants.PLAYER_SPEED, 0));
+            player.setY(Math.max((int) player.getY() + GameConstants.PLAYER_SPEED, 0));
         }
-        player.setY(Math.max((int) player.getY() - GameConstants.GRAVITY, 0));
+        player.setY(Math.min(Math.max((int) player.getY() + GameConstants.GRAVITY, 0),25));
     }
 
     /**

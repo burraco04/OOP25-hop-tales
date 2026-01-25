@@ -23,12 +23,14 @@ public class Level1 extends JPanel {
     private final World world;
     private Camera camera;
     private final KeyboardInputManager kim;
+    private final int playerX, playerY;
 
     public Level1(final String levelPath, final World world, final KeyboardInputManager kim) {
         this.world = world;
         this.kim = kim;
         final LevelData data = LevelLoader.load(levelPath);
-
+        playerX = data.getSpawnPointX();
+        playerY = data.getSpawnPointY();
         for (final EntityData e : data.getEntities()) {
            world.addEntities(EntityFactory.create(e));
         }
@@ -68,7 +70,7 @@ private void update() {
         if (camera == null) {
             return;
         }
-
+        g.drawImage(Draw.get("player"), (int) world.getPlayer().getX() * GameConstants.TILE_SIZE, (int) world.getPlayer().getY() * GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE * 4, null);
         for (final var entity : world.getEntities()) {
          final var img = Draw.get(entity.getType());
          g.drawImage(img, entity.getX() * GameConstants.TILE_SIZE, entity.getY() * GameConstants.TILE_SIZE,

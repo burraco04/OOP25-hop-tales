@@ -1,10 +1,7 @@
 package view.impl;
 
-import model.Camera;
-
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.logging.Level;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -14,19 +11,20 @@ import controller.deserialization.level.EntityData;
 import controller.deserialization.level.EntityFactory;
 import controller.deserialization.level.LevelData;
 import controller.deserialization.level.LevelLoader;
+import model.Camera;
 import model.World;
 
 public class Level1 extends JPanel {
     private static final long serialVersionUID = 1L;
     private static final int MILLISEC = 16;
+    private static final double DELTA = MILLISEC/1000.0;
     private final World world;
-    private final Camera camera;
+    private Camera camera;
     private final KeyboardInputManager kim;
 
     public Level1(final String levelPath, final World world, final KeyboardInputManager kim) {
         this.world = world;
         this.kim = kim;
-        this.camera = new Camera(world.getLevelWidth(), this.getWidth());
         final LevelData data = LevelLoader.load(levelPath);
 
         for (final EntityData e : data.getEntities()) {
@@ -39,14 +37,22 @@ public class Level1 extends JPanel {
         this.addKeyListener(kim);
         
     }
-
-//Non c è player 
+ 
 private void update() {
-    final var player = world.getPlayer();
-    camera.update(
-        (int) player.getX(),
-        this.getWidth()
-    );
+    //Inizializzare camera solo quando il Jpanel ha
+    if(camera == null && getWidth() > 0){
+        camera = new Camera(world.getLevelWidth(), getWidth());
+    }
+    //Aggiorna player con DELTA = 16 millisecondi
+    world.getPlayer().update(DELTA);
+
+    //aggiorna camera per seguire player
+    if (camera != null) {
+        camera.update(
+            (int) world.getPlayer().getX(),
+            getWidth()
+        );
+    }
 }
 
 /**
@@ -55,6 +61,11 @@ private void update() {
 @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
+
+        //Se la camera ancora non esiste non disegna niente
+        if (camera == null) {
+            return;
+        }
 
         for (final var entity : world.getEntities()) {
             entity.draw(g, camera.getX());

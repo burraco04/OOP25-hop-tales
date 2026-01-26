@@ -3,6 +3,9 @@ package controller.deserialization.level;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.entities.api.Enemy;
+import model.entities.api.EnemyType;
+import model.entities.impl.EnemyImpl;
 import model.objects.api.Tangible;
 import model.objects.impl.Coin;
 import model.objects.impl.brick.Brick;
@@ -69,7 +72,14 @@ public final class EntityFactory {
             case "brick" -> new Brick(x, y);
             case "green_grass" -> new GreenGrass(x, y);
             case "coin_gold" -> new Coin(x, y);
-            default -> throw new IllegalArgumentException("Tipo entita sconosciuta: ");
+            default -> throw new IllegalArgumentException("Tipo entita sconosciuta: " + type);
+        };
+    }
+
+    public static Enemy createEnemy(EntityData data) {
+        return switch (data.getType()) {
+            case "fungo" -> new EnemyImpl(data.getX(), data.getY(), 100, 200, EnemyType.JUMPER);
+            default -> throw new IllegalArgumentException("Tipo nemico sconosciuto: " + data.getType());
         };
     }
 }

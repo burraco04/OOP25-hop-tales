@@ -108,4 +108,10 @@ public final class EnemyImpl implements Enemy {
         throw new UnsupportedOperationException("Unimplemented method 'isFloating'");
     }
 
+
+    @Override
+    public EnemyType getType() {
+        return type;
+    }
+
 }

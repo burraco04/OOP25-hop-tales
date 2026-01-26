@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import model.entities.api.EnemyType;
 import controller.KeyboardInputManager;
 import controller.deserialization.level.EntityData;
 import controller.deserialization.level.EntityFactory;
@@ -23,17 +24,18 @@ public class Level1 extends JPanel {
     private final World world;
     private Camera camera;
     private final KeyboardInputManager kim;
-    private final int playerX, playerY;
 
     public Level1(final String levelPath, final World world, final KeyboardInputManager kim) {
         this.world = world;
         this.kim = kim;
         final LevelData data = LevelLoader.load(levelPath);
-        playerX = data.getSpawnPointX();
-        playerY = data.getSpawnPointY();
     
         for (final EntityData e : data.getEntities()) {
            world.addEntities(EntityFactory.create(e));
+        }
+
+        for (final EntityData e : data.getEnemies()) {
+           world.addEnemy(EntityFactory.createEnemy(e));
         }
 
         new Timer(MILLISEC, e -> { update(); repaint();}).start();
@@ -74,10 +76,22 @@ private void update() {
         g.drawImage(Draw.get("player"), (int) world.getPlayer().getX() * GameConstants.TILE_SIZE, (int) world.getPlayer().getY() * GameConstants.TILE_SIZE,
         GameConstants.TILE_SIZE, GameConstants.TILE_SIZE * 4, null);
 
-        for (final var objects : world.getEntities()) {
-         final var img = Draw.get(objects.getType());
-         g.drawImage(img, objects.getX() * GameConstants.TILE_SIZE, objects.getY() * GameConstants.TILE_SIZE,
+        for (final var object : world.getEntities()) {
+         final var img = Draw.get(object.getType());
+         g.drawImage(img, object.getX() * GameConstants.TILE_SIZE, object.getY() * GameConstants.TILE_SIZE,
           GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+        }
+
+        for (final var enemy : world.getEnemies()) {
+         final String enemyName = switch (enemy.getType()) {
+            case EnemyType.JUMPER ->
+                "fungo";
+            default -> "walker";
+         };
+         
+         final var img = Draw.get(enemyName);
+         g.drawImage(img, (int) enemy.getX() * GameConstants.TILE_SIZE, (int) enemy.getY() * GameConstants.TILE_SIZE,
+          GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE * 2, null);
         }
 
 

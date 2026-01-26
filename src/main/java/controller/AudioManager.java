@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 /**
  * Class that handles audio files.
@@ -46,5 +47,21 @@ public class AudioManager {
 
         clip.setFramePosition(0);
         clip.start();
+    }
+
+    public static void setVolume(Clip clip, float volume) {
+        if (!clip.isControlSupported(FloatControl.Type.MASTER_GAIN))
+        return;
+
+        FloatControl gain =
+            (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+
+        volume = Math.max(0.0001f, Math.min(1f, volume));
+
+        float dB = (float) (20.0 * Math.log10(volume));
+        gain.setValue(dB);
+    }
+    public static Clip getClip(String name) {
+        return sounds.get(name);
     }
 }

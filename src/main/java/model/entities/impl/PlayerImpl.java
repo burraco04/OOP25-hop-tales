@@ -1,5 +1,6 @@
 package model.entities.impl;
 
+import model.GameConstants;
 import model.entities.api.Player;
 import model.entities.api.PlayerSnapshot;
 
@@ -163,7 +164,8 @@ public final class PlayerImpl implements Player {
      */
     @Override
     public boolean isFloating() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isFloating'");
+        final boolean floating = y < GameConstants.STARTING_POSITION_Y;
+        onGround = !floating;
+        return floating;
     }
 }

@@ -14,6 +14,7 @@ public final class PlayerController implements ControllerObserver {
     private boolean s;
     private boolean d;
     private boolean space;
+    private int jumpRemaining;
     private final World world;
     
     /**
@@ -36,8 +37,13 @@ public final class PlayerController implements ControllerObserver {
     @Override
     public void update() {
         Player player = world.getPlayer();
-        if ((w || space) && !player.isFloating()) {
-            player.setY(Math.max(((int) player.getY() - GameConstants.PLAYER_SPEED), 0));
+        if (jumpRemaining == 0 && (w || space) && !player.isFloating()) {
+            jumpRemaining = GameConstants.JUMP_HEIGHT;
+        }
+        if (jumpRemaining > 0) {
+            final int step = Math.min(GameConstants.JUMP_STEP, jumpRemaining);
+            player.setY(Math.max(((int) player.getY() - step), 0));
+            jumpRemaining -= step;
         }
         if (a) {
             player.setX((int) player.getX() - GameConstants.PLAYER_SPEED);
@@ -48,7 +54,9 @@ public final class PlayerController implements ControllerObserver {
         if (s && player.isFloating()) {
             player.setY(Math.max((int) player.getY() + GameConstants.PLAYER_SPEED, 0));
         }
-        player.setY(Math.min(Math.max((int) player.getY() + GameConstants.GRAVITY, 0),25));
+        if (jumpRemaining == 0) {
+            player.setY(Math.min(Math.max((int) player.getY() + GameConstants.GRAVITY, 0), 25));
+        }
     }
 
     /**

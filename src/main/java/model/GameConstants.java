@@ -20,6 +20,8 @@ public final class GameConstants {
     public static final int TILE_SIZE = 28; //pixel
     public static final int LEVEL_1_WIDTH = 1000;
     public static final Color BACK_COLOR = new Color(34, 85, 34);
+    public static final int JUMP_HEIGHT = GameConstants.PLAYER_SPEED * 10;
+    public static final int JUMP_STEP = 1;
 
     private GameConstants() { }
 

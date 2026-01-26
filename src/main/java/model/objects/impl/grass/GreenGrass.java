@@ -1,13 +1,10 @@
 package model.objects.impl.grass;
 
-import java.awt.Graphics;
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
-
 import model.objects.api.Tangible;
-import view.utils.Draw;
 
+/**
+ * green grass class.
+ */
 public final class GreenGrass implements Tangible{
 
     private final int x;
@@ -43,9 +40,11 @@ public final class GreenGrass implements Tangible{
         throw new UnsupportedOperationException("Unimplemented method 'isTouched'");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getType() {
         return "green_grass";
     }
-    
 }

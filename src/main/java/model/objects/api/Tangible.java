@@ -1,7 +1,5 @@
 package model.objects.api;
 
-import java.awt.Graphics;
-
 /**
  * Interface defining only objects that can be touched by the player and in some cases by enemies.
  */

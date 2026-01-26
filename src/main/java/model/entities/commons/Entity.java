@@ -11,20 +11,22 @@ public interface Entity {
     double getX();
 
     /**
+     * return the parametr y.
+     *
      * @return the entity's bottom coordinate.
      */
     double getY();
 
     /**
      * Set the entity's horizontal position value. 
-     * 
+     *
      * @param x the new horizontal value.
      */
     void setX(int x);
 
     /**
      * Set the entity's vertical position value.
-     * 
+     *
      * @param y the new vertical value.
      */
     void setY(int y);

@@ -1,12 +1,6 @@
 package model.objects.impl.grass;
 
-import java.awt.Graphics;
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
-
 import model.objects.api.Tangible;
-import view.utils.Draw;
 
 /**
  * grass class.
@@ -47,7 +41,7 @@ public final class Grass implements Tangible {
      * {@inheritDoc}
      */
     @Override
-    public boolean isTouched(int x, int y) {
+    public boolean isTouched(final int x, final int y) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isTouched'");
     }

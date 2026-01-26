@@ -1,13 +1,7 @@
 package model.objects.impl;
 
-import java.awt.Graphics;
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
-
 import model.GameConstants;
 import model.objects.api.Tangible;
-import view.utils.Draw;
 
 /**
  * Class defining coins instances.

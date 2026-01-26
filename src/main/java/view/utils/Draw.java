@@ -43,7 +43,7 @@ public final class Draw {
             }
             return ImageIO.read(in);
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+           throw new UncheckedIOException(e);
         }
     }
 }

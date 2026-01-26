@@ -1,12 +1,6 @@
 package model.objects.impl.brick;
 
-import java.awt.Graphics;
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
-
 import model.objects.api.Tangible;
-import view.utils.Draw;
 
 /**
  * brick.

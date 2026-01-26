@@ -34,7 +34,7 @@ public final class ChooseLevelPanel extends JPanel {
     public ChooseLevelPanel(final ControllerMenu controller) {
 
         final JLabel title = new JLabel("GIVE ME SOME PENALTY");
-        setBackground(Color.GREEN);
+        setBackground(new Color(34, 85, 34));
 
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         final JButton level1 = this.buttonFactory.buildbutton("penalty");

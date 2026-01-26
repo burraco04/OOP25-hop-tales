@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Color;
+
 /**
  * Class used for storing constants shared by classes present in the model section of the project.
  */
@@ -17,6 +19,7 @@ public final class GameConstants {
     public static final int COIN_POSITION = 50;
     public static final int TILE_SIZE = 28; //pixel
     public static final int LEVEL_1_WIDTH = 1000;
+    public static final Color BACK_COLOR = new Color(34, 85, 34);
 
     private GameConstants() { }
 

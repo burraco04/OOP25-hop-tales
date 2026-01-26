@@ -21,7 +21,7 @@ public class ButtonBackFactory {
         final JButton button = new JButton("BACK");
 
         button.setForeground(Color.BLACK);
-        button.setBackground(Color.GRAY);
+        button.setBackground(new Color(139, 69, 19));
 
         button.setMaximumSize(BUTTON_DIM);
         button.setMinimumSize(BUTTON_DIM);

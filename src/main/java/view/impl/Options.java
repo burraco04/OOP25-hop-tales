@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import controller.AudioManager;
 import controller.api.ControllerMenu;
 import controller.api.State;
+import model.GameConstants;
 import view.utils.ButtonBackFactory;
 import view.utils.TopBarPanel;
 
@@ -29,7 +30,7 @@ public final class Options extends JPanel {
      */
     public Options(final ControllerMenu controller) {
     final JLabel title = new JLabel("pessi ahahaha");
-    setBackground(Color.GREEN);
+    setBackground(GameConstants.BACK_COLOR);
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
     final JButton back = this.buttonbackFactory.buildbackbutton();

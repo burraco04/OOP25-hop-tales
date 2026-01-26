@@ -26,7 +26,7 @@ private static final long serialVersionUID = 1L;
         topBar.add(back, BorderLayout.EAST);
         final int h = back.getPreferredSize().height;
         topBar.setMaximumSize(new Dimension(Integer.MAX_VALUE, h));
-        topBar.setBackground(Color.GREEN);
+        topBar.setBackground(new Color(34, 85, 34));
 
         return topBar;
     }

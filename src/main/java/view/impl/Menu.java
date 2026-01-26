@@ -1,6 +1,7 @@
 package view.impl;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +16,7 @@ import javax.swing.JPanel;
 import controller.api.ControllerMenu;
 import controller.api.State;
 import view.utils.ButtonFactory;
+import view.utils.CreateBackground;
 import view.utils.FontFactory;
 
 /**
@@ -25,11 +27,9 @@ public final class Menu extends JPanel {
     private static final long serialVersionUID = 1L;
     private static final String TITLE_FONT = "SuperShiny";
     private static final float TITLE_SIZE = 100f;
-    private static final int WIDTH = 1;
-    private static final int HEIGHT = 1;
     private final transient FontFactory fontFactory = new FontFactory();
     private final transient ButtonFactory buttonFactory = new ButtonFactory();
-    private transient BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+    final Image image = CreateBackground.create("/img/Piattaforma_retro_con_personaggio_pixelato.png");
     /**
      * set menu.
      *
@@ -58,28 +58,6 @@ public final class Menu extends JPanel {
         this.add(start);
         this.add(options);
         this.add(shop);
-
-        this.image = tryLoad("/img/Piattaforma_retro_con_personaggio_pixelato.png");
-        if (this.image == null) {
-            this.image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
-        }
-    }
-
-    /**
-     * load immage.
-     *
-     * @param path non so
-     * @return return the immage
-     */
-    private BufferedImage tryLoad(final String path) {
-        try (InputStream is = getClass().getResourceAsStream(path)) {
-            if (is != null) {
-                return ImageIO.read(is);
-            }
-        } catch (final IOException ignored) {
-            //non faccio nulla
-        }
-        return null;
     }
 
     /**

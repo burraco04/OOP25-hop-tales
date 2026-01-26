@@ -10,6 +10,7 @@ public class LevelData {
     private int spawnPointX;
     private int spawnPointY;
     private List<EntityData> entities;
+    private List<EntityData> enemies;
 
     /**
      * name of the level.
@@ -45,5 +46,14 @@ public class LevelData {
      */
     public List<EntityData> getEntities() {
         return entities;
+    }
+
+    /**
+     * name of the level.
+     *
+     * @return entitites
+     */
+    public List<EntityData> getEnemies() {
+        return enemies;
     }
 }

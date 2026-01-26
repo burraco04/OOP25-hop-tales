@@ -48,15 +48,17 @@ public class Level1 extends JPanel {
 private void update() {
     //Inizializzare camera solo quando il Jpanel ha
     if(camera == null && getWidth() > 0){
-        camera = new Camera(world.getLevelWidth(), getWidth());
+        camera = new Camera(world.getLevelWidth() * GameConstants.TILE_SIZE, getWidth());
     }
     //Aggiorna player con DELTA = 16 millisecondi
     world.getPlayer().update(DELTA);
 
     //aggiorna camera per seguire player
     if (camera != null) {
+        final int playerWorldX = (int) (world.getPlayer().getX() * GameConstants.TILE_SIZE);
+        final int playerCenterX = playerWorldX + (GameConstants.TILE_SIZE / 2);
         camera.update(
-            (int) world.getPlayer().getX(),
+            playerCenterX,
             getWidth()
         );
     }
@@ -73,12 +75,13 @@ private void update() {
         if (camera == null) {
             return;
         }
-        g.drawImage(Draw.get("player"), (int) world.getPlayer().getX() * GameConstants.TILE_SIZE, (int) world.getPlayer().getY() * GameConstants.TILE_SIZE,
+        final int offsetX = camera.getX();
+        g.drawImage(Draw.get("player"), (int) world.getPlayer().getX() * GameConstants.TILE_SIZE - offsetX, (int) world.getPlayer().getY() * GameConstants.TILE_SIZE,
         GameConstants.TILE_SIZE, GameConstants.TILE_SIZE * 4, null);
 
         for (final var object : world.getEntities()) {
          final var img = Draw.get(object.getType());
-         g.drawImage(img, object.getX() * GameConstants.TILE_SIZE, object.getY() * GameConstants.TILE_SIZE,
+         g.drawImage(img, object.getX() * GameConstants.TILE_SIZE - offsetX, object.getY() * GameConstants.TILE_SIZE,
           GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
         }
 
@@ -90,7 +93,7 @@ private void update() {
          };
          
          final var img = Draw.get(enemyName);
-         g.drawImage(img, (int) enemy.getX() * GameConstants.TILE_SIZE, (int) enemy.getY() * GameConstants.TILE_SIZE,
+         g.drawImage(img, (int) enemy.getX() * GameConstants.TILE_SIZE - offsetX, (int) enemy.getY() * GameConstants.TILE_SIZE,
           GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE * 2, null);
         }
 

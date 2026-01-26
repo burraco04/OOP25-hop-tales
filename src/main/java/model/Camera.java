@@ -2,15 +2,13 @@ package model;
 
 public class Camera {
     private int x;
-    private int screenWidth;
     private int maxX;
-    private int marginX;
-    private final int levelWidth;
+    private int deadZonePx;
+    private final int levelWidthPx;
 
-    public Camera(final int levelWidth, final int screenWidth) {
-        this.levelWidth = levelWidth;
-        this.maxX = levelWidth - screenWidth;
-        this.marginX = screenWidth / 4;
+    public Camera(final int levelWidthPx, final int screenWidthPx) {
+        this.levelWidthPx = levelWidthPx;
+        updateBounds(screenWidthPx);
     }
 
     public int getX() {
@@ -18,19 +16,21 @@ public class Camera {
     }
 
     /**
-     * Camera orizzontale che segue il player quando supera marginX
+     * Camera orizzontale che segue il player quando supera la dead zone.
      */
-    public void update(int playerX, int screenWidth) {
-        this.maxX = levelWidth - screenWidth;
-        this.marginX = screenWidth / 4;
-        
+    public void update(final int playerWorldX, final int screenWidthPx) {
+        updateBounds(screenWidthPx);
+
+        final int leftBound = x + deadZonePx;
+        final int rightBound = x + screenWidthPx - deadZonePx;
+
         //Player troppo a destra
-        if (playerX - x > screenWidth - marginX) {
-            x = playerX - (screenWidth - marginX);
+        if (playerWorldX > rightBound) {
+            x += playerWorldX - rightBound;
         }
         //Player troppo a sinistra 
-        else if (playerX - x < marginX) {
-            x = playerX - marginX;
+        else if (playerWorldX < leftBound) {
+            x -= leftBound - playerWorldX;
         }
 
         // limite sinistro
@@ -43,5 +43,10 @@ public class Camera {
             x = maxX;
         }
 
+    }
+
+    private void updateBounds(final int screenWidthPx) {
+        this.maxX = Math.max(0, levelWidthPx - screenWidthPx);
+        this.deadZonePx = screenWidthPx / 4;
     }
 }

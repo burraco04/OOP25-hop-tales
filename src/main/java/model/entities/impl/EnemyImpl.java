@@ -99,16 +99,6 @@ public final class EnemyImpl implements Enemy {
         this.y = y;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isFloating() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isFloating'");
-    }
-
-
     @Override
     public EnemyType getType() {
         return type;

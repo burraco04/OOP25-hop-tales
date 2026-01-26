@@ -1,7 +1,7 @@
 {
   "name": "Level 1",
   "spawnPointX": 1,
-  "spawnPointY": 25,
+  "spawnPointY": 24,
   "entities": [
     {
       "type": "green_grass",

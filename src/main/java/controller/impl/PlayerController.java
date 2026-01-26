@@ -9,6 +9,8 @@ import model.entities.api.Player;
  * Controller responsible for the behaviour of {@link Player}.
  */
 public final class PlayerController implements ControllerObserver {
+    private static final int PLAYER_WIDTH_TILES = 1;
+    private static final int PLAYER_HEIGHT_TILES = 2;
     private boolean w;
     private boolean a;
     private boolean s;
@@ -36,27 +38,54 @@ public final class PlayerController implements ControllerObserver {
      */
     @Override
     public void update() {
-        Player player = world.getPlayer();
-        if (jumpRemaining == 0 && (w || space) && !player.isFloating()) {
+        final Player player = world.getPlayer();
+        int x = (int) player.getX();
+        int y = (int) player.getY();
+
+        final boolean onGround = world.collidesWithSolid(x, y + 1, PLAYER_WIDTH_TILES, PLAYER_HEIGHT_TILES);
+        if (jumpRemaining == 0 && (w || space) && onGround) {
             jumpRemaining = GameConstants.JUMP_HEIGHT;
         }
         if (jumpRemaining > 0) {
             final int step = Math.min(GameConstants.JUMP_STEP, jumpRemaining);
-            player.setY(Math.max(((int) player.getY() - step), 0));
-            jumpRemaining -= step;
+            final int targetY = Math.max(y - step, 0);
+            if (targetY == 0) {
+                y = 0;
+                jumpRemaining = 0;
+            } else if (!world.collidesWithSolid(x, targetY, PLAYER_WIDTH_TILES, PLAYER_HEIGHT_TILES)) {
+                y = targetY;
+                jumpRemaining -= step;
+            } else {
+                jumpRemaining = 0;
+            }
         }
         if (a) {
-            player.setX((int) player.getX() - GameConstants.PLAYER_SPEED);
+            final int targetX = Math.max(x - GameConstants.PLAYER_SPEED, 0);
+            if (!world.collidesWithSolid(targetX, y, PLAYER_WIDTH_TILES, PLAYER_HEIGHT_TILES)) {
+                x = targetX;
+            }
         }
         if (d) {
-            player.setX((int) player.getX() + GameConstants.PLAYER_SPEED);
+            final int targetX = x + GameConstants.PLAYER_SPEED;
+            if (!world.collidesWithSolid(targetX, y, PLAYER_WIDTH_TILES, PLAYER_HEIGHT_TILES)) {
+                x = targetX;
+            }
         }
-        if (s && player.isFloating()) {
-            player.setY(Math.max((int) player.getY() + GameConstants.PLAYER_SPEED, 0));
+        final boolean groundedAfterMove = world.collidesWithSolid(x, y + 1, PLAYER_WIDTH_TILES, PLAYER_HEIGHT_TILES);
+        if (s && !groundedAfterMove) {
+            final int targetY = y + GameConstants.PLAYER_SPEED;
+            if (!world.collidesWithSolid(x, targetY, PLAYER_WIDTH_TILES, PLAYER_HEIGHT_TILES)) {
+                y = targetY;
+            }
         }
-        if (jumpRemaining == 0) {
-            player.setY(Math.min(Math.max((int) player.getY() + GameConstants.GRAVITY, 0), 25));
+        if (jumpRemaining == 0 && !groundedAfterMove) {
+            final int targetY = y + GameConstants.GRAVITY;
+            if (!world.collidesWithSolid(x, targetY, PLAYER_WIDTH_TILES, PLAYER_HEIGHT_TILES)) {
+                y = targetY;
+            }
         }
+        player.setX(x);
+        player.setY(y);
     }
 
     /**

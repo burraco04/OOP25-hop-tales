@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -14,7 +15,6 @@ public class ShopButton extends JPanel{
 
     private static final long serialVersionUID = 1L;
     private final Image background;
-    private static final float BUTTON_SIZE = 50f;
     
     /**
      * implements the top bar. 
@@ -23,21 +23,26 @@ public class ShopButton extends JPanel{
      * @return the pannel where put the button
      */
     public ShopButton() {
+
         this.background = CreateBackground.create("/img/Shopback.png");
 
         setLayout(new java.awt.GridLayout(2, 2, 200, 200)); 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(50, 300, 50, 300));
 
-        JButton skin1 = new JButton("UP-LEFT");
-        JButton skin2 = new JButton("UP-RIGHT");
-        JButton skin3 = new JButton("DOWN-LEFT");
-        JButton skin4 = new JButton("DOWN-RIGHT");
+        JButton skin1 = ShopButtonFactory.build("/img/skinsqualo.png");
+        JButton skin2 = ShopButtonFactory.build("/img/skinsqualo.png");
+        JButton skin3 = ShopButtonFactory.build("/img/skinsqualo.png");
+        JButton skin4 = ShopButtonFactory.build("/img/skinsqualo.png");
+
+        skin1.setText("50$");
+        skin2.setText("10$");
+        skin3.setText("5$");
+        skin4.setText("15$");
 
         add(skin1);
         add(skin2);
         add(skin3);
         add(skin4);
-
     }
 
     /**

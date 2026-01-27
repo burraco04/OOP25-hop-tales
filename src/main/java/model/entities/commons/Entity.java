@@ -31,11 +31,6 @@ public interface Entity {
      */
     void setY(int y);
 
-    /** 
-     * @return whether the {@link Entity} is floating or not.
-     */
-    boolean isFloating();
-
     /**
      * @return the entity width.
      */

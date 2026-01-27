@@ -29,6 +29,9 @@ public class Level1 extends JPanel {
         this.world = world;
         this.kim = kim;
         final LevelData data = LevelLoader.load(levelPath);
+
+        world.getPlayer().setX(data.getSpawnPointX());
+        world.getPlayer().setY(data.getSpawnPointY());
     
         for (final EntityData e : data.getEntities()) {
            world.addEntities(EntityFactory.create(e));

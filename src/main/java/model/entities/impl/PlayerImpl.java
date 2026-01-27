@@ -158,14 +158,4 @@ public final class PlayerImpl implements Player {
     public void setY(final int y) {
         this.y = y;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isFloating() {
-        final boolean floating = y < GameConstants.STARTING_POSITION_Y;
-        onGround = !floating;
-        return floating;
-    }
 }

@@ -7,7 +7,7 @@ import java.awt.Color;
  */
 public final class GameConstants {
     public static final int STARTING_POSITION_X = 1;
-    public static final int STARTING_POSITION_Y = 25;    
+    public static final int STARTING_POSITION_Y = 24;    
     public static final int TARGET_UPS = 60;
     public static final int TARGET_FPS = 60;
     public static final int MILLIS_PER_SECOND = 1000;

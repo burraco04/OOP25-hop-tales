@@ -26,12 +26,12 @@
     {
       "type": "brick",
       "x": 5,
-      "y": 18
+      "y": 19
     },
     {
       "type": "coin_gold",
       "x": 6,
-      "y": 18,
+      "y": 19,
       "macro": {
         "type": "fill",
         "width": 3,
@@ -50,21 +50,21 @@
     },
     {
       "type": "grass",
-      "x": 30,
+      "x": 28,
       "y": 22,
       "macro": {
         "type": "fill",
-        "width": 10,
+        "width": 13,
         "height": 5
       } 
     },
     {
       "type": "green_grass",
-      "x": 30,
+      "x": 28,
       "y": 21,
       "macro": {
         "type": "fill",
-        "width": 10,
+        "width": 13,
         "height": 1
       } 
     },
@@ -82,6 +82,26 @@
         "width": 8,
         "height": 1
       } 
+    },
+    {
+      "type": "brick",
+      "x": 46,
+      "y": 9,
+      "macro": {
+        "type": "fill",
+        "width": 3,
+        "height": 1
+      } 
+    },
+    {
+      "type": "coin_gold",
+      "x": 49,
+      "y": 9
+    },
+    {
+      "type": "brick",
+      "x": 50,
+      "y": 9
     },
     {
       "type": "floating_grass_right",
@@ -108,18 +128,51 @@
       "x": 66,
       "y": 13
     },
-    
     {
-      "type": "floating_grass",
+      "type": "coin_gold",
       "x": 61,
-      "y": 13,
+      "y": 12,
       "macro": {
         "type": "fill",
-        "width": 5,
+        "width": 4,
         "height": 1
       } 
+    },
+    {
+      "type": "brick",
+      "x": 70,
+      "y": 9,
+      "macro": {
+        "type": "fill",
+        "width": 4,
+        "height": 1
+      } 
+    },
+    {
+      "type": "coin_gold",
+      "x": 70,
+      "y": 8,
+      "macro": {
+        "type": "fill",
+        "width": 3,
+        "height": 1
+      } 
+    },
+     {
+      "type": "coin_gold",
+      "x": 74,
+      "y": 18
+    },
+     {
+      "type": "coin_gold",
+      "x": 76,
+      "y": 20
+    },
+    {
+      "type": "coin_gold",
+      "x": 74,
+      "y": 22
     }
-
 
     ],
     "enemies": [{

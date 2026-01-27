@@ -6,7 +6,7 @@ package model.objects.api;
 public interface WorldObject {
 
     /**
-     * retunr x.
+     * return x.
      *
      * @return return x
      */

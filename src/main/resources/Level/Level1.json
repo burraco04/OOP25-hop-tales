@@ -39,6 +39,16 @@
       }
     },
     {
+      "type": "powerup_block",
+      "x": 10,
+      "y": 18
+    },
+    {
+      "type": "powerup",
+      "x": 11,
+      "y": 18
+    },
+    {
       "type": "grass",
       "x": 30,
       "y": 22,

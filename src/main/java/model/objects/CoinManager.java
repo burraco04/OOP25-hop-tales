@@ -5,7 +5,7 @@ import java.util.List;
 
 import model.GameConstants;
 import model.World;
-import model.objects.impl.Coin;
+import model.objects.impl.collectable.Coin;
 
 /**
  * Class used to manage the {@link Coin} system.
@@ -15,7 +15,7 @@ public class CoinManager {
     private final World world;
 
     /**
-     * Constructor that istantiate and register the coins depending by the level.
+     * Constructor that istantiate and register the {@link World} depending by the level.
      */
     public CoinManager(final World world) {
         this.world = world;
@@ -44,7 +44,12 @@ public class CoinManager {
      */
     public void checkPossibleCollection(final int x, final int y) {
         
-        if (world.collidesWithCollectable(x, y, GameConstants.PLAYER_WIDTH, GameConstants.PLAYER_HEIGHT)) {
+        if (world.collidesWithCollectable(
+            x,
+            y,
+            GameConstants.PLAYER_WIDTH_TILES,
+            GameConstants.PLAYER_HEIGHT_TILES
+        )) {
             collectCoin();
             System.out.println(collectedCoins);
         }

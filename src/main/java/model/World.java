@@ -13,19 +13,23 @@ import model.entities.api.Enemy;
 import model.entities.impl.PlayerImpl;
 import model.objects.CoinManager;
 import model.objects.api.WorldObject;
+import model.objects.impl.brick.Brick;
+import model.objects.impl.collectable.Powerup;
 
 /**
  * create class world.
  */
 public class World {
+    private static final String POWERUP_BLOCK_TYPE = "powerup_block";
     private static final Set<String> SOLID_TYPES = Set.of("grass", "green_grass", "brick", "floating_grass",
-        "floating_grass_left", "floating_grass_right"
+        "floating_grass_left", "floating_grass_right", POWERUP_BLOCK_TYPE
     );
     private static final Set<String> COLLECTABLE_TYPES = Set.of("coin", "powerup");
     private final List<WorldObject> entities = new ArrayList<>();
     private final Set<TileKey> solidTiles = new HashSet<>();
     private final Set<TileKey> collectableTiles = new HashSet<>();
     private final Map<TileKey, WorldObject> collectableMap = new HashMap<>();
+    private final Set<TileKey> powerupBlockTiles = new HashSet<>();
     private final List<Enemy> enemies = new ArrayList<>();
     private final Player player;
     private final CoinManager coinManager;
@@ -50,6 +54,9 @@ public class World {
         for (final WorldObject entity : list) {
             if (isSolidType(entity.getType())) {
                 solidTiles.add(new TileKey(entity.getX(), entity.getY()));
+                if (POWERUP_BLOCK_TYPE.equals(entity.getType())) {
+                    powerupBlockTiles.add(new TileKey(entity.getX(), entity.getY()));
+                }
             } else if (isCollectableType(entity.getType())) {
                 var tk = new TileKey(entity.getX(), entity.getY());
                 collectableMap.put(tk, entity);
@@ -118,6 +125,50 @@ public class World {
         return false;
     }
 
+    public boolean collidesWithPowerupBlockFromBelow(final int x, final int y, final int width, final int height) {
+        if (y <= 0) {
+            return false;
+        }
+        final int checkY = y - 1;
+        for (int dx = 0; dx < width; dx++) {
+            final int blockX = x + dx;
+            final TileKey blockKey = new TileKey(blockX, checkY);
+            if (powerupBlockTiles.contains(blockKey)) {
+                powerupBlockTiles.remove(blockKey);
+                replaceEntityAt(blockX, checkY, POWERUP_BLOCK_TYPE, new Brick(blockX, checkY));
+                spawnPowerupAbove(blockX, checkY);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void spawnPowerupAbove(final int blockX, final int blockY) {
+        final int powerupY = blockY - 1;
+        if (powerupY < 0) {
+            return;
+        }
+        final TileKey powerupKey = new TileKey(blockX, powerupY);
+        if (solidTiles.contains(powerupKey) || collectableTiles.contains(powerupKey)) {
+            return;
+        }
+        final WorldObject powerup = new Powerup(blockX, powerupY);
+        entities.add(powerup);
+        collectableTiles.add(powerupKey);
+        collectableMap.put(powerupKey, powerup);
+    }
+
+    private void replaceEntityAt(final int x, final int y, final String type, final WorldObject replacement) {
+        for (int i = 0; i < entities.size(); i++) {
+            final WorldObject obj = entities.get(i);
+            if (type.equals(obj.getType()) && obj.getX() == x && obj.getY() == y) {
+                entities.set(i, replacement);
+                return;
+            }
+        }
+        entities.add(replacement);
+    }
+
     private static boolean isSolidType(final String type) {
         return SOLID_TYPES.contains(type);
     }
@@ -153,4 +204,3 @@ public class World {
         }
     }
 }
-

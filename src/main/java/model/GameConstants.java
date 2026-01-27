@@ -13,6 +13,8 @@ public final class GameConstants {
     public static final int MILLIS_PER_SECOND = 1000;
     public static final int PLAYER_HEIGHT = 420;
     public static final int PLAYER_WIDTH = 240;
+    public static final int PLAYER_WIDTH_TILES = 1;
+    public static final int PLAYER_HEIGHT_TILES = 2;
     public static final int PLAYER_SPEED = 1;
     public static final int GRAVITY = 1;
     public static final int COIN_VALUE = 5;

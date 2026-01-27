@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import model.GameConstants;
+import model.objects.impl.brick.PowerupBlock;
+import model.objects.impl.collectable.Powerup;
 
 /**
  * calss draw.
@@ -34,6 +36,8 @@ public final class Draw {
             case "floating_grass" -> "img/floating_grass.png";
             case "floating_grass_left" -> "img/floating_grass_left.png";
             case "floating_grass_right" -> "img/floating_grass_right.png";
+            case "powerup_block" -> "img/powerup_block.png";
+            case "powerup"     -> "img/powerup.png";
             case "green_grass" -> "img/green_grass.png";
             case "brick"       -> "img/brick.png";
             case "coin"        -> "img/coin_gold.png";

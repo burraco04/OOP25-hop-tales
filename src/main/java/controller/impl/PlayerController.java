@@ -9,8 +9,6 @@ import model.entities.api.Player;
  * Controller responsible for the behaviour of {@link Player}.
  */
 public final class PlayerController implements ControllerObserver {
-    private static final int PLAYER_WIDTH_TILES = 1;
-    private static final int PLAYER_HEIGHT_TILES = 2;
     private boolean w;
     private boolean a;
     private boolean s;
@@ -42,45 +40,89 @@ public final class PlayerController implements ControllerObserver {
         int x = (int) player.getX();
         int y = (int) player.getY();
 
-        final boolean onGround = world.collidesWithSolid(x, y + 1, PLAYER_WIDTH_TILES, PLAYER_HEIGHT_TILES);
+        final boolean onGround = world.collidesWithSolid(
+            x,
+            y + 1,
+            GameConstants.PLAYER_WIDTH_TILES,
+            GameConstants.PLAYER_HEIGHT_TILES
+        );
         if (jumpRemaining == 0 && (w || space) && onGround) {
             jumpRemaining = GameConstants.JUMP_HEIGHT;
         }
         if (jumpRemaining > 0) {
-            final int step = Math.min(GameConstants.JUMP_STEP, jumpRemaining);
-            final int targetY = Math.max(y - step, 0);
-            if (targetY == 0) {
-                y = 0;
+            if (world.collidesWithPowerupBlockFromBelow(
+                x,
+                y,
+                GameConstants.PLAYER_WIDTH_TILES,
+                GameConstants.PLAYER_HEIGHT_TILES
+            )) {
                 jumpRemaining = 0;
-            } else if (!world.collidesWithSolid(x, targetY, PLAYER_WIDTH_TILES, PLAYER_HEIGHT_TILES)) {
-                y = targetY;
-                jumpRemaining -= step;
             } else {
-                jumpRemaining = 0;
+                final int step = Math.min(GameConstants.JUMP_STEP, jumpRemaining);
+                final int targetY = Math.max(y - step, 0);
+                if (targetY == 0) {
+                    y = 0;
+                    jumpRemaining = 0;
+                } else if (!world.collidesWithSolid(
+                    x,
+                    targetY,
+                    GameConstants.PLAYER_WIDTH_TILES,
+                    GameConstants.PLAYER_HEIGHT_TILES
+                )) {
+                    y = targetY;
+                    jumpRemaining -= step;
+                } else {
+                    jumpRemaining = 0;
+                }
             }
         }
         if (a) {
             final int targetX = Math.max(x - GameConstants.PLAYER_SPEED, 0);
-            if (!world.collidesWithSolid(targetX, y, PLAYER_WIDTH_TILES, PLAYER_HEIGHT_TILES)) {
+            if (!world.collidesWithSolid(
+                targetX,
+                y,
+                GameConstants.PLAYER_WIDTH_TILES,
+                GameConstants.PLAYER_HEIGHT_TILES
+            )) {
                 x = targetX;
             }
         }
         if (d) {
             final int targetX = x + GameConstants.PLAYER_SPEED;
-            if (!world.collidesWithSolid(targetX, y, PLAYER_WIDTH_TILES, PLAYER_HEIGHT_TILES)) {
+            if (!world.collidesWithSolid(
+                targetX,
+                y,
+                GameConstants.PLAYER_WIDTH_TILES,
+                GameConstants.PLAYER_HEIGHT_TILES
+            )) {
                 x = targetX;
             }
         }
-        final boolean groundedAfterMove = world.collidesWithSolid(x, y + 1, PLAYER_WIDTH_TILES, PLAYER_HEIGHT_TILES);
+        final boolean groundedAfterMove = world.collidesWithSolid(
+            x,
+            y + 1,
+            GameConstants.PLAYER_WIDTH_TILES,
+            GameConstants.PLAYER_HEIGHT_TILES
+        );
         if (s && !groundedAfterMove) {
             final int targetY = y + GameConstants.PLAYER_SPEED;
-            if (!world.collidesWithSolid(x, targetY, PLAYER_WIDTH_TILES, PLAYER_HEIGHT_TILES)) {
+            if (!world.collidesWithSolid(
+                x,
+                targetY,
+                GameConstants.PLAYER_WIDTH_TILES,
+                GameConstants.PLAYER_HEIGHT_TILES
+            )) {
                 y = targetY;
             }
         }
         if (jumpRemaining == 0 && !groundedAfterMove) {
             final int targetY = y + GameConstants.GRAVITY;
-            if (!world.collidesWithSolid(x, targetY, PLAYER_WIDTH_TILES, PLAYER_HEIGHT_TILES)) {
+            if (!world.collidesWithSolid(
+                x,
+                targetY,
+                GameConstants.PLAYER_WIDTH_TILES,
+                GameConstants.PLAYER_HEIGHT_TILES
+            )) {
                 y = targetY;
             }
         }

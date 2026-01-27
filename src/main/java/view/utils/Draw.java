@@ -30,7 +30,10 @@ public final class Draw {
     private static Image load(final String type) {
         final String path = switch (type) {
             case "player"      -> "img/bozza_player_1_vers_3.png";
-            case "grass"       -> "img/grass.png"; 
+            case "grass"       -> "img/grass.png";
+            case "floating_grass" -> "img/floating_grass.png";
+            case "floating_grass_left" -> "img/floating_grass_left.png";
+            case "floating_grass_right" -> "img/floating_grass_right.png";
             case "green_grass" -> "img/green_grass.png";
             case "brick"       -> "img/brick.png";
             case "coin"        -> "img/coin_gold.png";

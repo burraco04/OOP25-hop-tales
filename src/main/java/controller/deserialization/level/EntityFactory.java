@@ -9,6 +9,9 @@ import model.entities.impl.EnemyImpl;
 import model.objects.api.WorldObject;
 import model.objects.impl.Coin;
 import model.objects.impl.brick.Brick;
+import model.objects.impl.grass.FloatingGrass;
+import model.objects.impl.grass.FloatingGrassLeft;
+import model.objects.impl.grass.FloatingGrassRight;
 import model.objects.impl.grass.Grass;
 import model.objects.impl.grass.GreenGrass;
 
@@ -68,6 +71,9 @@ public final class EntityFactory {
      */
     private static WorldObject createSingle(final String type, final int x, final int y) {
         return switch (type) {
+            case "floating_grass" -> new FloatingGrass(x, y);
+            case "floating_grass_left" -> new FloatingGrassLeft(x, y);
+            case "floating_grass_right" -> new FloatingGrassRight(x, y);
             case "grass" -> new Grass(x, y);
             case "brick" -> new Brick(x, y);
             case "green_grass" -> new GreenGrass(x, y);

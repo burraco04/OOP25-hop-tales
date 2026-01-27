@@ -1,0 +1,42 @@
+package model.objects.impl.grass;
+
+import model.objects.api.WorldObject;
+
+public class FloatingGrass implements WorldObject {
+
+    private final int x;
+    private final int y;
+
+     /**
+      * class grass.
+      *
+      * @param x parameter
+      * @param y parameter
+      */
+     public FloatingGrass(final int x, final int y) {
+        this.x = x;
+        this.y = y;
+     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getX() {
+       return x;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public String getType() {
+      return "floating_grass";
+    }
+    
+}

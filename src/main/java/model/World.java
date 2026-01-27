@@ -18,7 +18,9 @@ import model.objects.api.WorldObject;
  * create class world.
  */
 public class World {
-    private static final Set<String> SOLID_TYPES = Set.of("grass", "green_grass", "brick");
+    private static final Set<String> SOLID_TYPES = Set.of("grass", "green_grass", "brick", "floating_grass",
+        "floating_grass_left", "floating_grass_right"
+    );
     private static final Set<String> COLLECTABLE_TYPES = Set.of("coin", "powerup");
     private final List<WorldObject> entities = new ArrayList<>();
     private final Set<TileKey> solidTiles = new HashSet<>();

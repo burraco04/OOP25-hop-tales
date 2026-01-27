@@ -94,7 +94,7 @@ private void update() {
          
          final var img = Draw.get(enemyName);
          g.drawImage(img, (int) enemy.getX() * GameConstants.TILE_SIZE - offsetX, (int) enemy.getY() * GameConstants.TILE_SIZE,
-          GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE * 2, null);
+          GameConstants.TILE_SIZE , GameConstants.TILE_SIZE , null);
         }
 
 

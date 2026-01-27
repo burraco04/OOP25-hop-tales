@@ -34,7 +34,7 @@ public final class Draw {
             case "green_grass" -> "img/green_grass.png";
             case "brick"       -> "img/brick.png";
             case "coin"        -> "img/coin_gold.png";
-            case "fungo"       -> "img/skinsqualo.png";
+            case "fungo"       -> "img/slime_spike_rest.png";
             default -> throw new IllegalArgumentException("Tipo sprite sconosciuto: " + type);
         };
 

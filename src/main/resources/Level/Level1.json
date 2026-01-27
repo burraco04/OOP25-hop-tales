@@ -26,13 +26,39 @@
     {
       "type": "brick",
       "x": 5,
-      "y": 20
+      "y": 18
     },
     {
       "type": "coin_gold",
       "x": 6,
-      "y": 20
+      "y": 18,
+      "macro": {
+        "type": "fill",
+        "width": 3,
+        "height": 1
+      }
+    },
+    {
+      "type": "grass",
+      "x": 30,
+      "y": 22,
+      "macro": {
+        "type": "fill",
+        "width": 10,
+        "height": 5
+      } 
+    },
+    {
+      "type": "green_grass",
+      "x": 30,
+      "y": 21,
+      "macro": {
+        "type": "fill",
+        "width": 10,
+        "height": 1
+      } 
     }
+
     ],
     "enemies": [{
       "type": "fungo",

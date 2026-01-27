@@ -1,6 +1,5 @@
 package view.impl;
 
-import java.awt.Color;
 import java.util.Optional;
 
 import javax.swing.BoxLayout;

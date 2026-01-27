@@ -1,8 +1,5 @@
 package view.impl;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.util.Optional;
 
 import javax.swing.BoxLayout;
@@ -14,7 +11,6 @@ import controller.api.ControllerMenu;
 import controller.api.State;
 import model.GameConstants;
 import view.utils.ButtonBackFactory;
-import view.utils.CreateBackground;
 import view.utils.FontFactory;
 import view.utils.ShopButton;
 import view.utils.TopBarPanel;

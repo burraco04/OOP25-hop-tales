@@ -7,10 +7,14 @@ import java.awt.Image;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * used for buy the skin.
+ */
 public class ShopButton extends JPanel{
 
     private static final long serialVersionUID = 1L;
     private final Image background;
+    private static final float BUTTON_SIZE = 50f;
     
     /**
      * implements the top bar. 
@@ -21,8 +25,8 @@ public class ShopButton extends JPanel{
     public ShopButton() {
         this.background = CreateBackground.create("/img/Shopback.png");
 
-        setLayout(new java.awt.GridLayout(2, 2, 100, 100)); 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(50, 500, 50, 500));
+        setLayout(new java.awt.GridLayout(2, 2, 200, 200)); 
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(50, 300, 50, 300));
 
         JButton skin1 = new JButton("UP-LEFT");
         JButton skin2 = new JButton("UP-RIGHT");
@@ -36,7 +40,7 @@ public class ShopButton extends JPanel{
 
     }
 
-        /**
+    /**
      * cancella e ridipinge il pannello.
      */
     @Override

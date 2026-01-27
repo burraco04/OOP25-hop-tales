@@ -6,7 +6,7 @@ import java.util.List;
 import model.entities.api.Enemy;
 import model.entities.api.EnemyType;
 import model.entities.impl.EnemyImpl;
-import model.objects.api.Tangible;
+import model.objects.api.WorldObject;
 import model.objects.impl.Coin;
 import model.objects.impl.brick.Brick;
 import model.objects.impl.grass.Grass;
@@ -27,9 +27,9 @@ public final class EntityFactory {
      * @param data data
      * @return lista tangibile
      */
-    public static List<Tangible> create(final EntityData data) {
+    public static List<WorldObject> create(final EntityData data) {
 
-        final List<Tangible> entities = new ArrayList<>();
+        final List<WorldObject> entities = new ArrayList<>();
 
         if (data.getMacro() == null) {
             entities.add(createSingle(data.getType(), data.getX(), data.getY()));
@@ -66,7 +66,7 @@ public final class EntityFactory {
      * @param y parameter y
      * @return the new entety
      */
-    private static Tangible createSingle(final String type, final int x, final int y) {
+    private static WorldObject createSingle(final String type, final int x, final int y) {
         return switch (type) {
             case "grass" -> new Grass(x, y);
             case "brick" -> new Brick(x, y);

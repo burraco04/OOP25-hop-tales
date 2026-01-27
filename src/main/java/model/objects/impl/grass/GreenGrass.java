@@ -1,11 +1,11 @@
 package model.objects.impl.grass;
 
-import model.objects.api.Tangible;
+import model.objects.api.WorldObject;
 
 /**
  * green grass class.
  */
-public final class GreenGrass implements Tangible{
+public final class GreenGrass implements WorldObject{
 
     private final int x;
     private final int y;
@@ -29,15 +29,6 @@ public final class GreenGrass implements Tangible{
     @Override
     public int getY() {
         return y;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isTouched(int x, int y) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isTouched'");
     }
 
     /**

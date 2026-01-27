@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.GameConstants;
+import model.World;
 import model.objects.impl.Coin;
 
 /**
@@ -11,19 +12,19 @@ import model.objects.impl.Coin;
  */
 public class CoinManager {    
     private static int collectedCoins;
-    private final List<Coin> coins = new ArrayList<>();
+    private final World world;
 
     /**
      * Constructor that istantiate and register the coins depending by the level.
      */
-    public CoinManager() {
-        coins.add(new Coin(GameConstants.COIN_POSITION, GameConstants.COIN_POSITION));
-    }
+    public CoinManager(final World world) {
+        this.world = world;
+     }
 
     /** 
      * @return the number of coins collected so far in the current level.
      */
-    public int getCoins() {
+    public static int getCoins() {
         return collectedCoins;
     }
 
@@ -42,10 +43,10 @@ public class CoinManager {
      * @param y player's vertical position
      */
     public void checkPossibleCollection(final int x, final int y) {
-        for (final Coin c : coins) {
-            if (c.isTouched(x, y)) {
-                collectCoin();
-            }
+        
+        if (world.collidesWithCollectable(x, y, GameConstants.PLAYER_WIDTH, GameConstants.PLAYER_HEIGHT)) {
+            collectCoin();
+            System.out.println(collectedCoins);
         }
     }
 }

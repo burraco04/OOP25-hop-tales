@@ -1,12 +1,12 @@
 package model.objects.impl;
 
 import model.GameConstants;
-import model.objects.api.Tangible;
+import model.objects.api.WorldObject;
 
 /**
  * Class defining coins instances.
  */
-public class Coin implements Tangible {
+public class Coin implements WorldObject {
     private final int x;
     private final int y;
 
@@ -21,19 +21,6 @@ public class Coin implements Tangible {
         this.x = x;
         this.y = y;
      }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isTouched(final int x, final int y) {
-        if (x > this.x && x + GameConstants.PLAYER_WIDTH < this.x
-            || y > this.y && y + GameConstants.PLAYER_HEIGHT < this.y) {
-            return true;
-        } else {
-           return false; 
-        }    
-    }
 
     /**
      * {@inheritDoc}

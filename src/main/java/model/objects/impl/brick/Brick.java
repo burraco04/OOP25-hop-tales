@@ -1,11 +1,11 @@
 package model.objects.impl.brick;
 
-import model.objects.api.Tangible;
+import model.objects.api.WorldObject;
 
 /**
  * brick.
  */
-public final class Brick implements Tangible {
+public final class Brick implements WorldObject {
 
     private final int x;
     private final int y;
@@ -35,20 +35,6 @@ public final class Brick implements Tangible {
     @Override
     public int getY() { 
         return y; 
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isTouched(final int x, final int y) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isTouched'");
     }
 
     @Override

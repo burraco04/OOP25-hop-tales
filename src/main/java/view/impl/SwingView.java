@@ -14,6 +14,7 @@ import view.api.View;
 public class SwingView implements View {
     private static final int HEIGHT = 600;
     private static final int WIDTH = 800;
+    private static final String MENU_OST_NAME = "MenuOST";
     private final JFrame frame;
     private ControllerMenu controller;
 
@@ -24,9 +25,9 @@ public class SwingView implements View {
         this.frame = new JFrame("PENALDO & PESSI");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setSize(WIDTH, HEIGHT);
-        AudioManager.load("MenuOST", "/sounds/MenuSoundtrack.wav");
-        AudioManager.play("MenuOST");
-        AudioManager.setVolume(AudioManager.getClip("MenuOST"), 0.05f);
+        AudioManager.load(MENU_OST_NAME, "/sounds/MenuSoundtrack.wav");
+        AudioManager.play(MENU_OST_NAME);
+        AudioManager.setVolume(AudioManager.getClip(MENU_OST_NAME), 1);
     }
 
     /**
@@ -34,7 +35,6 @@ public class SwingView implements View {
      *
      * @param controller creo controller
      */
-
     public void setController(final ControllerMenu controller) {
     this.controller = controller;
     }
@@ -42,7 +42,6 @@ public class SwingView implements View {
     /**
      * mostra il pannello del menu.
      */
-
     @Override
     public void showMainMenu() {
         this.frame.setContentPane(new Menu(this.controller));
@@ -54,7 +53,6 @@ public class SwingView implements View {
     /**
      * mostra il pannello dei livelli.
      */
-
     @Override
     public void showLevels() {
         this.frame.setContentPane(new ChooseLevelPanel(this.controller));
@@ -65,7 +63,6 @@ public class SwingView implements View {
     /**
      * mostra il pannello dei livelli.
      */
-
     @Override
     public void showShop() {
         this.frame.setContentPane(new Shop(this.controller));
@@ -76,7 +73,6 @@ public class SwingView implements View {
     /**
      * mostra il pannello dei livelli.
      */
-
     @Override
     public void showOptions() {
         this.frame.setContentPane(new Options(this.controller));

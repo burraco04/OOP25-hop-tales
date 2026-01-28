@@ -29,7 +29,10 @@ void showShop();
 void showOptions();
 
 /**
- * open options.
+ * Display the first level.
+ *
+ * @param world the world of the first level.
+ * @param kim a {@link KeyboardInputManager} instance.
  */
 void showLevel1(World world, KeyboardInputManager kim);
 }

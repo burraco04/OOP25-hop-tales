@@ -13,6 +13,7 @@ import model.entities.api.Enemy;
 import model.entities.impl.PlayerImpl;
 import model.objects.CoinManager;
 import model.objects.api.WorldObject;
+import model.objects.impl.brick.PowerupBlock;
 
 /**
  * create class world.
@@ -34,20 +35,21 @@ public class World {
     private final CoinManager coinManager;
     private final int levelWidth;
 
+    /**
+     * Create a {@link World} object.
+     */
     public World() {
         this.player = new PlayerImpl(GameConstants.STARTING_POSITION_X, GameConstants.STARTING_POSITION_Y,
                                      GameConstants.PLAYER_WIDTH, GameConstants.PLAYER_HEIGHT);
         this.coinManager = new CoinManager(this);
         this.levelWidth = GameConstants.LEVEL_1_WIDTH;
         this.collider = new Collider(solidTiles, collectableTiles, collectableMap, powerupBlockTiles, entities);
-
     }
-    //Serve anche il player per la camera
 
     /**
-     * add all the entities at the world
+     * Add all the objects to the world.
      *
-     * @param list list of entitties
+     * @param list list of objects.
      */
     public void addEntities(final List<WorldObject> list) {
         entities.addAll(list);
@@ -58,7 +60,7 @@ public class World {
                     powerupBlockTiles.add(new TileKey(entity.getX(), entity.getY()));
                 }
             } else if (isCollectableType(entity.getType())) {
-                var tk = new TileKey(entity.getX(), entity.getY());
+                final var tk = new TileKey(entity.getX(), entity.getY());
                 collectableMap.put(tk, entity);
                 collectableTiles.add(tk);
             }
@@ -66,59 +68,115 @@ public class World {
     }
 
     /**
-     * add all the enemies at the world
+     * Add an {@link Enemy} to the world.
      *
-     * @param list list of entitties
+     * @param enemy the enemy object.
      */
     public void addEnemy(final Enemy enemy) {
         enemies.add(enemy);
     }
 
     /**
-     * return the entities
+     * Get all the objects in the World.
      *
-     * @return the entities
+     * @return the objects.
      */
     public List<WorldObject> getEntities() {
         return entities;
     }
 
+    /**
+     * Get the {@link Player}.
+     *
+     * @return the {@link Player}.
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * Get the CoinManager.
+     *
+     * @return the CoinManager.
+     */
     public CoinManager getCoinManager() {
         return coinManager;
     }
 
+    /**
+     * Get the width of the level. 
+     *
+     * @return the level width.
+     */
     public int getLevelWidth() {
         return levelWidth;
     }
 
+    /**
+     * Get the list of all enemies.
+     *
+     * @return the list of enemies.
+     */
     public List<Enemy> getEnemies() {
         return enemies;
     }
 
+    /**
+     * Checks if the player will collide the next update.
+     *
+     * @param x the next update player x value.
+     * @param y the next update player y value.
+     * @return true if the player is going to collide.
+     */
     public boolean collidesWithSolid(final int x, final int y) {
         return collider.collidesWithSolid(x, y);
     }
 
+    /**
+     * Check if the player will collect a collectable object.
+     *
+     * @param x the next update player x value.
+     * @param y the next update player y value.
+     * @return true if the player is collecting any collectable object.
+     */
     public boolean collidesWithCollectable(final int x, final int y) {
         return collider.collidesWithCollectable(x, y);
     }
 
+    /**
+     * Check if the player will collide with a {@link PowerupBlock} from beneath next update.
+     *
+     * @param x the next update player x value.
+     * @param y the next update player y value.
+     * @return true if the player is going to collide.
+     */
     public boolean collidesWithPowerupBlockFromBelow(final int x, final int y) {
         return collider.collidesWithPowerupBlockFromBelow(x, y);
     }
 
+    /**
+     * Check if the given type is solid.
+     * 
+     * @param type the type of the object.
+     * @return true if the object is solid.
+     */
     private static boolean isSolidType(final String type) {
         return SOLID_TYPES.contains(type);
     }
 
+    /**
+     * Check if the given type is collectable.
+     *
+     * @param type the type of the object.
+     * @return true if the object is collectable.
+     */
     private static boolean isCollectableType(final String type) {
         return COLLECTABLE_TYPES.contains(type);
     }
 
+    /**
+     * A simple TileKey.
+     */
     static final class TileKey {
         private final int x;
         private final int y;

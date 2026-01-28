@@ -32,7 +32,7 @@ public interface Player extends Entity {
      * @return the {@link Player} current health points. 
      */
     int getHealthPoints();
-    
+
     /**
      * Tells if the player has a power-up.
      *

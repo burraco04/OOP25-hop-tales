@@ -11,7 +11,7 @@ public class Camera {
 
     /**
      * Create a camera object.
-     * 
+     *
      * @param levelWidthPx width of the current level.
      * @param screenWidthPx width of the screen.
      */
@@ -31,7 +31,7 @@ public class Camera {
 
     /**
      * Updates if necessary the value of the camera offset.
-     * 
+     *
      * @param playerWorldX current x value of the player.
      * @param screenWidthPx current screen width.
      */

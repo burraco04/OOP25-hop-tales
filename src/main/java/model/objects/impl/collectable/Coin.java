@@ -1,6 +1,5 @@
 package model.objects.impl.collectable;
 
-import model.GameConstants;
 import model.objects.api.WorldObject;
 
 /**

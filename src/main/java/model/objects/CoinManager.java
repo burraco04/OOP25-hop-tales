@@ -13,7 +13,7 @@ public class CoinManager {
 
     /**
      * Constructor that istantiate the CoinManager and register the {@link World} depending by the level.
-     * 
+     *
      * @param world the current world.
      */
     public CoinManager(final World world) {

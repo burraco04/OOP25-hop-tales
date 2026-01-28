@@ -16,14 +16,23 @@ import model.GameConstants;
 import model.World;
 import view.utils.Draw;
 
+/**
+ * Panel rapresenting the view of the first level.
+ */
 public class Level1 extends JPanel {
     private static final long serialVersionUID = 1L;
     private static final int MILLISEC = 16;
-    private static final double DELTA = MILLISEC/1000.0;
+    private static final double DELTA = MILLISEC / 1000.0;
     private final World world;
     private Camera camera;
     private final KeyboardInputManager kim;
-
+    /**
+     * Create the Level 1 view. 
+     *
+     * @param levelPath string containing the path of the file that contains Level 1 data.
+     * @param world world instance.
+     * @param kim KeyboardInputManager instance.
+     */
     public Level1(final String levelPath, final World world, final KeyboardInputManager kim) {
         this.world = world;
         this.kim = kim;
@@ -40,27 +49,21 @@ public class Level1 extends JPanel {
            world.addEnemy(EntityFactory.createEnemy(e));
         }
 
-        new Timer(MILLISEC, e -> { update(); repaint();}).start();
-        
+        new Timer(MILLISEC, e -> { 
+            update();
+            repaint();
+            }).start();
+
         setBackground(Color.CYAN);
         this.addKeyListener(kim);
-        
+
     }
  
 private void update() {
-    
-    //Inizializzare camera solo quando il Jpanel ha
-
-    if (camera == null && getWidth() > 0){
+    if (camera == null && getWidth() > 0) {
         camera = new Camera(world.getLevelWidth() * GameConstants.TILE_SIZE, getWidth());
     }
-
-    //Aggiorna player con DELTA = 16 millisecondi
-
     world.getPlayer().update(DELTA);
-
-    //aggiorna camera per seguire player
-
     if (camera != null) {
         final int playerWorldX = (int) (world.getPlayer().getX() * GameConstants.TILE_SIZE);
         final int playerCenterX = playerWorldX + (GameConstants.TILE_SIZE / 2);
@@ -99,7 +102,7 @@ private void update() {
                 "fungo";
             default -> "walker";
          };
-         
+
          final var img = Draw.get(enemyName);
          g.drawImage(img, (int) enemy.getX() * GameConstants.TILE_SIZE - offsetX, (int) enemy.getY() * GameConstants.TILE_SIZE,
           GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
@@ -108,7 +111,7 @@ private void update() {
     }
 
     /**
-     * focus.
+     * Request the input focus for the panel.
      */
     public void focus() {
         this.requestFocusInWindow();

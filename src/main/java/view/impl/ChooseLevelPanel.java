@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import controller.api.ControllerMenu;
 import controller.api.State;
+import model.GameConstants;
 import view.utils.ButtonBackFactory;
 import view.utils.ButtonFactory;
 import view.utils.TopBarPanel;
@@ -34,7 +35,7 @@ public final class ChooseLevelPanel extends JPanel {
     public ChooseLevelPanel(final ControllerMenu controller) {
 
         final JLabel title = new JLabel("GIVE ME SOME PENALTY");
-        setBackground(new Color(34, 85, 34));
+        setBackground(GameConstants.BACK_COLOR);
 
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         final JButton level1 = this.buttonFactory.buildbutton("penalty");

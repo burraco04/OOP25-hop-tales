@@ -27,17 +27,19 @@ public final class Options extends JPanel {
     private final transient FontFactory fontFactory = new FontFactory();
     private final transient ButtonBackFactory buttonbackFactory = new ButtonBackFactory();
     private final TopBarPanel topBarpan = new TopBarPanel();
-
+    final JLabel title = new JLabel("audio");
+    final JPanel sliderPanel = new JPanel();
+    final JSlider volumeSlider = new JSlider(0, 100);
+    final int SLIDER_PANEL_WIDTH = 350;
+    final int SLIDER_PANEL_HEIGHT = 350;
+    final float SLIDER_SCALA = 100;
     /**
      * create the clsaa.
      *
      * @param controller pass the controller
      */
     public Options(final ControllerMenu controller) {
-    final JLabel title = new JLabel("audio");
-    final JPanel sliderPanel = new JPanel();
-    final JSlider volumeSlider = new JSlider(0, 100);
-
+   
     setBackground(GameConstants.BACK_COLOR);
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -47,12 +49,12 @@ public final class Options extends JPanel {
 
     title.setFont(this.fontFactory.getFont(TITLE_FONT, TITLE_SIZE, this));
 
-    volumeSlider.setValue((int) (AudioManager.getMusicVolume() * 100));
-    volumeSlider.addChangeListener(e -> {AudioManager.setMusicVolume(volumeSlider.getValue() / 100f);});
+    volumeSlider.setValue((int) (AudioManager.getMusicVolume() * SLIDER_SCALA));
+    volumeSlider.addChangeListener(e -> {AudioManager.setMusicVolume(volumeSlider.getValue() / SLIDER_SCALA);});
     sliderPanel.add(volumeSlider);
     sliderPanel.setBackground(GameConstants.BACK_COLOR);
-    sliderPanel.setPreferredSize(new Dimension(350, 60));
-    sliderPanel.setMaximumSize(new Dimension(350, 60));
+    sliderPanel.setPreferredSize(new Dimension(SLIDER_PANEL_WIDTH, SLIDER_PANEL_HEIGHT));
+    sliderPanel.setMaximumSize(new Dimension(SLIDER_PANEL_WIDTH, SLIDER_PANEL_HEIGHT));
 
     title.setAlignmentX(CENTER_ALIGNMENT);
     sliderPanel.setAlignmentX(CENTER_ALIGNMENT);

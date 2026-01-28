@@ -32,7 +32,7 @@ public class Level1 extends JPanel {
 
         world.getPlayer().setX(data.getSpawnPointX());
         world.getPlayer().setY(data.getSpawnPointY());
-    
+
         for (final EntityData e : data.getEntities()) {
            world.addEntities(EntityFactory.create(e));
         }
@@ -49,14 +49,19 @@ public class Level1 extends JPanel {
     }
  
 private void update() {
+    
     //Inizializzare camera solo quando il Jpanel ha
-    if(camera == null && getWidth() > 0){
+
+    if (camera == null && getWidth() > 0){
         camera = new Camera(world.getLevelWidth() * GameConstants.TILE_SIZE, getWidth());
     }
+
     //Aggiorna player con DELTA = 16 millisecondi
+
     world.getPlayer().update(DELTA);
 
     //aggiorna camera per seguire player
+
     if (camera != null) {
         final int playerWorldX = (int) (world.getPlayer().getX() * GameConstants.TILE_SIZE);
         final int playerCenterX = playerWorldX + (GameConstants.TILE_SIZE / 2);
@@ -79,7 +84,8 @@ private void update() {
             return;
         }
         final int offsetX = camera.getX();
-        g.drawImage(Draw.get("player"), (int) world.getPlayer().getX() * GameConstants.TILE_SIZE - offsetX, (int) world.getPlayer().getY() * GameConstants.TILE_SIZE,
+        g.drawImage(Draw.get("player"), (int) world.getPlayer().getX() * GameConstants.TILE_SIZE - offsetX,
+        (int) world.getPlayer().getY() * GameConstants.TILE_SIZE,
         GameConstants.TILE_SIZE, GameConstants.TILE_SIZE * 2, null);
 
         for (final var object : world.getEntities()) {
@@ -97,12 +103,14 @@ private void update() {
          
          final var img = Draw.get(enemyName);
          g.drawImage(img, (int) enemy.getX() * GameConstants.TILE_SIZE - offsetX, (int) enemy.getY() * GameConstants.TILE_SIZE,
-          GameConstants.TILE_SIZE , GameConstants.TILE_SIZE , null);
+          GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
         }
-
 
     }
 
+    /**
+     * focus.
+     */
     public void focus() {
         this.requestFocusInWindow();
     }

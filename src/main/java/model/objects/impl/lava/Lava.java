@@ -2,6 +2,9 @@ package model.objects.impl.lava;
 
 import model.objects.api.WorldObject;
 
+/**
+ * lava.
+ */
 public class Lava implements WorldObject {
 
     private final int x;

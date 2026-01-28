@@ -2,6 +2,9 @@ package model.objects.impl.grass;
 
 import model.objects.api.WorldObject;
 
+/**
+ * floating grass.
+ */
 public class FloatingGrass implements WorldObject {
 
     private final int x;
@@ -34,6 +37,9 @@ public class FloatingGrass implements WorldObject {
         return y;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getType() {
       return "floating_grass";

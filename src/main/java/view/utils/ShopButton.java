@@ -13,6 +13,14 @@ public class ShopButton extends JPanel{
 
     private static final long serialVersionUID = 1L;
     private final Image background;
+    private final int ROWS = 2;
+    private final int COLS = 2;
+    private final int HGAP = 200;
+    private final int VGAP = 200;
+    private final int TOP = 50;
+    private final int LEFT = 300;
+    private final int BOTTOM = 50;
+    private final int RIGHT = 300;
     
     /**
      * implements the top bar. 
@@ -24,13 +32,13 @@ public class ShopButton extends JPanel{
 
         this.background = CreateBackground.create("/img/Shopback.png");
 
-        setLayout(new java.awt.GridLayout(2, 2, 200, 200)); 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(50, 300, 50, 300));
+        setLayout(new java.awt.GridLayout(ROWS, COLS, HGAP, VGAP)); 
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(TOP, LEFT, BOTTOM, RIGHT));
 
-        JButton skin1 = ShopButtonFactory.build("/img/bozza_player_1_vers_3.png");
-        JButton skin2 = ShopButtonFactory.build("/img/skinsqualo.png");
-        JButton skin3 = ShopButtonFactory.build("/img/skinsqualo.png");
-        JButton skin4 = ShopButtonFactory.build("/img/skinsqualo.png");
+        final JButton skin1 = ShopButtonFactory.build("/img/bozza_player_1_vers_3.png");
+        final JButton skin2 = ShopButtonFactory.build("/img/skinsqualo.png");
+        final JButton skin3 = ShopButtonFactory.build("/img/skinsqualo.png");
+        final JButton skin4 = ShopButtonFactory.build("/img/skinsqualo.png");
 
         skin1.setText("DEFAULT");
         skin2.setText("10$");

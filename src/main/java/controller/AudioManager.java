@@ -13,6 +13,7 @@ import javax.sound.sampled.FloatControl;
  */
 public class AudioManager {
     private static final Map<String, Clip> sounds = new HashMap<>();
+    private static float musicVolume = 0.7f;
 
     /**
      * Register a given file into a map of sounds usable in the game.
@@ -64,4 +65,17 @@ public class AudioManager {
     public static Clip getClip(String name) {
         return sounds.get(name);
     }
+
+    public static void setMusicVolume(float volume) {
+    musicVolume = volume;
+
+    for (Clip clip : sounds.values()) {
+        setVolume(clip, musicVolume); 
+    }
+    }
+
+    public static float getMusicVolume() {
+    return musicVolume;
+    }
+
 }

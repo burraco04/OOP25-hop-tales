@@ -44,12 +44,7 @@ public class CoinManager {
      */
     public void checkPossibleCollection(final int x, final int y) {
         
-        if (world.collidesWithCollectable(
-            x,
-            y,
-            GameConstants.PLAYER_WIDTH_TILES,
-            GameConstants.PLAYER_HEIGHT_TILES
-        )) {
+        if (world.collidesWithCollectable(x, y)) {
             collectCoin();
             System.out.println(collectedCoins);
         }

@@ -13,14 +13,12 @@ import model.entities.api.Enemy;
 import model.entities.impl.PlayerImpl;
 import model.objects.CoinManager;
 import model.objects.api.WorldObject;
-import model.objects.impl.brick.Brick;
-import model.objects.impl.collectable.Powerup;
 
 /**
  * create class world.
  */
 public class World {
-    private static final String POWERUP_BLOCK_TYPE = "powerup_block";
+    static final String POWERUP_BLOCK_TYPE = "powerup_block";
     private static final Set<String> SOLID_TYPES = Set.of("grass", "green_grass", "brick", "floating_grass",
         "floating_grass_left", "floating_grass_right", POWERUP_BLOCK_TYPE
     );
@@ -30,6 +28,7 @@ public class World {
     private final Set<TileKey> collectableTiles = new HashSet<>();
     private final Map<TileKey, WorldObject> collectableMap = new HashMap<>();
     private final Set<TileKey> powerupBlockTiles = new HashSet<>();
+    private final Collider collider;
     private final List<Enemy> enemies = new ArrayList<>();
     private final Player player;
     private final CoinManager coinManager;
@@ -40,6 +39,7 @@ public class World {
                                      GameConstants.PLAYER_WIDTH, GameConstants.PLAYER_HEIGHT);
         this.coinManager = new CoinManager(this);
         this.levelWidth = GameConstants.LEVEL_1_WIDTH;
+        this.collider = new Collider(solidTiles, collectableTiles, collectableMap, powerupBlockTiles, entities);
 
     }
     //Serve anche il player per la camera
@@ -99,74 +99,16 @@ public class World {
         return enemies;
     }
 
-    public boolean collidesWithSolid(final int x, final int y, final int width, final int height) {
-        for (int dx = 0; dx < width; dx++) {
-            for (int dy = 0; dy < height; dy++) {
-                if (solidTiles.contains(new TileKey(x + dx, y + dy))) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    public boolean collidesWithSolid(final int x, final int y) {
+        return collider.collidesWithSolid(x, y);
     }
 
-    public boolean collidesWithCollectable(final int x, final int y, final int width, final int height) {
-        for (int dx = 0; dx < width; dx++) {
-            for (int dy = 0; dy < height; dy++) {
-                if (collectableTiles.contains(new TileKey(x + dx, y + dy))) {
-                    var tk = new TileKey(x + dx, y + dy);
-                    collectableTiles.remove(tk);
-                    entities.remove(collectableMap.get(tk));
-                    collectableMap.remove(tk, collectableMap.get(tk));
-                    return true;
-                }
-            }
-        }
-        return false;
+    public boolean collidesWithCollectable(final int x, final int y) {
+        return collider.collidesWithCollectable(x, y);
     }
 
-    public boolean collidesWithPowerupBlockFromBelow(final int x, final int y, final int width, final int height) {
-        if (y <= 0) {
-            return false;
-        }
-        final int checkY = y - 1;
-        for (int dx = 0; dx < width; dx++) {
-            final int blockX = x + dx;
-            final TileKey blockKey = new TileKey(blockX, checkY);
-            if (powerupBlockTiles.contains(blockKey)) {
-                powerupBlockTiles.remove(blockKey);
-                replaceEntityAt(blockX, checkY, POWERUP_BLOCK_TYPE, new Brick(blockX, checkY));
-                spawnPowerupAbove(blockX, checkY);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void spawnPowerupAbove(final int blockX, final int blockY) {
-        final int powerupY = blockY - 1;
-        if (powerupY < 0) {
-            return;
-        }
-        final TileKey powerupKey = new TileKey(blockX, powerupY);
-        if (solidTiles.contains(powerupKey) || collectableTiles.contains(powerupKey)) {
-            return;
-        }
-        final WorldObject powerup = new Powerup(blockX, powerupY);
-        entities.add(powerup);
-        collectableTiles.add(powerupKey);
-        collectableMap.put(powerupKey, powerup);
-    }
-
-    private void replaceEntityAt(final int x, final int y, final String type, final WorldObject replacement) {
-        for (int i = 0; i < entities.size(); i++) {
-            final WorldObject obj = entities.get(i);
-            if (type.equals(obj.getType()) && obj.getX() == x && obj.getY() == y) {
-                entities.set(i, replacement);
-                return;
-            }
-        }
-        entities.add(replacement);
+    public boolean collidesWithPowerupBlockFromBelow(final int x, final int y) {
+        return collider.collidesWithPowerupBlockFromBelow(x, y);
     }
 
     private static boolean isSolidType(final String type) {
@@ -177,11 +119,11 @@ public class World {
         return COLLECTABLE_TYPES.contains(type);
     }
 
-    private static final class TileKey {
+    static final class TileKey {
         private final int x;
         private final int y;
 
-        private TileKey(final int x, final int y) {
+        TileKey(final int x, final int y) {
             this.x = x;
             this.y = y;
         }

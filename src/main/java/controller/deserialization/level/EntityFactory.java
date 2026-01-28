@@ -16,6 +16,8 @@ import model.objects.impl.grass.FloatingGrassLeft;
 import model.objects.impl.grass.FloatingGrassRight;
 import model.objects.impl.grass.Grass;
 import model.objects.impl.grass.GreenGrass;
+import model.objects.impl.lava.Lava;
+import model.objects.impl.lava.TopLava;
 
 /**
  * create the entity.
@@ -73,6 +75,8 @@ public final class EntityFactory {
      */
     private static WorldObject createSingle(final String type, final int x, final int y) {
         return switch (type) {
+            case "lava" -> new Lava(x, y);
+            case "lava_top" -> new TopLava(x, y);
             case "floating_grass" -> new FloatingGrass(x, y);
             case "floating_grass_left" -> new FloatingGrassLeft(x, y);
             case "floating_grass_right" -> new FloatingGrassRight(x, y);

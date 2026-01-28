@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import model.entities.api.EnemyType;
 import controller.KeyboardInputManager;
 import controller.deserialization.level.EntityData;
 import controller.deserialization.level.EntityFactory;

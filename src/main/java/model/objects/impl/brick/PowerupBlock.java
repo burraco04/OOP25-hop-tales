@@ -2,7 +2,10 @@ package model.objects.impl.brick;
 
 import model.objects.api.WorldObject;
 
-public class PowerupBlock implements WorldObject{
+/**
+ * A simple Powerup block.
+ */
+public class PowerupBlock implements WorldObject {
     private final int x;
     private final int y;
 
@@ -16,16 +19,26 @@ public class PowerupBlock implements WorldObject{
         this.x = x;
         this.y = y;
     }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getX() {
         return x;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getY() {
         return y;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getType() {
         return "powerup_block";

@@ -1,22 +1,39 @@
 package model;
 
+/**
+ * Class responsible for handling the camera movements during the game phase.
+ */
 public class Camera {
     private int x;
     private int maxX;
     private int deadZonePx;
     private final int levelWidthPx;
 
+    /**
+     * Create a camera object.
+     * 
+     * @param levelWidthPx width of the current level.
+     * @param screenWidthPx width of the screen.
+     */
     public Camera(final int levelWidthPx, final int screenWidthPx) {
         this.levelWidthPx = levelWidthPx;
         updateBounds(screenWidthPx);
     }
 
+    /**
+     * Get the camera offset value.
+     *
+     * @return camera offset.
+     */
     public int getX() {
         return x;
     }
 
     /**
-     * Camera orizzontale che segue il player quando supera la dead zone.
+     * Updates if necessary the value of the camera offset.
+     * 
+     * @param playerWorldX current x value of the player.
+     * @param screenWidthPx current screen width.
      */
     public void update(final int playerWorldX, final int screenWidthPx) {
         updateBounds(screenWidthPx);
@@ -27,9 +44,7 @@ public class Camera {
         //Player troppo a destra
         if (playerWorldX > rightBound) {
             x += playerWorldX - rightBound;
-        }
-        //Player troppo a sinistra 
-        else if (playerWorldX < leftBound) {
+        } else if (playerWorldX < leftBound) {
             x -= leftBound - playerWorldX;
         }
 
@@ -45,6 +60,11 @@ public class Camera {
 
     }
 
+    /**
+     * Updates the bounds based on the screen width.
+     *
+     * @param screenWidthPx the screen width.
+     */
     private void updateBounds(final int screenWidthPx) {
         this.maxX = Math.max(0, levelWidthPx - screenWidthPx);
         this.deadZonePx = screenWidthPx / 4;

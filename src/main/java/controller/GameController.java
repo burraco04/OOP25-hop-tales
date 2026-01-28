@@ -26,6 +26,8 @@ public final class GameController implements ActionListener {
 
     /**
      * Creates a controller.
+     * 
+     * @param view the {@link View} that is responsible for the game.
      */
     public GameController(final View view) {
         this.view = view;
@@ -33,7 +35,7 @@ public final class GameController implements ActionListener {
         this.playerController = new PlayerController(this.world);
         this.kim = new KeyboardInputManager(playerController);
         this.coinsController = new CoinsController(this.world);
-        this.timer = new Timer( (int) (GameConstants.MILLIS_PER_SECOND / GameConstants.TARGET_UPS / 0.67), this);
+        this.timer = new Timer((int) (GameConstants.MILLIS_PER_SECOND / GameConstants.TARGET_UPS), this);
         this.start();
         this.view.showLevel1(this.world, this.kim);
     }

@@ -8,6 +8,9 @@ import model.objects.api.WorldObject;
 import model.objects.impl.brick.Brick;
 import model.objects.impl.collectable.Powerup;
 
+/**
+ * Class responsible for checking and handling the collisions in the game phase.
+ */
 public final class Collider {
     private final Set<World.TileKey> solidTiles;
     private final Set<World.TileKey> collectableTiles;
@@ -15,7 +18,16 @@ public final class Collider {
     private final Set<World.TileKey> powerupBlockTiles;
     private final List<WorldObject> entities;
 
-    Collider(
+    /**
+     * Instantiate a {@link Collider}.
+     * 
+     * @param solidTiles set of all the solid tiles.
+     * @param collectableTiles set of all the collectable tiles.
+     * @param collectableMap map that binds tiles to objects.
+     * @param powerupBlockTiles set of all the {@link PowerupBlock} tiles.
+     * @param entities list of all the objects.
+     */
+    protected Collider(
         final Set<World.TileKey> solidTiles,
         final Set<World.TileKey> collectableTiles,
         final Map<World.TileKey, WorldObject> collectableMap,
@@ -29,6 +41,13 @@ public final class Collider {
         this.entities = entities;
     }
 
+    /**
+     * Checks if the player will collide the next update.
+     *
+     * @param x the next update player x value.
+     * @param y the next update player y value.
+     * @return true if the player is going to collide.
+     */
     public boolean collidesWithSolid(final int x, final int y) {
         for (int dx = 0; dx < GameConstants.PLAYER_WIDTH_TILES; dx++) {
             for (int dy = 0; dy < GameConstants.PLAYER_HEIGHT_TILES; dy++) {
@@ -40,6 +59,13 @@ public final class Collider {
         return false;
     }
 
+    /**
+     * Check if the player will collect a collectable object.
+     *
+     * @param x the next update player x value.
+     * @param y the next update player y value.
+     * @return true if the player is collecting any collectable object.
+     */
     public boolean collidesWithCollectable(final int x, final int y) {
         for (int dx = 0; dx < GameConstants.PLAYER_WIDTH_TILES; dx++) {
             for (int dy = 0; dy < GameConstants.PLAYER_HEIGHT_TILES; dy++) {
@@ -55,6 +81,13 @@ public final class Collider {
         return false;
     }
 
+    /**
+     * Check if the player will collide with a {@link PowerupBlock} from beneath next update.
+     *
+     * @param x the next update player x value.
+     * @param y the next update player y value.
+     * @return true if the player is going to collide.
+     */
     public boolean collidesWithPowerupBlockFromBelow(final int x, final int y) {
         if (y <= 0) {
             return false;
@@ -73,6 +106,12 @@ public final class Collider {
         return false;
     }
 
+    /**
+     * Spawn a {@link Powerup} object above the specified position.
+     *
+     * @param blockX x.
+     * @param blockY y.
+     */
     private void spawnPowerupAbove(final int blockX, final int blockY) {
         final int powerupY = blockY - 1;
         if (powerupY < 0) {
@@ -88,6 +127,14 @@ public final class Collider {
         collectableMap.put(powerupKey, powerup);
     }
 
+    /**
+     * Replace an object given its position with another object.
+     *
+     * @param x x value.
+     * @param y y value.
+     * @param type type of the initial object.
+     * @param replacement replacement object.
+     */
     private void replaceEntityAt(final int x, final int y, final String type, final WorldObject replacement) {
         for (int i = 0; i < entities.size(); i++) {
             final WorldObject obj = entities.get(i);

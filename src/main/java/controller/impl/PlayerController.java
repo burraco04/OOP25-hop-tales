@@ -16,11 +16,11 @@ public final class PlayerController implements ControllerObserver {
     private boolean space;
     private int jumpRemaining;
     private final World world;
-    
+
     /**
      * Create a {@PlayerController}.
-     * 
-     * @param player the player instance.
+     *
+     * @param world the world instance.
      */
     public PlayerController(final World world) {
         this.w = false;
@@ -30,7 +30,7 @@ public final class PlayerController implements ControllerObserver {
         this.space = false;
         this.world = world;
     }
-    
+
     /**
      * {@inheritDoc}
      */

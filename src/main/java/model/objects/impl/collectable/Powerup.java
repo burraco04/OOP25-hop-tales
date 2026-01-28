@@ -2,7 +2,10 @@ package model.objects.impl.collectable;
 
 import model.objects.api.WorldObject;
 
-public class Powerup implements WorldObject{
+/**
+ * A simple Powerup object.
+ */
+public class Powerup implements WorldObject {
 
     private final int x;
     private final int y;
@@ -17,16 +20,26 @@ public class Powerup implements WorldObject{
         this.x = x;
         this.y = y;
     }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getX() {
         return x;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getY() {
         return y;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getType() {
         return "powerup";

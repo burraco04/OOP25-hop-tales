@@ -7,8 +7,8 @@ import java.awt.Color;
  */
 public final class GameConstants {
     public static final int STARTING_POSITION_X = 1;
-    public static final int STARTING_POSITION_Y = 24;    
-    public static final int TARGET_UPS = 60;
+    public static final int STARTING_POSITION_Y = 24;
+    public static final int TARGET_UPS = 45;
     public static final int TARGET_FPS = 60;
     public static final int MILLIS_PER_SECOND = 1000;
     public static final int PLAYER_HEIGHT = 420;
@@ -19,11 +19,15 @@ public final class GameConstants {
     public static final int GRAVITY = 1;
     public static final int COIN_VALUE = 5;
     public static final int COIN_POSITION = 50;
-    public static final int TILE_SIZE = 28; //pixel
+    public static final int TILE_SIZE = 30; //pixel
     public static final int LEVEL_1_WIDTH = 1000;
     public static final Color BACK_COLOR = new Color(34, 85, 34);
     public static final int JUMP_HEIGHT = GameConstants.PLAYER_SPEED * 10;
     public static final int JUMP_STEP = 1;
+    public static final float STARTING_MUSIC_VOLUME = 0.7f;
+    public static final float MIN_VOLUME = 0.0001f;
+    public static final float DB_CONSTANT = 20.0f;
+    public static final int STARTING_HEALTH = 3;
 
     private GameConstants() { }
 

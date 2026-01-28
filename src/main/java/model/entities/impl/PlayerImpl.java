@@ -9,7 +9,6 @@ import model.entities.api.PlayerSnapshot;
  */
 public final class PlayerImpl implements Player {
     private static final int MIN_DELTA_SECONDS = 1;
-    private static final int STARTING_HEALTH = 3;
     private final double width;
     private final double height;
     private double x;
@@ -41,7 +40,7 @@ public final class PlayerImpl implements Player {
         this.y = startY;
         this.width = width;
         this.height = height;
-        this.healthPoints = STARTING_HEALTH;
+        this.healthPoints = GameConstants.STARTING_HEALTH;
         this.powerUpped = false;
     }
 

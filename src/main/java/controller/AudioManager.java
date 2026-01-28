@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,73 +8,117 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import model.GameConstants;
 
 /**
  * Class that handles audio files.
  */
-public class AudioManager {
-    private static final Map<String, Clip> sounds = new HashMap<>();
-    private static float musicVolume = 0.7f;
+public final class AudioManager {
+    private static final Map<String, Clip> SOUNDS = new HashMap<>();
+    private static float musicVolume;
+
+    /**
+     * Shall not be istantiated.
+     */
+    private AudioManager() { }
 
     /**
      * Register a given file into a map of sounds usable in the game.
-     * 
+     *
      * @param name name used to address the file in the map.
+     * 
      * @param path path of the file.
      */
-    public static void load(String name, String path) {
+    public static void load(final String name, final String path) {
         try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(
+            final AudioInputStream ais = AudioSystem.getAudioInputStream(
                     AudioManager.class.getResource(path)
             );
-            Clip clip = AudioSystem.getClip();
+            final Clip clip = AudioSystem.getClip();
             clip.open(ais);
-            sounds.put(name, clip);
-        } catch (Exception e) {
+            SOUNDS.put(name, clip);
+        } catch (final UnsupportedAudioFileException e) {
+            System.err.println("Formato audio non supportato: " + path);
+            e.printStackTrace();
+        } catch (final IOException e) {
+            System.err.println("Errore di I/O nel caricamento: " + path);
+            e.printStackTrace();
+        } catch (final LineUnavailableException e) {
+            System.err.println("Linea audio non disponibile");
             e.printStackTrace();
         }
     }
 
     /**
      * Play the selected song or audio.
-     * 
+     *
      * @param name name of the audio in the map.
      */
-    public static void play(String name) {
-        Clip clip = sounds.get(name);
-        if (clip == null) return;
+    public static void play(final String name) {
+        final Clip clip = SOUNDS.get(name);
+        if (clip == null) {
+            return;
+        }
 
-        if (clip.isRunning())
+        if (clip.isRunning()) {
             clip.stop();
 
-        clip.setFramePosition(0);
-        clip.start();
+            clip.setFramePosition(0);
+            clip.start();
+        }
     }
 
-    public static void setVolume(Clip clip, float volume) {
-        if (!clip.isControlSupported(FloatControl.Type.MASTER_GAIN))
-        return;
+    /**
+     * Set the wanted volume to a specific {@link Clip}.
+     *
+     * @param clip the chosen clip.
+     * @param volume the desired volume.
+     */
+    public static void setVolume(final Clip clip, final float volume) {
+        if (!clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+            return;
+        }
 
-        FloatControl gain =
+        final FloatControl gain =
             (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 
-        volume = Math.max(0.0001f, Math.min(1f, volume));
+        final float newVolume = Math.max(GameConstants.MIN_VOLUME, Math.min(1f, volume));
 
-        float dB = (float) (20.0 * Math.log10(volume));
+        final float dB = (float) (GameConstants.DB_CONSTANT * Math.log10(newVolume));
         gain.setValue(dB);
     }
-    public static Clip getClip(String name) {
-        return sounds.get(name);
+
+    /**
+     * Return a specific {@link Clip}.
+     *
+     * @param name name of the desired {@link Clip}.
+     * @return the desired {@link Clip}.
+     */
+    public static Clip getClip(final String name) {
+        return SOUNDS.get(name);
     }
 
-    public static void setMusicVolume(float volume) {
+    /**
+     * Set a standard volume for every clip.
+     *
+     * @param volume volume desired.
+     */
+    public static void setMusicVolume(final float volume) {
     musicVolume = volume;
 
-    for (Clip clip : sounds.values()) {
+    for (final Clip clip : SOUNDS.values()) {
         setVolume(clip, musicVolume); 
     }
     }
 
+    /**
+     * Get the current standard volume.
+     *
+     * @return the standard volume.
+     */
     public static float getMusicVolume() {
     return musicVolume;
     }

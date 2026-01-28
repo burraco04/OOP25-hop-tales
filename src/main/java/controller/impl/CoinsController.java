@@ -10,22 +10,22 @@ import model.objects.CoinManager;
  */
 public final class CoinsController implements ControllerObserver {
     private final World world;
-    
+
     /**
      * Constructor for the class.
-     * 
-     * @param player the player instance.
+     *
+     * @param world the world instance.
      */
     public CoinsController(final World world) {
         this.world = world;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void update() {
-        Player player = world.getPlayer();
+        final Player player = world.getPlayer();
         world.getCoinManager().checkPossibleCollection((int) player.getX(), (int) player.getY());
     }
 

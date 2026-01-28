@@ -65,9 +65,9 @@ public final class AudioManager {
 
         if (clip.isRunning()) {
             clip.stop();
-            clip.setFramePosition(0);
-            clip.start();
         }
+        clip.setFramePosition(0);
+        clip.start();
     }
 
     /**

@@ -1,6 +1,8 @@
 package view.impl;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -14,6 +16,7 @@ import controller.deserialization.level.LevelLoader;
 import model.Camera;
 import model.GameConstants;
 import model.World;
+import model.objects.CoinManager;
 import view.utils.Draw;
 
 /**
@@ -85,6 +88,7 @@ private void update() {
         if (camera == null) {
             return;
         }
+        drawHUD(g);
         final int offsetX = camera.getX();
         g.drawImage(Draw.get("player"), (int) world.getPlayer().getX() * GameConstants.TILE_SIZE - offsetX,
         (int) world.getPlayer().getY() * GameConstants.TILE_SIZE,
@@ -115,5 +119,38 @@ private void update() {
      */
     public void focus() {
         this.requestFocusInWindow();
+    }
+
+    /**
+     * Draw on the screen a basic HUD. 
+     *
+     * @param g {@link Graphics} object used to draw on the panel.
+     */
+    private void drawHUD(final Graphics g) {
+        switch (world.getPlayer().getHealthPoints()) {
+            case 3 -> { g.drawImage(Draw.get("full_heart"), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                      g.drawImage(Draw.get("full_heart"), GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
+                      g.drawImage(Draw.get("full_heart"), GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
+                    }
+            case 2 -> { g.drawImage(Draw.get("full_heart"), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                      g.drawImage(Draw.get("full_heart"), GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
+                      g.drawImage(Draw.get("empty_heart"), GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
+                    }
+            case 1 -> { g.drawImage(Draw.get("full_heart"), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                      g.drawImage(Draw.get("empty_heart"), GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
+                      g.drawImage(Draw.get("empty_heart"), GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
+                    }
+            default -> throw new IllegalArgumentException("Illegal health points");
+        }
+        Font coinFont = new Font("Arial", Font.BOLD, 28);
+        g.setFont(coinFont);
+        FontMetrics fm = g.getFontMetrics();
+        final int coinX = getWidth() - 2 * GameConstants.TILE_SIZE;
+        final int coinY = GameConstants.TILE_SIZE;
+        final int textX = coinX - fm.stringWidth(String.valueOf(CoinManager.getCoins())) - 10;
+        final int textY = coinY + GameConstants.TILE_SIZE + fm.getAscent() / 2;
+        g.drawString(Integer.toString(CoinManager.getCoins()), textX, textY);
+        g.drawImage(Draw.get("coin"), getWidth() - 2 * GameConstants.TILE_SIZE, GameConstants.TILE_SIZE,
+                    GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE * 2, null);
     }
 }

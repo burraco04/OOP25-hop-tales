@@ -16,6 +16,7 @@ public final class Collider {
     private final Set<World.TileKey> collectableTiles;
     private final Map<World.TileKey, WorldObject> collectableMap;
     private final Set<World.TileKey> powerupBlockTiles;
+    private final Set<World.TileKey> hazardTiles;
     private final List<WorldObject> entities;
 
     /**
@@ -25,6 +26,7 @@ public final class Collider {
      * @param collectableTiles set of all the collectable tiles.
      * @param collectableMap map that binds tiles to objects.
      * @param powerupBlockTiles set of all the {@link PowerupBlock} tiles.
+     * @param hazardTiles set of all the hazard tiles.
      * @param entities list of all the objects.
      */
     protected Collider(
@@ -32,12 +34,14 @@ public final class Collider {
         final Set<World.TileKey> collectableTiles,
         final Map<World.TileKey, WorldObject> collectableMap,
         final Set<World.TileKey> powerupBlockTiles,
+        final Set<World.TileKey> hazardTiles,
         final List<WorldObject> entities
     ) {
         this.solidTiles = solidTiles;
         this.collectableTiles = collectableTiles;
         this.collectableMap = collectableMap;
         this.powerupBlockTiles = powerupBlockTiles;
+        this.hazardTiles = hazardTiles;
         this.entities = entities;
     }
 
@@ -101,6 +105,24 @@ public final class Collider {
                 replaceEntityAt(blockX, checkY, World.POWERUP_BLOCK_TYPE, new Brick(blockX, checkY));
                 spawnPowerupAbove(blockX, checkY);
                 return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if the player is colliding with a hazard.
+     *
+     * @param x the next update player x value.
+     * @param y the next update player y value.
+     * @return true if the player is colliding with a hazard.
+     */
+    public boolean collidesWithHazard(final int x, final int y) {
+        for (int dx = 0; dx < GameConstants.PLAYER_WIDTH_TILES; dx++) {
+            for (int dy = 0; dy < GameConstants.PLAYER_HEIGHT_TILES; dy++) {
+                if (hazardTiles.contains(new World.TileKey(x + dx, y + dy))) {
+                    return true;
+                }
             }
         }
         return false;

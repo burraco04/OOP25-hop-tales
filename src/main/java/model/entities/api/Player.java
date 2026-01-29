@@ -41,6 +41,13 @@ public interface Player extends Entity {
     boolean hasPowerUp();
 
     /**
+     * Apply damage to the player if the cooldown allows it.
+     *
+     * @return {@code true} if damage was applied.
+     */
+    boolean applyDamage();
+
+    /**
      * @return an immutable snapshot representing the current player state.
      */
     PlayerSnapshot snapshot();

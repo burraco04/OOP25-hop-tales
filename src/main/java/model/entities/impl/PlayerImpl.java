@@ -20,6 +20,7 @@ public final class PlayerImpl implements Player {
     private boolean jumpQueued;
     private int healthPoints;
     private boolean powerUpped;
+    private long lastDamageMillis;
 
     /**
      * Builds a new player instance bound to the given level geometry.
@@ -140,6 +141,23 @@ public final class PlayerImpl implements Player {
     @Override
     public boolean hasPowerUp() {
         return powerUpped;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean applyDamage() {
+        final long now = System.currentTimeMillis();
+        final long cooldownMillis = (long) (GameConstants.DAMAGE_COOLDOWN * 1000f);
+        if (lastDamageMillis != 0 && now - lastDamageMillis < cooldownMillis) {
+            return false;
+        }
+        if (healthPoints > 0) {
+            healthPoints -= 1;
+        }
+        lastDamageMillis = now;
+        return true;
     }
 
     /**

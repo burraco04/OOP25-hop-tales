@@ -20,6 +20,7 @@ import model.objects.impl.brick.PowerupBlock;
  */
 public class World {
     static final String POWERUP_BLOCK_TYPE = "powerup_block";
+    static final Set<String> HAZARD_TYPES = Set.of("lava", "top_lava");
     private static final Set<String> SOLID_TYPES = Set.of("grass", "green_grass", "brick", "floating_grass",
         "floating_grass_left", "floating_grass_right", POWERUP_BLOCK_TYPE
     );
@@ -29,6 +30,7 @@ public class World {
     private final Set<TileKey> collectableTiles = new HashSet<>();
     private final Map<TileKey, WorldObject> collectableMap = new HashMap<>();
     private final Set<TileKey> powerupBlockTiles = new HashSet<>();
+    private final Set<TileKey> hazardTiles = new HashSet<>();
     private final Collider collider;
     private final List<Enemy> enemies = new ArrayList<>();
     private final Player player;
@@ -43,7 +45,14 @@ public class World {
                                      GameConstants.PLAYER_WIDTH, GameConstants.PLAYER_HEIGHT);
         this.coinManager = new CoinManager(this);
         this.levelWidth = GameConstants.LEVEL_1_WIDTH;
-        this.collider = new Collider(solidTiles, collectableTiles, collectableMap, powerupBlockTiles, entities);
+        this.collider = new Collider(
+            solidTiles,
+            collectableTiles,
+            collectableMap,
+            powerupBlockTiles,
+            hazardTiles,
+            entities
+        );
     }
 
     /**
@@ -59,6 +68,8 @@ public class World {
                 if (POWERUP_BLOCK_TYPE.equals(entity.getType())) {
                     powerupBlockTiles.add(new TileKey(entity.getX(), entity.getY()));
                 }
+            } else if (isHazardType(entity.getType())) {
+                hazardTiles.add(new TileKey(entity.getX(), entity.getY()));
             } else if (isCollectableType(entity.getType())) {
                 final var tk = new TileKey(entity.getX(), entity.getY());
                 collectableMap.put(tk, entity);
@@ -154,6 +165,10 @@ public class World {
         return collider.collidesWithPowerupBlockFromBelow(x, y);
     }
 
+    public boolean collidesWithHazard(final int x, final int y) {
+        return collider.collidesWithHazard(x, y);
+    }
+
     /**
      * Check if the given type is solid.
      * 
@@ -172,6 +187,10 @@ public class World {
      */
     private static boolean isCollectableType(final String type) {
         return COLLECTABLE_TYPES.contains(type);
+    }
+
+    private static boolean isHazardType(final String type) {
+        return HAZARD_TYPES.contains(type);
     }
 
     /**

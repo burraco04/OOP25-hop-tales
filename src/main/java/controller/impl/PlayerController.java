@@ -86,6 +86,9 @@ public final class PlayerController implements ControllerObserver {
                 y = targetY;
             }
         }
+        if (world.collidesWithHazard(x, y)) {
+            player.applyDamage();
+        }
         player.setX(x);
         player.setY(y);
     }

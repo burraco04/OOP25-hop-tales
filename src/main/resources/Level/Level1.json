@@ -325,7 +325,17 @@
       "macro": {
         "type": "fill",
         "width": 25,
-        "height": 15
+        "height": 7
+      } 
+    },
+    {
+      "type": "grass",
+      "x": 100,
+      "y": 34,
+      "macro": {
+        "type": "fill",
+        "width": 25,
+        "height": 1
       } 
     }
     ],

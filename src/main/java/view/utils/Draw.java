@@ -35,15 +35,15 @@ public final class Draw {
     }
 
     public static Image get(final String type, final long t) {
-    // qui decidi quali type sono animati
-    if (isAnimated(type)) {
-        return getAnim(type).getFrame(t);
-    }
-    return getStatic(type);
+        // qui decidi quali type sono animati
+        if (isAnimated(type)) {
+            return getAnim(type).getFrame(t);
+        }
+        return getStatic(type);
     }
 
     private static boolean isAnimated(final String type) {
-    return "coin".equals(type);   // aggiungi altri type animati qui
+    return "coin".equals(type) || "player".equals(type);   // aggiungi altri type animati qui
     }
 
     private static Image loadImage(final String type) {
@@ -78,7 +78,9 @@ public final class Draw {
     private static Animation loadAnim(final String type) {
         return switch (type) {
             case "coin" -> new Animation(new Image[] {loadFromResources("img/coin_gold.png"), 
-            loadFromResources("img/coin_gold_side.png")}, 3000);
+            loadFromResources("img/coin_gold_side.png")}, 300);
+            case "player" -> new Animation(new Image[] {loadFromResources("img/Player_1_frame_1.png"),
+            loadFromResources("img/Player_1_frame_2.png")}, 200);
             default -> throw new IllegalArgumentException("Tipo sprite sconosciuto: " + type);
         };
     }

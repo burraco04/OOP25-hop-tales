@@ -30,7 +30,6 @@ public class Level1 extends JPanel {
     private final World world;
     private Camera camera;
     private final KeyboardInputManager kim;
-    private long contStartingTime;
     /**
      * Create the Level 1 view. 
      *
@@ -42,7 +41,6 @@ public class Level1 extends JPanel {
         this.world = world;
         this.kim = kim;
         final LevelData data = LevelLoader.load(levelPath);
-        contStartingTime = System.currentTimeMillis();
 
         world.getPlayer().setX(data.getSpawnPointX());
         world.getPlayer().setY(data.getSpawnPointY());
@@ -88,10 +86,7 @@ private void update() {
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
 
-        final long timePassed = System.currentTimeMillis() - contStartingTime;
-        contStartingTime = System.currentTimeMillis();
-
-        System.out.println(timePassed);
+        final long timePassed = System.currentTimeMillis();
         //Se la camera ancora non esiste non disegna niente
         if (camera == null) {
             return;
@@ -101,7 +96,8 @@ private void update() {
         final int offsetX = camera.getX();
         g.drawImage(Draw.get("player", timePassed), (int) world.getPlayer().getX() * GameConstants.TILE_SIZE - offsetX,
         (int) world.getPlayer().getY() * GameConstants.TILE_SIZE,
-        GameConstants.TILE_SIZE, GameConstants.TILE_SIZE * 2, null);
+        GameConstants.TILE_SIZE * GameConstants.PLAYER_WIDTH_TILES
+        , GameConstants.TILE_SIZE * GameConstants.PLAYER_HEIGHT_TILES, null);
 
         for (final var object : world.getEntities()) {
          final var img = Draw.get(object.getType(), timePassed);    

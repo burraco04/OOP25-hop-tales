@@ -7,6 +7,8 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import java.awt.Graphics2D;
+
 
 import controller.KeyboardInputManager;
 import controller.deserialization.level.EntityData;
@@ -88,6 +90,7 @@ private void update() {
         if (camera == null) {
             return;
         }
+
         drawHUD(g);
         final int offsetX = camera.getX();
         g.drawImage(Draw.get("player"), (int) world.getPlayer().getX() * GameConstants.TILE_SIZE - offsetX,
@@ -102,8 +105,7 @@ private void update() {
 
         for (final var enemy : world.getEnemies()) {
          final String enemyName = switch (enemy.getType()) {
-            case JUMPER ->
-                "fungo";
+            case JUMPER -> "fungo";
             default -> "walker";
          };
 

@@ -1,8 +1,10 @@
 package view.utils;
 
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -15,12 +17,13 @@ public class ShopButton extends JPanel{
     private final Image background;
     private final int ROWS = 2;
     private final int COLS = 2;
-    private final int HGAP = 200;
-    private final int VGAP = 200;
-    private final int TOP = 50;
-    private final int LEFT = 300;
-    private final int BOTTOM = 50;
-    private final int RIGHT = 300;
+    private final int PAD_MIN = 20;
+    private final int PAD_MAX = 200;
+    private final float PAD_PERCENTUALE = 0.08f;
+    private final int GAP_MIN = 10;
+    private final int GAP_MAX = 200;
+    private final float GAP_PERCENTUALE = 0.20f;
+    private final GridLayout grid;
     
     /**
      * implements the top bar. 
@@ -32,8 +35,8 @@ public class ShopButton extends JPanel{
 
         this.background = CreateBackground.create("/img/Shopback.png");
 
-        setLayout(new java.awt.GridLayout(ROWS, COLS, HGAP, VGAP)); 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(TOP, LEFT, BOTTOM, RIGHT));
+        this.grid = new GridLayout(ROWS, COLS, 0, 0);
+        setLayout(this.grid);
 
         final JButton skin1 = ShopButtonFactory.build("/img/bozza_player_1_vers_3.png");
         final JButton skin2 = ShopButtonFactory.build("/img/skinsqualo.png");
@@ -49,6 +52,39 @@ public class ShopButton extends JPanel{
         add(skin2);
         add(skin3);
         add(skin4);
+    }
+
+    @Override
+    public void doLayout() {
+        // Dimensioni disponibili
+        final int w = getWidth();
+        final int h = getHeight();
+
+        // Padding proporzionale 
+        final int padX = clamp((int) (w * PAD_PERCENTUALE), PAD_MIN, PAD_MAX);
+        final int padY = clamp((int) (h * PAD_PERCENTUALE), PAD_MIN, PAD_MAX);
+
+        // Gap proporzionale 
+        final int gapX = clamp((int) (w * GAP_PERCENTUALE), GAP_MIN, GAP_MAX);
+        final int gapY = clamp((int) (h * GAP_PERCENTUALE), GAP_MIN, GAP_MAX);
+
+        setBorder(BorderFactory.createEmptyBorder(padY, padX, padY, padX));
+        this.grid.setHgap(gapX);
+        this.grid.setVgap(gapY);
+
+        super.doLayout();
+    }
+
+    /**
+     * calcola la dimensione dei gap limitandoli
+     *
+     * @param v misura che gli passo
+     * @param min minimo che voglio
+     * @param max massimo che voglio
+     * @return risultato
+     */
+    private static int clamp(final int v, final int min, final int max) {
+        return Math.max(min, Math.min(max, v));
     }
 
     /**

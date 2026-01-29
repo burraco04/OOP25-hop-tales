@@ -23,6 +23,7 @@ public final class Shop extends JPanel {
     private static final long serialVersionUID = 1L;
     private static final String TITLE_FONT = "SuperShiny";
     private static final float TITLE_SIZE = 100f;
+
     private final transient ButtonBackFactory buttonbackFactory = new ButtonBackFactory();
     private final TopBarPanel topBarpan = new TopBarPanel();
     private final transient FontFactory font = new FontFactory();    
@@ -34,6 +35,7 @@ public final class Shop extends JPanel {
     public Shop(final ControllerMenu controller) {
     final JLabel title = new JLabel("penaldooo");
     title.setFont(this.font.getFont(TITLE_FONT, TITLE_SIZE, this));
+    
     setBackground(GameConstants.BACK_COLOR);
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 

@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 /**
  * font.
  */
-
 public final class FontFactory {
     static final Long serialVersionUID = 1L;
     private static final String BASE_FONT = "Arial";

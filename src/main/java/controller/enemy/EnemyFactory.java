@@ -1,6 +1,5 @@
 package controller.enemy;
 
-import controller.impl.EnemyController;
 import model.entities.api.Enemy;
 import model.entities.api.EnemyType;
 import model.entities.impl.EnemyImpl;
@@ -15,18 +14,27 @@ public final class EnemyFactory {
     }
 
     /**
-     * Crea un nemico generico con comportamento in base al tipo.
-     * 
-     * @param x coordinata iniziale X
-     * @param y coordinata iniziale Y
-     * @param width larghezza
-     * @param height altezza
-     * @param type tipo di nemico
-     * @return EnemyController pronto da aggiornare
+     * Creates a generic enemy with a behavior based on its type.
+     *
+     * @param x initial X coordinate
+     * @param y initial Y coordinate
+     * @param width enemy width
+     * @param height enemy height
+     * @param type enemy type
+     * @param manager EnemyManager that will manage this enemy
+     * @return an Enemy instance registered in the EnemyManager
      */
-    public static EnemyController createEnemy(final double x, final double y, final double width, final double height, final EnemyType type) {
-        final Enemy enemy = new EnemyImpl(x, y, width, height, type);
-        final EnemyBehavior behavior;
+    public static Enemy createEnemy(
+            double x,
+            double y,
+            double width,
+            double height,
+            EnemyType type,
+            EnemyManager manager) {
+
+        Enemy enemy = new EnemyImpl(x, y, width, height, type);
+        
+        EnemyBehavior behavior;
 
         switch (type) {
             case WALKER -> behavior = new WalkerBehavior();
@@ -34,6 +42,8 @@ public final class EnemyFactory {
             default -> throw new IllegalArgumentException("Unknown enemy: " + type);
         }
 
-        return new EnemyController(enemy, behavior);
+        manager.addEnemys(enemy, behavior);
+        return enemy;
+
     }
 }

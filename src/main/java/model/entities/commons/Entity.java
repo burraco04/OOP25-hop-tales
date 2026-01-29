@@ -22,14 +22,14 @@ public interface Entity {
      *
      * @param x the new horizontal value.
      */
-    void setX(int x);
+    void setX(double x);
 
     /**
      * Set the entity's vertical position value.
      *
      * @param y the new vertical value.
      */
-    void setY(int y);
+    void setY(double y);
 
     /**
      * @return the entity width.

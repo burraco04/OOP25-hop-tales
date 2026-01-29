@@ -8,10 +8,6 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import model.GameConstants;
-import model.objects.impl.brick.PowerupBlock;
-import model.objects.impl.collectable.Powerup;
-
 /**
  * calss draw.
  */
@@ -32,7 +28,7 @@ public final class Draw {
         final String path = switch (type) {
             case "lava"      -> "img/lava.png";
             case "top_lava"      -> "img/lava_top.png";
-            case "player"      -> "img/bozza_player_1_vers_3.png";
+            case "player"      -> "img/Player_1_frame_1.png";
             case "grass"       -> "img/grass.png";
             case "floating_grass" -> "img/floating_grass.png";
             case "floating_grass_left" -> "img/floating_grass_left.png";

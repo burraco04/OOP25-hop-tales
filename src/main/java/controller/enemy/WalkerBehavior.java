@@ -11,7 +11,7 @@ public final class WalkerBehavior implements EnemyBehavior {
     @Override
     public void update(final Enemy enemy, final double deltaSeconds) {
         // Cammina avanti
-        enemy.setX((int) (enemy.getX() + SPEED * deltaSeconds));
+        enemy.setX(enemy.getX() + SPEED * deltaSeconds);
         // Aggiungere stop quando incontra ostacolo
     }
 }

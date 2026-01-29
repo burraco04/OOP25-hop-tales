@@ -13,16 +13,16 @@ public final class JumperBehavior implements EnemyBehavior {
     @Override
     public void update(final Enemy enemy, final double deltaSeconds) {
         // Movimento orizzontale
-        enemy.setX((int) (enemy.getX() + SPEED * deltaSeconds));
+        enemy.setX(enemy.getX() + SPEED * deltaSeconds);
 
         // Movimento salto
         if (goingUp) {
-            enemy.setY((int) (enemy.getY() + SPEED * deltaSeconds));
+            enemy.setY(enemy.getY() + SPEED * deltaSeconds);
             if (enemy.getY() >= JUMP_HEIGHT) {
                 goingUp = false;
             }
         } else {
-            enemy.setY((int) (enemy.getY() - SPEED * deltaSeconds));
+            enemy.setY(enemy.getY() - SPEED * deltaSeconds);
             if (enemy.getY() <= 0) {
                 goingUp = true;
             }

@@ -14,7 +14,7 @@ public final class PlayerController implements ControllerObserver {
     private boolean s;
     private boolean d;
     private boolean space;
-    private int jumpRemaining;
+    private double jumpRemaining;
     private final World world;
 
     /**
@@ -37,23 +37,26 @@ public final class PlayerController implements ControllerObserver {
     @Override
     public void update() {
         final Player player = world.getPlayer();
-        int x = (int) player.getX();
-        int y = (int) player.getY();
+        double x = player.getX();
+        double y = player.getY();
+        final int tileX = (int) Math.floor(x);
+        final int tileY = (int) Math.floor(y);
 
-        final boolean onGround = world.collidesWithSolid(x, y + 1);
+        final boolean onGround = world.collidesWithSolid(tileX, tileY + 1);
         if (jumpRemaining == 0 && (w || space) && onGround) {
             jumpRemaining = GameConstants.JUMP_HEIGHT;
         }
         if (jumpRemaining > 0) {
-            if (world.collidesWithPowerupBlockFromBelow(x, y)) {
+            if (world.collidesWithPowerupBlockFromBelow(tileX, tileY)) {
                 jumpRemaining = 0;
             } else {
-                final int step = Math.min(GameConstants.JUMP_STEP, jumpRemaining);
-                final int targetY = Math.max(y - step, 0);
-                if (targetY == 0) {
-                    y = 0;
+                final double step = Math.min(GameConstants.JUMP_STEP, jumpRemaining);
+                final double targetY = Math.max(y - step, 0.0);
+                final int targetTileY = (int) Math.floor(targetY);
+                if (targetY <= 0.0) {
+                    y = 0.0;
                     jumpRemaining = 0;
-                } else if (!world.collidesWithSolid(x, targetY)) {
+                } else if (!world.collidesWithSolid(tileX, targetTileY)) {
                     y = targetY;
                     jumpRemaining -= step;
                 } else {
@@ -62,31 +65,39 @@ public final class PlayerController implements ControllerObserver {
             }
         }
         if (a) {
-            final int targetX = Math.max(x - GameConstants.PLAYER_SPEED, 0);
-            if (!world.collidesWithSolid(targetX, y)) {
+            final double targetX = Math.max(x - GameConstants.PLAYER_SPEED, 0.0);
+            final int targetTileX = (int) Math.floor(targetX);
+            if (!world.collidesWithSolid(targetTileX, tileY)) {
                 x = targetX;
             }
         }
         if (d) {
-            final int targetX = x + GameConstants.PLAYER_SPEED;
-            if (!world.collidesWithSolid(targetX, y)) {
+            final double targetX = x + GameConstants.PLAYER_SPEED;
+            final int targetTileX = (int) Math.floor(targetX);
+            if (!world.collidesWithSolid(targetTileX, tileY)) {
                 x = targetX;
             }
         }
-        final boolean groundedAfterMove = world.collidesWithSolid(x, y + 1);
+        final int updatedTileX = (int) Math.floor(x);
+        final int updatedTileY = (int) Math.floor(y);
+        final boolean groundedAfterMove = world.collidesWithSolid(updatedTileX, updatedTileY + 1);
         if (s && !groundedAfterMove) {
-            final int targetY = y + GameConstants.PLAYER_SPEED;
-            if (!world.collidesWithSolid(x, targetY)) {
+            final double targetY = y + GameConstants.PLAYER_SPEED;
+            final int targetTileY = (int) Math.floor(targetY);
+            if (!world.collidesWithSolid(updatedTileX, targetTileY)) {
                 y = targetY;
             }
         }
         if (jumpRemaining == 0 && !groundedAfterMove) {
-            final int targetY = y + GameConstants.GRAVITY;
-            if (!world.collidesWithSolid(x, targetY)) {
+            final double targetY = y + GameConstants.GRAVITY;
+            final int targetTileY = (int) Math.floor(targetY);
+            if (!world.collidesWithSolid(updatedTileX, targetTileY)) {
                 y = targetY;
             }
         }
-        if (world.collidesWithHazard(x, y)) {
+        final int hazardTileX = (int) Math.floor(x);
+        final int hazardTileY = (int) Math.floor(y);
+        if (world.collidesWithHazard(hazardTileX, hazardTileY)) {
             player.applyDamage();
         }
         player.setX(x);

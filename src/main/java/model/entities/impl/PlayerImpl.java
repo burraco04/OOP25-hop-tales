@@ -164,7 +164,7 @@ public final class PlayerImpl implements Player {
      * {@inheritDoc}
      */
     @Override
-    public void setX(final int x) {
+    public void setX(final double x) {
         this.x = x;
     }
 
@@ -172,7 +172,7 @@ public final class PlayerImpl implements Player {
      * {@inheritDoc}
      */
     @Override
-    public void setY(final int y) {
+    public void setY(final double y) {
         this.y = y;
     }
 }

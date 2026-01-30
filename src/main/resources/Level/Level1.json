@@ -1,0 +1,347 @@
+{
+  "name": "Level 1",
+  "spawnPointX": 1,
+  "spawnPointY": 24,
+  "entities": [
+    {
+      "type": "green_grass",
+      "x": 0,
+      "y": 26,
+      "macro": {
+        "type": "fill",
+        "width": 100,
+        "height": 1
+      }
+    },
+    {
+      "type": "grass",
+      "x": 0,
+      "y": 27,
+      "macro": {
+        "type": "fill",
+        "width": 100,
+        "height": 20
+      } 
+    },
+    {
+      "type": "brick",
+      "x": 5,
+      "y": 19
+    },
+    {
+      "type": "coin_gold",
+      "x": 6,
+      "y": 19,
+      "macro": {
+        "type": "fill",
+        "width": 3,
+        "height": 1
+      }
+    },
+    {
+      "type": "powerup_block",
+      "x": 10,
+      "y": 19
+    },
+    {
+      "type": "grass",
+      "x": 28,
+      "y": 22,
+      "macro": {
+        "type": "fill",
+        "width": 13,
+        "height": 5
+      } 
+    },
+    {
+      "type": "green_grass",
+      "x": 28,
+      "y": 21,
+      "macro": {
+        "type": "fill",
+        "width": 13,
+        "height": 1
+      } 
+    },
+    {
+      "type": "floating_grass_left",
+      "x": 45,
+      "y": 17 
+    },
+    {
+      "type": "floating_grass",
+      "x": 46,
+      "y": 17,
+      "macro": {
+        "type": "fill",
+        "width": 8,
+        "height": 1
+      } 
+    },
+    {
+      "type": "brick",
+      "x": 46,
+      "y": 9,
+      "macro": {
+        "type": "fill",
+        "width": 3,
+        "height": 1
+      } 
+    },
+    {
+      "type": "coin_gold",
+      "x": 49,
+      "y": 9
+    },
+    {
+      "type": "brick",
+      "x": 50,
+      "y": 9
+    },
+    {
+      "type": "floating_grass_right",
+      "x": 54,
+      "y": 17
+    },
+    {
+      "type": "floating_grass_left",
+      "x": 60,
+      "y": 13 
+    },
+    {
+      "type": "floating_grass",
+      "x": 61,
+      "y": 13,
+      "macro": {
+        "type": "fill",
+        "width": 5,
+        "height": 1
+      } 
+    },
+    {
+      "type": "floating_grass_right",
+      "x": 66,
+      "y": 13
+    },
+    {
+      "type": "coin_gold",
+      "x": 61,
+      "y": 12,
+      "macro": {
+        "type": "fill",
+        "width": 4,
+        "height": 1
+      } 
+    },
+    {
+      "type": "brick",
+      "x": 70,
+      "y": 9,
+      "macro": {
+        "type": "fill",
+        "width": 4,
+        "height": 1
+      } 
+    },
+    {
+      "type": "coin_gold",
+      "x": 70,
+      "y": 8,
+      "macro": {
+        "type": "fill",
+        "width": 3,
+        "height": 1
+      } 
+    },
+     {
+      "type": "coin_gold",
+      "x": 80,
+      "y": 18
+    },
+     {
+      "type": "coin_gold",
+      "x": 82,
+      "y": 20
+    },
+    {
+      "type": "coin_gold",
+      "x": 84,
+      "y": 22
+    },
+    {
+      "type": "brick",
+      "x": 95,
+      "y": 25,
+      "macro": {
+        "type": "fill",
+        "width": 5,
+        "height": 1
+      } 
+    },
+    {
+      "type": "brick",
+      "x": 96,
+      "y": 24,
+      "macro": {
+        "type": "fill",
+        "width": 4,
+        "height": 1
+      } 
+    },
+    {
+      "type": "brick",
+      "x": 97,
+      "y": 23,
+      "macro": {
+        "type": "fill",
+        "width": 3,
+        "height": 1
+      } 
+    },
+    {
+      "type": "floating_grass_left",
+      "x": 104,
+      "y": 22 
+    },
+    {
+      "type": "floating_grass",
+      "x": 105,
+      "y": 22,
+      "macro": {
+        "type": "fill",
+        "width": 5,
+        "height": 1
+      } 
+    },
+    {
+      "type": "floating_grass_right",
+      "x": 110,
+      "y": 22
+    },
+    {
+      "type": "floating_grass_left",
+      "x": 114,
+      "y": 20 
+    },
+    {
+      "type": "floating_grass",
+      "x": 115,
+      "y": 20,
+      "macro": {
+        "type": "fill",
+        "width": 5,
+        "height": 1
+      } 
+    },
+    {
+      "type": "floating_grass_right",
+      "x": 120,
+      "y": 20
+    },
+    {
+      "type": "coin_gold",
+      "x": 106,
+      "y": 21,
+      "macro": {
+        "type": "fill",
+        "width": 3,
+        "height": 1
+      } 
+    },
+    {
+      "type": "coin_gold",
+      "x": 116,
+      "y": 19,
+      "macro": {
+        "type": "fill",
+        "width": 3,
+        "height": 1
+      } 
+    },
+    {
+      "type": "brick",
+      "x": 125,
+      "y": 19,
+      "macro": {
+        "type": "fill",
+        "width": 3,
+        "height": 1
+      } 
+    },
+    {
+      "type": "brick",
+      "x": 125,
+      "y": 20,
+      "macro": {
+        "type": "fill",
+        "width": 4,
+        "height": 1
+      } 
+    },
+    {
+      "type": "brick",
+      "x": 125,
+      "y": 21,
+      "macro": {
+        "type": "fill",
+        "width": 5,
+        "height": 1
+      } 
+    },
+    {
+      "type": "green_grass",
+      "x": 125,
+      "y": 22,
+      "macro": {
+        "type": "fill",
+        "width": 50,
+        "height": 1
+      } 
+    },
+    {
+      "type": "grass",
+      "x": 125,
+      "y": 23,
+      "macro": {
+        "type": "fill",
+        "width": 50,
+        "height": 15
+      } 
+    },
+    {
+      "type": "lava_top",
+      "x": 100,
+      "y": 26,
+      "macro": {
+        "type": "fill",
+        "width": 25,
+        "height": 1
+      } 
+    },
+    {
+      "type": "lava",
+      "x": 100,
+      "y": 27,
+      "macro": {
+        "type": "fill",
+        "width": 25,
+        "height": 7
+      } 
+    },
+    {
+      "type": "grass",
+      "x": 100,
+      "y": 34,
+      "macro": {
+        "type": "fill",
+        "width": 25,
+        "height": 1
+      } 
+    }
+    ],
+    "enemies": [{
+      "type": "fungo",
+      "x": 10,
+      "y": 25
+    } ]
+  }

@@ -1,0 +1,46 @@
+package model.objects.impl.lava;
+
+import model.objects.api.WorldObject;
+
+/**
+ * lava.
+ */
+public class TopLava implements WorldObject {
+    private final int x;
+    private final int y;
+
+    /**
+     * create object brick.
+     *
+     * @param x parameter
+     * @param y parameter
+     */
+    public TopLava(final int x, final int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getType() {
+        return "top_lava";
+    }
+}

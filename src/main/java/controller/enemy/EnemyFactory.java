@@ -1,8 +1,10 @@
 package controller.enemy;
 
+import controller.impl.EnemyController;
 import model.entities.api.Enemy;
 import model.entities.api.EnemyType;
-import model.entities.impl.EnemyImpl;
+import model.entities.impl.JumperImpl;
+import model.entities.impl.WalkerImpl;
 
 /**
  * Factory class for creating enemies with the appropriate behavior.
@@ -21,8 +23,8 @@ public final class EnemyFactory {
      * @param width enemy width
      * @param height enemy height
      * @param type enemy type
-     * @param manager EnemyManager that will manage this enemy
-     * @return an Enemy instance registered in the EnemyManager
+     * @param controller EnemyControler that will manage this enemy
+     * @return an Enemy instance registered in the EnemyController
      */
     public static Enemy createEnemy(
             double x,
@@ -30,19 +32,17 @@ public final class EnemyFactory {
             double width,
             double height,
             EnemyType type,
-            EnemyManager manager) {
+            EnemyController controller) {
 
-        Enemy enemy = new EnemyImpl(x, y, width, height, type);
-        
-        EnemyBehavior behavior;
+        Enemy enemy;
 
         switch (type) {
-            case WALKER -> behavior = new WalkerBehavior();
-            case JUMPER -> behavior = new JumperBehavior();
+            case WALKER -> enemy = new WalkerImpl(x, y, width, height, type);
+            case JUMPER -> enemy = new JumperImpl(x, y, width, height, type);
             default -> throw new IllegalArgumentException("Unknown enemy: " + type);
         }
 
-        manager.addEnemy(enemy, behavior);
+        controller.addEnemy(enemy);
         return enemy;
 
     }

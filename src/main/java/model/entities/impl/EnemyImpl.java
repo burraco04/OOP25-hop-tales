@@ -7,7 +7,7 @@ import model.entities.api.EnemyType;
 /**
  * Default implementation of an enemy entity.
  */
-public final class EnemyImpl implements Enemy {
+public abstract class EnemyImpl implements Enemy {
 
     private static final double DEFAULT_SPEED = 100.0;
 
@@ -40,12 +40,7 @@ public final class EnemyImpl implements Enemy {
 
     /** {@inheritDoc} */
     @Override
-    public void update(final double deltaSecond) {
-        if (!alive) {
-            return;
-        }
-        x += vx * deltaSecond;
-    }
+    public abstract void update(final double deltaSecond);
 
     /** {@inheritDoc} */
     @Override

@@ -5,7 +5,7 @@ import java.util.List;
 
 import model.entities.api.Enemy;
 import model.entities.api.EnemyType;
-import model.entities.impl.EnemyImpl;
+import model.entities.impl.JumperImpl;
 import model.objects.api.WorldObject;
 import model.objects.impl.brick.Brick;
 import model.objects.impl.brick.PowerupBlock;
@@ -92,7 +92,7 @@ public final class EntityFactory {
 
     public static Enemy createEnemy(EntityData data) {
         return switch (data.getType()) {
-            case "fungo" -> new EnemyImpl(data.getX(), data.getY(), 100, 200, EnemyType.JUMPER);
+            case "fungo" -> new JumperImpl(data.getX(), data.getY(), 100, 200, EnemyType.JUMPER);
             default -> throw new IllegalArgumentException("Tipo nemico sconosciuto: " + data.getType());
         };
     }

@@ -6,6 +6,7 @@ import javax.swing.Timer;
 
 import controller.api.ControllerObserver;
 import controller.impl.CoinsController;
+import controller.impl.EnemyController;
 import controller.impl.PlayerController;
 import model.GameConstants;
 import model.World;
@@ -20,6 +21,7 @@ public final class GameController implements ActionListener {
     @SuppressWarnings("unused")
     private final KeyboardInputManager kim;
     private final CoinsController coinsController;
+    private final EnemyController enemyController;
     private final Timer timer;
     private final View view;
     private final World world;
@@ -35,6 +37,7 @@ public final class GameController implements ActionListener {
         this.playerController = new PlayerController(this.world);
         this.kim = new KeyboardInputManager(playerController);
         this.coinsController = new CoinsController(this.world);
+        this.enemyController = new EnemyController(this.world);
         this.timer = new Timer((int) (GameConstants.MILLIS_PER_SECOND / GameConstants.TARGET_UPS), this);
         this.start();
         this.view.showLevel1(this.world, this.kim);
@@ -63,5 +66,6 @@ public final class GameController implements ActionListener {
     public void actionPerformed(final ActionEvent event) {
         playerController.update();
         coinsController.update();
+        enemyController.update();
     }
 }

@@ -96,8 +96,8 @@ private void update() {
         final int offsetX = camera.getX();
         g.drawImage(Draw.get("player", timePassed), (int) world.getPlayer().getX() * GameConstants.TILE_SIZE - offsetX,
         (int) world.getPlayer().getY() * GameConstants.TILE_SIZE,
-        GameConstants.TILE_SIZE * GameConstants.PLAYER_WIDTH_TILES
-        , GameConstants.TILE_SIZE * GameConstants.PLAYER_HEIGHT_TILES, null);
+        GameConstants.TILE_SIZE * GameConstants.PLAYER_WIDTH_TILES,
+        GameConstants.TILE_SIZE * GameConstants.PLAYER_HEIGHT_TILES, null);
 
         for (final var object : world.getEntities()) {
          final var img = Draw.get(object.getType(), timePassed);    

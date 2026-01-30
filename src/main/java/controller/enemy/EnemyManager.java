@@ -6,13 +6,16 @@ import java.util.Map;
 import controller.api.ControllerObserver;
 import model.entities.api.Enemy;
 
+/**
+ * Manages enemies and their associated behaviors.
+ */
 public class EnemyManager implements ControllerObserver {
 
     private static final double DELTA = 1.0 / 60.0;
 
     private final Map<Enemy, EnemyBehavior> enemies = new HashMap<>();
 
-    public void addEnemys(Enemy enemy, EnemyBehavior enemyBehavior){
+    public void addEnemy(Enemy enemy, EnemyBehavior enemyBehavior){
         enemies.put(enemy, enemyBehavior);
     }
 
@@ -23,7 +26,7 @@ public class EnemyManager implements ControllerObserver {
         enemies.put(enemy, newBehavior);
     }
 
-    public void removeEnemy(Enemy enemy, EnemyBehavior enemyBehavior){
+    public void removeEnemy(Enemy enemy){
         enemies.remove(enemy);
     }
 

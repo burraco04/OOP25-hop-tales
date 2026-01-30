@@ -42,7 +42,7 @@ public final class EnemyFactory {
             default -> throw new IllegalArgumentException("Unknown enemy: " + type);
         }
 
-        manager.addEnemys(enemy, behavior);
+        manager.addEnemy(enemy, behavior);
         return enemy;
 
     }

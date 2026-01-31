@@ -8,6 +8,7 @@ import java.util.Set;
 
 import model.objects.api.WorldObject;
 import model.objects.impl.brick.Brick;
+import model.objects.impl.brick.PowerupBlock;
 import model.objects.impl.collectable.Powerup;
 import model.entities.api.Enemy;
 
@@ -52,21 +53,28 @@ public final class Collider {
     }
 
     /**
-     * Checks if the player will collide the next update.
+     * Checks if an entity will collide the next update.
      *
-     * @param x the next update player x value.
-     * @param y the next update player y value.
-     * @return true if the player is going to collide.
+     * @param x the next update entity x value.
+     * @param y the next update entity y value.
+     * @param widthTiles entity width in tiles.
+     * @param heightTiles entity height in tiles.
+     * @return true if the entity is going to collide.
      */
-    public boolean collidesWithSolid(final int x, final int y) {
-        for (int dx = 0; dx < GameConstants.PLAYER_WIDTH_TILES; dx++) {
-            for (int dy = 0; dy < GameConstants.PLAYER_HEIGHT_TILES; dy++) {
+    public boolean collidesWithSolid(
+        final int x,
+        final int y,
+        final int widthTiles,
+        final int heightTiles
+    ) {
+        for (int dx = 0; dx < widthTiles; dx++) {
+            for (int dy = 0; dy < heightTiles; dy++) {
                 if (solidTiles.contains(new Point(x + dx, y + dy))) {
                     return true;
                 }
             }
         }
-        return false;
+        return false;  
     }
 
     /**
@@ -89,7 +97,7 @@ public final class Collider {
             }
             final int ex = (int) Math.floor(enemy.getX());
             final int ey = (int) Math.floor(enemy.getY());
-            final Rectangle enemyRect = new Rectangle(ex, ey, 1, 1);
+            final Rectangle enemyRect = new Rectangle(ex, ey, GameConstants.ENEMY_WITDH, GameConstants.ENEMY_HEIGHT);
             if (playerRect.intersects(enemyRect)) {
                 return true;
             }

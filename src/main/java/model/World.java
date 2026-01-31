@@ -85,6 +85,9 @@ public class World {
      */
     public void addEnemy(final Enemy enemy) {
         enemies.add(enemy);
+        if (enemy instanceof model.entities.impl.JumperImpl jumper) {
+            jumper.setCollider(collider);
+        }
     }
 
     /**
@@ -139,8 +142,13 @@ public class World {
      * @param y the next update player y value.
      * @return true if the player is going to collide.
      */
-    public boolean collidesWithSolid(final int x, final int y) {
-        return collider.collidesWithSolid(x, y);
+    public boolean collidesWithSolid(
+        final int x,
+        final int y,
+        final int widthTiles,
+        final int heightTiles
+    ) {
+        return collider.collidesWithSolid(x, y, widthTiles, heightTiles);
     }
 
     /**

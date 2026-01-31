@@ -42,7 +42,12 @@ public final class PlayerController implements ControllerObserver {
         final int tileX = (int) Math.floor(x);
         final int tileY = (int) Math.floor(y);
 
-        final boolean onGround = world.collidesWithSolid(tileX, tileY + 1);
+        final boolean onGround = world.collidesWithSolid(
+            tileX,
+            tileY + 1,
+            GameConstants.PLAYER_WIDTH_TILES,
+            GameConstants.PLAYER_HEIGHT_TILES
+        );
         if (jumpRemaining == 0 && (w || space) && onGround) {
             jumpRemaining = GameConstants.JUMP_HEIGHT;
         }
@@ -56,7 +61,12 @@ public final class PlayerController implements ControllerObserver {
                 if (targetY <= 0.0) {
                     y = 0.0;
                     jumpRemaining = 0;
-                } else if (!world.collidesWithSolid(tileX, targetTileY)) {
+                } else if (!world.collidesWithSolid(
+                    tileX,
+                    targetTileY,
+                    GameConstants.PLAYER_WIDTH_TILES,
+                    GameConstants.PLAYER_HEIGHT_TILES
+                )) {
                     y = targetY;
                     jumpRemaining -= step;
                 } else {
@@ -67,31 +77,56 @@ public final class PlayerController implements ControllerObserver {
         if (a) {
             final double targetX = Math.max(x - GameConstants.PLAYER_SPEED, 0.0);
             final int targetTileX = (int) Math.floor(targetX);
-            if (!world.collidesWithSolid(targetTileX, tileY)) {
+            if (!world.collidesWithSolid(
+                targetTileX,
+                tileY,
+                GameConstants.PLAYER_WIDTH_TILES,
+                GameConstants.PLAYER_HEIGHT_TILES
+            )) {
                 x = targetX;
             }
         }
         if (d) {
             final double targetX = x + GameConstants.PLAYER_SPEED;
             final int targetTileX = (int) Math.floor(targetX);
-            if (!world.collidesWithSolid(targetTileX, tileY)) {
+            if (!world.collidesWithSolid(
+                targetTileX,
+                tileY,
+                GameConstants.PLAYER_WIDTH_TILES,
+                GameConstants.PLAYER_HEIGHT_TILES
+            )) {
                 x = targetX;
             }
         }
         final int updatedTileX = (int) Math.floor(x);
         final int updatedTileY = (int) Math.floor(y);
-        final boolean groundedAfterMove = world.collidesWithSolid(updatedTileX, updatedTileY + 1);
+        final boolean groundedAfterMove = world.collidesWithSolid(
+            updatedTileX,
+            updatedTileY + 1,
+            GameConstants.PLAYER_WIDTH_TILES,
+            GameConstants.PLAYER_HEIGHT_TILES
+        );
         if (s && !groundedAfterMove) {
             final double targetY = y + GameConstants.PLAYER_SPEED;
             final int targetTileY = (int) Math.floor(targetY);
-            if (!world.collidesWithSolid(updatedTileX, targetTileY)) {
+            if (!world.collidesWithSolid(
+                updatedTileX,
+                targetTileY,
+                GameConstants.PLAYER_WIDTH_TILES,
+                GameConstants.PLAYER_HEIGHT_TILES
+            )) {
                 y = targetY;
             }
         }
         if (jumpRemaining == 0 && !groundedAfterMove) {
             final double targetY = y + GameConstants.GRAVITY;
             final int targetTileY = (int) Math.floor(targetY);
-            if (!world.collidesWithSolid(updatedTileX, targetTileY)) {
+            if (!world.collidesWithSolid(
+                updatedTileX,
+                targetTileY,
+                GameConstants.PLAYER_WIDTH_TILES,
+                GameConstants.PLAYER_HEIGHT_TILES
+            )) {
                 y = targetY;
             }
         }

@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -7,17 +9,19 @@ import java.util.Set;
 import model.objects.api.WorldObject;
 import model.objects.impl.brick.Brick;
 import model.objects.impl.collectable.Powerup;
+import model.entities.api.Enemy;
 
 /**
  * Class responsible for checking and handling the collisions in the game phase.
  */
 public final class Collider {
-    private final Set<World.TileKey> solidTiles;
-    private final Set<World.TileKey> collectableTiles;
-    private final Map<World.TileKey, WorldObject> collectableMap;
-    private final Set<World.TileKey> powerupBlockTiles;
-    private final Set<World.TileKey> hazardTiles;
+    private final Set<Point> solidTiles;
+    private final Set<Point> collectableTiles;
+    private final Map<Point, WorldObject> collectableMap;
+    private final Set<Point> powerupBlockTiles;
+    private final Set<Point> hazardTiles;
     private final List<WorldObject> entities;
+    private final List<Enemy> enemies;
 
     /**
      * Instantiate a {@link Collider}.
@@ -30,12 +34,13 @@ public final class Collider {
      * @param entities list of all the objects.
      */
     protected Collider(
-        final Set<World.TileKey> solidTiles,
-        final Set<World.TileKey> collectableTiles,
-        final Map<World.TileKey, WorldObject> collectableMap,
-        final Set<World.TileKey> powerupBlockTiles,
-        final Set<World.TileKey> hazardTiles,
-        final List<WorldObject> entities
+        final Set<Point> solidTiles,
+        final Set<Point> collectableTiles,
+        final Map<Point, WorldObject> collectableMap,
+        final Set<Point> powerupBlockTiles,
+        final Set<Point> hazardTiles,
+        final List<WorldObject> entities,
+        final List<Enemy> enemies
     ) {
         this.solidTiles = solidTiles;
         this.collectableTiles = collectableTiles;
@@ -43,6 +48,7 @@ public final class Collider {
         this.powerupBlockTiles = powerupBlockTiles;
         this.hazardTiles = hazardTiles;
         this.entities = entities;
+        this.enemies = enemies;
     }
 
     /**
@@ -55,9 +61,37 @@ public final class Collider {
     public boolean collidesWithSolid(final int x, final int y) {
         for (int dx = 0; dx < GameConstants.PLAYER_WIDTH_TILES; dx++) {
             for (int dy = 0; dy < GameConstants.PLAYER_HEIGHT_TILES; dy++) {
-                if (solidTiles.contains(new World.TileKey(x + dx, y + dy))) {
+                if (solidTiles.contains(new Point(x + dx, y + dy))) {
                     return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if the player is colliding with any enemy.
+     *
+     * @param x the player x tile.
+     * @param y the player y tile.
+     * @return true if colliding with an enemy.
+     */
+    public boolean collidesWithEnemy(final int x, final int y) {
+        final Rectangle playerRect = new Rectangle(
+            x,
+            y,
+            GameConstants.PLAYER_WIDTH_TILES,
+            GameConstants.PLAYER_HEIGHT_TILES
+        );
+        for (final Enemy enemy : enemies) {
+            if (!enemy.isAlive()) {
+                continue;
+            }
+            final int ex = (int) Math.floor(enemy.getX());
+            final int ey = (int) Math.floor(enemy.getY());
+            final Rectangle enemyRect = new Rectangle(ex, ey, 1, 1);
+            if (playerRect.intersects(enemyRect)) {
+                return true;
             }
         }
         return false;
@@ -73,7 +107,7 @@ public final class Collider {
     public boolean collidesWithCollectable(final int x, final int y) {
         for (int dx = 0; dx < GameConstants.PLAYER_WIDTH_TILES; dx++) {
             for (int dy = 0; dy < GameConstants.PLAYER_HEIGHT_TILES; dy++) {
-                final World.TileKey key = new World.TileKey(x + dx, y + dy);
+                final Point key = new Point(x + dx, y + dy);
                 if (collectableTiles.contains(key)) {
                     collectableTiles.remove(key);
                     entities.remove(collectableMap.get(key));
@@ -99,7 +133,7 @@ public final class Collider {
         final int checkY = y - 1;
         for (int dx = 0; dx < GameConstants.PLAYER_WIDTH_TILES; dx++) {
             final int blockX = x + dx;
-            final World.TileKey blockKey = new World.TileKey(blockX, checkY);
+            final Point blockKey = new Point(blockX, checkY);
             if (powerupBlockTiles.contains(blockKey)) {
                 powerupBlockTiles.remove(blockKey);
                 replaceEntityAt(blockX, checkY, World.POWERUP_BLOCK_TYPE, new Brick(blockX, checkY));
@@ -120,7 +154,7 @@ public final class Collider {
     public boolean collidesWithHazard(final int x, final int y) {
         for (int dx = 0; dx < GameConstants.PLAYER_WIDTH_TILES; dx++) {
             for (int dy = 0; dy < GameConstants.PLAYER_HEIGHT_TILES; dy++) {
-                if (hazardTiles.contains(new World.TileKey(x + dx, y + dy))) {
+                if (hazardTiles.contains(new Point(x + dx, y + dy))) {
                     return true;
                 }
             }
@@ -139,7 +173,7 @@ public final class Collider {
         if (powerupY < 0) {
             return;
         }
-        final World.TileKey powerupKey = new World.TileKey(blockX, powerupY);
+        final Point powerupKey = new Point(blockX, powerupY);
         if (solidTiles.contains(powerupKey) || collectableTiles.contains(powerupKey)) {
             return;
         }

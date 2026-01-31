@@ -1,11 +1,11 @@
 package model;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import model.entities.api.Player;
@@ -13,7 +13,6 @@ import model.entities.api.Enemy;
 import model.entities.impl.PlayerImpl;
 import model.objects.CoinManager;
 import model.objects.api.WorldObject;
-import model.objects.impl.brick.PowerupBlock;
 
 /**
  * create class world.
@@ -26,11 +25,11 @@ public class World {
     );
     private static final Set<String> COLLECTABLE_TYPES = Set.of("coin", "powerup");
     private final List<WorldObject> entities = new ArrayList<>();
-    private final Set<TileKey> solidTiles = new HashSet<>();
-    private final Set<TileKey> collectableTiles = new HashSet<>();
-    private final Map<TileKey, WorldObject> collectableMap = new HashMap<>();
-    private final Set<TileKey> powerupBlockTiles = new HashSet<>();
-    private final Set<TileKey> hazardTiles = new HashSet<>();
+    private final Set<Point> solidTiles = new HashSet<>();
+    private final Set<Point> collectableTiles = new HashSet<>();
+    private final Map<Point, WorldObject> collectableMap = new HashMap<>();
+    private final Set<Point> powerupBlockTiles = new HashSet<>();
+    private final Set<Point> hazardTiles = new HashSet<>();
     private final Collider collider;
     private final List<Enemy> enemies = new ArrayList<>();
     private final Player player;
@@ -51,7 +50,8 @@ public class World {
             collectableMap,
             powerupBlockTiles,
             hazardTiles,
-            entities
+            entities,
+            enemies
         );
     }
 
@@ -64,14 +64,14 @@ public class World {
         entities.addAll(list);
         for (final WorldObject entity : list) {
             if (isSolidType(entity.getType())) {
-                solidTiles.add(new TileKey(entity.getX(), entity.getY()));
+                solidTiles.add(new Point(entity.getX(), entity.getY()));
                 if (POWERUP_BLOCK_TYPE.equals(entity.getType())) {
-                    powerupBlockTiles.add(new TileKey(entity.getX(), entity.getY()));
+                    powerupBlockTiles.add(new Point(entity.getX(), entity.getY()));
                 }
             } else if (isHazardType(entity.getType())) {
-                hazardTiles.add(new TileKey(entity.getX(), entity.getY()));
+                hazardTiles.add(new Point(entity.getX(), entity.getY()));
             } else if (isCollectableType(entity.getType())) {
-                final var tk = new TileKey(entity.getX(), entity.getY());
+                final var tk = new Point(entity.getX(), entity.getY());
                 collectableMap.put(tk, entity);
                 collectableTiles.add(tk);
             }
@@ -169,6 +169,10 @@ public class World {
         return collider.collidesWithHazard(x, y);
     }
 
+    public boolean collidesWithEnemy(final int x, final int y) {
+        return collider.collidesWithEnemy(x, y);
+    }
+
     /**
      * Check if the given type is solid.
      * 
@@ -194,32 +198,7 @@ public class World {
     }
 
     /**
-     * A simple TileKey.
+     * A simple Point.
      */
-    static final class TileKey {
-        private final int x;
-        private final int y;
 
-        TileKey(final int x, final int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        @Override
-        public boolean equals(final Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null || getClass() != obj.getClass()) {
-                return false;
-            }
-            final TileKey other = (TileKey) obj;
-            return x == other.x && y == other.y;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(x, y);
-        }
-    }
 }

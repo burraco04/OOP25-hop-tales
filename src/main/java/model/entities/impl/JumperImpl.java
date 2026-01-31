@@ -1,5 +1,6 @@
 package model.entities.impl;
 
+import model.GameConstants;
 import model.entities.api.EnemyType;
 
 public class JumperImpl extends EnemyImpl {
@@ -9,8 +10,14 @@ public class JumperImpl extends EnemyImpl {
     private boolean goingUp = true;
     private final double baseY;
 
-    public JumperImpl(double x, double y, double width, double height, EnemyType type) {
-        super(x, y, width, height, EnemyType.JUMPER);
+    public JumperImpl(double x, double y, EnemyType type) {
+        super(
+            x, 
+            y, 
+            GameConstants.ENEMY_WITDH, 
+            GameConstants.ENEMY_HEIGHT, 
+            EnemyType.JUMPER
+        );
         this.baseY = y;
     }
 

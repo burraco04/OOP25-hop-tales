@@ -92,7 +92,7 @@ public final class EntityFactory {
 
     public static Enemy createEnemy(EntityData data) {
         return switch (data.getType()) {
-            case "fungo" -> new JumperImpl(data.getX(), data.getY(), 100, 200, EnemyType.JUMPER);
+            case "fungo" -> new JumperImpl(data.getX(), data.getY(), EnemyType.JUMPER);
             default -> throw new IllegalArgumentException("Tipo nemico sconosciuto: " + data.getType());
         };
     }

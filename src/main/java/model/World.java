@@ -11,7 +11,7 @@ import java.util.Set;
 import model.entities.api.Player;
 import model.entities.api.Enemy;
 import model.entities.impl.PlayerImpl;
-import model.objects.CoinManager;
+import model.objects.CollectableManager;
 import model.objects.api.WorldObject;
 
 /**
@@ -23,17 +23,20 @@ public class World {
     private static final Set<String> SOLID_TYPES = Set.of("grass", "green_grass", "brick", "floating_grass",
         "floating_grass_left", "floating_grass_right", POWERUP_BLOCK_TYPE
     );
-    private static final Set<String> COLLECTABLE_TYPES = Set.of("coin", "powerup");
+    private static final Set<String> COIN_TYPES = Set.of("coin");
+    private static final Set<String> POWERUP_TYPES = Set.of("powerup");
     private final List<WorldObject> entities = new ArrayList<>();
     private final Set<Point> solidTiles = new HashSet<>();
     private final Set<Point> collectableTiles = new HashSet<>();
+    private final Set<Point> coinTiles = new HashSet<>();
+    private final Set<Point> powerupTiles = new HashSet<>();
     private final Map<Point, WorldObject> collectableMap = new HashMap<>();
     private final Set<Point> powerupBlockTiles = new HashSet<>();
     private final Set<Point> hazardTiles = new HashSet<>();
     private final Collider collider;
     private final List<Enemy> enemies = new ArrayList<>();
     private final Player player;
-    private final CoinManager coinManager;
+    private final CollectableManager coinManager;
     private final int levelWidth;
 
     /**
@@ -42,11 +45,13 @@ public class World {
     public World() {
         this.player = new PlayerImpl(GameConstants.STARTING_POSITION_X, GameConstants.STARTING_POSITION_Y,
                                      GameConstants.PLAYER_WIDTH_TILES, GameConstants.PLAYER_HEIGHT_TILES);
-        this.coinManager = new CoinManager(this);
+        this.coinManager = new CollectableManager(this);
         this.levelWidth = GameConstants.LEVEL_1_WIDTH;
         this.collider = new Collider(
             solidTiles,
             collectableTiles,
+            coinTiles,
+            powerupTiles,
             collectableMap,
             powerupBlockTiles,
             hazardTiles,
@@ -74,6 +79,11 @@ public class World {
                 final var tk = new Point(entity.getX(), entity.getY());
                 collectableMap.put(tk, entity);
                 collectableTiles.add(tk);
+                if (isCoinType(entity.getType())) {
+                    coinTiles.add(tk);
+                } else if (isPowerupType(entity.getType())) {
+                    powerupTiles.add(tk);
+                }
             }
         }
     }
@@ -113,7 +123,7 @@ public class World {
      *
      * @return the CoinManager.
      */
-    public CoinManager getCoinManager() {
+    public CollectableManager getCoinManager() {
         return coinManager;
     }
 
@@ -162,6 +172,14 @@ public class World {
         return collider.collidesWithCollectable(x, y);
     }
 
+    public boolean collidesWithCoin(final int x, final int y) {
+        return collider.collidesWithCoin(x, y);
+    }
+
+    public boolean collidesWithPowerup(final int x, final int y) {
+        return collider.collidesWithPowerup(x, y);
+    }
+
     /**
      * Check if the player will collide with a {@link PowerupBlock} from beneath next update.
      *
@@ -198,7 +216,15 @@ public class World {
      * @return true if the object is collectable.
      */
     private static boolean isCollectableType(final String type) {
-        return COLLECTABLE_TYPES.contains(type);
+        return COIN_TYPES.contains(type) || POWERUP_TYPES.contains(type);
+    }
+
+    private static boolean isCoinType(final String type) {
+        return COIN_TYPES.contains(type);
+    }
+
+    private static boolean isPowerupType(final String type) {
+        return POWERUP_TYPES.contains(type);
     }
 
     private static boolean isHazardType(final String type) {

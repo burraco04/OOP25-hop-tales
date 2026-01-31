@@ -1,5 +1,6 @@
 package model.objects;
 
+import controller.AudioManager;
 import model.GameConstants;
 import model.World;
 import model.objects.impl.collectable.Coin;
@@ -7,17 +8,20 @@ import model.objects.impl.collectable.Coin;
 /**
  * Class used to manage the {@link Coin} system.
  */
-public class CoinManager {
+public class CollectableManager {
     private static int collectedCoins;
     private final World world;
+    private boolean powerupCollected;
 
     /**
      * Constructor that istantiate the CoinManager and register the {@link World} depending by the level.
      *
      * @param world the current world.
      */
-    public CoinManager(final World world) {
+    public CollectableManager(final World world) {
         this.world = world;
+        AudioManager.load("coin_sound", "/sounds/CoinSound.wav");
+        AudioManager.setVolume(AudioManager.getClip("coin_sound"), AudioManager.getMusicVolume());
      }
 
     /** 
@@ -34,6 +38,15 @@ public class CoinManager {
      */
     private void collectCoin() {
         collectedCoins += GameConstants.COIN_VALUE;
+        AudioManager.play("coin_sound");
+    }
+
+    private void collectPowerup() {
+        powerupCollected = true;
+    }
+
+    public boolean hasPowerup() {
+        return powerupCollected;
     }
 
     /**
@@ -44,9 +57,12 @@ public class CoinManager {
      * @param y player's vertical position
      */
     public void checkPossibleCollection(final int x, final int y) {
-        if (world.collidesWithCollectable(x, y)) {
+        if (world.collidesWithCoin(x, y)) {
             collectCoin();
             System.out.println(collectedCoins);
+        }
+        if (world.collidesWithPowerup(x, y)) {
+            collectPowerup();
         }
     }
 }

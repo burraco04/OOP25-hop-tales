@@ -3,12 +3,12 @@ package controller.impl;
 import controller.api.ControllerObserver;
 import model.World;
 import model.entities.api.Player;
-import model.objects.CoinManager;
+import model.objects.CollectableManager;
 
 /**
- * Controller responsible for the {@link CoinManager}.
+ * Controller responsible for the {@link CollectableManager}.
  */
-public final class CoinsController implements ControllerObserver {
+public final class CollectablesController implements ControllerObserver {
     private final World world;
 
     /**
@@ -16,7 +16,7 @@ public final class CoinsController implements ControllerObserver {
      *
      * @param world the world instance.
      */
-    public CoinsController(final World world) {
+    public CollectablesController(final World world) {
         this.world = world;
     }
 

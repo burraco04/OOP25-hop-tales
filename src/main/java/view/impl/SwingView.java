@@ -27,7 +27,7 @@ public class SwingView implements View {
         this.frame.setSize(WIDTH, HEIGHT);
         AudioManager.load(MENU_OST_NAME, "/sounds/MenuSoundtrack.wav");
         AudioManager.play(MENU_OST_NAME);
-        AudioManager.setVolume(AudioManager.getClip(MENU_OST_NAME), 0.1f);
+        AudioManager.setMusicVolume(0.1f);
     }
 
     /**

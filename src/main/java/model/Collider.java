@@ -18,6 +18,8 @@ import model.entities.api.Enemy;
 public final class Collider {
     private final Set<Point> solidTiles;
     private final Set<Point> collectableTiles;
+    private final Set<Point> coinTiles;
+    private final Set<Point> powerupTiles;
     private final Map<Point, WorldObject> collectableMap;
     private final Set<Point> powerupBlockTiles;
     private final Set<Point> hazardTiles;
@@ -29,6 +31,8 @@ public final class Collider {
      * 
      * @param solidTiles set of all the solid tiles.
      * @param collectableTiles set of all the collectable tiles.
+     * @param coinTiles set of all the coin tiles.
+     * @param powerupTiles set of all the powerup tiles.
      * @param collectableMap map that binds tiles to objects.
      * @param powerupBlockTiles set of all the {@link PowerupBlock} tiles.
      * @param hazardTiles set of all the hazard tiles.
@@ -37,6 +41,8 @@ public final class Collider {
     protected Collider(
         final Set<Point> solidTiles,
         final Set<Point> collectableTiles,
+        final Set<Point> coinTiles,
+        final Set<Point> powerupTiles,
         final Map<Point, WorldObject> collectableMap,
         final Set<Point> powerupBlockTiles,
         final Set<Point> hazardTiles,
@@ -45,6 +51,8 @@ public final class Collider {
     ) {
         this.solidTiles = solidTiles;
         this.collectableTiles = collectableTiles;
+        this.coinTiles = coinTiles;
+        this.powerupTiles = powerupTiles;
         this.collectableMap = collectableMap;
         this.powerupBlockTiles = powerupBlockTiles;
         this.hazardTiles = hazardTiles;
@@ -118,6 +126,56 @@ public final class Collider {
                 final Point key = new Point(x + dx, y + dy);
                 if (collectableTiles.contains(key)) {
                     collectableTiles.remove(key);
+                    coinTiles.remove(key);
+                    powerupTiles.remove(key);
+                    entities.remove(collectableMap.get(key));
+                    collectableMap.remove(key, collectableMap.get(key));
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if the player will collect a coin.
+     *
+     * @param x the next update player x value.
+     * @param y the next update player y value.
+     * @return true if the player is collecting a coin.
+     */
+    public boolean collidesWithCoin(final int x, final int y) {
+        for (int dx = 0; dx < GameConstants.PLAYER_WIDTH_TILES; dx++) {
+            for (int dy = 0; dy < GameConstants.PLAYER_HEIGHT_TILES; dy++) {
+                final Point key = new Point(x + dx, y + dy);
+                if (coinTiles.contains(key)) {
+                    collectableTiles.remove(key);
+                    coinTiles.remove(key);
+                    powerupTiles.remove(key);
+                    entities.remove(collectableMap.get(key));
+                    collectableMap.remove(key, collectableMap.get(key));
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if the player will collect a powerup.
+     *
+     * @param x the next update player x value.
+     * @param y the next update player y value.
+     * @return true if the player is collecting a powerup.
+     */
+    public boolean collidesWithPowerup(final int x, final int y) {
+        for (int dx = 0; dx < GameConstants.PLAYER_WIDTH_TILES; dx++) {
+            for (int dy = 0; dy < GameConstants.PLAYER_HEIGHT_TILES; dy++) {
+                final Point key = new Point(x + dx, y + dy);
+                if (powerupTiles.contains(key)) {
+                    collectableTiles.remove(key);
+                    coinTiles.remove(key);
+                    powerupTiles.remove(key);
                     entities.remove(collectableMap.get(key));
                     collectableMap.remove(key, collectableMap.get(key));
                     return true;
@@ -188,6 +246,7 @@ public final class Collider {
         final WorldObject powerup = new Powerup(blockX, powerupY);
         entities.add(powerup);
         collectableTiles.add(powerupKey);
+        powerupTiles.add(powerupKey);
         collectableMap.put(powerupKey, powerup);
     }
 

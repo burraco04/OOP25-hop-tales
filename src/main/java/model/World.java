@@ -183,7 +183,7 @@ public class World {
 
     /**
      * Check if the given type is solid.
-     * 
+     *
      * @param type the type of the object.
      * @return true if the object is solid.
      */

@@ -13,26 +13,25 @@ public final class MacroData {
  *
  * @return return type
  */
-    public String getType() {
-        return type; 
-    }
-
-
-/**
- * type of block.
- *
- * @return return type
- */
-    public int getWidth() { 
-        return width;
-    }
+public String getType() {
+    return type; 
+}
 
 /**
  * type of block.
  *
  * @return return type
  */
-    public int getHeight() {
-        return height;
-    }
+public int getWidth() { 
+    return width;
+}
+
+/**
+ * type of block.
+ *
+ * @return return type
+ */
+public int getHeight() {
+    return height;
+}
 }

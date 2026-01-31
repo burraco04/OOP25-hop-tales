@@ -11,24 +11,23 @@ import javax.swing.JPanel;
 /**
  * used for buy the skin.
  */
-public class ShopButton extends JPanel{
+public class ShopButton extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private final Image background;
-    private final int ROWS = 2;
-    private final int COLS = 2;
-    private final int PAD_MIN = 20;
-    private final int PAD_MAX = 200;
-    private final float PAD_PERCENTUALE = 0.08f;
-    private final int GAP_MIN = 10;
-    private final int GAP_MAX = 200;
-    private final float GAP_PERCENTUALE = 0.20f;
+    private static final int ROWS = 2;
+    private static final int COLS = 2;
+    private static final int PAD_MIN = 20;
+    private static final int PAD_MAX = 200;
+    private static final float PAD_PERCENTUALE = 0.08f;
+    private static final int GAP_MIN = 10;
+    private static final int GAP_MAX = 200;
+    private static final float GAP_PERCENTUALE = 0.20f;
     private final GridLayout grid;
-    
+    private final Image background;
+
     /**
      * implements the top bar. 
      *
-     * @param back button back
      * @return the pannel where put the button
      */
     public ShopButton() {
@@ -38,7 +37,7 @@ public class ShopButton extends JPanel{
         this.grid = new GridLayout(ROWS, COLS, 0, 0);
         setLayout(this.grid);
 
-        final JButton skin1 = ShopButtonFactory.build("/img/bozza_player_1_vers_3.png");
+        final JButton skin1 = ShopButtonFactory.build("/img/Player_1_frame_1.png");
         final JButton skin2 = ShopButtonFactory.build("/img/skinsqualo.png");
         final JButton skin3 = ShopButtonFactory.build("/img/skinsqualo.png");
         final JButton skin4 = ShopButtonFactory.build("/img/skinsqualo.png");
@@ -76,7 +75,7 @@ public class ShopButton extends JPanel{
     }
 
     /**
-     * calcola la dimensione dei gap limitandoli
+     * calcola la dimensione dei gap limitandoli.
      *
      * @param v misura che gli passo
      * @param min minimo che voglio

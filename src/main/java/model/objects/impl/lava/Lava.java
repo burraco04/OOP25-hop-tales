@@ -44,5 +44,4 @@ public class Lava implements WorldObject {
     public String getType() {
         return "lava";
     }
-    
 }

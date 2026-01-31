@@ -26,7 +26,8 @@ public final class Shop extends JPanel {
 
     private final transient ButtonBackFactory buttonbackFactory = new ButtonBackFactory();
     private final TopBarPanel topBarpan = new TopBarPanel();
-    private final transient FontFactory font = new FontFactory();    
+    private final transient FontFactory font = new FontFactory();
+
     /**
      * create the clsaa.
      *
@@ -35,7 +36,7 @@ public final class Shop extends JPanel {
     public Shop(final ControllerMenu controller) {
     final JLabel title = new JLabel("penaldooo");
     title.setFont(this.font.getFont(TITLE_FONT, TITLE_SIZE, this));
-    
+
     setBackground(GameConstants.BACK_COLOR);
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 

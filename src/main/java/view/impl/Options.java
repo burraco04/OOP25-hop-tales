@@ -24,33 +24,38 @@ public final class Options extends JPanel {
     private static final long serialVersionUID = 1L;
     private static final String TITLE_FONT = "SuperShiny";
     private static final float TITLE_SIZE = 50f;
+    private static final int SLIDER_PANEL_WIDTH = 350;
+    private static final int SLIDER_PANEL_HEIGHT = 350;
+    private static final float SLIDER_SCALA = 100f;
+
     private final transient FontFactory fontFactory = new FontFactory();
-    private final transient ButtonBackFactory buttonbackFactory = new ButtonBackFactory();
-    private final TopBarPanel topBarpan = new TopBarPanel();
-    final JLabel title = new JLabel("audio");
-    final JPanel sliderPanel = new JPanel();
-    final JSlider volumeSlider = new JSlider(0, 100);
-    final int SLIDER_PANEL_WIDTH = 350;
-    final int SLIDER_PANEL_HEIGHT = 350;
-    final float SLIDER_SCALA = 100;
+    private final transient ButtonBackFactory buttonBackFactory = new ButtonBackFactory();
+    private final TopBarPanel topBarPanel = new TopBarPanel();
+
+    private JLabel title = new JLabel("audio");
+    private JPanel sliderPanel = new JPanel();
+    private JSlider volumeSlider = new JSlider(0, 100);
+
     /**
      * create the clsaa.
      *
      * @param controller pass the controller
      */
     public Options(final ControllerMenu controller) {
-   
+
     setBackground(GameConstants.BACK_COLOR);
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-    final JButton back = this.buttonbackFactory.buildbackbutton();
+    final JButton back = this.buttonBackFactory.buildbackbutton();
     back.addActionListener(e -> controller.handleEvent(State.MAIN_MENU, Optional.empty()));
-    final JPanel topBar = topBarpan.buildTopPanel(back);
+    final JPanel topBar = topBarPanel.buildTopPanel(back);
 
     title.setFont(this.fontFactory.getFont(TITLE_FONT, TITLE_SIZE, this));
 
     volumeSlider.setValue((int) (AudioManager.getMusicVolume() * SLIDER_SCALA));
-    volumeSlider.addChangeListener(e -> {AudioManager.setMusicVolume(volumeSlider.getValue() / SLIDER_SCALA);});
+    volumeSlider.addChangeListener(e -> {
+    AudioManager.setMusicVolume(volumeSlider.getValue() / SLIDER_SCALA);
+    });
     sliderPanel.add(volumeSlider);
     sliderPanel.setBackground(GameConstants.BACK_COLOR);
     sliderPanel.setPreferredSize(new Dimension(SLIDER_PANEL_WIDTH, SLIDER_PANEL_HEIGHT));

@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import model.GameConstants;
+
 /**
  * create topbar for the button back.
  */
@@ -26,7 +28,7 @@ private static final long serialVersionUID = 1L;
         topBar.add(back, BorderLayout.EAST);
         final int h = back.getPreferredSize().height;
         topBar.setMaximumSize(new Dimension(Integer.MAX_VALUE, h));
-        topBar.setBackground(new Color(34, 85, 34));
+        topBar.setBackground(GameConstants.BACK_COLOR);
 
         return topBar;
     }

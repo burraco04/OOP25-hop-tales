@@ -80,9 +80,10 @@ public class SwingView implements View {
         this.frame.repaint();
     }
 
+
     @Override
     public void showLevel1(final World world, final KeyboardInputManager kim) {
-        Level1 l1 = new Level1("Level/Level1.json", world, kim);
+        final Level1 l1 = new Level1("Level/Level1.json", world, kim);
         this.frame.setContentPane(l1);
         this.frame.revalidate();
         this.frame.repaint();

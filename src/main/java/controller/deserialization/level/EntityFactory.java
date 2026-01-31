@@ -90,7 +90,13 @@ public final class EntityFactory {
         };
     }
 
-    public static Enemy createEnemy(EntityData data) {
+    /**
+     * create the enemies.
+     *
+     * @param data entity
+     * @return the enemy
+     */
+    public static Enemy createEnemy(final EntityData data) {
         return switch (data.getType()) {
             case "fungo" -> new JumperImpl(data.getX(), data.getY(), EnemyType.JUMPER);
             default -> throw new IllegalArgumentException("Tipo nemico sconosciuto: " + data.getType());

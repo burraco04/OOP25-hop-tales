@@ -44,5 +44,5 @@ public class FloatingGrass implements WorldObject {
     public String getType() {
       return "floating_grass";
     }
-    
+
 }

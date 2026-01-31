@@ -5,7 +5,7 @@ import model.objects.api.WorldObject;
 /**
  * floating grass.
  */
-public class FloatingGrassRight implements WorldObject  {
+public class FloatingGrassRight implements WorldObject {
 
     private final int x;
     private final int y;
@@ -44,5 +44,5 @@ public class FloatingGrassRight implements WorldObject  {
     public String getType() {
       return "floating_grass_right";
     }
-    
+
 }

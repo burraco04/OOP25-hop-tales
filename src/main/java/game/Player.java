@@ -1,6 +1,8 @@
 package game;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 
 public class Player {
     int x, y, w = 20, h = 22;

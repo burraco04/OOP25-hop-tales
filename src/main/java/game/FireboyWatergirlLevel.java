@@ -32,8 +32,8 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
             "11111111111111111111111111111111111",
             "10000000000000100000000300000000001",
             "10000000440000100000000300000000001",
-            "10000000110002100000011110000000001",
-            "10040000000001133111100001111111111",
+            "10000000110002100001111111100000001",
+            "10040000000001133110000000011111111",
             "11111117777100100000000000000000001",
             "10000111111100100000004400000000001",
             "10880100003001100020001100000000001",
@@ -49,7 +49,7 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
             "1000000000000*045500401111110000001",
             "1000000000000*045500401111110000001",
             "10000133331111001111111000011110001",
-            "10000000000000000001001000000000001",
+            "11111100000000000001001000000000001",
             "10000000000000000001*41000000000001",
             "10000000000000111111*41000000000001",
             "11000000011000000001111000000009991",
@@ -76,6 +76,7 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
 
     private int rows, cols;
     private char[][] map;
+    private int totalCoinsSaved;
 
     // ====== VIEW (auto-scale per far stare tutto nello schermo) ======
     private double viewScale = 1.0;
@@ -104,12 +105,15 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
 
     public FireboyWatergirlLevel() {
         setFocusable(true);
-        addKeyListener(this);
+        
 
         loadMap();
-        Point spawnW = findSpawnBottomLeft();
-        watergirl.x = spawnW.x * TILE;
-        watergirl.y = spawnW.y * TILE;
+       
+        totalCoinsSaved = CoinStorage.loadTotalCoins();
+
+
+        watergirl.x = (34-1)* TILE;
+        watergirl.y = (35-1) * TILE;
 
         buildAssociations();
         timer.start();
@@ -260,29 +264,7 @@ private boolean isCrushedByBoulder(Player p, Boulder b) {
         }
     }
 
-    private void openAndRemoveDoor(String doorId) {
-    // rimuove le tile di quella porta sia dalla lista "doors" sia dalla mappa (3 -> 0)
-    Iterator<Door> it = doors.iterator();
-    while (it.hasNext()) {
-        Door d = it.next();
-
-        Point dTile = new Point(d.x / TILE, d.y / TILE); // col,row
-        String id = doorPosToId.get(dTile);
-
-        if (doorId.equals(id)) {
-            // 1) rimuovi fisicamente la porta dalla MAPPA
-            int r = d.y / TILE;
-            int c = d.x / TILE;
-            if (r >= 0 && r < rows && c >= 0 && c < cols) {
-                map[r][c] = '0';
-            }
-
-            // 2) rimuovi l'oggetto door così "sparisce" del tutto
-            it.remove();
-        }
-    }
-}
-
+    
 private void removeDoorTilesFromMap(String doorId) {
     // Scorri TUTTE le tile che appartengono a quella porta e mettile a vuoto
     for (Map.Entry<Point, String> e : doorPosToId.entrySet()) {
@@ -353,7 +335,7 @@ private boolean isPlayerOnPlatform(Player pl, MovingPlatform p) {
         addDoorTiles.accept("D4", colWithRows.apply(new int[]{34, 35}, 32));
         linkButton.accept(RC.apply(4, 14), "D4");
 
-        addDoorTiles.accept("D5", colWithRows.apply(new int[]{3, 4}, 24));
+        addDoorTiles.accept("D5", colWithRows.apply(new int[]{2, 3}, 24));
         linkButton.accept(RC.apply(26, 4), "D5");
 
         addDoorTiles.accept("D6", rowWithCols.apply(5, new int[]{16, 17}));
@@ -361,16 +343,16 @@ private boolean isPlayerOnPlatform(Player pl, MovingPlatform p) {
 
         // TELEPORT
         Point T1 = RC.apply(22, 22);
-        for (int r : new int[]{26, 27}) linkTeleport.accept(RC.apply(r, 21), T1);
+        for (int r : new int[]{27, 28}) linkTeleport.accept(RC.apply(r, 21), T1);
 
         Point T2 = RC.apply(27, 22);
-        for (int r : new int[]{21, 22}) linkTeleport.accept(RC.apply(r, 21), T2);
+        for (int r : new int[]{22, 23}) linkTeleport.accept(RC.apply(r, 21), T2);
 
         Point T3 = RC.apply(22, 2);
-        for (int r : new int[]{14, 15, 16}) linkTeleport.accept(RC.apply(r, 23), T3);
+        for (int r : new int[]{15, 16, 17}) linkTeleport.accept(RC.apply(r, 23), T3);
 
         Point T4 = RC.apply(3, 34);
-        for (int r : new int[]{16, 17, 18}) linkTeleport.accept(RC.apply(r, 14), T4);
+        for (int r : new int[]{17, 18, 19}) linkTeleport.accept(RC.apply(r, 14), T4);
     }
 
     // ====== GAME LOOP ======
@@ -561,15 +543,20 @@ boolean isSolidAtPixel(int px, int py, Object ignore) {
     }
 
     void collectCoins(Player p) {
-        Iterator<Coin> it = coins.iterator();
-        while (it.hasNext()) {
-            Coin c = it.next();
-            if (!c.collected && c.intersects(p.getRect())) {
-                c.collected = true;
-                it.remove();
-            }
+    Iterator<Coin> it = coins.iterator();
+    while (it.hasNext()) {
+        Coin c = it.next();
+        if (!c.collected && c.intersects(p.getRect())) {
+            c.collected = true;
+            it.remove();
+
+            // +1 moneta totale (persistente) salvata SUBITO
+            totalCoinsSaved = CoinStorage.addCoins(1);
+            System.out.println("Moneta presa! Totale salvato = " + totalCoinsSaved);
         }
     }
+}
+
 
     void handleButtons(Player p) {
     for (ButtonPad b : buttons) {
@@ -644,16 +631,21 @@ boolean isSolidAtPixel(int px, int py, Object ignore) {
                 char ch = map[r][c];
                 int x = c * TILE, y = r * TILE;
 
-                if (ch == '1') {
+                switch (ch) {
+                case '1' -> {
                     g2.setColor(new Color(90, 90, 90));
                     g2.fillRect(x, y, TILE, TILE);
-                } else if (ch == '7') {
+                }
+                case '7' -> {
                     g2.setColor(new Color(255, 120, 0));
                     g2.fillRect(x, y, TILE, TILE);
-                } else if (ch == '5') {
+                }
+                case '5' -> {
                     g2.setColor(new Color(120, 255, 120));
                     g2.fillRect(x, y, TILE, TILE);
                 }
+            }
+
             }
         }
 
@@ -736,6 +728,7 @@ boolean isSolidAtPixel(int px, int py, Object ignore) {
             JFrame f = new JFrame("Fireboy & Watergirl - Single Level");
             FireboyWatergirlLevel panel = new FireboyWatergirlLevel();
 
+
             panel.setPreferredSize(new Dimension(1000, 800)); // finestra comoda; la mappa si adatta
             f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             f.setContentPane(panel);
@@ -743,37 +736,14 @@ boolean isSolidAtPixel(int px, int py, Object ignore) {
             f.setLocationRelativeTo(null);
             f.setResizable(true);
             f.setVisible(true);
+
+            panel.addKeyListener(panel);
+            panel.requestFocusInWindow();
+
+            panel.timer.start();
         });
     }
 
-    // ====== CLASSES ======
     
 
-    private Point findSpawnBottomLeft() {
-    // cerco da BASSO verso ALTO, e da SINISTRA verso DESTRA
-    // e voglio una tile "vuota" (0) con sotto qualcosa di solido (1)
-    for (int r = rows - 2; r >= 0; r--) {          // -2 perché guardo anche r+1
-        for (int c = 0; c < cols; c++) {
-
-            char here = map[r][c];
-            char below = map[r + 1][c];
-
-            boolean emptyHere = (here == '0');     // spawn SOLO su vuoto
-            boolean solidBelow = (below == '1');   // “pavimento” sotto
-
-            // Evita di spawnare dentro roba pericolosa/speciale (lava, porte, teleporter, goal ecc.)
-            boolean safe = here != '7' && here != '3' && here != '*' && here != '5' && here != '8' && here != '2' && here != '9';
-
-            if (emptyHere && solidBelow && safe) {
-                return new Point(c, r); // col, row
-            }
-        }
-    }
-    // fallback: se non trova niente, metto una posizione “ragionevole”
-    return new Point(1, rows - 2);
-}
-
-
-
-    
 }

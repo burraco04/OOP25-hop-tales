@@ -1,6 +1,7 @@
 package game;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 
 public abstract class Entity {
     int x, y, w, h;

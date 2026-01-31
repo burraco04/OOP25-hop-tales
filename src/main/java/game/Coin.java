@@ -1,6 +1,7 @@
 package game;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 public class Coin extends Entity {
     boolean collected = false;

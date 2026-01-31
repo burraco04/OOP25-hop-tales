@@ -1,6 +1,7 @@
 package game;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 public class ButtonPad extends Entity {
 

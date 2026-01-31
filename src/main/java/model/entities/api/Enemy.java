@@ -12,6 +12,9 @@ public interface Enemy extends Entity {
      */
     EnemySnapshot getSnapshot();
 
+    /**
+     * @return the type of the enemy.
+     */
     EnemyType getType();
         
 }

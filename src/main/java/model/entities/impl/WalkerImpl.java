@@ -3,11 +3,21 @@ package model.entities.impl;
 import model.GameConstants;
 import model.entities.api.EnemyType;
 
-public class WalkerImpl extends EnemyImpl{
+/**
+ * Implementation of a walking enemy.
+ */
+public class WalkerImpl extends EnemyImpl {
 
     private static final double SPEED = 100.0;
 
-    public WalkerImpl(double x, double y, EnemyType type) {
+    /**
+     * Creates a new Walker enemy at the specified position.
+     *
+     * @param x starting horizontal coordinate
+     * @param y starting vertical coordinate
+     * @param type the enemy type
+     */
+    public WalkerImpl(final double x, final double y, final EnemyType type) {
         super(
             x, 
             y, 

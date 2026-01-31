@@ -1,15 +1,29 @@
 package game;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import javax.swing.*;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class FireboyWatergirlLevel extends JPanel implements ActionListener, KeyListener {
 
@@ -18,8 +32,8 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
             "11111111111111111111111111111111111",
             "10000000000000100000000300000000001",
             "10000000440000100000000300000000001",
-            "10000000110002100000000300000000001",
-            "10040000000001133111111111111111111",
+            "10000000110002100000011110000000001",
+            "10040000000001133111100001111111111",
             "11111117777100100000000000000000001",
             "10000111111100100000004400000000001",
             "10880100003001100020001100000000001",
@@ -32,20 +46,20 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
             "1000000000440010000010*000000000001",
             "1000000000110010000010*044000000001",
             "1000000000000*11550010*000000000001",
-            "1000000000000*045500401177110000001",
             "1000000000000*045500401111110000001",
-            "10000133331111001111111000011119991",
+            "1000000000000*045500401111110000001",
+            "10000133331111001111111000011110001",
             "10000000000000000001001000000000001",
-            "1*000000000000000001*41000000000001",
-            "1*000000000000111111*41000000000001",
-            "11000000011000000001111000000000001",
+            "10000000000000000001*41000000000001",
+            "10000000000000111111*41000000000001",
+            "11000000011000000001111000000009991",
             "10000000001000000001000000000200001",
             "10020000001110000001000000001110001",
             "10010000000010000001*00000000000001",
             "10000000000011100001*00001177777111",
-            "10000000000000000441111000111111101",
+            "10000000000000000441110000111111101",
             "10000200000000000111000000000000001",
-            "10000100000000000001000110000000401",
+            "10000100000000000001000010000000401",
             "10000000000000110001000000040004041",
             "10000044000000000001011000010001111",
             "10000000000110000001000000000003001",
@@ -93,11 +107,16 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
         addKeyListener(this);
 
         loadMap();
+        Point spawnW = findSpawnBottomLeft();
+        watergirl.x = spawnW.x * TILE;
+        watergirl.y = spawnW.y * TILE;
+
         buildAssociations();
         timer.start();
     }
 
     private void loadMap() {
+        boulders.clear();
         rows = RAW_MAP.length;
         cols = RAW_MAP[0].length();
         map = new char[rows][cols];
@@ -118,7 +137,7 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
                     case '3' -> doors.add(new Door(c * TILE, r * TILE, TILE, TILE));
                     case '4' -> coins.add(new Coin(c * TILE, r * TILE, TILE, TILE));
                     case '*' -> teleporters.add(new Teleporter(c * TILE, r * TILE, TILE, TILE));
-                    case '8' -> boulders.add(new Boulder(c * TILE, r * TILE, TILE, TILE));
+                    //case '8' -> boulders.add(new Boulder(c * TILE, r * TILE, TILE, TILE));
                     case '2' -> buttons.add(new ButtonPad(c * TILE, r * TILE, TILE, TILE));
                     // case '9' -> NON creare tile singoli: li raggruppiamo dopo
                 }
@@ -127,7 +146,83 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
 
         // Crea piattaforme raggruppando i 9 vicini
         buildMovingPlatformsFromMap();
+       buildBouldersFromMapFloodFill();
+
+
     }
+
+    private void buildBouldersFromMapFloodFill() {
+    boolean[][] vis = new boolean[rows][cols];
+
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < cols; c++) {
+            if (map[r][c] != '8' || vis[r][c]) continue;
+
+            // flood fill per prendere tutto il "blocco" connesso di 8
+            ArrayDeque<Point> q = new ArrayDeque<>();
+            q.add(new Point(c, r));
+            vis[r][c] = true;
+
+            int minR = r, maxR = r, minC = c, maxC = c;
+
+            while (!q.isEmpty()) {
+                Point p = q.poll();
+                int cc = p.x, rr = p.y;
+
+                minR = Math.min(minR, rr);
+                maxR = Math.max(maxR, rr);
+                minC = Math.min(minC, cc);
+                maxC = Math.max(maxC, cc);
+
+                int[][] dir = {{1,0},{-1,0},{0,1},{0,-1}};
+                for (int[] d : dir) {
+                    int nc = cc + d[0], nr = rr + d[1];
+                    if (nr < 0 || nr >= rows || nc < 0 || nc >= cols) continue;
+                    if (vis[nr][nc]) continue;
+                    if (map[nr][nc] != '8') continue;
+                    vis[nr][nc] = true;
+                    q.add(new Point(nc, nr));
+                }
+            }
+
+            int x = minC * TILE;
+            int y = minR * TILE;
+            int w = (maxC - minC + 1) * TILE;
+            int h = (maxR - minR + 1) * TILE;
+
+            boulders.add(new Boulder(x, y, w, h));
+        }
+    }
+
+    // DEBUG: ti stampa quanti massi hai davvero
+    System.out.println("BOULDERS = " + boulders.size());
+}
+
+private boolean isCrushedByBoulder(Player p, Boulder b) {
+    Rectangle pr = p.getRect();
+    Rectangle br = b.rect();
+
+    // devono sovrapporsi in orizzontale
+    boolean xOverlap = pr.x + pr.width > br.x && pr.x < br.x + br.width;
+    if (!xOverlap) return false;
+
+    // player deve essere sotto il masso (contatto quasi)
+    int pTop = pr.y;
+    int bBottom = br.y + br.height;
+
+    // tolleranza contatto 2-3 px
+    boolean bOnTopOfPlayer = (bBottom >= pTop - 2) && (bBottom <= pTop + 6);
+    if (!bOnTopOfPlayer) return false;
+
+    // e sopra la testa del player deve esserci qualcosa di solido (soffitto)
+    // controlliamo 2 punti sopra la testa
+    boolean ceiling =
+            isSolidAtPixel(pr.x + 2, pr.y - 2) ||
+            isSolidAtPixel(pr.x + pr.width - 3, pr.y - 2);
+
+    return ceiling;
+}
+
 
     // Raggruppa tutti i 9 consecutivi (stessa riga) in una piattaforma unica
     private void buildMovingPlatformsFromMap() {
@@ -165,6 +260,60 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
         }
     }
 
+    private void openAndRemoveDoor(String doorId) {
+    // rimuove le tile di quella porta sia dalla lista "doors" sia dalla mappa (3 -> 0)
+    Iterator<Door> it = doors.iterator();
+    while (it.hasNext()) {
+        Door d = it.next();
+
+        Point dTile = new Point(d.x / TILE, d.y / TILE); // col,row
+        String id = doorPosToId.get(dTile);
+
+        if (doorId.equals(id)) {
+            // 1) rimuovi fisicamente la porta dalla MAPPA
+            int r = d.y / TILE;
+            int c = d.x / TILE;
+            if (r >= 0 && r < rows && c >= 0 && c < cols) {
+                map[r][c] = '0';
+            }
+
+            // 2) rimuovi l'oggetto door così "sparisce" del tutto
+            it.remove();
+        }
+    }
+}
+
+private void removeDoorTilesFromMap(String doorId) {
+    // Scorri TUTTE le tile che appartengono a quella porta e mettile a vuoto
+    for (Map.Entry<Point, String> e : doorPosToId.entrySet()) {
+        if (doorId.equals(e.getValue())) {
+            Point t = e.getKey(); // t.x=col, t.y=row (0-based)
+            int r = t.y;
+            int c = t.x;
+            if (r >= 0 && r < rows && c >= 0 && c < cols) {
+                map[r][c] = '0';
+            }
+        }
+    }
+
+    // opzionale: pulisci anche la mappa di associazione (non è obbligatorio ma è pulito)
+    doorPosToId.entrySet().removeIf(en -> doorId.equals(en.getValue()));
+}
+
+private boolean isPlayerOnPlatform(Player pl, MovingPlatform p) {
+    Rectangle pr = pl.getRect();
+    Rectangle plat = p.rect();
+
+    int pBottom = pr.y + pr.height;
+    boolean xOverlap = pr.x + pr.width > plat.x && pr.x < plat.x + plat.width;
+
+    // tolleranza contatto 3px
+    boolean onTop = (pBottom >= plat.y - 3) && (pBottom <= plat.y + 3);
+
+    return xOverlap && onTop;
+}
+
+
     private void buildAssociations() {
         // Helper: (riga,colonna) 1-based -> Point(col,row) 0-based
         java.util.function.BiFunction<Integer, Integer, Point> RC = (r, c) -> new Point(c - 1, r - 1);
@@ -192,23 +341,23 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
                 teleportDestTile.put(fromTile, toTile);
 
         // BOTTONI -> PORTE
-        addDoorTiles.accept("D1", colWithRows.apply(new int[]{7, 8}, 11));
-        linkButton.accept(RC.apply(34, 25), "D1");
+        addDoorTiles.accept("D1", colWithRows.apply(new int[]{8, 9}, 11));
+        linkButton.accept(RC.apply(35, 25), "D1");
 
-        addDoorTiles.accept("D2", rowWithCols.apply(9, new int[]{2, 3, 4, 5}));
-        linkButton.accept(RC.apply(24, 30), "D2");
+        addDoorTiles.accept("D2", rowWithCols.apply(10, new int[]{2, 3, 4, 5}));
+        linkButton.accept(RC.apply(25, 30), "D2");
 
-        addDoorTiles.accept("D3", rowWithCols.apply(19, new int[]{7, 8, 9, 10}));
-        linkButton.accept(RC.apply(7, 19), "D3");
+        addDoorTiles.accept("D3", rowWithCols.apply(20, new int[]{7, 8, 9, 10}));
+        linkButton.accept(RC.apply(8, 19), "D3");
 
-        addDoorTiles.accept("D4", colWithRows.apply(new int[]{33, 34}, 32));
-        linkButton.accept(RC.apply(3, 14), "D4");
+        addDoorTiles.accept("D4", colWithRows.apply(new int[]{34, 35}, 32));
+        linkButton.accept(RC.apply(4, 14), "D4");
 
-        addDoorTiles.accept("D5", colWithRows.apply(new int[]{2, 3}, 24));
-        linkButton.accept(RC.apply(25, 4), "D5");
+        addDoorTiles.accept("D5", colWithRows.apply(new int[]{3, 4}, 24));
+        linkButton.accept(RC.apply(26, 4), "D5");
 
-        addDoorTiles.accept("D6", rowWithCols.apply(4, new int[]{16, 17}));
-        linkButton.accept(RC.apply(29, 6), "D6");
+        addDoorTiles.accept("D6", rowWithCols.apply(5, new int[]{16, 17}));
+        linkButton.accept(RC.apply(30, 6), "D6");
 
         // TELEPORT
         Point T1 = RC.apply(22, 22);
@@ -232,8 +381,29 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
             return;
         }
 
+        // Boulder physics + push
+        for (Boulder b : boulders) {
+            b.tryPushBy(fireboy, this);
+            b.tryPushBy(watergirl, this);
+        }
+
         fireboy.update(this);
         watergirl.update(this);
+
+        for (Boulder b : boulders) {
+            b.updatePhysics(this);
+        }
+
+        // SCHIACCIAMENTO: se un masso cade su un player e sopra c'è un solido -> game over
+        for (Boulder b : boulders) {
+            if (b.vy > 0) { // solo se sta scendendo
+                if (isCrushedByBoulder(fireboy, b) || isCrushedByBoulder(watergirl, b)) {
+                    gameOver = true;
+                    break;
+                }
+            }
+        }
+
 
         // Lava check
         if (touchesLava(fireboy) || touchesLava(watergirl)) {
@@ -252,12 +422,8 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
         handleTeleport(fireboy);
         handleTeleport(watergirl);
 
-        // Boulder physics + push
-        for (Boulder b : boulders) {
-            b.updatePhysics(this);
-            b.tryPushBy(fireboy, this);
-            b.tryPushBy(watergirl, this);
-        }
+        
+
 
         // ====== BILANCIA ======
         boolean balanceActive = false;
@@ -295,6 +461,28 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
             }
         }
 
+        // Trascina anche i player che stanno sopra le piattaforme
+        for (MovingPlatform p : platforms) {
+            int dx = p.deltaX();
+            int dy = p.deltaY();
+            if (dx == 0 && dy == 0) continue;
+
+            if (isPlayerOnPlatform(fireboy, p)) {
+                fireboy.x += dx;
+                fireboy.y += dy;
+                fireboy.vy = 0;
+                fireboy.onGround = true;
+            }
+
+            if (isPlayerOnPlatform(watergirl, p)) {
+                watergirl.x += dx;
+                watergirl.y += dy;
+                watergirl.vy = 0;
+                watergirl.onGround = true;
+            }
+        }
+
+
         // Goal finale: se entrambi su tile '5'
         if (isOnGoal(fireboy) && isOnGoal(watergirl)) levelComplete = true;
 
@@ -314,28 +502,43 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
     }
 
     // ====== COLLISION & TILE QUERIES ======
-    boolean isSolidAtPixel(int px, int py) {
-        int c = px / TILE;
-        int r = py / TILE;
-        if (r < 0 || r >= rows || c < 0 || c >= cols) return true;
-        char ch = map[r][c];
+    // versione standard (player, ecc.)
+boolean isSolidAtPixel(int px, int py) {
+    return isSolidAtPixel(px, py, null);
+}
 
-        if (ch == '1') return true;
+// versione con "ignore" (per massi, piattaforme, ecc.)
+boolean isSolidAtPixel(int px, int py, Object ignore) {
+    int c = px / TILE;
+    int r = py / TILE;
 
-        // porte chiuse = solide
-        if (ch == '3') {
-            for (Door d : doors) {
-                if (d.contains(px, py) && !d.open) return true;
-            }
+    if (r < 0 || r >= rows || c < 0 || c >= cols) return true;
+
+    char ch = map[r][c];
+
+    // muri
+    if (ch == '1') return true;
+
+    // porte chiuse = solide
+    if (ch == '3') {
+        for (Door d : doors) {
+            if (d != ignore && d.contains(px, py)) return true;
         }
-
-        // piattaforme mobili solide in base alla posizione attuale
-        for (MovingPlatform p : platforms) {
-            if (p.contains(px, py)) return true;
-        }
-
-        return false;
     }
+
+    // piattaforme mobili
+    for (MovingPlatform p : platforms) {
+        if (p != ignore && p.contains(px, py)) return true;
+    }
+
+    // massi
+    for (Boulder b : boulders) {
+        if (b != ignore && b.contains(px, py)) return true;
+    }
+
+    return false;
+}
+
 
     boolean isLavaAtPixel(int px, int py) {
         int c = px / TILE;
@@ -369,20 +572,29 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
     }
 
     void handleButtons(Player p) {
-        for (ButtonPad b : buttons) {
-            if (b.intersects(p.getRect())) {
-                Point tilePos = new Point(b.x / TILE, b.y / TILE); // col,row
-                String doorId = buttonToDoorId.get(tilePos);
-                if (doorId != null) {
-                    for (Door d : doors) {
-                        Point dTile = new Point(d.x / TILE, d.y / TILE);
-                        String id = doorPosToId.get(dTile);
-                        if (doorId.equals(id)) d.open = true;
-                    }
-                }
+    for (ButtonPad b : buttons) {
+        if (b.intersects(p.getRect())) {
+            Point tilePos = new Point(b.x / TILE, b.y / TILE); // col,row
+            String doorId = buttonToDoorId.get(tilePos);
+
+            if (doorId != null) {
+                // 1) svuota davvero la mappa (questa è la cosa che ti serve per far cadere il masso)
+                removeDoorTilesFromMap(doorId);
+
+                // 2) rimuovi anche gli oggetti Door dalla lista (così non si disegnano più)
+                doors.removeIf(d -> {
+                    Point dt = new Point(d.x / TILE, d.y / TILE);
+                    String id = doorPosToId.get(dt);
+                    return doorId.equals(id); // se hai già ripulito doorPosToId sopra, allora questa riga non becca niente
+                });
+
+                // quindi meglio: rimuovi per tile direttamente guardando la mappa (tile non più '3')
+                doors.removeIf(d -> map[d.y / TILE][d.x / TILE] != '3');
             }
         }
     }
+}
+
 
     void handleTeleport(Player p) {
         for (Teleporter t : teleporters) {
@@ -535,210 +747,33 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
     }
 
     // ====== CLASSES ======
-    static class Player {
-        int x, y, w = 20, h = 22;
-        int vx = 0;
-        double vy = 0;
-        boolean onGround = false;
-        final Color color;
+    
 
-        Player(int x, int y, Color color) {
-            this.x = x;
-            this.y = y;
-            this.color = color;
-        }
+    private Point findSpawnBottomLeft() {
+    // cerco da BASSO verso ALTO, e da SINISTRA verso DESTRA
+    // e voglio una tile "vuota" (0) con sotto qualcosa di solido (1)
+    for (int r = rows - 2; r >= 0; r--) {          // -2 perché guardo anche r+1
+        for (int c = 0; c < cols; c++) {
 
-        void jump() {
-            if (onGround) {
-                vy = -8.5;
-                onGround = false;
-            }
-        }
+            char here = map[r][c];
+            char below = map[r + 1][c];
 
-        Rectangle getRect() { return new Rectangle(x, y, w, h); }
+            boolean emptyHere = (here == '0');     // spawn SOLO su vuoto
+            boolean solidBelow = (below == '1');   // “pavimento” sotto
 
-        void update(FireboyWatergirlLevel world) {
-            vy += 0.35;
-            if (vy > 10) vy = 10;
+            // Evita di spawnare dentro roba pericolosa/speciale (lava, porte, teleporter, goal ecc.)
+            boolean safe = here != '7' && here != '3' && here != '*' && here != '5' && here != '8' && here != '2' && here != '9';
 
-            int nx = x + vx;
-            if (!collides(world, nx, y)) x = nx;
-
-            int ny = (int) (y + vy);
-            if (!collides(world, x, ny)) {
-                y = ny;
-                onGround = false;
-            } else {
-                if (vy > 0) onGround = true;
-                vy = 0;
-            }
-        }
-
-        private boolean collides(FireboyWatergirlLevel w, int nx, int ny) {
-            return w.isSolidAtPixel(nx + 1, ny + 1)
-                    || w.isSolidAtPixel(nx + this.w - 2, ny + 1)
-                    || w.isSolidAtPixel(nx + 1, ny + this.h - 2)
-                    || w.isSolidAtPixel(nx + this.w - 2, ny + this.h - 2);
-        }
-
-        void draw(Graphics g) {
-            g.setColor(color);
-            g.fillRect(x, y, w, h);
-        }
-    }
-
-    static abstract class Entity {
-        int x, y, w, h;
-        Entity(int x, int y, int w, int h) { this.x = x; this.y = y; this.w = w; this.h = h; }
-        Rectangle rect() { return new Rectangle(x, y, w, h); }
-        boolean intersects(Rectangle r) { return rect().intersects(r); }
-        boolean contains(int px, int py) { return rect().contains(px, py); }
-        abstract void draw(Graphics g);
-    }
-
-    static class Door extends Entity {
-        boolean open = false;
-        Door(int x, int y, int w, int h) { super(x, y, w, h); }
-
-        @Override
-        void draw(Graphics g) {
-            if (open) {
-                g.setColor(new Color(120, 220, 120, 120));
-                g.fillRect(x, y, w, h);
-            } else {
-                g.setColor(new Color(180, 180, 255));
-                g.fillRect(x, y, w, h);
+            if (emptyHere && solidBelow && safe) {
+                return new Point(c, r); // col, row
             }
         }
     }
+    // fallback: se non trova niente, metto una posizione “ragionevole”
+    return new Point(1, rows - 2);
+}
 
-    static class Coin extends Entity {
-        boolean collected = false;
-        Coin(int x, int y, int w, int h) { super(x, y, w, h); }
 
-        @Override
-        void draw(Graphics g) {
-            g.setColor(new Color(255, 230, 0));
-            g.fillOval(x + 6, y + 6, w - 12, h - 12);
-        }
-    }
 
-    static class Teleporter extends Entity {
-        Teleporter(int x, int y, int w, int h) { super(x, y, w, h); }
-
-        @Override
-        void draw(Graphics g) {
-            g.setColor(new Color(160, 80, 255));
-            g.drawRect(x + 2, y + 2, w - 4, h - 4);
-            g.drawLine(x + 2, y + 2, x + w - 2, y + h - 2);
-            g.drawLine(x + w - 2, y + 2, x + 2, y + h - 2);
-        }
-    }
-
-    static class ButtonPad extends Entity {
-        ButtonPad(int x, int y, int w, int h) { super(x, y, w, h); }
-
-        @Override
-        void draw(Graphics g) {
-            g.setColor(new Color(255, 80, 200));
-            g.fillRect(x + 4, y + 10, w - 8, h - 12);
-        }
-    }
-
-    static class MovingPlatform extends Entity {
-        int startY;
-        int targetDy = 0;
-        double speed = 1.0;
-
-        boolean isLeftSide = false;
-
-        int prevX, prevY;
-
-        MovingPlatform(int x, int y, int w, int h) {
-            super(x, y, w, h);
-            startY = y;
-            prevX = x;
-            prevY = y;
-        }
-
-        void setBalanceRole(boolean isLeft, int dyWhenActive, double speed) {
-            this.isLeftSide = isLeft;
-            this.targetDy = dyWhenActive;
-            this.speed = speed;
-        }
-
-        void updateBalance(boolean active) {
-            prevX = x;
-            prevY = y;
-
-            int desiredY = active ? (startY + targetDy) : startY;
-
-            if (y < desiredY) y += (int) Math.ceil(speed);
-            if (y > desiredY) y -= (int) Math.ceil(speed);
-
-            if (Math.abs(y - desiredY) <= 1) y = desiredY;
-        }
-
-        int deltaX() { return x - prevX; }
-        int deltaY() { return y - prevY; }
-
-        @Override
-        void draw(Graphics g) {
-            g.setColor(new Color(220, 220, 220));
-            g.fillRect(x, y, w, h);
-        }
-    }
-
-    static class Boulder extends Entity {
-        double vy = 0;
-        boolean onGround = false;
-
-        Boulder(int x, int y, int w, int h) { super(x, y, w, h); }
-
-        void updatePhysics(FireboyWatergirlLevel world) {
-            vy += 0.35;
-            if (vy > 10) vy = 10;
-
-            int ny = (int) (y + vy);
-
-            if (!collides(world, x, ny)) {
-                y = ny;
-                onGround = false;
-            } else {
-                if (vy > 0) onGround = true;
-                vy = 0;
-            }
-        }
-
-        private boolean collides(FireboyWatergirlLevel w, int nx, int ny) {
-            return w.isSolidAtPixel(nx + 1, ny + 1)
-                    || w.isSolidAtPixel(nx + this.w - 2, ny + 1)
-                    || w.isSolidAtPixel(nx + 1, ny + this.h - 2)
-                    || w.isSolidAtPixel(nx + this.w - 2, ny + this.h - 2);
-        }
-
-        void tryPushBy(Player p, FireboyWatergirlLevel world) {
-            Rectangle pr = p.getRect();
-            Rectangle br = this.rect();
-            if (!pr.intersects(br)) return;
-
-            if (p.vx > 0 && pr.x + pr.width <= br.x + 6) {
-                int nx = x + 2;
-                if (!world.isSolidAtPixel(nx + w, y + 1) && !world.isSolidAtPixel(nx + w, y + h - 2)) {
-                    x = nx;
-                }
-            } else if (p.vx < 0 && pr.x >= br.x + br.width - 6) {
-                int nx = x - 2;
-                if (!world.isSolidAtPixel(nx, y + 1) && !world.isSolidAtPixel(nx, y + h - 2)) {
-                    x = nx;
-                }
-            }
-        }
-
-        @Override
-        void draw(Graphics g) {
-            g.setColor(new Color(140, 110, 90));
-            g.fillRect(x, y, w, h);
-        }
-    }
+    
 }

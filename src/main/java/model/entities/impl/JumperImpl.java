@@ -4,7 +4,10 @@ import model.Collider;
 import model.GameConstants;
 import model.entities.api.EnemyType;
 
-public class JumperImpl extends EnemyImpl {
+/**
+ * Implementation of a jumping enemy.
+ */
+public final class JumperImpl extends EnemyImpl {
 
     private static final double SPEED = 0.1;
     private static final double JUMP_HEIGHT = 3.0;
@@ -12,7 +15,14 @@ public class JumperImpl extends EnemyImpl {
     private int direction = 1;
     private Collider collider;
 
-    public JumperImpl(double x, double y, EnemyType type) {
+    /**
+     * Creates a new Jumper enemy at the specified position.
+     *
+     * @param x starting horizontal coordinate
+     * @param y starting vertical coordinate
+     * @param type the enemy type
+     */
+    public JumperImpl(final double x, final double y, final EnemyType type) {
         super(
             x, 
             y, 
@@ -22,6 +32,11 @@ public class JumperImpl extends EnemyImpl {
         );
     }
 
+    /**
+     * Updates the enemy’s position. 
+     *
+     * @param deltaSeconds time elapsed since last update
+     */
     @Override
     public void update(final double deltaSeconds) {
         double x = getX();
@@ -64,6 +79,11 @@ public class JumperImpl extends EnemyImpl {
         }
     }
 
+    /**
+     * Sets the collider for this enemy.
+     *
+     * @param collider the collider to assign
+     */
     public void setCollider(final Collider collider) {
         this.collider = collider;
     }

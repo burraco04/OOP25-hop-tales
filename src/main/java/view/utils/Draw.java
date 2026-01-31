@@ -80,6 +80,9 @@ public final class Draw {
      */
     private static Image loadImage(final String type) {
         final String path = switch (type) {
+            case "door_top"      -> "img/door_open_top.png";
+            case "door"      -> "img/door_open.png";
+            case "brick_castle"      -> "img/bricks_castle.png";
             case "lava"      -> "img/lava.png";
             case "top_lava"      -> "img/lava_top.png";
             case "player"      -> "img/Player_1_frame_1.png";

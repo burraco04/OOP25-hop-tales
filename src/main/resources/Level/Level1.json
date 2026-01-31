@@ -337,7 +337,128 @@
         "width": 25,
         "height": 1
       } 
+    },
+    {
+      "type": "grass",
+      "x": 140,
+      "y": 19,
+      "macro": {
+        "type": "fill",
+        "width": 25,
+        "height": 5
+      } 
+    },
+    {
+      "type": "green_grass",
+      "x": 140,
+      "y": 18,
+      "macro": {
+        "type": "fill",
+        "width": 10,
+        "height": 1
+      } 
+    },
+    {
+      "type": "grass",
+      "x": 150,
+      "y": 14,
+      "macro": {
+        "type": "fill",
+        "width": 15,
+        "height": 5
+      } 
+    },
+    {
+      "type": "green_grass",
+      "x": 150,
+      "y": 13,
+      "macro": {
+        "type": "fill",
+        "width": 15,
+        "height": 1
+      } 
+    },
+    {
+      "type": "green_grass",
+      "x": 150,
+      "y": 13,
+      "macro": {
+        "type": "fill",
+        "width": 15,
+        "height": 1
+      } 
+    },
+    {
+      "type": "coin_gold",
+      "x": 152,
+      "y": 9,
+      "macro": {
+        "type": "fill",
+        "width": 3,
+        "height": 1
+      } 
+    },
+    {
+      "type": "powerup_block",
+      "x": 155,
+      "y": 9
+    },
+    {
+      "type": "grass",
+      "x": 180,
+      "y": 23,
+      "macro": {
+        "type": "fill",
+        "width": 31,
+        "height": 15
+      }
+    },
+    {
+      "type": "green_grass",
+      "x": 180,
+      "y": 22,
+      "macro": {
+        "type": "fill",
+        "width": 31,
+        "height": 1
+      }
+    },
+    {
+      "type": "brick_castle",
+      "x": 190,
+      "y": 18,
+      "macro": {
+        "type": "fill",
+        "width": 1,
+        "height": 4
+      }
+    },
+    {
+      "type": "brick_castle",
+      "x": 191,
+      "y": 19
+    },
+    {
+      "type": "door_top",
+      "x": 191,
+      "y": 20
+    },
+    {
+      "type": "door",
+      "x": 191,
+      "y": 21
+    },
+    {
+      "type": "brick_castle",
+      "x": 192,
+      "y": 18,
+      "macro": {
+        "type": "fill",
+        "width": 1,
+        "height": 4
+      }
     }
+
     ],
     "enemies": [{
       "type": "fungo",

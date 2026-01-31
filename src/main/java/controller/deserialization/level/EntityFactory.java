@@ -8,9 +8,12 @@ import model.entities.api.EnemyType;
 import model.entities.impl.JumperImpl;
 import model.objects.api.WorldObject;
 import model.objects.impl.brick.Brick;
+import model.objects.impl.brick.BrickCastle;
 import model.objects.impl.brick.PowerupBlock;
 import model.objects.impl.collectable.Coin;
 import model.objects.impl.collectable.Powerup;
+import model.objects.impl.door.Door;
+import model.objects.impl.door.DoorTop;
 import model.objects.impl.grass.FloatingGrass;
 import model.objects.impl.grass.FloatingGrassLeft;
 import model.objects.impl.grass.FloatingGrassRight;
@@ -75,6 +78,8 @@ public final class EntityFactory {
      */
     private static WorldObject createSingle(final String type, final int x, final int y) {
         return switch (type) {
+            case "door" -> new Door(x, y);
+            case "door_top" -> new DoorTop(x, y);
             case "lava" -> new Lava(x, y);
             case "lava_top" -> new TopLava(x, y);
             case "floating_grass" -> new FloatingGrass(x, y);
@@ -86,6 +91,7 @@ public final class EntityFactory {
             case "brick" -> new Brick(x, y);
             case "green_grass" -> new GreenGrass(x, y);
             case "coin_gold" -> new Coin(x, y);
+            case "brick_castle" -> new BrickCastle(x, y);
             default -> throw new IllegalArgumentException("Tipo entita sconosciuta: " + type);
         };
     }

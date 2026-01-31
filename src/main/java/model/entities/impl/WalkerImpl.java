@@ -27,10 +27,16 @@ public final class WalkerImpl extends EnemyImpl {
         );
     }
 
+    /**
+     * Updates the enemy’s position.
+     * Handles horizontal movement and gravity. 
+     *
+     * @param deltaSeconds time elapsed since last update
+     */
     @Override
     public void update(final double deltaSeconds) {
-        setX(getX() + SPEED * deltaSeconds);
+        moveHorizontal(SPEED * deltaSeconds);
+        applyGravity(GameConstants.GRAVITY);
     }
-
-    
+   
 }

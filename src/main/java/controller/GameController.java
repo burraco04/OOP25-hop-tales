@@ -32,6 +32,7 @@ public final class GameController implements ActionListener {
      * Creates a controller.
      * 
      * @param view the {@link View} that is responsible for the game.
+     * @param levelId number representing the level selected.
      */
     public GameController(final View view, final int levelId) {
         this.view = view;

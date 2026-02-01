@@ -28,7 +28,7 @@ public final class Collider {
 
     /**
      * Instantiate a {@link Collider}.
-     * 
+     *
      * @param solidTiles set of all the solid tiles.
      * @param collectableTiles set of all the collectable tiles.
      * @param coinTiles set of all the coin tiles.
@@ -37,6 +37,7 @@ public final class Collider {
      * @param powerupBlockTiles set of all the {@link PowerupBlock} tiles.
      * @param hazardTiles set of all the hazard tiles.
      * @param entities list of all the objects.
+     * @param enemies list of all the enemies.
      */
     protected Collider(
         final Set<Point> solidTiles,

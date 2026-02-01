@@ -94,6 +94,8 @@ public class SwingView implements View {
     @Override
     public void showGameOver() {
         final JDialog dialog = new JDialog(this.frame, "Game Over", true);
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        dialog.setResizable(false);
         dialog.setContentPane(new GameOverPanel(this.controller, dialog::dispose));
         dialog.pack();
         dialog.setLocationRelativeTo(this.frame);

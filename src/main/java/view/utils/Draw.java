@@ -98,7 +98,8 @@ public final class Draw {
             case "powerup"     -> "img/powerup.png";
             case "green_grass" -> "img/green_grass.png";
             case "brick"       -> "img/brick.png";
-            case "fungo"       -> "img/slime_spike_rest.png";
+            case "jumper"       -> "img/frog.png";
+            case "walker"   -> "img/snail.png";
             case "full_heart"  -> "img/full_heart.png";
             case "empty_heart"  -> "img/empty_heart.png";
             case "block_planks" -> "img/block_planks.png";

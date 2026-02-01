@@ -490,7 +490,7 @@
     }
     ],
     "enemies": [{
-      "type": "fungo",
+      "type": "jumper",
       "x": 10,
       "y": 25
     } ]

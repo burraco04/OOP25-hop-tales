@@ -8,7 +8,7 @@ import model.entities.api.EnemyType;
  */
 public final class WalkerImpl extends EnemyImpl {
 
-    private static final double SPEED = 100.0;
+    private static final double SPEED = 0.2;
 
     /**
      * Creates a new Walker enemy at the specified position.
@@ -35,7 +35,7 @@ public final class WalkerImpl extends EnemyImpl {
      */
     @Override
     public void update(final double deltaSeconds) {
-        moveHorizontal(SPEED * deltaSeconds);
+        moveHorizontal(getDirection() * SPEED);
         applyGravity(GameConstants.GRAVITY);
     }
    

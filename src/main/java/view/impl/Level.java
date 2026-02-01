@@ -109,7 +109,8 @@ private void update() {
 
         for (final var enemy : world.getEnemies()) {
             final String enemyName = switch (enemy.getType()) {
-                case JUMPER -> "fungo";
+                case WALKER -> "walker";
+                case JUMPER -> "jumper";
                 default -> "walker";
             };
 

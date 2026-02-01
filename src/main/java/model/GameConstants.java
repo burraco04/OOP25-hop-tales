@@ -19,6 +19,7 @@ public final class GameConstants {
     public static final int COIN_POSITION = 50;
     public static final int TILE_SIZE = 30; //pixel
     public static final int LEVEL_1_WIDTH = 1000;
+    public static final int LEVEL_2_WIDTH = 800;
     public static final Color BACK_COLOR = new Color(34, 85, 34);
     public static final double JUMP_HEIGHT = GameConstants.PLAYER_SPEED * 25.0;
     public static final double JUMP_STEP = 0.5;

@@ -10,6 +10,7 @@ import java.util.Set;
 
 import model.entities.api.Enemy;
 import model.entities.api.Player;
+import model.entities.impl.EnemyImpl;
 import model.entities.impl.PlayerImpl;
 import model.objects.CollectableManager;
 import model.objects.api.WorldObject;
@@ -51,7 +52,7 @@ public class World {
 
         this.levelWidth = switch (levelId) {
             case 1 -> GameConstants.LEVEL_1_WIDTH;
-            case 2 -> GameConstants.LEVEL_1_WIDTH;
+            case 2 -> GameConstants.LEVEL_2_WIDTH;
             default -> GameConstants.LEVEL_1_WIDTH;
         };
         this.jsonPath = switch (levelId) {
@@ -118,8 +119,8 @@ public class World {
      */
     public void addEnemy(final Enemy enemy) {
         enemies.add(enemy);
-        if (enemy instanceof model.entities.impl.JumperImpl jumper) {
-            jumper.setCollider(collider);
+        if (enemy instanceof EnemyImpl enemyImpl) {
+            enemyImpl.setCollider(collider);
         }
     }
 

@@ -1,5 +1,5 @@
 {
-    "name": "Level 2",
+  "name": "Level 2",
   "spawnPointX": 1,
   "spawnPointY": 24,
   "entities": [
@@ -9,10 +9,268 @@
       "y": 26,
       "macro": {
         "type": "fill",
-        "width": 100,
+        "width": 25,
         "height": 1
       }
+    },
+    {
+      "type": "dirt_block",
+      "x": 0,
+      "y": 27,
+      "macro": {
+        "type": "fill",
+        "width": 25,
+        "height": 20
+      }
+    },
+    {
+      "type": "dirt_block",
+      "x": 25,
+      "y": 22,
+      "macro": {
+        "type": "fill",
+        "width": 10,
+        "height": 20
+      } 
+    },
+    {
+      "type": "top_dirt_block",
+      "x": 25,
+      "y": 21,
+      "macro": {
+        "type": "fill",
+        "width": 10,
+        "height": 1
+      } 
+    },
+
+
+    {
+      "type": "floating_dirt_left",
+      "x": 38,
+      "y": 18 
+    },
+    {
+      "type": "floating_dirt_middle",
+      "x": 39,
+      "y": 18,
+      "macro": {
+        "type": "fill",
+        "width": 4,
+        "height": 1
+      } 
+    },
+    {
+      "type": "floating_dirt_right",
+      "x": 43,
+      "y": 18
+    },
+    {
+      "type": "coin_gold",
+      "x": 39,
+      "y": 13,
+      "macro": {
+        "type": "fill",
+        "width": 3,
+        "height": 1
+      } 
+    },
+
+
+    {
+      "type": "block_planks",
+      "x": 44,
+      "y": 18
+    },
+    {
+      "type": "block_planks",
+      "x": 44,
+      "y": 17
+    },
+    {
+      "type": "block_planks",
+      "x": 44,
+      "y": 16
+    },
+    {
+      "type": "block_planks",
+      "x": 44,
+      "y": 15
+    },
+    {
+      "type": "block_planks",
+      "x": 44,
+      "y": 14
+    },
+    {
+      "type": "block_planks",
+      "x": 44,
+      "y": 13
+    },
+    {
+      "type": "block_planks",
+      "x": 44,
+      "y": 12
+    },
+    {
+      "type": "block_planks",
+      "x": 44,
+      "y": 11
+    },
+
+
+    {
+      "type": "floating_dirt_left",
+      "x": 40,
+      "y": 25 
+    },
+    {
+      "type": "floating_dirt_middle",
+      "x": 41,
+      "y": 25,
+      "macro": {
+        "type": "fill",
+        "width": 4,
+        "height": 1
+      } 
+    },
+    {
+      "type": "floating_dirt_right",
+      "x": 45,
+      "y": 25
+    },
+
+
+    {
+      "type": "floating_dirt_left",
+      "x": 51,
+      "y": 24 
+    },
+    {
+      "type": "floating_dirt_middle",
+      "x": 52,
+      "y": 24,
+      "macro": {
+        "type": "fill",
+        "width": 8,
+        "height": 1
+      } 
+    },
+    {
+      "type": "floating_dirt_right",
+      "x": 60,
+      "y": 24
+    },
+
+
+
+
+
+    {
+      "type": "water_top",
+      "x": 35,
+      "y": 27,
+      "macro": {
+        "type": "fill",
+        "width": 31,
+        "height": 1
+      } 
+    },
+    {
+      "type": "water",
+      "x": 35,
+      "y": 28,
+      "macro": {
+        "type": "fill",
+        "width": 31,
+        "height": 7
+      } 
+    },
+
+
+    {
+      "type": "top_dirt_block",
+      "x": 66,
+      "y": 22,
+      "macro": {
+        "type": "fill",
+        "width": 14,
+        "height": 1
+      }
+    },
+    {
+      "type": "coin_gold",
+      "x": 70,
+      "y": 20,
+      "macro": {
+        "type": "fill",
+        "width": 1,
+        "height": 1
+      } 
+    },
+    {
+      "type": "powerup_block",
+      "x": 75,
+      "y": 18
+    },
+    {
+      "type": "dirt_block",
+      "x": 66,
+      "y": 23,
+      "macro": {
+        "type": "fill",
+        "width": 14,
+        "height": 20
+      }
+    },
+
+    {
+      "type": "top_dirt_block",
+      "x": 80,
+      "y": 27,
+      "macro": {
+        "type": "fill",
+        "width": 20,
+        "height": 1
+      }
+    },
+    {
+      "type": "dirt_block",
+      "x": 80,
+      "y": 28,
+      "macro": {
+        "type": "fill",
+        "width": 20,
+        "height": 20
+      }
+    },
+
+
+    {
+      "type": "top_dirt_block",
+      "x": 100,
+      "y": 25,
+      "macro": {
+        "type": "fill",
+        "width": 15,
+        "height": 1
+      }
+    },
+    {
+      "type": "dirt_block",
+      "x": 100,
+      "y": 26,
+      "macro": {
+        "type": "fill",
+        "width": 15,
+        "height": 20
+      }
     }
+
   ],
-  "enemies" : [{}]
+    "enemies": [{
+      "type": "walker",
+      "x": 30,
+      "y": 20
+    } ]
 }

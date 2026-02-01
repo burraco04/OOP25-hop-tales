@@ -22,7 +22,7 @@ import view.utils.Draw;
 /**
  * Panel rapresenting the view of the first level.
  */
-public class Level1 extends JPanel {
+public class Level extends JPanel {
     private static final long serialVersionUID = 1L;
     private static final int MILLISEC = 16;
     private final World world;
@@ -36,7 +36,7 @@ public class Level1 extends JPanel {
      * @param world world instance.
      * @param kim KeyboardInputManager instance.
      */
-    public Level1(final String levelPath, final World world, final KeyboardInputManager kim) {
+    public Level(final String levelPath, final World world, final KeyboardInputManager kim) {
         this.world = world;
         this.kim = kim;
         final LevelData data = LevelLoader.load(levelPath);

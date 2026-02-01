@@ -82,12 +82,12 @@ public class SwingView implements View {
 
 
     @Override
-    public void showLevel1(final World world, final KeyboardInputManager kim) {
-        final Level1 l1 = new Level1("Level/Level1.json", world, kim);
-        this.frame.setContentPane(l1);
+    public void showLevel(final World world, final KeyboardInputManager kim) {
+        final Level levelPhat = new Level(world.getJsonPath(), world, kim);
+        this.frame.setContentPane(levelPhat);
         this.frame.revalidate();
         this.frame.repaint();
-        l1.focus(); 
+        levelPhat.focus(); 
     }
 
 }

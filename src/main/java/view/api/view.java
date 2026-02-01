@@ -34,5 +34,5 @@ void showOptions();
  * @param world the world of the first level.
  * @param kim a {@link KeyboardInputManager} instance.
  */
-void showLevel1(World world, KeyboardInputManager kim);
+void showLevel(World world, KeyboardInputManager kim);
 }

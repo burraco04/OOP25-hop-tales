@@ -41,7 +41,7 @@ public final class GameController implements ActionListener {
         this.enemyController = new EnemyController(this.world);
         this.timer = new Timer((int) (GameConstants.MILLIS_PER_SECOND / GameConstants.TARGET_UPS), this);
         this.start();
-        this.view.showLevel1(this.world, this.kim);
+        this.view.showLevel(this.world, this.kim);
     }
 
     /**

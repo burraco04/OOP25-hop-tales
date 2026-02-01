@@ -41,6 +41,7 @@ public class World {
     private final CollectableManager coinManager;
     private final int levelWidth;
     private final int levelId;
+    private final String jsonPath;
 
     /**
      * Create a {@link World} object.
@@ -52,6 +53,11 @@ public class World {
             case 1 -> GameConstants.LEVEL_1_WIDTH;
             case 2 -> GameConstants.LEVEL_1_WIDTH;
             default -> GameConstants.LEVEL_1_WIDTH;
+        };
+        this.jsonPath = switch (levelId) {
+            case 1 -> "/levels/level1.json";
+            case 2 -> "/levels/level2.json";
+            default -> "/levels/level1.json";
         };
         this.player = new PlayerImpl(GameConstants.STARTING_POSITION_X, GameConstants.STARTING_POSITION_Y,
                                      GameConstants.PLAYER_WIDTH_TILES, GameConstants.PLAYER_HEIGHT_TILES);
@@ -71,6 +77,10 @@ public class World {
 
     public int getLevelId() {
         return levelId;
+    }
+
+    public String getJsonPath() {
+        return jsonPath;
     }
 
     /**

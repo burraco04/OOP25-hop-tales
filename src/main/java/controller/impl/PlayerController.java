@@ -135,10 +135,8 @@ public final class PlayerController implements ControllerObserver {
         }
         final int hazardTileX = (int) Math.floor(x);
         final int hazardTileY = (int) Math.floor(y);
-        if (world.collidesWithHazard(hazardTileX, hazardTileY)) {
-            player.applyDamage();
-        }
-        if (world.collidesWithEnemy(hazardTileX, hazardTileY)) {
+        if (world.collidesWithHazard(hazardTileX, hazardTileY)||
+            world.collidesWithEnemy(hazardTileX, hazardTileY)) {
             player.applyDamage();
         }
         player.setX(x);

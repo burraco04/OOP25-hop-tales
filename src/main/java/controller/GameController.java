@@ -26,6 +26,7 @@ public final class GameController implements ActionListener {
     private final Timer timer;
     private final View view;
     private final World world;
+    private boolean gameOver;
 
     /**
      * Creates a controller.
@@ -68,5 +69,10 @@ public final class GameController implements ActionListener {
         playerController.update();
         coinsController.update();
         enemyController.update();
+        if (!gameOver && !world.getPlayer().isAlive()) {
+            gameOver = true;
+            stop();
+            view.showGameOver();
+        }
     }
 }

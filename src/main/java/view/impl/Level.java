@@ -26,6 +26,7 @@ public class Level extends JPanel {
     private static final long serialVersionUID = 1L;
     private static final int MILLISEC = 16;
     private final World world;
+    private final Timer timer;
     private Camera camera;
     private final KeyboardInputManager kim;
 
@@ -52,10 +53,11 @@ public class Level extends JPanel {
            world.addEnemy(EntityFactory.createEnemy(e));
         }
 
-        new Timer(MILLISEC, e -> { 
+        this.timer = new Timer(MILLISEC, e -> { 
             update();
             repaint();
-            }).start();
+            });
+        this.timer.start();
 
         setBackground(Color.CYAN);
         this.addKeyListener(kim);
@@ -63,6 +65,10 @@ public class Level extends JPanel {
     }
  
 private void update() {
+    if (!world.getPlayer().isAlive()) {
+        timer.stop();
+        return;
+    }
 
     if (camera == null && getWidth() > 0) {
         camera = new Camera(world.getLevelWidth() * GameConstants.TILE_SIZE, getWidth());
@@ -146,6 +152,11 @@ private void update() {
                     }
             case 1 -> { 
                     g.drawImage(Draw.get("full_heart", timePassed), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                    g.drawImage(Draw.get("empty_heart", timePassed), GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
+                    g.drawImage(Draw.get("empty_heart", timePassed), GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
+                    }
+            case 0 -> {
+                    g.drawImage(Draw.get("empty_heart", timePassed), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
                     g.drawImage(Draw.get("empty_heart", timePassed), GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
                     g.drawImage(Draw.get("empty_heart", timePassed), GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
                     }

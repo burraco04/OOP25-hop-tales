@@ -55,9 +55,9 @@ public class World {
             default -> GameConstants.LEVEL_1_WIDTH;
         };
         this.jsonPath = switch (levelId) {
-            case 1 -> "/levels/level1.json";
-            case 2 -> "/levels/level2.json";
-            default -> "/levels/level1.json";
+            case 1 -> "levels/Level1.json";
+            case 2 -> "levels/Level2.json";
+            default -> "levels/Level1.json";
         };
         this.player = new PlayerImpl(GameConstants.STARTING_POSITION_X, GameConstants.STARTING_POSITION_Y,
                                      GameConstants.PLAYER_WIDTH_TILES, GameConstants.PLAYER_HEIGHT_TILES);

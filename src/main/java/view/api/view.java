@@ -35,4 +35,9 @@ void showOptions();
  * @param kim a {@link KeyboardInputManager} instance.
  */
 void showLevel(World world, KeyboardInputManager kim);
+
+/**
+ * Show the game over panel.
+ */
+void showGameOver();
 }

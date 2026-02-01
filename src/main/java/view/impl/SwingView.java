@@ -1,6 +1,7 @@
 package view.impl;
 
 import javax.swing.JFrame;
+import javax.swing.JDialog;
 
 import controller.AudioManager;
 import controller.KeyboardInputManager;
@@ -83,11 +84,20 @@ public class SwingView implements View {
 
     @Override
     public void showLevel(final World world, final KeyboardInputManager kim) {
-        final Level levelPhat = new Level(world.getJsonPath(), world, kim);
-        this.frame.setContentPane(levelPhat);
+        final Level level = new Level(world.getJsonPath(), world, kim);
+        this.frame.setContentPane(level);
         this.frame.revalidate();
         this.frame.repaint();
-        levelPhat.focus(); 
+        level.focus(); 
+    }
+
+    @Override
+    public void showGameOver() {
+        final JDialog dialog = new JDialog(this.frame, "Game Over", true);
+        dialog.setContentPane(new GameOverPanel(this.controller, dialog::dispose));
+        dialog.pack();
+        dialog.setLocationRelativeTo(this.frame);
+        dialog.setVisible(true);
     }
 
 }

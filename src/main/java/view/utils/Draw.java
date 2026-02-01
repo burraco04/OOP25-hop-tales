@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.imageio.ImageIO;
@@ -17,6 +18,8 @@ public final class Draw {
     private static final Map<String, Animation> ANIMATIONS = new ConcurrentHashMap<>();
     private static final int FRAME_DURATION_COIN = 300;
     private static final int FRAME_DURATION_PLAYER = 200;
+    private static final int FRAME_DURATION_LAVA = 500;
+    private static final Set<String> ANIMATED_TYPES = Set.of("coin", "player", "top_lava", "player_hurt");
 
     private Draw() { }
 
@@ -69,7 +72,7 @@ public final class Draw {
      * @return true or false
      */
     private static boolean isAnimated(final String type) {
-    return "coin".equals(type) || "player".equals(type) || "player_hurt".equals(type);   // aggiungi altri type animati qui
+    return ANIMATED_TYPES.contains(type);   // aggiungi altri type animati qui
     }
 
     /**
@@ -82,9 +85,8 @@ public final class Draw {
         final String path = switch (type) {
             case "door_top"      -> "img/door_open_top.png";
             case "door"      -> "img/door_open.png";
-            case "brick_castle"      -> "img/bricks_castle.png";
+            case "brick_castle" -> "img/bricks_castle.png";
             case "lava"      -> "img/lava.png";
-            case "top_lava"      -> "img/lava_top.png";
             case "player"      -> "img/Player_1_frame_1.png";
             case "grass"       -> "img/grass.png";
             case "floating_grass" -> "img/floating_grass.png";
@@ -124,6 +126,8 @@ public final class Draw {
             loadFromResources("img/Player_1_frame_2.png")}, FRAME_DURATION_PLAYER);
             case "player_hurt" -> new Animation(new Image[] {loadFromResources("img/Player_1_damaged_frame_1-1.png"),
             loadFromResources("img/Player_1_damaged_frame_1-2.png")}, FRAME_DURATION_PLAYER);
+            case "top_lava" -> new Animation(new Image[] {loadFromResources("img/lava_top.png"),
+            loadFromResources("img/lava_top_low.png")}, FRAME_DURATION_LAVA);
             default -> throw new IllegalArgumentException("Tipo sprite sconosciuto: " + type);
         };
     }

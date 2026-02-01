@@ -26,12 +26,12 @@
     {
       "type": "brick",
       "x": 5,
-      "y": 19
+      "y": 22
     },
     {
       "type": "coin_gold",
       "x": 6,
-      "y": 19,
+      "y": 22,
       "macro": {
         "type": "fill",
         "width": 3,
@@ -41,7 +41,7 @@
     {
       "type": "powerup_block",
       "x": 10,
-      "y": 19
+      "y": 22
     },
     {
       "type": "grass",
@@ -81,7 +81,7 @@
     {
       "type": "brick",
       "x": 46,
-      "y": 9,
+      "y": 12,
       "macro": {
         "type": "fill",
         "width": 3,
@@ -91,12 +91,12 @@
     {
       "type": "coin_gold",
       "x": 49,
-      "y": 9
+      "y": 12
     },
     {
       "type": "brick",
       "x": 50,
-      "y": 9
+      "y": 12
     },
     {
       "type": "floating_grass_right",

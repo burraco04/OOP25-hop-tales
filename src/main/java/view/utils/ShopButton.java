@@ -1,5 +1,6 @@
 package view.utils;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -7,6 +8,8 @@ import java.awt.Image;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import controller.api.ControllerMenu;
 
 /**
  * used for buy the skin.
@@ -22,35 +25,57 @@ public class ShopButton extends JPanel {
     private static final int GAP_MIN = 10;
     private static final int GAP_MAX = 200;
     private static final float GAP_PERCENTUALE = 0.20f;
+    private static final Color DEFAULT_COLOR = new Color(205, 170, 125);
+    private static final Color SELECTED_COLOR = new Color(208, 208, 208);
     private final GridLayout grid;
     private final Image background;
+    private final JButton[] allButtons;
 
     /**
      * implements the top bar. 
      *
      * @return the pannel where put the button
      */
-    public ShopButton() {
+    public ShopButton(final ControllerMenu controller) {
 
         this.background = CreateBackground.create("/img/Shopback.png");
 
         this.grid = new GridLayout(ROWS, COLS, 0, 0);
         setLayout(this.grid);
 
-        final JButton skin1 = ShopButtonFactory.build("/img/Player_1_frame_1.png");
-        final JButton skin2 = ShopButtonFactory.build("/img/skinsqualo.png");
-        final JButton skin3 = ShopButtonFactory.build("/img/skinsqualo.png");
-        final JButton skin4 = ShopButtonFactory.build("/img/skinsqualo.png");
+        final JButton skinDefault = ShopButtonFactory.build("/img/Player_1_frame_1.png");
+        final JButton skinRobot = ShopButtonFactory.build("/img/Player_1_frame_2.png");
+        final JButton skinShark = ShopButtonFactory.build("/img/skinsqualo.png");
+        final JButton skinCat = ShopButtonFactory.build("/img/skinsqualo.png");
 
-        skin1.setText("DEFAULT");
-        skin2.setText("10$");
-        skin3.setText("5$");
-        skin4.setText("15$");
+        this.allButtons = new JButton[] {skinDefault, skinRobot, skinShark, skinCat};
 
-        add(skin1);
-        add(skin2);
-        add(skin3);
-        add(skin4);
+        skinDefault.setText("DEFAULT");
+        skinRobot.setText("ROBOT");
+        skinShark.setText("SQUALO");
+        skinCat.setText("CANE");
+
+        skinDefault.addActionListener(e -> {
+            controller.selectSkin("img/Player_1_frame_1.png", "img/Player_1_frame_2.png");
+            selectButton(skinDefault, allButtons);
+        });
+        skinRobot.addActionListener(e -> {
+            controller.selectSkin("img/Player_1_frame_2.png", "img/Player_1_frame_2.png");
+            selectButton(skinRobot, allButtons);
+        });
+        skinShark.addActionListener(e -> {
+            controller.selectSkin("img/skinsqualo.png", "img/skinsqualo.png");
+            selectButton(skinShark, allButtons);
+        });
+        skinCat.addActionListener(e -> {
+            controller.selectSkin("img/skinsqualo.png", "img/skinsqualo.png");
+            selectButton(skinCat, allButtons);
+        });
+
+        add(skinDefault);
+        add(skinRobot);
+        add(skinShark);
+        add(skinCat);
     }
 
     @Override
@@ -93,5 +118,14 @@ public class ShopButton extends JPanel {
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
          g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
+    }
+
+    private void selectButton(final JButton selected, final JButton[] all) {
+    for (final JButton b : all ) {
+        b.setBackground(DEFAULT_COLOR);
+        b.setOpaque(true);
+        b.setContentAreaFilled(true);
+    }
+    selected.setBackground(SELECTED_COLOR);
     }
 }

@@ -5,6 +5,7 @@ import java.util.Optional;
 import controller.GameController;
 import controller.api.ControllerMenu;
 import controller.api.State;
+import view.utils.Draw;
 import view.api.View;
 
 /**
@@ -43,5 +44,10 @@ public class ControllerMenuImpl implements ControllerMenu {
 
         case LEVEL_2 -> new GameController(this.view, 2);
      }
+    }
+
+    @Override
+    public void selectSkin(final String frame1, final String frame2) {
+        Draw.setPlayerSkin(frame1, frame2);
     }
 }

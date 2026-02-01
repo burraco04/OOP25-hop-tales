@@ -20,6 +20,8 @@ public final class Draw {
     private static final int FRAME_DURATION_PLAYER = 200;
     private static final int FRAME_DURATION_LAVA = 500;
     private static final Set<String> ANIMATED_TYPES = Set.of("coin", "player", "top_lava", "player_hurt");
+    private static String playerFrame1 = "img/Player_1_frame_1.png";
+    private static String playerFrame2 = "img/Player_1_frame_2.png";
 
     private Draw() { }
 
@@ -87,7 +89,7 @@ public final class Draw {
             case "door"      -> "img/door_open.png";
             case "brick_castle" -> "img/bricks_castle.png";
             case "lava"      -> "img/lava.png";
-            case "player"      -> "img/Player_1_frame_1.png";
+            case "player"      -> playerFrame1;
             case "grass"       -> "img/grass.png";
             case "floating_grass" -> "img/floating_grass.png";
             case "floating_grass_left" -> "img/floating_grass_left.png";
@@ -130,8 +132,8 @@ public final class Draw {
         return switch (type) {
             case "coin" -> new Animation(new Image[] {loadFromResources("img/coin_gold.png"),
             loadFromResources("img/coin_gold_side.png")}, FRAME_DURATION_COIN);
-            case "player" -> new Animation(new Image[] {loadFromResources("img/Player_1_frame_1.png"),
-            loadFromResources("img/Player_1_frame_2.png")}, FRAME_DURATION_PLAYER);
+            case "player" -> new Animation(new Image[] {loadFromResources(playerFrame1),
+            loadFromResources(playerFrame2)}, FRAME_DURATION_PLAYER);
             case "player_hurt" -> new Animation(new Image[] {loadFromResources("img/Player_1_damaged_frame_1-1.png"),
             loadFromResources("img/Player_1_damaged_frame_1-2.png")}, FRAME_DURATION_PLAYER);
             case "top_lava" -> new Animation(new Image[] {loadFromResources("img/lava_top.png"),
@@ -146,7 +148,7 @@ public final class Draw {
      * @param path of the entity
      * @return the correct image
      */
-     private static Image loadFromResources(final String path) {
+    private static Image loadFromResources(final String path) {
         try (var in = Draw.class.getClassLoader().getResourceAsStream(path)) {
             if (in == null) {
                 throw new IllegalArgumentException("Sprite non trovato in resources: " + path);
@@ -155,6 +157,19 @@ public final class Draw {
         } catch (final IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    /**
+     * Imposta la skin del player e invalida le cache.
+     *
+     * @param frame1 path al primo frame
+     * @param frame2 path al secondo frame (se null usa frame1)
+     */
+    public static void setPlayerSkin(final String frame1, final String frame2) {
+        playerFrame1 = frame1;
+        playerFrame2 = frame2 == null ? frame1 : frame2;
+        CACHE.remove("player");
+        ANIMATIONS.remove("player");
     }
 
 }

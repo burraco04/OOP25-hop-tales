@@ -15,4 +15,15 @@ public interface ControllerMenu {
      */
     void handleEvent(State e, Optional<?> data);
 
+    /**
+     * Seleziona una skin del giocatore.
+     * Default no-op per non rompere altre implementazioni.
+     *
+     * @param frame1 prima immagine della skin
+     * @param frame2 seconda immagine della skin (può coincidere con frame1)
+     */
+    default void selectSkin(final String frame1, final String frame2) {
+        // default implementation
+    }
+
 }

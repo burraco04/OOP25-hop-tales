@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.Timer;
 
 import controller.api.ControllerObserver;
@@ -31,9 +32,9 @@ public final class GameController implements ActionListener {
      * 
      * @param view the {@link View} that is responsible for the game.
      */
-    public GameController(final View view) {
+    public GameController(final View view, final int levelId) {
         this.view = view;
-        this.world = new World();
+        this.world = new World(levelId);
         this.playerController = new PlayerController(this.world);
         this.kim = new KeyboardInputManager(playerController);
         this.coinsController = new CollectablesController(this.world);

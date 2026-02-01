@@ -1,0 +1,18 @@
+{
+    "name": "Level 2",
+  "spawnPointX": 1,
+  "spawnPointY": 24,
+  "entities": [
+    {
+      "type": "top_dirt_block",
+      "x": 0,
+      "y": 26,
+      "macro": {
+        "type": "fill",
+        "width": 100,
+        "height": 1
+      }
+    }
+  ],
+  "enemies" : [{}]
+}

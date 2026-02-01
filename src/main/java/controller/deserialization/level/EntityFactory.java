@@ -9,11 +9,17 @@ import model.entities.impl.JumperImpl;
 import model.objects.api.WorldObject;
 import model.objects.impl.brick.Brick;
 import model.objects.impl.brick.BrickCastle;
+import model.objects.impl.brick.Plank;
 import model.objects.impl.brick.PowerupBlock;
 import model.objects.impl.collectable.Coin;
 import model.objects.impl.collectable.Powerup;
 import model.objects.impl.door.Door;
 import model.objects.impl.door.DoorTop;
+import model.objects.impl.grass.Dirt;
+import model.objects.impl.grass.DirtTop;
+import model.objects.impl.grass.FloatingDirtMid;
+import model.objects.impl.grass.FloatingDirtRight;
+import model.objects.impl.grass.FloatingDirtleLeft;
 import model.objects.impl.grass.FloatingGrass;
 import model.objects.impl.grass.FloatingGrassLeft;
 import model.objects.impl.grass.FloatingGrassRight;
@@ -21,6 +27,8 @@ import model.objects.impl.grass.Grass;
 import model.objects.impl.grass.GreenGrass;
 import model.objects.impl.lava.Lava;
 import model.objects.impl.lava.TopLava;
+import model.objects.impl.lava.Water;
+import model.objects.impl.lava.WaterTop;
 
 /**
  * create the entity.
@@ -92,6 +100,14 @@ public final class EntityFactory {
             case "green_grass" -> new GreenGrass(x, y);
             case "coin_gold" -> new Coin(x, y);
             case "brick_castle" -> new BrickCastle(x, y);
+            case "block_planks" -> new Plank(x, y);
+            case "dirt_block" -> new Dirt(x, y);
+            case "top_dirt_block" -> new DirtTop(x, y);
+            case "water" -> new Water(x, y);
+            case "water_top" -> new WaterTop(x, y);
+            case "floating_dirt_middle" -> new FloatingDirtMid(x, y);
+            case "floating_dirt_left" -> new FloatingDirtleLeft(x, y);
+            case "floating_dirt_right" -> new FloatingDirtRight(x, y);
             default -> throw new IllegalArgumentException("Tipo entita sconosciuta: " + type);
         };
     }

@@ -7,6 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import controller.api.ControllerMenu;
 import controller.api.State;
 import model.GameConstants;
@@ -49,6 +50,8 @@ public final class ChooseLevelPanel extends JPanel {
         level3.setAlignmentX(CENTER_ALIGNMENT);
 
         level1.addActionListener(e -> controller.handleEvent(State.LEVEL_1, Optional.empty()));
+
+        level2.addActionListener(e -> controller.handleEvent(State.LEVEL_2, Optional.empty()));
 
         final JButton back = this.buttonbackFactory.buildbackbutton();
 

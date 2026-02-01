@@ -8,20 +8,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import model.entities.api.Player;
 import model.entities.api.Enemy;
+import model.entities.api.Player;
 import model.entities.impl.PlayerImpl;
 import model.objects.CollectableManager;
 import model.objects.api.WorldObject;
+import model.objects.impl.brick.PowerupBlock;
 
 /**
  * create class world.
  */
 public class World {
     static final String POWERUP_BLOCK_TYPE = "powerup_block";
-    static final Set<String> HAZARD_TYPES = Set.of("lava", "top_lava");
+    static final Set<String> HAZARD_TYPES = Set.of("lava", "top_lava", "water", "water_top");
     private static final Set<String> SOLID_TYPES = Set.of("grass", "green_grass", "brick", "floating_grass",
-        "floating_grass_left", "floating_grass_right", POWERUP_BLOCK_TYPE
+        "floating_grass_left", "floating_grass_right", "block_planks", "dirt_block", "top_dirt_block", "floating_dirt_middle", 
+        "floating_dirt_left", "floating_dirt_right", POWERUP_BLOCK_TYPE
     );
     private static final Set<String> COIN_TYPES = Set.of("coin");
     private static final Set<String> POWERUP_TYPES = Set.of("powerup");
@@ -38,15 +40,22 @@ public class World {
     private final Player player;
     private final CollectableManager coinManager;
     private final int levelWidth;
+    private final int levelId;
 
     /**
      * Create a {@link World} object.
      */
-    public World() {
+    public World(final int levelId) {
+        this.levelId = levelId;
+
+        this.levelWidth = switch (levelId) {
+            case 1 -> GameConstants.LEVEL_1_WIDTH;
+            case 2 -> GameConstants.LEVEL_1_WIDTH;
+            default -> GameConstants.LEVEL_1_WIDTH;
+        };
         this.player = new PlayerImpl(GameConstants.STARTING_POSITION_X, GameConstants.STARTING_POSITION_Y,
                                      GameConstants.PLAYER_WIDTH_TILES, GameConstants.PLAYER_HEIGHT_TILES);
         this.coinManager = new CollectableManager(this);
-        this.levelWidth = GameConstants.LEVEL_1_WIDTH;
         this.collider = new Collider(
             solidTiles,
             collectableTiles,
@@ -58,6 +67,10 @@ public class World {
             entities,
             enemies
         );
+    }
+
+    public int getLevelId() {
+        return levelId;
     }
 
     /**

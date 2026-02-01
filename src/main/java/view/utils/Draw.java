@@ -99,6 +99,14 @@ public final class Draw {
             case "fungo"       -> "img/slime_spike_rest.png";
             case "full_heart"  -> "img/full_heart.png";
             case "empty_heart"  -> "img/empty_heart.png";
+            case "block_planks" -> "img/block_planks.png";
+            case "dirt_block" -> "img/dirt_block.png";
+            case "top_dirt_block" -> "img/top_dirt_block.png";
+            case "water" -> "img/water.png";
+            case "water_top" -> "img/water_top.png";
+            case "floating_dirt_middle" -> "img/floating_dirt_middle.png";
+            case "floating_dirt_left" -> "img/floating_dirt_left.png";
+            case "floating_dirt_right" -> "img/floating_dirt_right.png";
             default -> throw new IllegalArgumentException("Tipo sprite sconosciuto: " + type);
         };
 

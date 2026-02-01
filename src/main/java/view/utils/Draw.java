@@ -69,7 +69,7 @@ public final class Draw {
      * @return true or false
      */
     private static boolean isAnimated(final String type) {
-    return "coin".equals(type) || "player".equals(type);   // aggiungi altri type animati qui
+    return "coin".equals(type) || "player".equals(type) || "player_hurt".equals(type);   // aggiungi altri type animati qui
     }
 
     /**
@@ -122,6 +122,8 @@ public final class Draw {
             loadFromResources("img/coin_gold_side.png")}, FRAME_DURATION_COIN);
             case "player" -> new Animation(new Image[] {loadFromResources("img/Player_1_frame_1.png"),
             loadFromResources("img/Player_1_frame_2.png")}, FRAME_DURATION_PLAYER);
+            case "player_hurt" -> new Animation(new Image[] {loadFromResources("img/Player_1_damaged_frame_1-1.png"),
+            loadFromResources("img/Player_1_damaged_frame_1-2.png")}, FRAME_DURATION_PLAYER);
             default -> throw new IllegalArgumentException("Tipo sprite sconosciuto: " + type);
         };
     }

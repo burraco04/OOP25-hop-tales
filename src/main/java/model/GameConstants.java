@@ -26,7 +26,7 @@ public final class GameConstants {
     public static final float MIN_VOLUME = 0.0001f;
     public static final float DB_CONSTANT = 20.0f;
     public static final int STARTING_HEALTH = 3;
-    public static final float DAMAGE_COOLDOWN = 1f;
+    public static final float DAMAGE_COOLDOWN = 0.7f;
     public static final int MILLIS_PER_FRAME = 16;
     public static final int ENEMY_WITDH = 2;
     public static final int ENEMY_HEIGHT = 2;

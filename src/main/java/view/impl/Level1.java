@@ -93,28 +93,30 @@ private void update() {
 
         drawHUD(g, timePassed);
         final int offsetX = camera.getX();
-        g.drawImage(Draw.get("player", timePassed), (int) world.getPlayer().getX() * GameConstants.TILE_SIZE - offsetX,
-        (int) world.getPlayer().getY() * GameConstants.TILE_SIZE,
-        GameConstants.TILE_SIZE * GameConstants.PLAYER_WIDTH_TILES,
-        GameConstants.TILE_SIZE * GameConstants.PLAYER_HEIGHT_TILES, null);
+        
 
         for (final var object : world.getEntities()) {
-         final var img = Draw.get(object.getType(), timePassed);
-         g.drawImage(img, object.getX() * GameConstants.TILE_SIZE - offsetX, object.getY() * GameConstants.TILE_SIZE,
-          GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+            final var img = Draw.get(object.getType(), timePassed);
+            g.drawImage(img, object.getX() * GameConstants.TILE_SIZE - offsetX, object.getY() * GameConstants.TILE_SIZE,
+            GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
         }
 
         for (final var enemy : world.getEnemies()) {
-         final String enemyName = switch (enemy.getType()) {
-            case JUMPER -> "fungo";
-            default -> "walker";
-         };
+            final String enemyName = switch (enemy.getType()) {
+                case JUMPER -> "fungo";
+                default -> "walker";
+            };
 
-         final var img = Draw.get(enemyName, timePassed);
-         g.drawImage(img, (int) enemy.getX() * GameConstants.TILE_SIZE - offsetX, (int) enemy.getY() * GameConstants.TILE_SIZE,
-          GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+            final var img = Draw.get(enemyName, timePassed);
+            g.drawImage(img, (int) enemy.getX() * GameConstants.TILE_SIZE - offsetX, (int) enemy.getY() * GameConstants.TILE_SIZE,
+            GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
         }
 
+        final String type = world.getPlayer().isHurt() ? "player_hurt" : "player";
+        g.drawImage(Draw.get(type, timePassed), (int) world.getPlayer().getX() * GameConstants.TILE_SIZE - offsetX,
+        (int) world.getPlayer().getY() * GameConstants.TILE_SIZE,
+        GameConstants.TILE_SIZE * GameConstants.PLAYER_WIDTH_TILES,
+        GameConstants.TILE_SIZE * GameConstants.PLAYER_HEIGHT_TILES, null);
     }
 
     /**

@@ -1,5 +1,6 @@
 package controller.impl;
 
+import controller.AudioManager;
 import controller.api.ControllerObserver;
 import model.GameConstants;
 import model.World;
@@ -29,6 +30,8 @@ public final class PlayerController implements ControllerObserver {
         this.d = false;
         this.space = false;
         this.world = world;
+        AudioManager.load("player_damaged", "/sounds/PlayerDamaged.wav");
+        AudioManager.setVolume(AudioManager.getClip("player_damaged"), AudioManager.getMusicVolume());
     }
 
     /**

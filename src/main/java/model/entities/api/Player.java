@@ -51,4 +51,9 @@ public interface Player extends Entity {
      * @return an immutable snapshot representing the current player state.
      */
     PlayerSnapshot snapshot();
+
+    /**
+     * @return whether the Player got hurt recently.
+     */
+    boolean isHurt();
 }

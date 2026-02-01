@@ -1,5 +1,6 @@
 package model.entities.impl;
 
+import controller.AudioManager;
 import model.GameConstants;
 import model.entities.api.Player;
 import model.entities.api.PlayerSnapshot;
@@ -149,13 +150,13 @@ public final class PlayerImpl implements Player {
     @Override
     public boolean applyDamage() {
         final long now = System.currentTimeMillis();
-        final long cooldownMillis = (long) (GameConstants.DAMAGE_COOLDOWN * 1000f);
-        if (lastDamageMillis != 0 && now - lastDamageMillis < cooldownMillis) {
+        if (lastDamageMillis != 0 && isHurt()) {
             return false;
         }
         if (healthPoints > 0) {
             healthPoints -= 1;
         }
+        AudioManager.play("player_damaged");
         lastDamageMillis = now;
         return true;
     }
@@ -174,5 +175,15 @@ public final class PlayerImpl implements Player {
     @Override
     public void setY(final double y) {
         this.y = y;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isHurt() {
+        final long now = System.currentTimeMillis();
+        final long cooldownMillis = (long) (GameConstants.DAMAGE_COOLDOWN * 1000f);
+        return now - lastDamageMillis < cooldownMillis;
     }
 }

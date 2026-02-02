@@ -76,10 +76,20 @@ public class World {
         );
     }
 
+    /**
+     * Informs what level the World is representing.
+     *
+     * @return the leveId.
+     */
     public int getLevelId() {
         return levelId;
     }
 
+    /**
+     * Get the relative path to the file containing the data to load.
+     * 
+     * @return the path.
+     */
     public String getJsonPath() {
         return jsonPath;
     }
@@ -170,11 +180,12 @@ public class World {
     }
 
     /**
-     * Checks if the player will collide the next update.
+     * Checks if the entity will collide the next update.
      *
-     * @param x the next update player x value.
-     * @param y the next update player y value.
-     * @return true if the player is going to collide.
+     * @param x the next update entity x value.
+     * @param y the next update entity y value.
+     * @param widthTiles the width of the entity.
+     * @return true if the entity is going to collide.
      */
     public boolean collidesWithSolid(
         final int x,
@@ -186,20 +197,23 @@ public class World {
     }
 
     /**
-     * Check if the player will collect a collectable object.
+     * Check if the player will collect a coin.
      *
      * @param x the next update player x value.
      * @param y the next update player y value.
-     * @return true if the player is collecting any collectable object.
+     * @return true if the player is collecting a coin.
      */
-    public boolean collidesWithCollectable(final int x, final int y) {
-        return collider.collidesWithCollectable(x, y);
-    }
-
     public boolean collidesWithCoin(final int x, final int y) {
         return collider.collidesWithCoin(x, y);
     }
 
+    /**
+     * Check if the player will collect a powerup.
+     *
+     * @param x the next update player x value.
+     * @param y the next update player y value.
+     * @return true if the player is collecting a powerup.
+     */
     public boolean collidesWithPowerup(final int x, final int y) {
         return collider.collidesWithPowerup(x, y);
     }
@@ -215,10 +229,24 @@ public class World {
         return collider.collidesWithPowerupBlockFromBelow(x, y);
     }
 
+    /**
+     * Check if the player is colliding with a hazard.
+     *
+     * @param x the next update player x value.
+     * @param y the next update player y value.
+     * @return true if the player is colliding with a hazard.
+     */
     public boolean collidesWithHazard(final int x, final int y) {
         return collider.collidesWithHazard(x, y);
     }
 
+    /**
+     * Check if the player is colliding with any enemy.
+     *
+     * @param x the player x tile.
+     * @param y the player y tile.
+     * @return true if colliding with an enemy.
+     */
     public boolean collidesWithEnemy(final int x, final int y) {
         return collider.collidesWithEnemy(x, y);
     }
@@ -243,20 +271,33 @@ public class World {
         return COIN_TYPES.contains(type) || POWERUP_TYPES.contains(type);
     }
 
+    /**
+     * Check if the given type is a Coin.
+     *
+     * @param type the type of the object.
+     * @return true if the object is a Coin.
+     */
     private static boolean isCoinType(final String type) {
         return COIN_TYPES.contains(type);
     }
 
+    /**
+     * Check if the given type is a Powerup.
+     *
+     * @param type the type of the object.
+     * @return true if the object is a Powerup.
+     */
     private static boolean isPowerupType(final String type) {
         return POWERUP_TYPES.contains(type);
     }
-
+    /**
+     * Check if the given type is a Hazard.
+     *
+     * @param type the type of the object.
+     * @return true if the object is a Hazard.
+     */
     private static boolean isHazardType(final String type) {
         return HAZARD_TYPES.contains(type);
     }
-
-    /**
-     * A simple Point.
-     */
 
 }

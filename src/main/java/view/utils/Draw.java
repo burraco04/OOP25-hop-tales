@@ -54,7 +54,8 @@ public final class Draw {
     }
 
     /**
-     * select if the entity is animated or static 
+     * select if the entity is animated or static.
+     * 
      * @param type of entity
      * @param t time that had passed 
      * @return the correct image
@@ -85,23 +86,23 @@ public final class Draw {
      */
     private static Image loadImage(final String type) {
         final String path = switch (type) {
-            case "door_top"      -> "img/door_open_top.png";
-            case "door"      -> "img/door_open.png";
+            case "door_top" -> "img/door_open_top.png";
+            case "door" -> "img/door_open.png";
             case "brick_castle" -> "img/bricks_castle.png";
-            case "lava"      -> "img/lava.png";
-            case "player"      -> playerFrame1;
-            case "grass"       -> "img/grass.png";
+            case "lava" -> "img/lava.png";
+            case "player" -> playerFrame1;
+            case "grass" -> "img/grass.png";
             case "floating_grass" -> "img/floating_grass.png";
             case "floating_grass_left" -> "img/floating_grass_left.png";
             case "floating_grass_right" -> "img/floating_grass_right.png";
             case "powerup_block" -> "img/powerup_block.png";
-            case "powerup"     -> "img/powerup.png";
+            case "powerup" -> "img/powerup.png";
             case "green_grass" -> "img/green_grass.png";
-            case "brick"       -> "img/brick.png";
-            case "jumper"       -> "img/frog.png";
-            case "walker"   -> "img/snail.png";
-            case "full_heart"  -> "img/full_heart.png";
-            case "empty_heart"  -> "img/empty_heart.png";
+            case "brick" -> "img/brick.png";
+            case "jumper" -> "img/frog.png";
+            case "walker" -> "img/snail.png";
+            case "full_heart" -> "img/full_heart.png";
+            case "empty_heart" -> "img/empty_heart.png";
             case "block_planks" -> "img/block_planks.png";
             case "dirt_block" -> "img/dirt_block.png";
             case "top_dirt_block" -> "img/top_dirt_block.png";

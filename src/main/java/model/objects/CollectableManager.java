@@ -10,6 +10,7 @@ import model.objects.impl.collectable.Coin;
  */
 public class CollectableManager {
     private static int collectedCoins;
+    private static final String COIN_SOUND = "coin_sound";
     private final World world;
     private boolean powerupCollected;
 
@@ -20,8 +21,8 @@ public class CollectableManager {
      */
     public CollectableManager(final World world) {
         this.world = world;
-        AudioManager.load("coin_sound", "/sounds/CoinSound.wav");
-        AudioManager.setVolume(AudioManager.getClip("coin_sound"), AudioManager.getMusicVolume());
+        AudioManager.load(COIN_SOUND, "/sounds/CoinSound.wav");
+        AudioManager.setVolume(AudioManager.getClip(COIN_SOUND), AudioManager.getMusicVolume());
      }
 
     /** 
@@ -38,13 +39,21 @@ public class CollectableManager {
      */
     private void collectCoin() {
         collectedCoins += GameConstants.COIN_VALUE;
-        AudioManager.play("coin_sound");
+        AudioManager.play(COIN_SOUND);
     }
 
+    /**
+     * Collect a Powerup.
+     */
     private void collectPowerup() {
         powerupCollected = true;
     }
 
+    /**
+     * Informs if the player has a Powerup.
+     *
+     * @return true if the player has a Powerup.
+     */
     public boolean hasPowerup() {
         return powerupCollected;
     }

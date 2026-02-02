@@ -83,7 +83,7 @@ public final class Collider {
                 }
             }
         }
-        return false;  
+        return false;
     }
 
     /**
@@ -109,30 +109,6 @@ public final class Collider {
             final Rectangle enemyRect = new Rectangle(ex, ey, GameConstants.ENEMY_WITDH, GameConstants.ENEMY_HEIGHT);
             if (playerRect.intersects(enemyRect)) {
                 return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Check if the player will collect a collectable object.
-     *
-     * @param x the next update player x value.
-     * @param y the next update player y value.
-     * @return true if the player is collecting any collectable object.
-     */
-    public boolean collidesWithCollectable(final int x, final int y) {
-        for (int dx = 0; dx < GameConstants.PLAYER_WIDTH_TILES; dx++) {
-            for (int dy = 0; dy < GameConstants.PLAYER_HEIGHT_TILES; dy++) {
-                final Point key = new Point(x + dx, y + dy);
-                if (collectableTiles.contains(key)) {
-                    collectableTiles.remove(key);
-                    coinTiles.remove(key);
-                    powerupTiles.remove(key);
-                    entities.remove(collectableMap.get(key));
-                    collectableMap.remove(key, collectableMap.get(key));
-                    return true;
-                }
             }
         }
         return false;

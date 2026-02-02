@@ -6,6 +6,7 @@ import javax.swing.JDialog;
 import controller.AudioManager;
 import controller.KeyboardInputManager;
 import controller.api.ControllerMenu;
+import model.GameConstants;
 import model.World;
 import view.api.View;
 
@@ -28,7 +29,7 @@ public class SwingView implements View {
         this.frame.setSize(WIDTH, HEIGHT);
         AudioManager.load(MENU_OST_NAME, "/sounds/MenuSoundtrack.wav");
         AudioManager.play(MENU_OST_NAME);
-        AudioManager.setMusicVolume(0.1f);
+        AudioManager.setMusicVolume(GameConstants.STARTING_VOLUME);
     }
 
     /**
@@ -81,7 +82,12 @@ public class SwingView implements View {
         this.frame.repaint();
     }
 
-
+    /**
+     * Mostra il livello selezionato.
+     *
+     * @param world the instance containing all the objects and entities.
+     * @param kim object responsible of handling keyboard inputs. 
+     */
     @Override
     public void showLevel(final World world, final KeyboardInputManager kim) {
         final Level level = new Level(world.getJsonPath(), world, kim);
@@ -90,7 +96,9 @@ public class SwingView implements View {
         this.frame.repaint();
         level.focus(); 
     }
-
+    /**
+     * Mostra la schermata di Game Over.
+     */
     @Override
     public void showGameOver() {
         final JDialog dialog = new JDialog(this.frame, "Game Over", true);

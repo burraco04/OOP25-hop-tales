@@ -25,6 +25,7 @@ public final class GameOverPanel extends JPanel {
      * Create a game over panel.
      *
      * @param controller the menu controller.
+     * @param onClose a Runnable to handle the pressing of the button.
      */
     public GameOverPanel(final ControllerMenu controller, final Runnable onClose) {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));

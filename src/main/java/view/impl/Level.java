@@ -99,7 +99,6 @@ private void update() {
 
         drawHUD(g, timePassed);
         final int offsetX = camera.getX();
-        
 
         for (final var object : world.getEntities()) {
             final var img = Draw.get(object.getType(), timePassed);
@@ -142,30 +141,30 @@ private void update() {
     private void drawHUD(final Graphics g, final long timePassed) {
         switch (world.getPlayer().getHealthPoints()) {
             case 3 -> { 
-                    g.drawImage(Draw.get("full_heart", timePassed), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-                    g.drawImage(Draw.get("full_heart", timePassed), GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
-                    g.drawImage(Draw.get("full_heart", timePassed), GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
+                    g.drawImage(Draw.get(GameConstants.FULL_HEART, timePassed), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                    g.drawImage(Draw.get(GameConstants.FULL_HEART, timePassed), GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
+                    g.drawImage(Draw.get(GameConstants.FULL_HEART, timePassed), GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
                     }
             case 2 -> { 
-                    g.drawImage(Draw.get("full_heart", timePassed), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-                    g.drawImage(Draw.get("full_heart", timePassed), GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
-                    g.drawImage(Draw.get("empty_heart", timePassed), GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
+                    g.drawImage(Draw.get(GameConstants.FULL_HEART, timePassed), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                    g.drawImage(Draw.get(GameConstants.FULL_HEART, timePassed), GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
+                    g.drawImage(Draw.get(GameConstants.EMPTY_HEART, timePassed), GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
                     }
             case 1 -> { 
-                    g.drawImage(Draw.get("full_heart", timePassed), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-                    g.drawImage(Draw.get("empty_heart", timePassed), GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
-                    g.drawImage(Draw.get("empty_heart", timePassed), GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
+                    g.drawImage(Draw.get(GameConstants.FULL_HEART, timePassed), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                    g.drawImage(Draw.get(GameConstants.EMPTY_HEART, timePassed), GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
+                    g.drawImage(Draw.get(GameConstants.EMPTY_HEART, timePassed), GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
                     }
             case 0 -> {
-                    g.drawImage(Draw.get("empty_heart", timePassed), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-                    g.drawImage(Draw.get("empty_heart", timePassed), GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
-                    g.drawImage(Draw.get("empty_heart", timePassed), GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
+                    g.drawImage(Draw.get(GameConstants.EMPTY_HEART, timePassed), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                    g.drawImage(Draw.get(GameConstants.EMPTY_HEART, timePassed), GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
+                    g.drawImage(Draw.get(GameConstants.EMPTY_HEART, timePassed), GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
                     }
             default -> throw new IllegalArgumentException("Illegal health points");
         }
-        Font coinFont = new Font("Arial", Font.BOLD, 28);
+        final Font coinFont = new Font("Arial", Font.BOLD, GameConstants.COIN_COUNT_SIZE);
         g.setFont(coinFont);
-        FontMetrics fm = g.getFontMetrics();
+        final FontMetrics fm = g.getFontMetrics();
         final int coinX = getWidth() - 2 * GameConstants.TILE_SIZE;
         final int coinY = GameConstants.TILE_SIZE;
         final int textX = coinX - fm.stringWidth(String.valueOf(CollectableManager.getCoins())) - 10;

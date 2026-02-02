@@ -21,9 +21,9 @@ public final class GameConstants {
     public static final int LEVEL_1_WIDTH = 1000;
     public static final int LEVEL_2_WIDTH = 800;
     public static final Color BACK_COLOR = new Color(34, 85, 34);
-    public static final double JUMP_HEIGHT = GameConstants.PLAYER_SPEED * 25.0;
+    public static final double JUMP_HEIGHT = PLAYER_SPEED * 25.0;
     public static final double JUMP_STEP = 0.5;
-    public static final float STARTING_MUSIC_VOLUME = 0.7f;
+    public static final float STARTING_VOLUME = 0.1f;
     public static final float MIN_VOLUME = 0.0001f;
     public static final float DB_CONSTANT = 20.0f;
     public static final int STARTING_HEALTH = 3;
@@ -31,6 +31,10 @@ public final class GameConstants {
     public static final int MILLIS_PER_FRAME = 16;
     public static final int ENEMY_WITDH = 2;
     public static final int ENEMY_HEIGHT = 2;
+    public static final String FULL_HEART = "full_heart";
+    public static final String EMPTY_HEART = "empty_heart";
+    public static final int COIN_COUNT_SIZE = 28;
+   
     private GameConstants() { }
 
 }

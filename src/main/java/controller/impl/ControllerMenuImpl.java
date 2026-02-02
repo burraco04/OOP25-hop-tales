@@ -46,6 +46,9 @@ public class ControllerMenuImpl implements ControllerMenu {
      }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void selectSkin(final String frame1, final String frame2) {
         Draw.setPlayerSkin(frame1, frame2);

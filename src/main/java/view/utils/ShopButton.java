@@ -44,7 +44,7 @@ public class ShopButton extends JPanel {
         setLayout(this.grid);
 
         final JButton skinDefault = ShopButtonFactory.build("/img/Player_1_frame_1.png");
-        final JButton skinRobot = ShopButtonFactory.build("/img/Player_1_frame_2.png");
+        final JButton skinRobot = ShopButtonFactory.build("/img/skinsqualo.png");
         final JButton skinShark = ShopButtonFactory.build("/img/skinsqualo.png");
         final JButton skinCat = ShopButtonFactory.build("/img/skinsqualo.png");
 
@@ -60,7 +60,7 @@ public class ShopButton extends JPanel {
             selectButton(skinDefault, allButtons);
         });
         skinRobot.addActionListener(e -> {
-            controller.selectSkin("img/Player_1_frame_2.png", "img/Player_1_frame_2.png");
+            controller.selectSkin("img/skinsqualo.png", "img/skinsqualo.png");
             selectButton(skinRobot, allButtons);
         });
         skinShark.addActionListener(e -> {

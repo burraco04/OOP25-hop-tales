@@ -89,9 +89,8 @@ public final class Draw {
             case "door_top" -> "img/door_open_top.png";
             case "door" -> "img/door_open.png";
             case "brick_castle" -> "img/bricks_castle.png";
-            case "lava" -> "img/lava.png";
-            case "player" -> playerFrame1;
-            case "grass" -> "img/grass.png";
+            case "lava"      -> "img/lava.png";
+            case "grass"       -> "img/grass.png";
             case "floating_grass" -> "img/floating_grass.png";
             case "floating_grass_left" -> "img/floating_grass_left.png";
             case "floating_grass_right" -> "img/floating_grass_right.png";
@@ -114,14 +113,7 @@ public final class Draw {
             default -> throw new IllegalArgumentException("Tipo sprite sconosciuto: " + type);
         };
 
-        try (var in = Draw.class.getClassLoader().getResourceAsStream(path)) {
-            if (in == null) {
-                throw new IllegalArgumentException("Sprite non trovato in resources: " + path);
-            }
-            return ImageIO.read(in);
-        } catch (final IOException e) {
-           throw new UncheckedIOException(e);
-        }
+        return loadFromResources(path);
     }
 
     /**
@@ -169,7 +161,7 @@ public final class Draw {
      */
     public static void setPlayerSkin(final String frame1, final String frame2) {
         playerFrame1 = frame1;
-        playerFrame2 = frame2 == null ? frame1 : frame2;
+        playerFrame2 = frame2;
         CACHE.remove("player");
         ANIMATIONS.remove("player");
     }

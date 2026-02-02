@@ -89,8 +89,8 @@ public final class Draw {
             case "door_top" -> "img/door_open_top.png";
             case "door" -> "img/door_open.png";
             case "brick_castle" -> "img/bricks_castle.png";
-            case "lava"      -> "img/lava.png";
-            case "grass"       -> "img/grass.png";
+            case "lava" -> "img/lava.png";
+            case "grass" -> "img/grass.png";
             case "floating_grass" -> "img/floating_grass.png";
             case "floating_grass_left" -> "img/floating_grass_left.png";
             case "floating_grass_right" -> "img/floating_grass_right.png";

@@ -1,13 +1,11 @@
-package game;
+package view.utils;
+
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
 
+//gestisce il salvataggio delle monete raccolte su file
 public final class CoinStorage {
 
     private static final String DIR_NAME = ".fireboywatergirl_save";
@@ -28,7 +26,7 @@ public final class CoinStorage {
             String s = Files.readString(path, StandardCharsets.UTF_8).trim();
             if (s.isEmpty()) return 0;
             return Integer.parseInt(s);
-        } catch (Exception e) {
+        } catch (java.io.IOException | java.lang.NumberFormatException e) {
             // se il file è corrotto o non leggibile, ripartiamo da 0
             return 0;
         }

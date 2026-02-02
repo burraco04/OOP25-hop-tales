@@ -11,7 +11,7 @@ import javax.swing.JButton;
 public class ButtonBackFactory {
     private static final float BUTTON_SIZE = 10f;
     private static final Dimension BUTTON_DIM = new Dimension(30, 5);
-    private static final Color buttonColor = new Color(139, 69, 19);
+    private static final Color BUTTON_COLOR = new Color(139, 69, 19);
 
     /**
      * implemnete button.
@@ -22,7 +22,7 @@ public class ButtonBackFactory {
         final JButton button = new JButton("BACK");
 
         button.setForeground(Color.BLACK);
-        button.setBackground(buttonColor);
+        button.setBackground(BUTTON_COLOR);
 
         button.setMaximumSize(BUTTON_DIM);
         button.setMinimumSize(BUTTON_DIM);

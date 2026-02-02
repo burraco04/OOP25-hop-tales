@@ -38,10 +38,10 @@ public final class Animation {
             lastFrameTime = nowMillis;
             return frames[currentFrame];
         }
-        
+
         final long elapsed = nowMillis - lastFrameTime;
         if (elapsed >= frameDuration) {
-            final long steps = elapsed / frameDuration; 
+            final long steps = elapsed / frameDuration; //used in case of bugs (steps usually is equal a 1)
             currentFrame = (int) ((currentFrame + steps) % frames.length);
             lastFrameTime += steps * frameDuration;
         }

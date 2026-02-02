@@ -2,6 +2,9 @@ package model.objects.impl.door;
 
 import model.objects.api.WorldObject;
 
+/**
+ * door of the castle.
+ */
 public class Door implements WorldObject {
 
     private final int x;
@@ -40,5 +43,5 @@ public class Door implements WorldObject {
     @Override
     public String getType() {
       return "door";
-    } 
+    }
 }

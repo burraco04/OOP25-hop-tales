@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 public final class CreateBackground {
 
     /**
-     * constructor
+     * constructor.
      */
     private CreateBackground() {
     }

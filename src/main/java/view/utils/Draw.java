@@ -162,7 +162,6 @@ public final class Draw {
     public static void setPlayerSkin(final String frame1, final String frame2) {
         playerFrame1 = frame1;
         playerFrame2 = frame2;
-        CACHE.remove("player");
         ANIMATIONS.remove("player");
     }
 

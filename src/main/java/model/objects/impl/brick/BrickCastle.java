@@ -2,6 +2,9 @@ package model.objects.impl.brick;
 
 import model.objects.api.WorldObject;
 
+/**
+ * brick of the castle.
+ */
 public class BrickCastle implements WorldObject {
 
     private final int x;
@@ -34,8 +37,11 @@ public class BrickCastle implements WorldObject {
         return y; 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getType() {
         return "brick_castle";
-    }   
+    }
 }

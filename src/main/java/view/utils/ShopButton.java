@@ -32,9 +32,9 @@ public class ShopButton extends JPanel {
     private final JButton[] allButtons;
 
     /**
-     * implements the top bar. 
+     * shop.
      *
-     * @return the pannel where put the button
+     * @param controller used for select skin
      */
     public ShopButton(final ControllerMenu controller) {
 
@@ -78,6 +78,9 @@ public class ShopButton extends JPanel {
         add(skinCat);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void doLayout() {
         // Dimensioni disponibili
@@ -112,7 +115,7 @@ public class ShopButton extends JPanel {
     }
 
     /**
-     * cancella e ridipinge il pannello.
+     * {@inheritDoc}
      */
     @Override
     protected void paintComponent(final Graphics g) {
@@ -120,11 +123,15 @@ public class ShopButton extends JPanel {
          g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
     }
 
+    /**
+     * select all button and change tho color.
+     *
+     * @param selected skin selected
+     * @param all the other skin
+     */
     private void selectButton(final JButton selected, final JButton[] all) {
     for (final JButton b : all ) {
         b.setBackground(DEFAULT_COLOR);
-        b.setOpaque(true);
-        b.setContentAreaFilled(true);
     }
     selected.setBackground(SELECTED_COLOR);
     }

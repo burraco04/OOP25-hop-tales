@@ -2,6 +2,9 @@ package model.objects.impl.door;
 
 import model.objects.api.WorldObject;
 
+/**
+ * door top.
+ */
 public class DoorTop implements WorldObject {
 
     private final int x;

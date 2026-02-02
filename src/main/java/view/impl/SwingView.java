@@ -96,6 +96,7 @@ public class SwingView implements View {
         this.frame.repaint();
         level.focus(); 
     }
+    
     /**
      * Mostra la schermata di Game Over.
      */

@@ -41,7 +41,7 @@ public final class Shop extends JPanel {
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
     final JButton back = this.buttonbackFactory.buildbackbutton();
-    back.addActionListener(e -> controller.handleEvent(State.MAIN_MENU, Optional.empty()));
+    back.addActionListener(e -> controller.handleEvent(State.MAIN_MENU));
     final JPanel topBar = topBarpan.buildTopPanel(back);
     final JPanel panel = new ShopButton(controller);
 

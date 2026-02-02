@@ -47,7 +47,7 @@ public final class Options extends JPanel {
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
     final JButton back = this.buttonBackFactory.buildbackbutton();
-    back.addActionListener(e -> controller.handleEvent(State.MAIN_MENU, Optional.empty()));
+    back.addActionListener(e -> controller.handleEvent(State.MAIN_MENU));
     final JPanel topBar = topBarPanel.buildTopPanel(back);
 
     title.setFont(this.fontFactory.getFont(TITLE_FONT, TITLE_SIZE, this));

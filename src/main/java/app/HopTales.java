@@ -17,15 +17,15 @@ public final class HopTales {
     }
 
     /**
-     * avvio gioco.
+     * Initializes the main view and controller, and starts the game.
      *
-     * @param args  start argomenti riga comando
+     * @param args  start 
      */
     public static void main(final String[] args) {
 
         final SwingView view = new SwingView();
         final ControllerMenu controller = new ControllerMenuImpl(view);
         view.setController(controller);
-        controller.handleEvent(State.MAIN_MENU, Optional.empty());
+        controller.handleEvent(State.MAIN_MENU);
     }
 }

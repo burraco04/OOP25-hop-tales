@@ -43,9 +43,9 @@ public final class Menu extends JPanel {
         final JButton options = this.buttonFactory.buildbutton("opzioni");
         final JButton shop = this.buttonFactory.buildbutton("shop");
 
-        start.addActionListener(e -> controller.handleEvent(State.CHOOSE_LEVEL, Optional.empty()));
-        options.addActionListener(e -> controller.handleEvent(State.OPTIONS, Optional.empty()));
-        shop.addActionListener(e -> controller.handleEvent(State.SHOP, Optional.empty()));
+        start.addActionListener(e -> controller.handleEvent(State.CHOOSE_LEVEL));
+        options.addActionListener(e -> controller.handleEvent(State.OPTIONS));
+        shop.addActionListener(e -> controller.handleEvent(State.SHOP));
 
         start.setAlignmentX(CENTER_ALIGNMENT);
         options.setAlignmentX(CENTER_ALIGNMENT);

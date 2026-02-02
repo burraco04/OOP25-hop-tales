@@ -30,7 +30,7 @@ public class ControllerMenuImpl implements ControllerMenu {
      */
 
     @Override
-    public void handleEvent(final State e, final Optional<?> data) {
+    public void handleEvent(final State e) {
         switch (e) {
         case MAIN_MENU -> view.showMainMenu();
 

@@ -3,7 +3,7 @@ package model.objects.impl.brick;
 import model.objects.api.WorldObject;
 
 /**
- * brick of the castle.
+ * Represents a brick of the castle inside the game world.
  */
 public class BrickCastle implements WorldObject {
 
@@ -11,10 +11,10 @@ public class BrickCastle implements WorldObject {
     private final int y;
 
     /**
-     * create object brick.
+     * Creates a new brick of the castle located at the specified coordinates.
      *
-     * @param x parameter
-     * @param y parameter
+     * @param x x the horizontal position of the brick
+     * @param y y the vertical position of the brick
      */
     public BrickCastle(final int x, final int y) {
         this.x = x;

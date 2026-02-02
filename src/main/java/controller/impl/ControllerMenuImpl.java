@@ -1,7 +1,5 @@
 package controller.impl;
 
-import java.util.Optional;
-
 import controller.GameController;
 import controller.api.ControllerMenu;
 import controller.api.State;
@@ -9,26 +7,24 @@ import view.utils.Draw;
 import view.api.View;
 
 /**
- * controller. 
+ * Implementation of the ControllerMenu interface.
  */
-
 public class ControllerMenuImpl implements ControllerMenu {
 
     private final View view;
 
     /**
-     * controlller ciao ciao.
+     * Constructor for the class.
      *
-     * @param view active view
+     * @param view the active view used 
      */
     public ControllerMenuImpl(final View view) {
         this.view = view;
     }
 
     /**
-     * valuta che tipo di evento è e chiama la view.
+     * {@inheritDoc}
      */
-
     @Override
     public void handleEvent(final State e) {
         switch (e) {

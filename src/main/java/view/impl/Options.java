@@ -1,7 +1,6 @@
 package view.impl;
 
 import java.awt.Dimension;
-import java.util.Optional;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;

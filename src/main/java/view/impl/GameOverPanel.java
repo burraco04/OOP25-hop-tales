@@ -1,7 +1,5 @@
 package view.impl;
 
-import java.util.Optional;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;

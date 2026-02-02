@@ -3,7 +3,7 @@ package model.objects.impl.door;
 import model.objects.api.WorldObject;
 
 /**
- * door of the castle.
+ * Represents a door object inside the game world.
  */
 public class Door implements WorldObject {
 
@@ -11,11 +11,11 @@ public class Door implements WorldObject {
     private final int y;
 
      /**
-      * class grass.
-      *
-      * @param x parameter
-      * @param y parameter
-      */
+     * Creates a new door located at the specified coordinates.
+     *
+     * @param x x the horizontal position of the brick
+     * @param y y the vertical position of the brick
+     */
      public Door(final int x, final int y) {
         this.x = x;
         this.y = y;

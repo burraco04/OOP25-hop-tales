@@ -2,7 +2,6 @@ package view.impl;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.util.Optional;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -16,7 +15,9 @@ import view.utils.CreateBackground;
 import view.utils.FontFactory;
 
 /**
- * menu.
+ * Main menu panel of the application.
+ * This class represents the initial screen of the game,allowing the user to start a new game, access options,
+ * or open the game shop.
  */
 
 public final class Menu extends JPanel {
@@ -28,9 +29,9 @@ public final class Menu extends JPanel {
     private final Image image = CreateBackground.create("/img/Piattaforma_retro_con_personaggio_pixelato.png");
 
     /**
-     * set menu.
+     * constructor of menu.
      *
-     * @param controller passo il controller
+     * @param controller the menu controller used to handle user actions.
      */
 
     public Menu(final ControllerMenu controller) {
@@ -58,7 +59,7 @@ public final class Menu extends JPanel {
     }
 
     /**
-     * cancella e ridipinge il pannello.
+     * {@inheritDoc}
      */
     @Override
     protected void paintComponent(final Graphics g) {

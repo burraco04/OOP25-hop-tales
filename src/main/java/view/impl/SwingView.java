@@ -11,7 +11,7 @@ import model.World;
 import view.api.View;
 
 /**
- * make view.
+ * This class represents the main graphical view of the application.
  */
 public class SwingView implements View {
     private static final int HEIGHT = 600;
@@ -21,7 +21,7 @@ public class SwingView implements View {
     private ControllerMenu controller;
 
     /**
-     * swing view.
+     * Initializes the main application window and configures basic settings such as size and audio.
      */
     public SwingView() {
         this.frame = new JFrame("PENALDO & PESSI");
@@ -33,16 +33,16 @@ public class SwingView implements View {
     }
 
     /**
-     * set controller.
+     * sets the controller for this view.
      *
-     * @param controller creo controller
+     * @param controller the menu controller used to manage user interactions
      */
     public void setController(final ControllerMenu controller) {
     this.controller = controller;
     }
 
     /**
-     * mostra il pannello del menu.
+     * show the main menu panel.
      */
     @Override
     public void showMainMenu() {
@@ -53,7 +53,7 @@ public class SwingView implements View {
     }
 
     /**
-     * mostra il pannello dei livelli.
+     * show the level selection panel.
      */
     @Override
     public void showLevels() {
@@ -63,7 +63,7 @@ public class SwingView implements View {
     }
 
     /**
-     * mostra il pannello dei livelli.
+     * show the shop panel.
      */
     @Override
     public void showShop() {
@@ -73,7 +73,7 @@ public class SwingView implements View {
     }
 
     /**
-     * mostra il pannello dei livelli.
+     * show the option panel.
      */
     @Override
     public void showOptions() {
@@ -96,7 +96,7 @@ public class SwingView implements View {
         this.frame.repaint();
         level.focus(); 
     }
-    
+
     /**
      * Mostra la schermata di Game Over.
      */

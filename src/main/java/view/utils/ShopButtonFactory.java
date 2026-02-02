@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 /**
- * create the button for the shop.
+ * Factory for creating shop buttons.
  */
 public final class ShopButtonFactory {
     private static final FontFactory fontFactory = new FontFactory();
@@ -17,10 +17,10 @@ public final class ShopButtonFactory {
     private static final int WIDTH_HEIGHT = 160;
 
     /**
-     * create button.
+     * creates a shop button.
      *
-     * @param path of the background
-     * @return button.
+     * @param path the path of the background image
+     * @return the created button.
      */
     public static JButton build(final String path) {
         final ImageIcon icon = new ImageIcon(ShopButtonFactory.class.getResource(path));

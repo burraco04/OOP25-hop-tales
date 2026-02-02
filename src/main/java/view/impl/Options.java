@@ -17,7 +17,8 @@ import view.utils.FontFactory;
 import view.utils.TopBarPanel;
 
 /**
- * class options.
+ * This class represents the options menu of the game and is responsible for displaying and managing
+ * user-configurable settings (audio volume).
  */
 public final class Options extends JPanel {
     private static final long serialVersionUID = 1L;
@@ -36,9 +37,9 @@ public final class Options extends JPanel {
     private JSlider volumeSlider = new JSlider(0, 100);
 
     /**
-     * create the clsaa.
+     * Creates the Options panel.
      *
-     * @param controller pass the controller
+     * @param controller the menu controller used to handle user interactions and navigation
      */
     public Options(final ControllerMenu controller) {
 

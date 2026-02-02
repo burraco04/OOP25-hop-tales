@@ -14,7 +14,7 @@ import view.utils.ShopButton;
 import view.utils.TopBarPanel;
 
 /**
- * class shop.
+ * This class represents the shop menu of the game, where the player can buy and select available skins.
  */
 
 public final class Shop extends JPanel {
@@ -27,9 +27,9 @@ public final class Shop extends JPanel {
     private final transient FontFactory font = new FontFactory();
 
     /**
-     * create the clsaa.
+     *  Creates the Shop panel
      *
-     * @param controller pass the controller
+     * @param controller pass the menu controller used to handle user interactions and navigation
      */
     public Shop(final ControllerMenu controller) {
     final JLabel title = new JLabel("penaldooo");

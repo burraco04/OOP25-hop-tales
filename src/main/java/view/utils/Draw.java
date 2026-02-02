@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.imageio.ImageIO;
 
 /**
- * calss draw.
+ * Draw utility class.
  */
 public final class Draw {
     private static final Map<String, Image> CACHE = new HashMap<>();
@@ -26,10 +26,10 @@ public final class Draw {
     private Draw() { }
 
     /**
-     * search in the cache map if type is already present.
+     * Searches the cache for a static image.
      *
-     * @param type type of entities
-     * @return the correct frame
+     * @param type the entity type
+     * @return the corresponding static image
      */
     public static Image getStatic(final String type) {
         if (CACHE.containsKey(type)) {
@@ -40,10 +40,10 @@ public final class Draw {
     }
 
     /**
-     * search in the animations map if type is already present.
+     * Searches the animation cache.
      *
-     * @param type type of entities
-     * @return the correct frame
+     * @param type the entity type
+     * @return the corresponding animation
      */
     public static Animation getAnim(final String type) {
         if (ANIMATIONS.containsKey(type)) {
@@ -54,10 +54,10 @@ public final class Draw {
     }
 
     /**
-     * select if the entity is animated or static.
+     * selects whether the entity is animated or static.
      * 
-     * @param type of entity
-     * @param t time that had passed 
+     * @param type the entity type
+     * @param t time that had passed since the start of the game
      * @return the correct image
      */
     public static Image get(final String type, final long t) {
@@ -69,20 +69,20 @@ public final class Draw {
     }
 
     /**
-     * check if the entity is animated.
+     * checks whether the entity is animated.
      *
-     * @param type of entity
-     * @return true or false
+     * @param type the entity type
+     * @return {@code true} if the entity is animated, {@code false} otherwise
      */
     private static boolean isAnimated(final String type) {
-    return ANIMATED_TYPES.contains(type);   // aggiungi altri type animati qui
+    return ANIMATED_TYPES.contains(type);
     }
 
     /**
-     * load the static image.
+     * loads the static image.
      *
-     * @param type of the object
-     * @return the correct image
+     * @param type the entity type
+     * @return the corresponding image
      */
     private static Image loadImage(final String type) {
         final String path = switch (type) {
@@ -117,10 +117,10 @@ public final class Draw {
     }
 
     /**
-     * return the correct animation.
+     * returns the correct animation.
      *
-     * @param type of entity
-     * @return correct animation
+     * @param type the entity type
+     * @return corresponding animation
      */
     private static Animation loadAnim(final String type) {
         return switch (type) {
@@ -137,10 +137,10 @@ public final class Draw {
     }
 
     /**
-     * check if the path is corrected.
+     * Loads an image from the resources.
      *
-     * @param path of the entity
-     * @return the correct image
+     * @param path the resuorces path
+     * @return the loaded image
      */
     private static Image loadFromResources(final String path) {
         try (var in = Draw.class.getClassLoader().getResourceAsStream(path)) {
@@ -154,10 +154,10 @@ public final class Draw {
     }
 
     /**
-     * Imposta la skin del player e invalida le cache.
+     * Sets the player skin and invalidates the related caches.
      *
-     * @param frame1 path al primo frame
-     * @param frame2 path al secondo frame (se null usa frame1)
+     * @param frame1 the path of the first frame
+     * @param frame2 the path of the second frame
      */
     public static void setPlayerSkin(final String frame1, final String frame2) {
         playerFrame1 = frame1;

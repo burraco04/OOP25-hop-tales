@@ -7,19 +7,19 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /**
- * font.
+ * Font factory.
  */
 public final class FontFactory {
     static final Long serialVersionUID = 1L;
     private static final String BASE_FONT = "Arial";
 
     /**
-     * implement.
+     * Loads and returns a font.
      *
-     * @param nameFont name of the font
-     * @param fontSize  dimension of font
-     * @param component type of component
-     * @return return the right font
+     * @param nameFont the name of the font
+     * @param fontSize  the font size
+     * @param component the component used as parent for error dialogs
+     * @return return the loaded font 
      */
 
     public Font getFont(final String nameFont, final float fontSize, final Component component) {

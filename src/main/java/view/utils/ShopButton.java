@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import controller.api.ControllerMenu;
 
 /**
- * used for buy the skin.
+ * Panel used to buy and select the skins.
  */
 public class ShopButton extends JPanel {
 
@@ -32,9 +32,9 @@ public class ShopButton extends JPanel {
     private final JButton[] allButtons;
 
     /**
-     * shop.
+     * Creates the shop button panel.
      *
-     * @param controller used for select skin
+     * @param controller the menu controller used to select skins
      */
     public ShopButton(final ControllerMenu controller) {
 
@@ -103,12 +103,12 @@ public class ShopButton extends JPanel {
     }
 
     /**
-     * calcola la dimensione dei gap limitandoli.
+     * Clamps a value between a minimum and a maximum.
      *
-     * @param v misura che gli passo
-     * @param min minimo che voglio
-     * @param max massimo che voglio
-     * @return risultato
+     * @param v the input value
+     * @param min the minimum allowed value
+     * @param max the maximum allowed value
+     * @return the clamped value
      */
     private static int clamp(final int v, final int min, final int max) {
         return Math.max(min, Math.min(max, v));
@@ -124,10 +124,10 @@ public class ShopButton extends JPanel {
     }
 
     /**
-     * select all button and change tho color.
+     * selects a button and updates the colors of all buttons.
      *
-     * @param selected skin selected
-     * @param all the other skin
+     * @param selected the selected button
+     * @param all all available buttons
      */
     private void selectButton(final JButton selected, final JButton[] all) {
     for (final JButton b : all ) {

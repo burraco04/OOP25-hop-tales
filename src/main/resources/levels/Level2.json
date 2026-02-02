@@ -76,46 +76,15 @@
       } 
     },
 
-
     {
       "type": "block_planks",
-      "x": 44,
-      "y": 18
-    },
-    {
-      "type": "block_planks",
-      "x": 44,
-      "y": 17
-    },
-    {
-      "type": "block_planks",
-      "x": 44,
-      "y": 16
-    },
-    {
-      "type": "block_planks",
-      "x": 44,
-      "y": 15
-    },
-    {
-      "type": "block_planks",
-      "x": 44,
-      "y": 14
-    },
-    {
-      "type": "block_planks",
-      "x": 44,
-      "y": 13
-    },
-    {
-      "type": "block_planks",
-      "x": 44,
-      "y": 12
-    },
-    {
-      "type": "block_planks",
-      "x": 44,
-      "y": 11
+      "x": 46,
+      "y": 11,
+      "macro": {
+        "type": "fill",
+        "width": 1,
+        "height": 5
+      }
     },
 
 
@@ -139,6 +108,16 @@
       "x": 45,
       "y": 25
     },
+    {
+      "type": "coin_gold",
+      "x": 41,
+      "y": 23,
+      "macro": {
+        "type": "fill",
+        "width": 2,
+        "height": 1
+      }
+    },
 
 
     {
@@ -161,6 +140,26 @@
       "x": 60,
       "y": 24
     },
+    {
+      "type": "block_planks",
+      "x": 58,
+      "y": 23,
+      "macro": {
+        "type": "fill",
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "type": "block_planks",
+      "x": 59,
+      "y": 22,
+      "macro": {
+        "type": "fill",
+        "width": 2,
+        "height": 2
+      }
+    },
 
 
 
@@ -169,7 +168,7 @@
     {
       "type": "water_top",
       "x": 35,
-      "y": 27,
+      "y": 26,
       "macro": {
         "type": "fill",
         "width": 31,
@@ -179,7 +178,17 @@
     {
       "type": "water",
       "x": 35,
-      "y": 28,
+      "y": 27,
+      "macro": {
+        "type": "fill",
+        "width": 31,
+        "height": 7
+      } 
+    },
+    {
+      "type": "dirt_block",
+      "x": 35,
+      "y": 34,
       "macro": {
         "type": "fill",
         "width": 31,
@@ -199,21 +208,6 @@
       }
     },
     {
-      "type": "coin_gold",
-      "x": 70,
-      "y": 20,
-      "macro": {
-        "type": "fill",
-        "width": 1,
-        "height": 1
-      } 
-    },
-    {
-      "type": "powerup_block",
-      "x": 75,
-      "y": 18
-    },
-    {
       "type": "dirt_block",
       "x": 66,
       "y": 23,
@@ -222,6 +216,21 @@
         "width": 14,
         "height": 20
       }
+    },
+    {
+      "type": "coin_gold",
+      "x": 69,
+      "y": 20,
+      "macro": {
+        "type": "fill",
+        "width": 2,
+        "height": 1
+      } 
+    },
+    {
+      "type": "powerup_block",
+      "x": 75,
+      "y": 18
     },
 
     {
@@ -244,12 +253,32 @@
         "height": 20
       }
     },
+    {
+      "type": "coin_gold",
+      "x": 91,
+      "y": 22,
+      "macro": {
+        "type": "fill",
+        "width": 3,
+        "height": 1
+      } 
+    },
+    {
+      "type": "block_planks",
+      "x": 90,
+      "y": 24,
+      "macro": {
+        "type": "fill",
+        "width": 5,
+        "height": 1
+      } 
+    },
 
 
     {
       "type": "top_dirt_block",
       "x": 100,
-      "y": 25,
+      "y": 24,
       "macro": {
         "type": "fill",
         "width": 15,
@@ -259,18 +288,267 @@
     {
       "type": "dirt_block",
       "x": 100,
-      "y": 26,
+      "y": 25,
       "macro": {
         "type": "fill",
         "width": 15,
         "height": 20
       }
+    },
+
+
+
+    {
+      "type": "water_top",
+      "x": 115,
+      "y": 26,
+      "macro": {
+        "type": "fill",
+        "width": 17,
+        "height": 1
+      } 
+    },
+    {
+      "type": "water",
+      "x": 115,
+      "y": 27,
+      "macro": {
+        "type": "fill",
+        "width": 17,
+        "height": 7
+      } 
+    },
+    {
+      "type": "dirt_block",
+      "x": 115,
+      "y": 34,
+      "macro": {
+        "type": "fill",
+        "width": 17,
+        "height": 7
+      } 
+    },
+
+
+    {
+      "type": "floating_dirt_left",
+      "x": 120,
+      "y": 24 
+    },
+    {
+      "type": "floating_dirt_middle",
+      "x": 121,
+      "y": 24,
+      "macro": {
+        "type": "fill",
+        "width": 5,
+        "height": 1
+      } 
+    },
+    {
+      "type": "floating_dirt_right",
+      "x": 126,
+      "y": 24
+    },
+    {
+      "type": "block_planks",
+      "x": 122,
+      "y": 20,
+      "macro": {
+        "type": "fill",
+        "width": 5,
+        "height": 1
+      } 
+    },
+    {
+      "type": "powerup_block",
+      "x": 124,
+      "y": 16,
+      "macro": {
+        "type": "fill",
+        "width": 1,
+        "height": 1
+      } 
+    },
+
+
+    {
+      "type": "top_dirt_block",
+      "x": 132,
+      "y": 25,
+      "macro": {
+        "type": "fill",
+        "width": 38,
+        "height": 1
+      } 
+    },
+    {
+      "type": "dirt_block",
+      "x": 132,
+      "y": 26,
+      "macro": {
+        "type": "fill",
+        "width": 38,
+        "height": 20
+      } 
+    },
+    {
+      "type": "block_planks",
+      "x": 132,
+      "y": 22,
+      "macro": {
+        "type": "fill",
+        "width": 3,
+        "height": 3
+      } 
+    },
+    {
+      "type": "block_planks",
+      "x": 138,
+      "y": 20,
+      "macro": {
+        "type": "fill",
+        "width": 3,
+        "height": 1
+      } 
+    },
+    {
+      "type": "coin_gold",
+      "x": 139,
+      "y": 17,
+      "macro": {
+        "type": "fill",
+        "width": 2,
+        "height": 2
+      } 
+    },
+    {
+      "type": "block_planks",
+      "x": 152,
+      "y": 22,
+      "macro": {
+        "type": "fill",
+        "width": 1,
+        "height": 3
+      } 
+    },
+    {
+      "type": "block_planks",
+      "x": 153,
+      "y": 23,
+      "macro": {
+        "type": "fill",
+        "width": 1,
+        "height": 2
+      } 
+    },
+    {
+      "type": "block_planks",
+      "x": 154,
+      "y": 24,
+      "macro": {
+        "type": "fill",
+        "width": 1,
+        "height": 1
+      } 
+    },
+
+
+    {
+      "type": "top_dirt_block",
+      "x": 170,
+      "y": 23,
+      "macro": {
+        "type": "fill",
+        "width": 30,
+        "height": 1
+      } 
+    },
+    {
+      "type": "dirt_block",
+      "x": 170,
+      "y": 24,
+      "macro": {
+        "type": "fill",
+        "width": 30,
+        "height": 20
+      } 
+    },
+
+    {
+      "type": "brick_castle",
+      "x": 180,
+      "y": 19,
+      "macro": {
+        "type": "fill",
+        "width": 1,
+        "height": 4
+      }
+    },
+    {
+      "type": "brick_castle",
+      "x": 181,
+      "y": 20
+    },
+    {
+      "type": "door_top",
+      "x": 181,
+      "y": 21
+    },
+    {
+      "type": "door",
+      "x": 181,
+      "y": 22
+    },
+    {
+      "type": "brick_castle",
+      "x": 182,
+      "y": 19,
+      "macro": {
+        "type": "fill",
+        "width": 1,
+        "height": 4
+      }
+    },
+
+    {
+      "type": "dirt_block",
+      "x": 190,
+      "y": 0,
+      "macro": {
+        "type": "fill",
+        "width": 20,
+        "height": 47
+      } 
     }
 
+
+
+
+
+
+
   ],
-    "enemies": [{
-      "type": "walker",
+  "enemies": [
+    {
+      "type": "jumper",
       "x": 30,
       "y": 20
-    } ]
+    },
+    {
+      "type": "walker",
+      "x": 90,
+      "y": 26
+    },
+    {
+      "type": "jumper",
+      "x": 135,
+      "y": 24
+    },
+    {
+      "type": "walker",
+      "x": 160,
+      "y": 24
+    }
+  ]
 }

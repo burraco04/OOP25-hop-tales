@@ -9,7 +9,7 @@ import model.entities.api.EnemyType;
 public final class JumperImpl extends EnemyImpl {
 
     private static final double SPEED = 0.1;
-    private static final double JUMP_HEIGHT = 3.0;
+    private static final double JUMP_HEIGHT = 2.0;
     private double jumpRemaining;
 
     /**

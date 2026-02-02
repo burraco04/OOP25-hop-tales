@@ -26,7 +26,7 @@ public final class ChooseLevelPanel extends JPanel {
     private final TopBarPanel topBarpan = new TopBarPanel();
 
     /**
-     * constructor of the panel
+     * constructor of the panel.
      *
      * @param controller the menu controller used to handle user actions
      */

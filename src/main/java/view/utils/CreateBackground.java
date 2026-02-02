@@ -15,6 +15,7 @@ public final class CreateBackground {
      * Class constructor.
      */
     private CreateBackground() {
+    //create background
     }
 
     /**

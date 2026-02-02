@@ -10,16 +10,16 @@ public class Door implements WorldObject {
     private final int x;
     private final int y;
 
-     /**
+    /**
      * Creates a new door located at the specified coordinates.
      *
      * @param x x the horizontal position of the brick
      * @param y y the vertical position of the brick
      */
-     public Door(final int x, final int y) {
+    public Door(final int x, final int y) {
         this.x = x;
         this.y = y;
-     }
+    }
 
     /**
      * {@inheritDoc}

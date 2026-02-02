@@ -27,7 +27,7 @@ public final class Shop extends JPanel {
     private final transient FontFactory font = new FontFactory();
 
     /**
-     *  Creates the Shop panel
+     *  Creates the Shop panel.
      *
      * @param controller pass the menu controller used to handle user interactions and navigation
      */

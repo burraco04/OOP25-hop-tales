@@ -10,16 +10,16 @@ public final class Grass implements WorldObject {
     private final int x;
     private final int y;
 
-     /**
+    /**
      * Creates new grass located at the specified coordinates.
      *
      * @param x x the horizontal position of the brick
      * @param y y the vertical position of the brick
      */
-     public Grass(final int x, final int y) {
+    public Grass(final int x, final int y) {
         this.x = x;
         this.y = y;
-     }
+    }
 
     /**
      * {@inheritDoc}

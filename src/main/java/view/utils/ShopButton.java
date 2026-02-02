@@ -130,7 +130,7 @@ public class ShopButton extends JPanel {
      * @param all all available buttons
      */
     private void selectButton(final JButton selected, final JButton[] all) {
-    for (final JButton b : all ) {
+    for (final JButton b : all) {
         b.setBackground(DEFAULT_COLOR);
     }
     selected.setBackground(SELECTED_COLOR);

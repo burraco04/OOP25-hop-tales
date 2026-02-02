@@ -10,16 +10,16 @@ public class FloatingGrass implements WorldObject {
     private final int x;
     private final int y;
 
-     /**
+    /**
      * Creates a new floating grass located at the specified coordinates.
      *
      * @param x x the horizontal position of the brick
      * @param y y the vertical position of the brick
      */
-     public FloatingGrass(final int x, final int y) {
+    public FloatingGrass(final int x, final int y) {
         this.x = x;
         this.y = y;
-     }
+    }
 
     /**
      * {@inheritDoc}

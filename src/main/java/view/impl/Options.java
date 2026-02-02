@@ -32,9 +32,9 @@ public final class Options extends JPanel {
     private final transient ButtonBackFactory buttonBackFactory = new ButtonBackFactory();
     private final TopBarPanel topBarPanel = new TopBarPanel();
 
-    private JLabel title = new JLabel("audio");
-    private JPanel sliderPanel = new JPanel();
-    private JSlider volumeSlider = new JSlider(0, 100);
+    private final JLabel title = new JLabel("audio");
+    private final JPanel sliderPanel = new JPanel();
+    private final JSlider volumeSlider = new JSlider(0, 100);
 
     /**
      * Creates the Options panel.

@@ -35,6 +35,7 @@ public final class WalkerImpl extends EnemyImpl {
      */
     @Override
     public void update(final double deltaSeconds) {
+
         moveHorizontal(getDirection() * SPEED);
         applyGravity(GameConstants.GRAVITY);
     }

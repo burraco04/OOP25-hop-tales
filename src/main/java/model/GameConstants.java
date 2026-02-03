@@ -29,8 +29,8 @@ public final class GameConstants {
     public static final int STARTING_HEALTH = 3;
     public static final float DAMAGE_COOLDOWN = 0.7f;
     public static final int MILLIS_PER_FRAME = 16;
-    public static final int ENEMY_WITDH = 2;
-    public static final int ENEMY_HEIGHT = 2;
+    public static final int ENEMY_WITDH = 1;
+    public static final int ENEMY_HEIGHT = 1;
     public static final String FULL_HEART = "full_heart";
     public static final String EMPTY_HEART = "empty_heart";
     public static final int COIN_COUNT_SIZE = 28;

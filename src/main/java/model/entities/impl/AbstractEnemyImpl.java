@@ -112,37 +112,36 @@ public abstract class AbstractEnemyImpl implements Enemy {
      * @return true if the enemy can move there, false otherwise
      */
     protected boolean canMoveTo(final double nextX, final double nextY) {
-        if (collider == null) {
+        if (collider == null){
             return true;
         }
         final int tileX = (int) Math.floor(nextX);
         final int tileY = (int) Math.floor(nextY);
+
         return !collider.collidesWithSolid(
             tileX,
             tileY,
             (int) width,
-            (int) height - 1
+            (int) height
         );
     }
 
     /**
      * Checks if the enemy is standing on solid ground.
      *
-     * @param newX x-coordinate of the enemy
-     * @param newY y-coordinate of the enemy
+     * @param x x-coordinate of the enemy
+     * @param y y-coordinate of the enemy
      * @return true if the enemy is on ground, false otherwise
      */
-    protected boolean isOnGround(final double newX, final double newY) {
-        if (collider == null) {
-            return false;
+    protected boolean isOnGround(final double x, final double y) {
+        if (collider == null){
+            return true;
         }
-        final int tileX = (int) Math.floor(newX);
-        final int tileY = (int) Math.floor(newY);
         return collider.collidesWithSolid(
-            tileX,
-            tileY,
-            (int) width,
-            (int) height
+            (int) Math.floor(x), 
+            (int) Math.floor(y + height), 
+            (int) width, 
+            1
         );
     }
 
@@ -166,21 +165,18 @@ public abstract class AbstractEnemyImpl implements Enemy {
      * @param deltaX horizontal displacement
      */
     protected void moveHorizontal(final double deltaX) {
-        final double x = getX();
-        final double targetX = x + deltaX;
-        if (canMoveTo(targetX, getY())) {
-            setX(targetX);
-        } else {
-            reverseDirection();
+        final double x = getX(); 
+        final double targetX = x + deltaX; 
+        if (canMoveTo(targetX, getY())) { 
+            setX(targetX); 
+        } else { 
+            reverseDirection(); 
         }
 
-        if (x < 0.0) {
-            setX(0.0);
-            direction = 1; 
-        }
-        else if (x > collider.getLevelWidth() - width) { 
-            setX(collider.getLevelWidth() - width); 
-            direction = -1; 
+        if (x < 0.0) { 
+            setX(0.0); direction = 1; 
+        } else if (x > collider.getLevelWidth() - width) { 
+            setX(collider.getLevelWidth() - width); direction = -1; 
         }
     }
 
@@ -193,7 +189,7 @@ public abstract class AbstractEnemyImpl implements Enemy {
         final double y = getY();
         if (!isOnGround(getX(), y)) {
             double targetY = y + gravityStep;
-            if (canMoveTo(getX(), targetY)) {
+            if (canMoveTo(getY(), targetY)) {
                 setY(targetY);
             }
         }

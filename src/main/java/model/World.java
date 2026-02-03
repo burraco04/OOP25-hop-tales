@@ -72,7 +72,8 @@ public class World {
             powerupBlockTiles,
             hazardTiles,
             entities,
-            enemies
+            enemies,
+            levelId
         );
     }
 

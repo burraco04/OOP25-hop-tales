@@ -11,8 +11,8 @@ import model.entities.api.EnemyType;
  */
 public abstract class AbstractEnemyImpl implements Enemy {
 
-    protected int direction = 1;
-    protected Collider collider;
+    private int direction = 1;
+    private Collider collider;
     private final double width;
     private final double height;
     private final EnemyType type;
@@ -39,7 +39,7 @@ public abstract class AbstractEnemyImpl implements Enemy {
 
     /** {@inheritDoc} */
     @Override
-    public abstract void update(final double deltaSecond);
+    public abstract void update(double deltaSecond);
 
     /** {@inheritDoc} */
     @Override
@@ -93,11 +93,15 @@ public abstract class AbstractEnemyImpl implements Enemy {
         this.y = y;
     }
 
+    /**
+     * Get the type of the enemy object.
+     * 
+     * @return the {@EnemyType}.
+     */
     @Override
     public EnemyType getType() {
         return type;
     }
-
 
     /**
      * Sets the collider for this enemy.
@@ -125,26 +129,26 @@ public abstract class AbstractEnemyImpl implements Enemy {
             tileX,
             tileY,
             (int) width,
-            (int) height
+            (int) height - 1
         );
     }
 
     /**
      * Checks if the enemy is standing on solid ground.
      *
-     * @param x x-coordinate of the enemy
-     * @param y y-coordinate of the enemy
+     * @param newX x-coordinate of the enemy
+     * @param newY y-coordinate of the enemy
      * @return true if the enemy is on ground, false otherwise
      */
-    protected boolean isOnGround(final double x, final double y) {
+    protected boolean isOnGround(final double newX, final double newY) {
         if (collider == null) {
             return false;
         }
-        final int tileX = (int) Math.floor(x);
-        final int tileY = (int) Math.floor(y);
+        final int tileX = (int) Math.floor(newX);
+        final int tileY = (int) Math.floor(newY);
         return collider.collidesWithSolid(
             tileX,
-            tileY + 1,
+            tileY,
             (int) width,
             (int) height
         );
@@ -157,6 +161,9 @@ public abstract class AbstractEnemyImpl implements Enemy {
     return direction;
     }
 
+    /**
+     * Reverse the horizontal direction to which the enemy moves.
+     */
     protected void reverseDirection() {
         direction *= -1;
     }
@@ -166,19 +173,21 @@ public abstract class AbstractEnemyImpl implements Enemy {
      *
      * @param deltaX horizontal displacement
      */
-    protected void moveHorizontal(double deltaX) {
-        double x = getX();
-        double targetX = x + deltaX;
+    protected void moveHorizontal(final double deltaX) {
+        final double x = getX();
+        final double targetX = x + deltaX;
         if (canMoveTo(targetX, getY())) {
             setX(targetX);
         } else {
             reverseDirection();
         }
 
-        // Level boundaries
-        if (x < 0.0) { setX(0.0); direction = 1; }
-        else if (x > GameConstants.LEVEL_1_WIDTH - width) { 
-            setX(GameConstants.LEVEL_1_WIDTH - width); 
+        if (x < 0.0) {
+            setX(0.0);
+            direction = 1; 
+        }
+        else if (x > collider.getLevelWidth() - width) { 
+            setX(collider.getLevelWidth() - width); 
             direction = -1; 
         }
     }
@@ -188,8 +197,8 @@ public abstract class AbstractEnemyImpl implements Enemy {
      *
      * @param gravityStep amount to move downwards
      */
-    protected void applyGravity(double gravityStep) {
-        double y = getY();
+    protected void applyGravity(final double gravityStep) {
+        final double y = getY();
         if (!isOnGround(getX(), y)) {
             double targetY = y + gravityStep;
             if (canMoveTo(getX(), targetY)) {

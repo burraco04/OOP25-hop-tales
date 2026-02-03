@@ -25,6 +25,7 @@ public final class Collider {
     private final Set<Point> hazardTiles;
     private final List<WorldObject> entities;
     private final List<Enemy> enemies;
+    private final int levelId;
 
     /**
      * Instantiate a {@link Collider}.
@@ -48,7 +49,8 @@ public final class Collider {
         final Set<Point> powerupBlockTiles,
         final Set<Point> hazardTiles,
         final List<WorldObject> entities,
-        final List<Enemy> enemies
+        final List<Enemy> enemies,
+        final int levelId
     ) {
         this.solidTiles = solidTiles;
         this.collectableTiles = collectableTiles;
@@ -59,6 +61,7 @@ public final class Collider {
         this.hazardTiles = hazardTiles;
         this.entities = entities;
         this.enemies = enemies;
+        this.levelId = levelId;
     }
 
     /**
@@ -244,5 +247,18 @@ public final class Collider {
             }
         }
         entities.add(replacement);
+    }
+    
+    public int getLevelWidth() {
+        if (levelId == 1) {
+            return GameConstants.LEVEL_1_WIDTH;
+        }
+        if (levelId == 2) {
+
+            return GameConstants.LEVEL_2_WIDTH;
+        } else {
+            throw new IllegalArgumentException("levelId non accettabile");
+        }
+
     }
 }

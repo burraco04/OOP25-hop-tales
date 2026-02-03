@@ -6,7 +6,7 @@ import model.entities.api.EnemyType;
 /**
  * Implementation of a walking enemy.
  */
-public final class WalkerImpl extends EnemyImpl {
+public final class WalkerImpl extends AbstractEnemyImpl {
 
     private static final double SPEED = 0.2;
 

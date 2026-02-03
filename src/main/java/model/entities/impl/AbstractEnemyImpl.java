@@ -9,15 +9,13 @@ import model.entities.api.EnemyType;
 /**
  * Default implementation of an enemy entity.
  */
-public abstract class EnemyImpl implements Enemy {
+public abstract class AbstractEnemyImpl implements Enemy {
 
-
+    protected int direction = 1;
+    protected Collider collider;
     private final double width;
     private final double height;
     private final EnemyType type;
-    protected int direction = 1;
-    protected Collider collider;
-
     private double x;
     private double y;
     private boolean alive = true;
@@ -31,7 +29,7 @@ public abstract class EnemyImpl implements Enemy {
      * @param height enemy height
      * @param type enemy type
      */
-    public EnemyImpl(final double x, final double y, final double width, final double height, final EnemyType type) {
+    public AbstractEnemyImpl(final double x, final double y, final double width, final double height, final EnemyType type) {
         this.x = x;
         this.y = y;
         this.width = width;

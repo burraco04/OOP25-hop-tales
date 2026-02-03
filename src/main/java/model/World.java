@@ -10,7 +10,7 @@ import java.util.Set;
 
 import model.entities.api.Enemy;
 import model.entities.api.Player;
-import model.entities.impl.EnemyImpl;
+import model.entities.impl.AbstractEnemyImpl;
 import model.entities.impl.PlayerImpl;
 import model.objects.CollectableManager;
 import model.objects.api.WorldObject;
@@ -129,7 +129,7 @@ public class World {
      */
     public void addEnemy(final Enemy enemy) {
         enemies.add(enemy);
-        if (enemy instanceof EnemyImpl enemyImpl) {
+        if (enemy instanceof AbstractEnemyImpl enemyImpl) {
             enemyImpl.setCollider(collider);
         }
     }

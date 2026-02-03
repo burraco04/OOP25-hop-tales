@@ -129,8 +129,8 @@ public final class Draw {
             loadFromResources("img/coin_gold_side.png")}, FRAME_DURATION_COIN);
             case PLAYER -> new Animation(new Image[] {loadFromResources(playerFrame1),
             loadFromResources(playerFrame2)}, FRAME_DURATION_PLAYER);
-            case "player_hurt" -> new Animation(new Image[] {loadFromResources("img/Player_1_damaged_frame_1-1.png"),
-            loadFromResources("img/Player_1_damaged_frame_1-2.png")}, FRAME_DURATION_PLAYER);
+            case "player_hurt" -> new Animation(new Image[] {loadFromResources("img/Player_1_damaged_frame_1.png"),
+            loadFromResources("img/Player_1_damaged_frame_2.png")}, FRAME_DURATION_PLAYER);
             case "top_lava" -> new Animation(new Image[] {loadFromResources("img/lava_top.png"),
             loadFromResources("img/lava_top_low.png")}, FRAME_DURATION_LAVA);
             default -> throw new IllegalArgumentException("Tipo sprite sconosciuto: " + type);

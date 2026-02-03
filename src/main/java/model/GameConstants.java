@@ -11,7 +11,7 @@ public final class GameConstants {
     public static final int TARGET_UPS = 90;
     public static final int TARGET_FPS = 60;
     public static final int MILLIS_PER_SECOND = 1000;
-    public static final int PLAYER_WIDTH_TILES = 2;
+    public static final int PLAYER_WIDTH_TILES = 1;
     public static final int PLAYER_HEIGHT_TILES = 2;
     public static final double PLAYER_SPEED = 0.25;
     public static final double GRAVITY = 0.4;

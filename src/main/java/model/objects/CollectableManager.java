@@ -68,7 +68,6 @@ public class CollectableManager {
     public void checkPossibleCollection(final int x, final int y) {
         if (world.collidesWithCoin(x, y)) {
             collectCoin();
-            System.out.println(collectedCoins);
         }
         if (world.collidesWithPowerup(x, y)) {
             collectPowerup();

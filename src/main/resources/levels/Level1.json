@@ -65,16 +65,16 @@
     },
     {
       "type": "floating_grass_left",
-      "x": 45,
+      "x": 42,
       "y": 17 
     },
     {
       "type": "floating_grass",
-      "x": 46,
+      "x": 43,
       "y": 17,
       "macro": {
         "type": "fill",
-        "width": 8,
+        "width": 11,
         "height": 1
       } 
     },
@@ -105,23 +105,23 @@
     },
     {
       "type": "floating_grass_left",
-      "x": 60,
-      "y": 13 
+      "x": 56,
+      "y": 14 
     },
     {
       "type": "floating_grass",
-      "x": 61,
-      "y": 13,
+      "x": 57,
+      "y": 14,
       "macro": {
         "type": "fill",
-        "width": 5,
+        "width": 9,
         "height": 1
       } 
     },
     {
       "type": "floating_grass_right",
       "x": 66,
-      "y": 13
+      "y": 14
     },
     {
       "type": "coin_gold",
@@ -200,16 +200,16 @@
     },
     {
       "type": "floating_grass_left",
-      "x": 104,
+      "x": 102,
       "y": 22 
     },
     {
       "type": "floating_grass",
-      "x": 105,
+      "x": 103,
       "y": 22,
       "macro": {
         "type": "fill",
-        "width": 5,
+        "width": 7,
         "height": 1
       } 
     },
@@ -220,16 +220,16 @@
     },
     {
       "type": "floating_grass_left",
-      "x": 114,
+      "x": 112,
       "y": 20 
     },
     {
       "type": "floating_grass",
-      "x": 115,
+      "x": 113,
       "y": 20,
       "macro": {
         "type": "fill",
-        "width": 5,
+        "width": 7,
         "height": 1
       } 
     },
@@ -487,11 +487,32 @@
         "width": 5,
         "height": 1
       }
+    },
+    {
+      "type": "block_planks",
+      "x": 76,
+      "y": 24,
+      "macro": {
+        "type": "fill",
+        "width": 2,
+        "height": 2
+      }
     }
     ],
     "enemies": [{
       "type": "jumper",
-      "x": 10,
+      "x": 25,
       "y": 25
-    } ]
+    },
+    {
+      "type": "walker",
+      "x": 75,
+      "y": 25
+    },
+     {
+      "type": "walker",
+      "x": 149,
+      "y": 17
+    }
+  ]
   }

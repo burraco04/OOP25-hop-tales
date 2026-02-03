@@ -1,7 +1,6 @@
 package model.entities.impl;
 
 import model.Collider;
-import model.GameConstants;
 import model.entities.api.Enemy;
 import model.entities.api.EnemySnapshot;
 import model.entities.api.EnemyType;
@@ -11,7 +10,7 @@ import model.entities.api.EnemyType;
  */
 public abstract class AbstractEnemyImpl implements Enemy {
 
-    private int direction = 1;
+    private int direction = -1;
     private Collider collider;
     private final double width;
     private final double height;

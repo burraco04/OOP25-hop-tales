@@ -496,7 +496,7 @@
   ],
   "enemies": [
     {
-      "type": "walker",
+      "type": "jumper",
       "x": 30,
       "y": 20
     },

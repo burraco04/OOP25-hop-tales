@@ -32,19 +32,27 @@ import model.objects.impl.lava.Water;
 import model.objects.impl.lava.WaterTop;
 
 /**
- * create the entity.
+ * Factory class responsible for creating game entities from deserialized level data.
+ * 
+ * This class converts raw {@link EntityData} objects into
+ * actual game objects that can be used inside the world model.
  */
 public final class EntityFactory {
-
+    /**
+     * Private constructor.
+     */
     private EntityFactory() { 
 
     }
 
     /**
-     * create data. 
+     * Creates one or more game objects based on the provided entity data.
+     * If the entity does not contain macro information, a single object is generated. Otherwise, 
+     * multiple objects may be created depending on the macro configuration.
+     * 
      *
-     * @param data data
-     * @return lista tangibile
+     * @param data the deserialized data describing the entity
+     * @return a list of game objects generated from the given data
      */
     public static List<WorldObject> create(final EntityData data) {
 
@@ -78,12 +86,13 @@ public final class EntityFactory {
     }
 
     /**
-     * create every single entity.
+     * This method acts as a factory for individual entities, converting 
+     * the raw string identifier into the corresponding concrete object.
      *
-     * @param type type of entity
-     * @param x parameter x
-     * @param y parameter y
-     * @return the new entety
+     * @param type the string identifier representing the entity type
+     * @param x the x coordinate of the entity in the level
+     * @param y the y coordinate of the entity in the level
+     * @return the newly created WorldObject instance
      */
     private static WorldObject createSingle(final String type, final int x, final int y) {
         return switch (type) {

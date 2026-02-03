@@ -3,55 +3,47 @@ package controller.deserialization.level;
 import java.util.List;
 
 /**
- * save all the entety.
+ * This class contains all the information necessary to recreate a level,
+ * including its name, spawn position, entities and enemies.
+ * It is used as an intermediate object during deserialization.
  */
 public class LevelData {
-    private String name;
     private int spawnPointX;
     private int spawnPointY;
     private List<EntityData> entities;
     private List<EntityData> enemies;
 
     /**
-     * name of the level.
+     * Returns the X coordinate of the player spawn point.
      *
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * name of the level.
-     *
-     * @return x
+     * @return the x coordinate of the spawn position
      */
     public int getSpawnPointX() {
         return spawnPointX;
     }
 
     /**
-     * name of the level.
+     * Returns the Y coordinate of the player spawn point.
      *
-     * @return y
+     * @return the y coordinate of the spawn position
      */
     public int getSpawnPointY() {
         return spawnPointY;
     }
 
     /**
-     * name of the level.
+     * Returns the list of entities defined in the level.
      *
-     * @return entitites
+     * @return a list of EntityData objects representing level entities
      */
     public List<EntityData> getEntities() {
         return entities;
     }
 
     /**
-     * name of the level.
+     * Returns the list of enemies defined in the level.
      *
-     * @return entitites
+     * @return a list of EntityData objects representing enemies
      */
     public List<EntityData> getEnemies() {
         return enemies;

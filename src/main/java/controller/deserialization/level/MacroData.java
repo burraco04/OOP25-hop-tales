@@ -1,7 +1,8 @@
 package controller.deserialization.level;
 
 /**
- * type of block.
+ * MacroData is used when an entity must generate multiple objects
+ * or requires size information, such as blocks created through "fill" operations.
  */
 public final class MacroData {
     private String type;
@@ -9,27 +10,27 @@ public final class MacroData {
     private int height;
 
 /**
- * type of block.
+ * Returns the type of macro operation associated with this data.
  *
- * @return return type
+ * @return the macro type identifier
  */
 public String getType() {
     return type; 
 }
 
 /**
- * type of block.
+ * Returns the width value defined for this macro.
  *
- * @return return type
+ * @return the width associated with the macro
  */
 public int getWidth() { 
     return width;
 }
 
 /**
- * type of block.
+ * Returns the height value defined for this macro.
  *
- * @return return type
+ * @return the height associated with the macro
  */
 public int getHeight() {
     return height;

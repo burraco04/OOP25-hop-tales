@@ -5,7 +5,7 @@ import model.objects.api.WorldObject;
 /**
  * Represents a block_planks object inside the game world.
  */
-public class Plank implements  WorldObject{
+public class Plank implements WorldObject {
 
     private final int x;
     private final int y;

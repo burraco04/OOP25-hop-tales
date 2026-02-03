@@ -5,7 +5,7 @@ import model.objects.api.WorldObject;
 /**
  * Represents a floating_dirt_middle object inside the game world.
  */
-public class FloatingDirtMid implements WorldObject{
+public class FloatingDirtMid implements WorldObject {
 
     private final int x;
     private final int y;

@@ -5,7 +5,7 @@ import model.objects.api.WorldObject;
 /**
  * Represents a water object inside the game world.
  */
-public class Water implements WorldObject{
+public class Water implements WorldObject {
 
     private final int x;
     private final int y;

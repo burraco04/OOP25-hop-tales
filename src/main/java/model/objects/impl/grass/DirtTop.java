@@ -5,7 +5,7 @@ import model.objects.api.WorldObject;
 /**
  * Represents a top_dirt_block object inside the game world.
  */
-public class DirtTop implements WorldObject{
+public class DirtTop implements WorldObject {
 
     private final int x;
     private final int y;

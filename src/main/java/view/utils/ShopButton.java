@@ -44,38 +44,38 @@ public class ShopButton extends JPanel {
         setLayout(this.grid);
 
         final JButton skinDefault = ShopButtonFactory.build("/img/Player_1_frame_1.png");
-        final JButton skinRobot = ShopButtonFactory.build("/img/skinsqualo.png");
-        final JButton skinShark = ShopButtonFactory.build("/img/skinsqualo.png");
-        final JButton skinCat = ShopButtonFactory.build("/img/skinsqualo.png");
+        final JButton skinShark = ShopButtonFactory.build("/img/squalo_frame_1.png");
+        final JButton skinPurple = ShopButtonFactory.build("/img/purple_player_frame_1.png");
+        final JButton skinGhost = ShopButtonFactory.build("/img/ghost_frame_1.png");
 
-        this.allButtons = new JButton[] {skinDefault, skinRobot, skinShark, skinCat};
+        this.allButtons = new JButton[] {skinDefault, skinShark, skinPurple, skinGhost};
 
         skinDefault.setText("DEFAULT");
-        skinRobot.setText("ROBOT");
-        skinShark.setText("SQUALO");
-        skinCat.setText("CANE");
+        skinShark.setText("ROBOT SHARK");
+        skinPurple.setText("PURPLE");
+        skinGhost.setText("FANTASMA");
 
         skinDefault.addActionListener(e -> {
             controller.selectSkin("img/Player_1_frame_1.png", "img/Player_1_frame_2.png");
             selectButton(skinDefault, allButtons);
         });
-        skinRobot.addActionListener(e -> {
-            controller.selectSkin("img/skinsqualo.png", "img/skinsqualo.png");
-            selectButton(skinRobot, allButtons);
-        });
         skinShark.addActionListener(e -> {
-            controller.selectSkin("img/skinsqualo.png", "img/skinsqualo.png");
+            controller.selectSkin("img/squalo_frame_1.png", "img/squalo_frame_2.png");
             selectButton(skinShark, allButtons);
         });
-        skinCat.addActionListener(e -> {
-            controller.selectSkin("img/skinsqualo.png", "img/skinsqualo.png");
-            selectButton(skinCat, allButtons);
+        skinPurple.addActionListener(e -> {
+            controller.selectSkin("img/purple_player_frame_1.png", "img/purple_player_frame_2.png");
+            selectButton(skinPurple, allButtons);
+        });
+        skinGhost.addActionListener(e -> {
+            controller.selectSkin("img/ghost_frame_1.png", "img/ghost_frame_2.png");
+            selectButton(skinGhost, allButtons);
         });
 
         add(skinDefault);
-        add(skinRobot);
+        add(skinPurple);
         add(skinShark);
-        add(skinCat);
+        add(skinGhost);
     }
 
     /**

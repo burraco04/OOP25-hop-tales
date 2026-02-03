@@ -11,7 +11,7 @@ import view.impl.SwingView;
 public final class HopTales {
 
     private HopTales() {
-        // Impedisce l'istanziazione.
+
     }
 
     /**

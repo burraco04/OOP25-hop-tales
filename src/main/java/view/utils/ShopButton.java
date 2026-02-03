@@ -7,9 +7,11 @@ import java.awt.Image;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.api.ControllerMenu;
+import model.CoinStorage;
 
 /**
  * Panel used to buy and select the skins.
@@ -27,6 +29,7 @@ public class ShopButton extends JPanel {
     private static final float GAP_PERCENTUALE = 0.20f;
     private static final Color DEFAULT_COLOR = new Color(205, 170, 125);
     private static final Color SELECTED_COLOR = new Color(208, 208, 208);
+    private static final int SKIN_COST = 5;
     private final GridLayout grid;
     private final Image background;
     private final JButton[] allButtons;
@@ -59,19 +62,10 @@ public class ShopButton extends JPanel {
             controller.selectSkin("img/Player_1_frame_1.png", "img/Player_1_frame_2.png");
             selectButton(skinDefault, allButtons);
         });
-        skinShark.addActionListener(e -> {
-            controller.selectSkin("img/squalo_frame_1.png", "img/squalo_frame_2.png");
-            selectButton(skinShark, allButtons);
-        });
-        skinPurple.addActionListener(e -> {
-            controller.selectSkin("img/purple_player_frame_1.png", "img/purple_player_frame_2.png");
-            selectButton(skinPurple, allButtons);
-        });
-        skinGhost.addActionListener(e -> {
-            controller.selectSkin("img/ghost_frame_1.png", "img/ghost_frame_2.png");
-            selectButton(skinGhost, allButtons);
-        });
-
+        skinShark.addActionListener(e -> buySkinForOneGame(skinShark, controller, "img/squalo_frame_1.png", "img/squalo_frame_2.png"));
+        skinPurple.addActionListener(e -> buySkinForOneGame(skinPurple, controller, "img/purple_player_frame_1.png", "img/purple_player_frame_2.png"));
+        skinGhost.addActionListener(e -> buySkinForOneGame(skinGhost, controller, "img/ghost_frame_1.png", "img/ghost_frame_2.png"));
+        
         add(skinDefault);
         add(skinPurple);
         add(skinShark);
@@ -130,9 +124,19 @@ public class ShopButton extends JPanel {
      * @param all all available buttons
      */
     private void selectButton(final JButton selected, final JButton[] all) {
-    for (final JButton b : all) {
-        b.setBackground(DEFAULT_COLOR);
+        for (final JButton b : all) {
+            b.setBackground(DEFAULT_COLOR);
+        }
+        selected.setBackground(SELECTED_COLOR);
     }
-    selected.setBackground(SELECTED_COLOR);
+
+    private void buySkinForOneGame(final JButton btn, final ControllerMenu controller, final String f1, final String f2) {
+        if (CoinStorage.loadTotalCoins() >= SKIN_COST) {
+            CoinStorage.addCoins(-SKIN_COST);
+            controller.selectSkin(f1, f2);
+            selectButton(btn, allButtons);
+        } else {
+            JOptionPane.showMessageDialog(this, "Fondi insufficienti, ti mancano "+ (SKIN_COST - CoinStorage.loadTotalCoins()), "Shop", JOptionPane.WARNING_MESSAGE);
+        }
     }
 }

@@ -42,7 +42,7 @@ public final class Shop extends JPanel {
     back.addActionListener(e -> controller.handleEvent(State.MAIN_MENU));
     final JPanel topBar = topBarpan.buildTopPanel(back);
     final JPanel panel = new ShopButton(controller);
-
+    
     this.add(topBar);
     this.add(title);
     this.add(panel);

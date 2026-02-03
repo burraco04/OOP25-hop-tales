@@ -33,7 +33,6 @@ import model.objects.impl.lava.WaterTop;
 
 /**
  * Factory class responsible for creating game entities from deserialized level data.
- * 
  * This class converts raw {@link EntityData} objects into
  * actual game objects that can be used inside the world model.
  */

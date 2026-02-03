@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import controller.api.ControllerMenu;
 import controller.api.State;
 import view.utils.ButtonFactory;
+import view.utils.Draw;
 
 /**
  * Game over panel.
@@ -35,6 +36,7 @@ public final class GameOverPanel extends JPanel {
         final JButton back = this.buttonFactory.buildbutton("main menu");
         back.setAlignmentX(CENTER_ALIGNMENT);
         back.addActionListener(e -> {
+            Draw.setPlayerSkin("img/Player_1_frame_1.png", "img/Player_1_frame_2.png");
             controller.handleEvent(State.MAIN_MENU);
             onClose.run();
         });

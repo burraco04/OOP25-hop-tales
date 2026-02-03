@@ -1,7 +1,5 @@
 package view.impl;
 
-import java.util.Optional;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -16,7 +14,8 @@ import view.utils.ButtonFactory;
 import view.utils.TopBarPanel;
 
 /**
- * pannel.
+ * Panel that allows the user to select a game level.
+ * It displays the available levels and notifies the controller when a selection is made.
  */
 public final class ChooseLevelPanel extends JPanel {
     private static final long serialVersionUID = 1L;
@@ -27,9 +26,9 @@ public final class ChooseLevelPanel extends JPanel {
     private final TopBarPanel topBarpan = new TopBarPanel();
 
     /**
-     * choose level.
+     * constructor of the panel.
      *
-     * @param controller creo controller
+     * @param controller the menu controller used to handle user actions
      */
 
     public ChooseLevelPanel(final ControllerMenu controller) {
@@ -49,13 +48,13 @@ public final class ChooseLevelPanel extends JPanel {
         level2.setAlignmentX(CENTER_ALIGNMENT);
         level3.setAlignmentX(CENTER_ALIGNMENT);
 
-        level1.addActionListener(e -> controller.handleEvent(State.LEVEL_1, Optional.empty()));
+        level1.addActionListener(e -> controller.handleEvent(State.LEVEL_1));
 
-        level2.addActionListener(e -> controller.handleEvent(State.LEVEL_2, Optional.empty()));
+        level2.addActionListener(e -> controller.handleEvent(State.LEVEL_2));
 
         final JButton back = this.buttonbackFactory.buildbackbutton();
 
-        back.addActionListener(e -> controller.handleEvent(State.MAIN_MENU, Optional.empty()));
+        back.addActionListener(e -> controller.handleEvent(State.MAIN_MENU));
 
         final JPanel topBar = topBarpan.buildTopPanel(back);
 

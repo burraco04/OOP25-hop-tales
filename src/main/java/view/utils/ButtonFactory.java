@@ -7,7 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 /**
- * button factory.
+ * Button factory.
  */
 
 public class ButtonFactory {
@@ -18,9 +18,9 @@ public class ButtonFactory {
     private final FontFactory fontFactory = new FontFactory();
 
     /**
-     * create button.
+     * creates a button.
      *
-     * @param nameButton name of the button
+     * @param nameButton the text displayed on the button
      * @return the button complete
      */
     public JButton buildbutton(final String nameButton) {

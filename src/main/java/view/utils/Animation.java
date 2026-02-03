@@ -3,7 +3,7 @@ package view.utils;
 import java.awt.Image;
 
 /**
- * calls for animate the entities.
+ * Handles entity animations.
  */
 public final class Animation {
     private final Image[] frames;
@@ -12,25 +12,25 @@ public final class Animation {
     private long lastFrameTime = -1;
 
     /**
-     * constructor.
+     * class constructor.
      *
-     * @param frames number of frames for entity
-     * @param frameDuration time for change frame
+     * @param frames number of frames used for animation
+     * @param frameDuration the time intervall between frame changes
      */
     public Animation(final Image[] frames, final long frameDuration) {
         if (frames == null || frames.length == 0) {
             throw new IllegalArgumentException("frames vuoto");
         }
         this.currentFrame = 0;
-        this.frames = frames;
+        this.frames = frames.clone();
         this.frameDuration = frameDuration;
     }
 
     /**
-     * change the frame.
+     * Updates and returns the current animation frame.
      *
-     * @param nowMillis time passed whe the game had started.
-     * @return the new frame for the entity.
+     * @param nowMillis time passed since the game started.
+     * @return the current frame of the animation
      */
     public Image getFrame(final long nowMillis) {
         //first frame
@@ -38,10 +38,10 @@ public final class Animation {
             lastFrameTime = nowMillis;
             return frames[currentFrame];
         }
-        
-        final long elapsed = nowMillis - lastFrameTime;
-        if (elapsed >= frameDuration) {
-            final long steps = elapsed / frameDuration; 
+
+        final long timePassed = nowMillis - lastFrameTime;
+        if (timePassed >= frameDuration) {
+            final long steps = timePassed / frameDuration; //used in case of bugs (steps usually is equal to 1)
             currentFrame = (int) ((currentFrame + steps) % frames.length);
             lastFrameTime += steps * frameDuration;
         }

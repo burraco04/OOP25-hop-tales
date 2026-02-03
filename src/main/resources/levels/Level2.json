@@ -43,8 +43,6 @@
         "height": 1
       } 
     },
-
-
     {
       "type": "floating_dirt_left",
       "x": 38,
@@ -75,7 +73,6 @@
         "height": 1
       } 
     },
-
     {
       "type": "block_planks",
       "x": 46,
@@ -86,8 +83,6 @@
         "height": 5
       }
     },
-
-
     {
       "type": "floating_dirt_left",
       "x": 40,
@@ -118,8 +113,6 @@
         "height": 1
       }
     },
-
-
     {
       "type": "floating_dirt_left",
       "x": 51,
@@ -160,11 +153,6 @@
         "height": 2
       }
     },
-
-
-
-
-
     {
       "type": "water_top",
       "x": 35,
@@ -195,8 +183,6 @@
         "height": 7
       } 
     },
-
-
     {
       "type": "top_dirt_block",
       "x": 66,
@@ -232,7 +218,6 @@
       "x": 75,
       "y": 18
     },
-
     {
       "type": "top_dirt_block",
       "x": 80,
@@ -273,8 +258,6 @@
         "height": 1
       } 
     },
-
-
     {
       "type": "top_dirt_block",
       "x": 100,
@@ -295,9 +278,6 @@
         "height": 20
       }
     },
-
-
-
     {
       "type": "water_top",
       "x": 115,
@@ -328,8 +308,6 @@
         "height": 7
       } 
     },
-
-
     {
       "type": "floating_dirt_left",
       "x": 120,
@@ -370,8 +348,6 @@
         "height": 1
       } 
     },
-
-
     {
       "type": "top_dirt_block",
       "x": 132,
@@ -452,8 +428,6 @@
         "height": 1
       } 
     },
-
-
     {
       "type": "top_dirt_block",
       "x": 170,
@@ -474,7 +448,6 @@
         "height": 20
       } 
     },
-
     {
       "type": "brick_castle",
       "x": 180,
@@ -510,7 +483,6 @@
         "height": 4
       }
     },
-
     {
       "type": "dirt_block",
       "x": 190,
@@ -521,17 +493,10 @@
         "height": 47
       } 
     }
-
-
-
-
-
-
-
   ],
   "enemies": [
     {
-      "type": "jumper",
+      "type": "walker",
       "x": 30,
       "y": 20
     },

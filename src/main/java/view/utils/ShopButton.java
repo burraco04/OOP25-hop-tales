@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import controller.api.ControllerMenu;
 
 /**
- * used for buy the skin.
+ * Panel used to buy and select the skins.
  */
 public class ShopButton extends JPanel {
 
@@ -32,9 +32,9 @@ public class ShopButton extends JPanel {
     private final JButton[] allButtons;
 
     /**
-     * implements the top bar. 
+     * Creates the shop button panel.
      *
-     * @return the pannel where put the button
+     * @param controller the menu controller used to select skins
      */
     public ShopButton(final ControllerMenu controller) {
 
@@ -78,6 +78,9 @@ public class ShopButton extends JPanel {
         add(skinCat);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void doLayout() {
         // Dimensioni disponibili
@@ -100,19 +103,19 @@ public class ShopButton extends JPanel {
     }
 
     /**
-     * calcola la dimensione dei gap limitandoli.
+     * Clamps a value between a minimum and a maximum.
      *
-     * @param v misura che gli passo
-     * @param min minimo che voglio
-     * @param max massimo che voglio
-     * @return risultato
+     * @param v the input value
+     * @param min the minimum allowed value
+     * @param max the maximum allowed value
+     * @return the clamped value
      */
     private static int clamp(final int v, final int min, final int max) {
         return Math.max(min, Math.min(max, v));
     }
 
     /**
-     * cancella e ridipinge il pannello.
+     * {@inheritDoc}
      */
     @Override
     protected void paintComponent(final Graphics g) {
@@ -120,11 +123,15 @@ public class ShopButton extends JPanel {
          g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
     }
 
+    /**
+     * selects a button and updates the colors of all buttons.
+     *
+     * @param selected the selected button
+     * @param all all available buttons
+     */
     private void selectButton(final JButton selected, final JButton[] all) {
-    for (final JButton b : all ) {
+    for (final JButton b : all) {
         b.setBackground(DEFAULT_COLOR);
-        b.setOpaque(true);
-        b.setContentAreaFilled(true);
     }
     selected.setBackground(SELECTED_COLOR);
     }

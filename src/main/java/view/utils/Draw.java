@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.imageio.ImageIO;
 
 /**
- * calss draw.
+ * Draw utility class.
  */
 public final class Draw {
     private static final Map<String, Image> CACHE = new HashMap<>();
@@ -19,17 +19,18 @@ public final class Draw {
     private static final int FRAME_DURATION_COIN = 300;
     private static final int FRAME_DURATION_PLAYER = 200;
     private static final int FRAME_DURATION_LAVA = 500;
-    private static final Set<String> ANIMATED_TYPES = Set.of("coin", "player", "top_lava", "player_hurt");
+    private static final String PLAYER = "player";
+    private static final Set<String> ANIMATED_TYPES = Set.of("coin", PLAYER, "top_lava", "player_hurt");
     private static String playerFrame1 = "img/Player_1_frame_1.png";
     private static String playerFrame2 = "img/Player_1_frame_2.png";
 
     private Draw() { }
 
     /**
-     * search in the cache map if type is already present.
+     * Searches the cache for a static image.
      *
-     * @param type type of entities
-     * @return the correct frame
+     * @param type the entity type
+     * @return the corresponding static image
      */
     public static Image getStatic(final String type) {
         if (CACHE.containsKey(type)) {
@@ -40,10 +41,10 @@ public final class Draw {
     }
 
     /**
-     * search in the animations map if type is already present.
+     * Searches the animation cache.
      *
-     * @param type type of entities
-     * @return the correct frame
+     * @param type the entity type
+     * @return the corresponding animation
      */
     public static Animation getAnim(final String type) {
         if (ANIMATIONS.containsKey(type)) {
@@ -54,10 +55,10 @@ public final class Draw {
     }
 
     /**
-     * select if the entity is animated or static.
-     * 
-     * @param type of entity
-     * @param t time that had passed 
+     * selects whether the entity is animated or static.
+     *
+     * @param type the entity type
+     * @param t time that had passed since the start of the game
      * @return the correct image
      */
     public static Image get(final String type, final long t) {
@@ -69,20 +70,20 @@ public final class Draw {
     }
 
     /**
-     * check if the entity is animated.
+     * checks whether the entity is animated.
      *
-     * @param type of entity
-     * @return true or false
+     * @param type the entity type
+     * @return {@code true} if the entity is animated, {@code false} otherwise
      */
     private static boolean isAnimated(final String type) {
-    return ANIMATED_TYPES.contains(type);   // aggiungi altri type animati qui
+    return ANIMATED_TYPES.contains(type);
     }
 
     /**
-     * load the static image.
+     * loads the static image.
      *
-     * @param type of the object
-     * @return the correct image
+     * @param type the entity type
+     * @return the corresponding image
      */
     private static Image loadImage(final String type) {
         final String path = switch (type) {
@@ -117,16 +118,16 @@ public final class Draw {
     }
 
     /**
-     * return the correct animation.
+     * returns the correct animation.
      *
-     * @param type of entity
-     * @return correct animation
+     * @param type the entity type
+     * @return corresponding animation
      */
     private static Animation loadAnim(final String type) {
         return switch (type) {
             case "coin" -> new Animation(new Image[] {loadFromResources("img/coin_gold.png"),
             loadFromResources("img/coin_gold_side.png")}, FRAME_DURATION_COIN);
-            case "player" -> new Animation(new Image[] {loadFromResources(playerFrame1),
+            case PLAYER -> new Animation(new Image[] {loadFromResources(playerFrame1),
             loadFromResources(playerFrame2)}, FRAME_DURATION_PLAYER);
             case "player_hurt" -> new Animation(new Image[] {loadFromResources("img/Player_1_damaged_frame_1-1.png"),
             loadFromResources("img/Player_1_damaged_frame_1-2.png")}, FRAME_DURATION_PLAYER);
@@ -137,10 +138,10 @@ public final class Draw {
     }
 
     /**
-     * check if the path is corrected.
+     * Loads an image from the resources.
      *
-     * @param path of the entity
-     * @return the correct image
+     * @param path the resuorces path
+     * @return the loaded image
      */
     private static Image loadFromResources(final String path) {
         try (var in = Draw.class.getClassLoader().getResourceAsStream(path)) {
@@ -154,16 +155,15 @@ public final class Draw {
     }
 
     /**
-     * Imposta la skin del player e invalida le cache.
+     * Sets the player skin and invalidates the related caches.
      *
-     * @param frame1 path al primo frame
-     * @param frame2 path al secondo frame (se null usa frame1)
+     * @param frame1 the path of the first frame
+     * @param frame2 the path of the second frame
      */
     public static void setPlayerSkin(final String frame1, final String frame2) {
         playerFrame1 = frame1;
         playerFrame2 = frame2;
-        CACHE.remove("player");
-        ANIMATIONS.remove("player");
+        ANIMATIONS.remove(PLAYER);
     }
 
 }

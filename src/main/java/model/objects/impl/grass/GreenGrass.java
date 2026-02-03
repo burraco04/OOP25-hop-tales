@@ -3,7 +3,7 @@ package model.objects.impl.grass;
 import model.objects.api.WorldObject;
 
 /**
- * green grass class.
+ * Represents a green grass object inside the game world.
  */
 public final class GreenGrass implements WorldObject {
 
@@ -11,10 +11,10 @@ public final class GreenGrass implements WorldObject {
     private final int y;
 
     /**
-     * create costructor.
+     * Creates new green grass located at the specified coordinates.
      *
-     * @param x parameter x
-     * @param y parameter y
+     * @param x x the horizontal position of the brick
+     * @param y y the vertical position of the brick
      */
     public GreenGrass(final int x, final int y) {
         this.x = x;

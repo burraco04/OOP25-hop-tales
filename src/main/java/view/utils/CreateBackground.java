@@ -7,21 +7,22 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 /**
- * create the background for pannel.
+ * creates the background for pannel.
  */
 public final class CreateBackground {
 
     /**
-     * constructor
+     * Class constructor.
      */
     private CreateBackground() {
+    //create background
     }
 
     /**
-     * create the background of the panell.
+     * Creates a background image.
      *
-     * @param path path of the image
-     * @return return the image
+     * @param path the path of the image
+     * @return the loaded image
      */
     public static Image create(final String path) {
          try (InputStream is = CreateBackground.class.getResourceAsStream(path)) {

@@ -3,7 +3,7 @@ package model.objects.impl.brick;
 import model.objects.api.WorldObject;
 
 /**
- * brick.
+ * Represents a brick object inside the game world.
  */
 public final class Brick implements WorldObject {
 
@@ -11,10 +11,10 @@ public final class Brick implements WorldObject {
     private final int y;
 
     /**
-     * create object brick.
+     * Creates a new brick located at the specified coordinates.
      *
-     * @param x parameter
-     * @param y parameter
+     * @param x x the horizontal position of the brick
+     * @param y y the vertical position of the brick
      */
     public Brick(final int x, final int y) {
         this.x = x;
@@ -37,6 +37,9 @@ public final class Brick implements WorldObject {
         return y; 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getType() {
         return "brick";

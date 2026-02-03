@@ -4,27 +4,29 @@ import controller.KeyboardInputManager;
 import model.World;
 
 /**
- * boh.
+ * Represents the graphical user interface of the application.
+ * This interface defines the operations used by the controller
+ * to display different screens and interact with the user.
  */
 
 public interface View {
 /**
- * manda al menu.
+ * Displays the main menu screen.
  */
 void showMainMenu();
 
 /**
- * scegli il livello.
+ * Displays the screen used to select a game level.
  */
 void showLevels();
 
 /**
- * open shop.
+ * Opens and displays the game shop screen.
  */
 void showShop();
 
 /**
- * open options.
+ * Displays the options and settings screen.
  */
 void showOptions();
 

@@ -1,7 +1,6 @@
 package view.impl;
 
 import java.awt.Dimension;
-import java.util.Optional;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -18,7 +17,8 @@ import view.utils.FontFactory;
 import view.utils.TopBarPanel;
 
 /**
- * class options.
+ * This class represents the options menu of the game and is responsible for displaying and managing
+ * user-configurable settings (audio volume).
  */
 public final class Options extends JPanel {
     private static final long serialVersionUID = 1L;
@@ -32,14 +32,14 @@ public final class Options extends JPanel {
     private final transient ButtonBackFactory buttonBackFactory = new ButtonBackFactory();
     private final TopBarPanel topBarPanel = new TopBarPanel();
 
-    private JLabel title = new JLabel("audio");
-    private JPanel sliderPanel = new JPanel();
-    private JSlider volumeSlider = new JSlider(0, 100);
+    private final JLabel title = new JLabel("audio");
+    private final JPanel sliderPanel = new JPanel();
+    private final JSlider volumeSlider = new JSlider(0, 100);
 
     /**
-     * create the clsaa.
+     * Creates the Options panel.
      *
-     * @param controller pass the controller
+     * @param controller the menu controller used to handle user interactions and navigation
      */
     public Options(final ControllerMenu controller) {
 
@@ -47,7 +47,7 @@ public final class Options extends JPanel {
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
     final JButton back = this.buttonBackFactory.buildbackbutton();
-    back.addActionListener(e -> controller.handleEvent(State.MAIN_MENU, Optional.empty()));
+    back.addActionListener(e -> controller.handleEvent(State.MAIN_MENU));
     final JPanel topBar = topBarPanel.buildTopPanel(back);
 
     title.setFont(this.fontFactory.getFont(TITLE_FONT, TITLE_SIZE, this));

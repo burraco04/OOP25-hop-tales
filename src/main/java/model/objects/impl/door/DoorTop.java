@@ -2,16 +2,19 @@ package model.objects.impl.door;
 
 import model.objects.api.WorldObject;
 
+/**
+ * Represents the top of a door inside the game world.
+ */
 public class DoorTop implements WorldObject {
 
     private final int x;
     private final int y;
 
     /**
-     * class grass.
+     * Creates the top of a door located at the specified coordinates.
      *
-     * @param x parameter
-     * @param y parameter
+     * @param x x the horizontal position of the brick
+     * @param y y the vertical position of the brick
      */
     public DoorTop(final int x, final int y) {
         this.x = x;

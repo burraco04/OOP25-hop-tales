@@ -9,17 +9,17 @@ import javax.swing.JPanel;
 import model.GameConstants;
 
 /**
- * create topbar for the button back.
+ * Creates a top bar containing a back button.
  */
 public class TopBarPanel extends JPanel {
 
 private static final long serialVersionUID = 1L;
 
     /**
-     * implements the top bar. 
+     * Builds the top bar panel.
      *
-     * @param back button back
-     * @return the pannel where put the button
+     * @param back the back button
+     * @return the pannel containing the back button
      */
     public JPanel buildTopPanel(final JButton back) {
         final JPanel topBar = new JPanel(new BorderLayout());

@@ -2,16 +2,19 @@ package model.objects.impl.grass;
 
 import model.objects.api.WorldObject;
 
+/**
+ * Represents a floating_dirt_left object inside the game world.
+ */
 public class FloatingDirtleLeft implements WorldObject{
 
     private final int x;
     private final int y;
 
     /**
-     * create object brick.
+     * Create object floating_dirt_left.
      *
-     * @param x parameter
-     * @param y parameter
+     * @param x horizzontal position of the block
+     * @param y vertical position of the block
      */
     public FloatingDirtleLeft(final int x, final int y) {
         this.x = x;
@@ -34,6 +37,9 @@ public class FloatingDirtleLeft implements WorldObject{
         return y; 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getType() {
         return "floating_dirt_left";

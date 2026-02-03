@@ -2,6 +2,9 @@ package model.objects.impl.lava;
 
 import model.objects.api.WorldObject;
 
+/**
+ * Represents a water_top object inside the game world.
+ */
 public class WaterTop implements WorldObject{
 
 
@@ -9,10 +12,10 @@ public class WaterTop implements WorldObject{
     private final int y;
 
     /**
-     * create object brick.
+     * Create object water_top.
      *
-     * @param x parameter
-     * @param y parameter
+     * @param x x parameter of water
+     * @param y y parameter of water
      */
     public WaterTop(final int x, final int y) {
         this.x = x;
@@ -35,6 +38,9 @@ public class WaterTop implements WorldObject{
         return y; 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getType() {
         return "water_top";

@@ -13,8 +13,8 @@ public final class GreenGrass implements WorldObject {
     /**
      * Creates new green grass located at the specified coordinates.
      *
-     * @param x x the horizontal position of the brick
-     * @param y y the vertical position of the brick
+     * @param x x the horizontal position of the block
+     * @param y y the vertical position of the block
      */
     public GreenGrass(final int x, final int y) {
         this.x = x;

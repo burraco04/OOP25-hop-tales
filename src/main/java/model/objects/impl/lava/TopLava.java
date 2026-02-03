@@ -3,7 +3,7 @@ package model.objects.impl.lava;
 import model.objects.api.WorldObject;
 
 /**
- * lava.
+ * Represents a top_lava object inside the game world.
  */
 public class TopLava implements WorldObject {
     private final int x;
@@ -12,8 +12,8 @@ public class TopLava implements WorldObject {
     /**
      * create object brick.
      *
-     * @param x parameter
-     * @param y parameter
+     * @param x x parameter of the lava
+     * @param y y parameter of the lava
      */
     public TopLava(final int x, final int y) {
         this.x = x;

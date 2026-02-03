@@ -13,8 +13,8 @@ public class FloatingGrassRight implements WorldObject {
     /**
      * Creates a new floating grass located at the specified coordinates.
      *
-     * @param x x the horizontal position of the brick
-     * @param y y the vertical position of the brick
+     * @param x x the horizontal position of the floating grass
+     * @param y y the vertical position of the floating grass
      */
     public FloatingGrassRight(final int x, final int y) {
         this.x = x;

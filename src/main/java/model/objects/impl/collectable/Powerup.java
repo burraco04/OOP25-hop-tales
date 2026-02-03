@@ -13,8 +13,8 @@ public class Powerup implements WorldObject {
     /**
      * create object powerup.
      *
-     * @param x parameter
-     * @param y parameter
+     * @param x x parameter of the powerup
+     * @param y y parameter of the powerup
      */
     public Powerup(final int x, final int y) {
         this.x = x;

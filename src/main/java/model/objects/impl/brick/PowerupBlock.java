@@ -3,7 +3,7 @@ package model.objects.impl.brick;
 import model.objects.api.WorldObject;
 
 /**
- * A simple Powerup block.
+ * Represents a simple Powerup block.
  */
 public class PowerupBlock implements WorldObject {
     private final int x;
@@ -12,8 +12,8 @@ public class PowerupBlock implements WorldObject {
     /**
      * create Powerup block.
      *
-     * @param x parameter
-     * @param y parameter
+     * @param x x parameter of the powerup_block
+     * @param y y parameter of the powerup_block
      */
     public PowerupBlock(final int x, final int y) {
         this.x = x;

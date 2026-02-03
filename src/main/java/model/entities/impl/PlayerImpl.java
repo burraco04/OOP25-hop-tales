@@ -3,7 +3,6 @@ package model.entities.impl;
 import controller.AudioManager;
 import model.GameConstants;
 import model.entities.api.Player;
-import model.entities.api.PlayerSnapshot;
 
 /**
  * Default physics-backed implementation of the controllable player.
@@ -78,14 +77,6 @@ public final class PlayerImpl implements Player {
         if (deltaSeconds <= MIN_DELTA_SECONDS) {
             return;
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public PlayerSnapshot snapshot() {
-        return new PlayerSnapshot(x, y, width, height, facingRight, onGround);
     }
 
     /**

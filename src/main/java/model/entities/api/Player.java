@@ -48,11 +48,6 @@ public interface Player extends Entity {
     boolean applyDamage();
 
     /**
-     * @return an immutable snapshot representing the current player state.
-     */
-    PlayerSnapshot snapshot();
-
-    /**
      * @return whether the Player got hurt recently.
      */
     boolean isHurt();

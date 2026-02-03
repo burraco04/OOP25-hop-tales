@@ -2,7 +2,6 @@ package model.entities.impl;
 
 import model.Collider;
 import model.entities.api.Enemy;
-import model.entities.api.EnemySnapshot;
 import model.entities.api.EnemyType;
 
 /**
@@ -68,12 +67,6 @@ public abstract class AbstractEnemyImpl implements Enemy {
     @Override
     public boolean isAlive() { 
         return alive; 
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public EnemySnapshot getSnapshot() {
-        return new EnemySnapshot(x, y, width, height, type, alive);
     }
 
     /**

@@ -1,8 +1,6 @@
 package model;
 
 import java.awt.Color;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.swing.JButton;
 

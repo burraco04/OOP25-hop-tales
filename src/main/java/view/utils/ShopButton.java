@@ -165,6 +165,13 @@ public class ShopButton extends JPanel {
         selected.setBackground(MAIN_COLOR);
     }
 
+    private SkinId idOf(final JButton b) {
+    if (b == GameConstants.SKINDEFAULT) return SkinId.DEFAULT;
+    if (b == GameConstants.SKINSHARK) return SkinId.SHARK;
+    if (b == GameConstants.SKINPURPLE) return SkinId.PURPLE;
+    return SkinId.GHOST;
+    }
+
     private void onSkinButtonClick(final SkinId id, final JButton btn, final String f1, final String f2) {
         if (shopModel.isToBuy(id)) {
         buySkinForOneGame(id, btn, f1, f2);
@@ -174,17 +181,10 @@ public class ShopButton extends JPanel {
         }
     }
 
-    private SkinId idOf(final JButton b) {
-    if (b == GameConstants.SKINDEFAULT) return SkinId.DEFAULT;
-    if (b == GameConstants.SKINSHARK) return SkinId.SHARK;
-    if (b == GameConstants.SKINPURPLE) return SkinId.PURPLE;
-    return SkinId.GHOST;
-    }
-
     private void buySkinForOneGame(final SkinId id, final JButton btn, final String f1, final String f2) {
         if (CoinStorage.getCoins() >= GameConstants.SKIN_COST) {
             CoinStorage.paySkinFromShop();
-            
+        
             shopModel.markPurchased(id);
 
             this.controller.selectSkin(f1, f2);

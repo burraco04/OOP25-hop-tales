@@ -44,8 +44,8 @@ public final class JumperImpl extends AbstractEnemyImpl {
             jumpRemaining = JUMP_HEIGHT;
         }
         if (jumpRemaining > 0) {
-            double step = Math.min(SPEED, jumpRemaining);
-            double targetY = getY() - step;
+            final double step = Math.min(SPEED, jumpRemaining);
+            final double targetY = getY() - step;
             if (canMoveTo(getX(), targetY)) {
                 setY(targetY);
                 jumpRemaining -= step;

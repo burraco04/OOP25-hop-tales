@@ -1,69 +1,52 @@
 package model.objects.impl;
 
-import model.objects.api.WorldObject;
+import app.level.FireboyWatergirlLevel;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import model.objects.api.WorldEntity;
 
-public class Boulder implements WorldObject {
+// Player lo aggancerai dopo: qui lo lasciamo come Object per non bloccarti ora.
+// Quando avrai Player definitivo, rimetti Player al posto di Object.
+public class Boulder extends WorldEntity {
 
-    private int x, y, w, h;
+    public double vy = 0;
+    private final BufferedImage tileTexture;
+    private final int tileSize;
 
-    private double vy = 0;
-
-    public Boulder(int x, int y, int w, int h) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
+    public Boulder(int x, int y, int w, int h, BufferedImage tileTexture, int tileSize) {
+        super(x, y, w, h, "BOULDER");
+        this.tileTexture = tileTexture;
+        this.tileSize = tileSize;
     }
 
-  
-    @Override
-    public int getX() { 
-        return x; 
-    }
-
-    @Override
-    public int getY() {
-        return y; 
-    }
-
-    @Override
-    public String getType() {
-        return "BOULDER"; 
-    }
-
-    
-    public int getW() {
-        return w; 
-    }
-    public int getH() {
-        return h; 
-    }
-
-    public double getVy() { 
-        return vy; 
-    }
-    public void setVy(double vy) {
-        this.vy = vy;
-    }
-
-    public void setX(int x) {
-        this.x = x; 
-        }
-    public void setY(int y) {
-        this.y = y;
-}
-
-    //logica caduta masso
-    public void applyGravity() {
+    public void updatePhysics(FireboyWatergirlLevel world) {
         vy += 0.35;
         if (vy > 10) vy = 10;
+
+        int ny = (int) (y + vy);
+
+        if (!collides(world, x, ny)) {
+            y = ny;
+        } else {
+            vy = 0;
+        }
     }
 
-    public void stepVertical() {
-        y = (int) (y + vy);
+    private boolean collides(FireboyWatergirlLevel w, int nx, int ny) {
+        return w.isSolidAtPixel(nx + 1, ny + 1, this)
+                || w.isSolidAtPixel(nx + this.w - 2, ny + 1, this)
+                || w.isSolidAtPixel(nx + 1, ny + this.h - 2, this)
+                || w.isSolidAtPixel(nx + this.w - 2, ny + this.h - 2, this);
     }
 
-    public void stopVertical() {
-        vy = 0;
+    // TODO: quando avrai Player vero, rimetti Player qui
+    public void tryPushBy(Object player, FireboyWatergirlLevel world) {
+        // placeholder: verrà ripristinato quando integri Player del team
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        drawTiled(g, tileTexture, tileSize);
     }
 }

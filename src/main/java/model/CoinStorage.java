@@ -1,4 +1,4 @@
-package view.utils;
+package model;
 
 
 import java.io.IOException;

@@ -5,6 +5,7 @@ package controller.deserialization.level;
  * or requires size information, such as blocks created through "fill" operations.
  */
 public final class MacroData {
+
     private String type;
     private int width;
     private int height;

@@ -41,14 +41,13 @@ public final class GameConstants {
     public static final String EMPTY_HEART = "empty_heart";
     public static final int COIN_COUNT_SIZE = 28;
     public static final int SKIN_COST = 20;
-    public static final JButton skinDefault = ShopButtonFactory.build("/img/Player_1_frame_1.png");
-    public static final JButton skinShark = ShopButtonFactory.build("/img/squalo_frame_1.png");
-    public static final JButton skinPurple = ShopButtonFactory.build("/img/purple_player_frame_1.png");
-    public static final JButton skinGhost = ShopButtonFactory.build("/img/ghost_frame_1.png");
-    public static final Set<JButton> purchasedButtons = new HashSet<>(Set.of(skinDefault));
-    public static final Set<JButton> toBuyButtons =  new HashSet<>(Set.of(skinGhost, skinPurple, skinShark));
+    public static final JButton SKINDEFAULT = ShopButtonFactory.build("/img/Player_1_frame_1.png");
+    public static final JButton SKINSHARK = ShopButtonFactory.build("/img/squalo_frame_1.png");
+    public static final JButton SKINPURPLE = ShopButtonFactory.build("/img/purple_player_frame_1.png");
+    public static final JButton SKINGHOST = ShopButtonFactory.build("/img/ghost_frame_1.png");
+    public static final Set<JButton> PURCHASED_BUTTON = new HashSet<>(Set.of(SKINDEFAULT));
+    public static final Set<JButton> TO_BUY_BUTTONS =  new HashSet<>(Set.of(SKINGHOST, SKINPURPLE, SKINSHARK));
 
-   
     private GameConstants() { }
 
 }

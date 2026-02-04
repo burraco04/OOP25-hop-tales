@@ -3,6 +3,8 @@ package view.utils;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
@@ -10,6 +12,8 @@ import javax.imageio.ImageIO;
  * creates the background for pannel.
  */
 public final class CreateBackground {
+
+    private static final Logger LOGGER = Logger.getLogger(CreateBackground.class.getName());
 
     /**
      * Class constructor.
@@ -29,7 +33,8 @@ public final class CreateBackground {
             if (is != null) {
                 return ImageIO.read(is);
             }
-        } catch (final IOException ignored) {
+        } catch (final IOException e) {
+            LOGGER.log(Level.WARNING, "Failed to load background: " + path, e);
         }
         return null;
     }

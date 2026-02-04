@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 
 /**
  * Utility class responsible for loading level data from JSON files.
- * 
  * This class uses the Gson library to deserialize JSON resources
  * into {@link LevelData} objects that can be used by the game engine.
  */

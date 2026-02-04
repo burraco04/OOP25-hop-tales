@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import controller.api.ControllerMenu;
 import model.CoinStorage;
@@ -28,53 +29,68 @@ public class ShopButton extends JPanel {
     private static final int GAP_MIN = 10;
     private static final int GAP_MAX = 200;
     private static final float GAP_PERCENTUALE = 0.20f;
-    private static final Color DEFAULT_COLOR = new Color(205, 170, 125);
-    private static final Color SELECTED_COLOR = new Color(208, 208, 208);
+    private static final Color SELECTED_COLOR = new Color(205, 170, 125);
+    private static final Color DEFAULT_COLOR = new Color(208, 208, 208);
     private static final Color MAIN_COLOR = new Color(144, 238, 144);
     private static final String SKIN_COST_STRING = "20$";
 
     private final GridLayout grid;
-    private final Image background;
+    private final transient Image background;
     private final JButton[] allButtons;
-
+    private final transient ControllerMenu controller;
 
     /**
      * Creates the shop button panel.
      *
      * @param controller the menu controller used to select skins
      */
-    public ShopButton(final ControllerMenu controller) {
+    public ShopButton(final ControllerMenu menuController) {
+     this.controller = menuController;
 
-        this.allButtons = new JButton[] { GameConstants.skinDefault, GameConstants.skinShark, GameConstants.skinPurple, GameConstants.skinGhost };
+    this.allButtons = new JButton[] {
+        GameConstants.SKINDEFAULT,
+        GameConstants.SKINSHARK,
+        GameConstants.SKINPURPLE,
+        GameConstants.SKINGHOST,
+    };
 
-        this.background = CreateBackground.create("/img/Shopback.png");
+    this.background = CreateBackground.create("/img/Shopback.png");
+    this.grid = new GridLayout(ROWS, COLS, 0, 0);
 
-        this.grid = new GridLayout(ROWS, COLS, 0, 0);
-        setLayout(this.grid);
+    SwingUtilities.invokeLater(this::initUI);
+    }
 
-        GameConstants.skinDefault.setText("DEFAULT");
-        GameConstants.skinShark.setText(SKIN_COST_STRING);
-        GameConstants.skinPurple.setText(SKIN_COST_STRING);
-        GameConstants.skinGhost.setText(SKIN_COST_STRING);
+    private void initUI() {
+    setLayout(this.grid);
 
-        GameConstants.skinDefault.addActionListener(e -> onSkinButtonClick(GameConstants.skinDefault, controller,
-                "img/Player_1_frame_1.png", "img/Player_1_frame_2.png"));
+    GameConstants.SKINDEFAULT.setText("DEFAULT");
+    GameConstants.SKINSHARK.setText(SKIN_COST_STRING);
+    GameConstants.SKINPURPLE.setText(SKIN_COST_STRING);
+    GameConstants.SKINGHOST.setText(SKIN_COST_STRING);
 
-        GameConstants.skinShark.addActionListener(e -> onSkinButtonClick(GameConstants.skinShark, controller,
-                "img/squalo_frame_1.png", "img/squalo_frame_2.png"));
+    GameConstants.SKINDEFAULT.addActionListener(e ->
+        onSkinButtonClick(GameConstants.SKINDEFAULT,
+            "img/Player_1_frame_1.png", "img/Player_1_frame_2.png"));
 
-        GameConstants.skinPurple.addActionListener(e -> onSkinButtonClick(GameConstants.skinPurple, controller,
-                "img/purple_player_frame_1.png", "img/purple_player_frame_2.png"));
+    GameConstants.SKINSHARK.addActionListener(e ->
+        onSkinButtonClick(GameConstants.SKINSHARK,
+            "img/squalo_frame_1.png", "img/squalo_frame_2.png"));
 
-        GameConstants.skinGhost.addActionListener(e -> onSkinButtonClick(GameConstants.skinGhost, controller,
-                "img/ghost_frame_1.png", "img/ghost_frame_2.png"));
+    GameConstants.SKINPURPLE.addActionListener(e ->
+        onSkinButtonClick(GameConstants.SKINPURPLE,
+            "img/purple_player_frame_1.png", "img/purple_player_frame_2.png"));
 
-        add(GameConstants.skinDefault);
-        add(GameConstants.skinPurple);
-        add(GameConstants.skinShark);
-        add(GameConstants.skinGhost);
+    GameConstants.SKINGHOST.addActionListener(e ->
+        onSkinButtonClick(GameConstants.SKINGHOST,
+            "img/ghost_frame_1.png", "img/ghost_frame_2.png"));
 
-       PaintButton(allButtons);
+    add(GameConstants.SKINDEFAULT);
+    add(GameConstants.SKINPURPLE);
+    add(GameConstants.SKINSHARK);
+    add(GameConstants.SKINGHOST);
+
+    paintButton(this.allButtons);
+
     }
 
     /**
@@ -114,12 +130,11 @@ public class ShopButton extends JPanel {
     /**
      * selects a button and updates the colors of all buttons.
      *
-     * @param selected the selected button
      * @param all all available buttons
      */
-    private void PaintButton( final JButton[] all) {
+    private void paintButton(final JButton[] all) {
         for (final JButton b : all) {
-            if (GameConstants.purchasedButtons.contains(b)) {
+            if (GameConstants.PURCHASED_BUTTON.contains(b)) {
             b.setBackground(DEFAULT_COLOR);
             } else {
                 b.setBackground(SELECTED_COLOR);
@@ -135,7 +150,7 @@ public class ShopButton extends JPanel {
      */
     private void selectButton(final JButton selected, final JButton[] all) {
         for (final JButton b : all) {
-            if (GameConstants.purchasedButtons.contains(b)) {
+            if (GameConstants.PURCHASED_BUTTON.contains(b)) {
             b.setBackground(DEFAULT_COLOR);
             } else {
                 b.setBackground(SELECTED_COLOR);
@@ -144,22 +159,22 @@ public class ShopButton extends JPanel {
         selected.setBackground(MAIN_COLOR);
     }
 
-    private void onSkinButtonClick(final JButton btn, final ControllerMenu controller, final String f1, final String f2) {
-        if (GameConstants.toBuyButtons.contains(btn)) {
-            buySkinForOneGame(btn, controller, f1, f2);
+    private void onSkinButtonClick(final JButton btn, final String f1, final String f2) {
+        if (GameConstants.TO_BUY_BUTTONS.contains(btn)) {
+            buySkinForOneGame(btn, f1, f2);
         } else {
-            controller.selectSkin(f1, f2);
+            this.controller.selectSkin(f1, f2);
             selectButton(btn, allButtons);
         }
     }
 
-    private void buySkinForOneGame(final JButton btn, final ControllerMenu controller, final String f1, final String f2) {
+    private void buySkinForOneGame(final JButton btn, final String f1, final String f2) {
         if (CoinStorage.getCoins() >= GameConstants.SKIN_COST) {
-            CoinStorage.paySkinFromShop();;
-            GameConstants.toBuyButtons.remove(btn);
-            GameConstants.purchasedButtons.add(btn);
+            CoinStorage.paySkinFromShop();
+            GameConstants.TO_BUY_BUTTONS.remove(btn);
+            GameConstants.PURCHASED_BUTTON.add(btn);
 
-            controller.selectSkin(f1, f2);
+            this.controller.selectSkin(f1, f2);
             selectButton(btn, allButtons);
         } else {
             JOptionPane.showMessageDialog(

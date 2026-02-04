@@ -291,6 +291,7 @@ public class World {
     private static boolean isPowerupType(final String type) {
         return POWERUP_TYPES.contains(type);
     }
+
     /**
      * Check if the given type is a Hazard.
      *

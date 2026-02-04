@@ -39,7 +39,7 @@ public final class JumperImpl extends AbstractEnemyImpl {
     public void update(final double deltaSeconds) {
 
         moveHorizontal(getDirection() * SPEED);
-    
+
         if (jumpRemaining == 0 && isOnGround(getX(), getY())) {
             jumpRemaining = JUMP_HEIGHT;
         }

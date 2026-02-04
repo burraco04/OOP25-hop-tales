@@ -132,8 +132,8 @@ public abstract class AbstractEnemyImpl implements Enemy {
     /**
      * Checks if the enemy is standing on solid ground.
      *
-     * @param x x coordinate of the enemy
-     * @param y y coordinate of the enemy
+     * @param posX x coordinate of the enemy
+     * @param posY y coordinate of the enemy
      * @return true if the enemy is on ground, false otherwise
      */
     protected boolean isOnGround(final double posX, final double posY) {
@@ -150,6 +150,8 @@ public abstract class AbstractEnemyImpl implements Enemy {
 
     /**
      * Return the current direction of the movement of the enemy.
+     *
+     * @return integr representing the direction of the enemy
      */
     protected int getDirection() {
         return direction;

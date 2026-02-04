@@ -39,5 +39,5 @@ public final class WalkerImpl extends AbstractEnemyImpl {
         moveHorizontal(getDirection() * SPEED);
         applyGravity(GameConstants.GRAVITY);
     }
-   
+
 }

@@ -136,13 +136,13 @@ public abstract class AbstractEnemyImpl implements Enemy {
      * @param y y coordinate of the enemy
      * @return true if the enemy is on ground, false otherwise
      */
-    protected boolean isOnGround(final double x, final double y) {
-        if (collider == null){
+    protected boolean isOnGround(final double posX, final double posY) {
+        if (collider == null) {
             return true;
         }
         return collider.collidesWithSolid(
-            (int) Math.floor(x), 
-            (int) Math.floor(y + height), 
+            (int) Math.floor(posX), 
+            (int) Math.floor(posY + height), 
             (int) width, 
             1
         );

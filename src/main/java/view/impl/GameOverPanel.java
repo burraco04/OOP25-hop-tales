@@ -36,7 +36,6 @@ public final class GameOverPanel extends JPanel {
         final JButton back = this.buttonFactory.buildbutton("main menu");
         back.setAlignmentX(CENTER_ALIGNMENT);
         back.addActionListener(e -> {
-            Draw.setPlayerSkin("img/Player_1_frame_1.png", "img/Player_1_frame_2.png");
             controller.handleEvent(State.MAIN_MENU);
             onClose.run();
         });

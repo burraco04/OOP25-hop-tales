@@ -62,9 +62,9 @@ public class ShopButton extends JPanel {
         this.allButtons = new JButton[] { skinDefault, skinShark, skinPurple, skinGhost };
 
         skinDefault.setText("DEFAULT");
-        skinShark.setText("ROBOT SHARK");
-        skinPurple.setText("PURPLE");
-        skinGhost.setText("FANTASMA");
+        skinShark.setText("20$");
+        skinPurple.setText("20$");
+        skinGhost.setText("20$");
 
 
         purchasedButtons.add(skinDefault);

@@ -14,7 +14,7 @@ public class ControllerMenuImpl implements ControllerMenu {
 
     private final View view;
     private final ShopModel shopModel = new ShopModel();
-    
+
     /**
      * Constructor for the class.
      *
@@ -52,7 +52,9 @@ public class ControllerMenuImpl implements ControllerMenu {
         Draw.setPlayerSkin(frame1, frame2);
     }
 
-    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ShopModel getShopModel() {
         return this.shopModel;

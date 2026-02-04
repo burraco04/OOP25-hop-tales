@@ -9,7 +9,6 @@ import controller.api.ControllerMenu;
 import controller.api.State;
 import model.CoinStorage;
 import model.GameConstants;
-import model.ShopModel;
 import view.utils.ButtonBackFactory;
 import view.utils.FontFactory;
 import view.utils.ShopButton;

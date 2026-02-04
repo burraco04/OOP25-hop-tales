@@ -45,7 +45,8 @@ public class ShopButton extends JPanel {
     /**
      * Creates the shop button panel.
      *
-     * @param controller the menu controller used to select skins
+     * @param menuController the menu controller used to select skins
+     * @param shopModel the model used to save the skin you buy
      */
     public ShopButton(final ControllerMenu menuController, final ShopModel shopModel) {
      this.controller = menuController;
@@ -81,7 +82,7 @@ public class ShopButton extends JPanel {
             "img/squalo_frame_1.png", "img/squalo_frame_2.png"));
 
     GameConstants.SKINPURPLE.addActionListener(e ->
-        onSkinButtonClick( SkinId.PURPLE, GameConstants.SKINPURPLE,
+        onSkinButtonClick(SkinId.PURPLE, GameConstants.SKINPURPLE,
             "img/purple_player_frame_1.png", "img/purple_player_frame_2.png"));
 
     GameConstants.SKINGHOST.addActionListener(e ->
@@ -166,9 +167,15 @@ public class ShopButton extends JPanel {
     }
 
     private SkinId idOf(final JButton b) {
-    if (b == GameConstants.SKINDEFAULT) return SkinId.DEFAULT;
-    if (b == GameConstants.SKINSHARK) return SkinId.SHARK;
-    if (b == GameConstants.SKINPURPLE) return SkinId.PURPLE;
+    if (b == GameConstants.SKINDEFAULT) {
+        return SkinId.DEFAULT;
+    }
+    if (b == GameConstants.SKINSHARK) {
+        return SkinId.SHARK;
+    }
+    if (b == GameConstants.SKINPURPLE) {
+        return SkinId.PURPLE;
+    }
     return SkinId.GHOST;
     }
 
@@ -184,7 +191,7 @@ public class ShopButton extends JPanel {
     private void buySkinForOneGame(final SkinId id, final JButton btn, final String f1, final String f2) {
         if (CoinStorage.getCoins() >= GameConstants.SKIN_COST) {
             CoinStorage.paySkinFromShop();
-        
+
             shopModel.markPurchased(id);
 
             this.controller.selectSkin(f1, f2);

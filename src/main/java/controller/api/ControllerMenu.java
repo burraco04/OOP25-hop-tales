@@ -26,8 +26,8 @@ public interface ControllerMenu {
     /**
      * Returns the shop model containing purchased and available skins.
      *
-    * @return the shop model
-    */
+     * @return the shop model
+     */
     ShopModel getShopModel();
 
 }

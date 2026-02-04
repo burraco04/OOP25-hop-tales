@@ -156,7 +156,7 @@
     {
       "type": "water_top",
       "x": 35,
-      "y": 26,
+      "y": 27,
       "macro": {
         "type": "fill",
         "width": 31,
@@ -166,7 +166,7 @@
     {
       "type": "water",
       "x": 35,
-      "y": 27,
+      "y": 28,
       "macro": {
         "type": "fill",
         "width": 31,
@@ -281,7 +281,7 @@
     {
       "type": "water_top",
       "x": 115,
-      "y": 26,
+      "y": 27,
       "macro": {
         "type": "fill",
         "width": 17,
@@ -291,7 +291,7 @@
     {
       "type": "water",
       "x": 115,
-      "y": 27,
+      "y": 28,
       "macro": {
         "type": "fill",
         "width": 17,

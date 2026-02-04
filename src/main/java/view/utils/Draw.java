@@ -20,7 +20,7 @@ public final class Draw {
     private static final int FRAME_DURATION_PLAYER = 200;
     private static final int FRAME_DURATION_LAVA = 500;
     private static final String PLAYER = "player";
-    private static final Set<String> ANIMATED_TYPES = Set.of("coin", PLAYER, "top_lava", "player_hurt");
+    private static final Set<String> ANIMATED_TYPES = Set.of("coin", PLAYER, "top_lava", "player_hurt", "top_water");
     private static String playerFrame1 = "img/Player_1_frame_1.png";
     private static String playerFrame2 = "img/Player_1_frame_2.png";
 
@@ -107,7 +107,6 @@ public final class Draw {
             case "dirt_block" -> "img/dirt_block.png";
             case "top_dirt_block" -> "img/top_dirt_block.png";
             case "water" -> "img/water.png";
-            case "water_top" -> "img/water_top.png";
             case "floating_dirt_middle" -> "img/floating_dirt_middle.png";
             case "floating_dirt_left" -> "img/floating_dirt_left.png";
             case "floating_dirt_right" -> "img/floating_dirt_right.png";
@@ -133,7 +132,9 @@ public final class Draw {
             loadFromResources("img/Player_1_damaged_frame_2.png")}, FRAME_DURATION_PLAYER);
             case "top_lava" -> new Animation(new Image[] {loadFromResources("img/lava_top.png"),
             loadFromResources("img/lava_top_low.png")}, FRAME_DURATION_LAVA);
-            default -> throw new IllegalArgumentException("Tipo sprite sconosciuto: " + type);
+            case "top_water" -> new Animation(new Image[] {loadFromResources("img/water_top.png"),
+            loadFromResources("img/water_top_low.png")}, FRAME_DURATION_LAVA);
+            default -> throw new IllegalArgumentException("Sprite type unknown : " + type);
         };
     }
 

@@ -42,6 +42,6 @@ public class WaterTop implements WorldObject {
      */
     @Override
     public String getType() {
-        return "water_top";
+        return "top_water";
     }
 }

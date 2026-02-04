@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -12,6 +14,7 @@ import javax.swing.JPanel;
 
 import controller.api.ControllerMenu;
 import model.CoinStorage;
+import model.objects.CollectableManager;
 
 /**
  * Panel used to buy and select the skins.
@@ -29,10 +32,15 @@ public class ShopButton extends JPanel {
     private static final float GAP_PERCENTUALE = 0.20f;
     private static final Color DEFAULT_COLOR = new Color(205, 170, 125);
     private static final Color SELECTED_COLOR = new Color(208, 208, 208);
-    private static final int SKIN_COST = 5;
+    private static final Color MAIN_COLOR= new Color(144, 238, 144);
+    private static final int SKIN_COST = 20;
+
     private final GridLayout grid;
     private final Image background;
     private final JButton[] allButtons;
+
+    private final Set<JButton> purchasedButtons = new HashSet<>();
+    private final Set<JButton> toBuyButtons = new HashSet<>();
 
     /**
      * Creates the shop button panel.
@@ -51,25 +59,39 @@ public class ShopButton extends JPanel {
         final JButton skinPurple = ShopButtonFactory.build("/img/purple_player_frame_1.png");
         final JButton skinGhost = ShopButtonFactory.build("/img/ghost_frame_1.png");
 
-        this.allButtons = new JButton[] {skinDefault, skinShark, skinPurple, skinGhost};
+        this.allButtons = new JButton[] { skinDefault, skinShark, skinPurple, skinGhost };
 
         skinDefault.setText("DEFAULT");
         skinShark.setText("ROBOT SHARK");
         skinPurple.setText("PURPLE");
         skinGhost.setText("FANTASMA");
 
-        skinDefault.addActionListener(e -> {
-            controller.selectSkin("img/Player_1_frame_1.png", "img/Player_1_frame_2.png");
-            selectButton(skinDefault, allButtons);
-        });
-        skinShark.addActionListener(e -> buySkinForOneGame(skinShark, controller, "img/squalo_frame_1.png", "img/squalo_frame_2.png"));
-        skinPurple.addActionListener(e -> buySkinForOneGame(skinPurple, controller, "img/purple_player_frame_1.png", "img/purple_player_frame_2.png"));
-        skinGhost.addActionListener(e -> buySkinForOneGame(skinGhost, controller, "img/ghost_frame_1.png", "img/ghost_frame_2.png"));
-        
+
+        purchasedButtons.add(skinDefault);
+
+        toBuyButtons.add(skinShark);
+        toBuyButtons.add(skinPurple);
+        toBuyButtons.add(skinGhost);
+
+        // >>> LISTENER UNICO: decide cosa fare in base al set
+        skinDefault.addActionListener(e -> onSkinButtonClick(skinDefault, controller,
+                "img/Player_1_frame_1.png", "img/Player_1_frame_2.png"));
+
+        skinShark.addActionListener(e -> onSkinButtonClick(skinShark, controller,
+                "img/squalo_frame_1.png", "img/squalo_frame_2.png"));
+
+        skinPurple.addActionListener(e -> onSkinButtonClick(skinPurple, controller,
+                "img/purple_player_frame_1.png", "img/purple_player_frame_2.png"));
+
+        skinGhost.addActionListener(e -> onSkinButtonClick(skinGhost, controller,
+                "img/ghost_frame_1.png", "img/ghost_frame_2.png"));
+
         add(skinDefault);
         add(skinPurple);
         add(skinShark);
         add(skinGhost);
+
+        selectButton(skinDefault, allButtons);
     }
 
     /**
@@ -77,15 +99,12 @@ public class ShopButton extends JPanel {
      */
     @Override
     public void doLayout() {
-        // Dimensioni disponibili
         final int w = getWidth();
         final int h = getHeight();
 
-        // Padding proporzionale 
         final int padX = clamp((int) (w * PAD_PERCENTUALE), PAD_MIN, PAD_MAX);
         final int padY = clamp((int) (h * PAD_PERCENTUALE), PAD_MIN, PAD_MAX);
 
-        // Gap proporzionale 
         final int gapX = clamp((int) (w * GAP_PERCENTUALE), GAP_MIN, GAP_MAX);
         final int gapY = clamp((int) (h * GAP_PERCENTUALE), GAP_MIN, GAP_MAX);
 
@@ -96,14 +115,6 @@ public class ShopButton extends JPanel {
         super.doLayout();
     }
 
-    /**
-     * Clamps a value between a minimum and a maximum.
-     *
-     * @param v the input value
-     * @param min the minimum allowed value
-     * @param max the maximum allowed value
-     * @return the clamped value
-     */
     private static int clamp(final int v, final int min, final int max) {
         return Math.max(min, Math.min(max, v));
     }
@@ -114,7 +125,7 @@ public class ShopButton extends JPanel {
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
-         g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
     }
 
     /**
@@ -125,18 +136,40 @@ public class ShopButton extends JPanel {
      */
     private void selectButton(final JButton selected, final JButton[] all) {
         for (final JButton b : all) {
+            if(purchasedButtons.contains(b)){
             b.setBackground(DEFAULT_COLOR);
+            } else {
+                b.setBackground(SELECTED_COLOR);
+            }
         }
-        selected.setBackground(SELECTED_COLOR);
+        selected.setBackground(MAIN_COLOR);
+    }
+
+    private void onSkinButtonClick(final JButton btn, final ControllerMenu controller, final String f1, final String f2) {
+        if (toBuyButtons.contains(btn)) {
+            buySkinForOneGame(btn, controller, f1, f2);
+        } else {
+            controller.selectSkin(f1, f2);
+            selectButton(btn, allButtons);
+        }
     }
 
     private void buySkinForOneGame(final JButton btn, final ControllerMenu controller, final String f1, final String f2) {
-        if (CoinStorage.loadTotalCoins() >= SKIN_COST) {
+        if (CollectableManager.getCoins() >= SKIN_COST) {
             CoinStorage.addCoins(-SKIN_COST);
+
+            toBuyButtons.remove(btn);
+            purchasedButtons.add(btn);
+
             controller.selectSkin(f1, f2);
             selectButton(btn, allButtons);
         } else {
-            JOptionPane.showMessageDialog(this, "Fondi insufficienti, ti mancano "+ (SKIN_COST - CoinStorage.loadTotalCoins()), "Shop", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(
+                this,
+                "Fondi insufficienti, ti mancano " + (SKIN_COST - CollectableManager.getCoins()),
+                "Shop",
+                JOptionPane.WARNING_MESSAGE
+            );
         }
     }
 }

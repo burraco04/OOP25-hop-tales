@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "HopTales",
+            "request": "launch",
+            "mainClass": "app.HopTales",
+            "projectName": "OOP25-hop-tales"
+        },
+        {
             "type": "jdk",
             "request": "launch",
             "name": "Launch Java App"

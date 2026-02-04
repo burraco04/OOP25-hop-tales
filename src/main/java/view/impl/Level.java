@@ -14,6 +14,7 @@ import controller.deserialization.level.EntityFactory;
 import controller.deserialization.level.LevelData;
 import controller.deserialization.level.LevelLoader;
 import model.Camera;
+import model.CoinStorage;
 import model.GameConstants;
 import model.World;
 import model.objects.CollectableManager;
@@ -168,9 +169,9 @@ private void update() {
         final FontMetrics fm = g.getFontMetrics();
         final int coinX = getWidth() - 2 * GameConstants.TILE_SIZE;
         final int coinY = GameConstants.TILE_SIZE;
-        final int textX = coinX - fm.stringWidth(String.valueOf(CollectableManager.getCoins())) - 10;
+        final int textX = coinX - fm.stringWidth(String.valueOf(CoinStorage.getCoins())) - 10;
         final int textY = coinY + GameConstants.TILE_SIZE + fm.getAscent() / 2;
-        g.drawString(Integer.toString(CollectableManager.getCoins()), textX, textY);
+        g.drawString(Integer.toString(CoinStorage.getCoins()), textX, textY);
         g.drawImage(Draw.get("coin", timePassed), getWidth() - 2 * GameConstants.TILE_SIZE, GameConstants.TILE_SIZE,
                     GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE * 2, null);
     }

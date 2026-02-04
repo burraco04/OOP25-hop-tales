@@ -1,6 +1,7 @@
 package model.objects;
 
 import controller.AudioManager;
+import model.CoinStorage;
 import model.GameConstants;
 import model.World;
 import model.objects.impl.collectable.Coin;
@@ -25,21 +26,13 @@ public class CollectableManager {
         AudioManager.setVolume(AudioManager.getClip(COIN_SOUND), AudioManager.getMusicVolume());
      }
 
-    /** 
+    /**
      * Get the number of coins collected.
      *
      * @return the number of coins collected.
      */
     public static int getCoins() {
         return collectedCoins;
-    }
-
-    /**
-     * Collect a single coin, incrementing the total amount collected by the coin value.
-     */
-    private void collectCoin() {
-        collectedCoins += GameConstants.COIN_VALUE;
-        AudioManager.play(COIN_SOUND);
     }
 
     /**
@@ -67,7 +60,7 @@ public class CollectableManager {
      */
     public void checkPossibleCollection(final int x, final int y) {
         if (world.collidesWithCoin(x, y)) {
-            collectCoin();
+            CoinStorage.collectCoin();
         }
         if (world.collidesWithPowerup(x, y)) {
             collectPowerup();

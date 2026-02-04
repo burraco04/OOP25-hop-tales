@@ -86,7 +86,7 @@ public class SwingView implements View {
      * Mostra il livello selezionato.
      *
      * @param world the instance containing all the objects and entities.
-     * @param kim object responsible of handling keyboard inputs. 
+     * @param kim object responsible of handling keyboard inputs.
      */
     @Override
     public void showLevel(final World world, final KeyboardInputManager kim) {
@@ -94,7 +94,7 @@ public class SwingView implements View {
         this.frame.setContentPane(level);
         this.frame.revalidate();
         this.frame.repaint();
-        level.focus(); 
+        level.focus();
     }
 
     /**

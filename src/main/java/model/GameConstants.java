@@ -34,6 +34,7 @@ public final class GameConstants {
     public static final String FULL_HEART = "full_heart";
     public static final String EMPTY_HEART = "empty_heart";
     public static final int COIN_COUNT_SIZE = 28;
+    public static final int SKIN_COST = 20;
    
     private GameConstants() { }
 

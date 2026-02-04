@@ -42,4 +42,9 @@ void showLevel(World world, KeyboardInputManager kim);
  * Show the game over panel.
  */
 void showGameOver();
+
+/**
+ * Show the level completed panel.
+ */
+void showLevelCompleted();
 }

@@ -19,6 +19,7 @@ public class SwingView implements View {
     private static final String MENU_OST_NAME = "MenuOST";
     private final JFrame frame;
     private ControllerMenu controller;
+    private Level activeLevel;
 
     /**
      * Initializes the main application window and configures basic settings such as size and audio.
@@ -46,6 +47,7 @@ public class SwingView implements View {
      */
     @Override
     public void showMainMenu() {
+        stopActiveLevel();
         this.frame.setContentPane(new Menu(this.controller));
         this.frame.setVisible(true);
         this.frame.revalidate();
@@ -57,6 +59,7 @@ public class SwingView implements View {
      */
     @Override
     public void showLevels() {
+        stopActiveLevel();
         this.frame.setContentPane(new ChooseLevelPanel(this.controller));
         this.frame.revalidate();
         this.frame.repaint();
@@ -67,6 +70,7 @@ public class SwingView implements View {
      */
     @Override
     public void showShop() {
+        stopActiveLevel();
         this.frame.setContentPane(new Shop(this.controller));
         this.frame.revalidate();
         this.frame.repaint();
@@ -77,6 +81,7 @@ public class SwingView implements View {
      */
     @Override
     public void showOptions() {
+        stopActiveLevel();
         this.frame.setContentPane(new Options(this.controller));
         this.frame.revalidate();
         this.frame.repaint();
@@ -90,11 +95,12 @@ public class SwingView implements View {
      */
     @Override
     public void showLevel(final World world, final KeyboardInputManager kim) {
-        final Level level = new Level(world.getJsonPath(), world, kim);
-        this.frame.setContentPane(level);
+        stopActiveLevel();
+        this.activeLevel = new Level(world.getJsonPath(), world, kim);
+        this.frame.setContentPane(this.activeLevel);
         this.frame.revalidate();
         this.frame.repaint();
-        level.focus();
+        this.activeLevel.focus();
     }
 
     /**
@@ -102,6 +108,7 @@ public class SwingView implements View {
      */
     @Override
     public void showGameOver() {
+        stopActiveLevel();
         final JDialog dialog = new JDialog(this.frame, "Game Over", true);
         dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         dialog.setResizable(false);
@@ -109,6 +116,25 @@ public class SwingView implements View {
         dialog.pack();
         dialog.setLocationRelativeTo(this.frame);
         dialog.setVisible(true);
+    }
+
+    @Override
+    public void showLevelCompleted() {
+        stopActiveLevel();
+        final JDialog dialog = new JDialog(this.frame, "Level Completed", true);
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        dialog.setResizable(false);
+        dialog.setContentPane(new LevelCompletedPanel(this.controller, dialog::dispose));
+        dialog.pack();
+        dialog.setLocationRelativeTo(this.frame);
+        dialog.setVisible(true);
+    }
+
+    private void stopActiveLevel() {
+        if (this.activeLevel != null) {
+            this.activeLevel.stop();
+            this.activeLevel = null;
+        }
     }
 
 }

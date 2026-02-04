@@ -27,6 +27,7 @@ public final class GameController implements ActionListener {
     private final View view;
     private final World world;
     private boolean gameOver;
+    private boolean levelCompleted;
 
     /**
      * Creates a controller.
@@ -74,6 +75,12 @@ public final class GameController implements ActionListener {
             gameOver = true;
             stop();
             view.showGameOver();
+            return;
+        }
+        if (!levelCompleted && playerController.isLevelCompleted()) {
+            levelCompleted = true;
+            stop();
+            view.showLevelCompleted();
         }
     }
 }

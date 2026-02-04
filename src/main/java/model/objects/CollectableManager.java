@@ -2,7 +2,6 @@ package model.objects;
 
 import controller.AudioManager;
 import model.CoinStorage;
-import model.GameConstants;
 import model.World;
 import model.objects.impl.collectable.Coin;
 

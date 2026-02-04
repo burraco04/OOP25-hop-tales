@@ -42,6 +42,8 @@ public final class KeyboardInputManager extends KeyAdapter {
             case KeyEvent.VK_SPACE:
                 playerController.setSpace();
                 break;
+            case KeyEvent.VK_E:
+                playerController.enterCastle();
             default:
                 break;
         }
@@ -67,6 +69,9 @@ public final class KeyboardInputManager extends KeyAdapter {
                 break;
             case KeyEvent.VK_SPACE:
                 playerController.negatesSpace();
+                break;
+            case KeyEvent.VK_E:
+                playerController.cancelEnterCastle();
                 break;
             default:
                 break;

@@ -17,7 +17,8 @@ public final class PlayerController implements ControllerObserver {
     private boolean space;
     private double jumpRemaining;
     private final World world;
-
+    private boolean enteringCastle;
+    private boolean levelCompleted;
     /**
      * Create a {@PlayerController}.
      *
@@ -30,6 +31,8 @@ public final class PlayerController implements ControllerObserver {
         this.d = false;
         this.space = false;
         this.world = world;
+        this.enteringCastle = false;
+        this.levelCompleted = false;
         AudioManager.load("player_damaged", "/sounds/PlayerDamaged.wav");
         AudioManager.setVolume(AudioManager.getClip("player_damaged"), AudioManager.getMusicVolume());
     }
@@ -44,6 +47,15 @@ public final class PlayerController implements ControllerObserver {
         double y = player.getY();
         final int tileX = (int) Math.floor(x);
         final int tileY = (int) Math.floor(y);
+        if (this.enteringCastle && world.enteringCastle(
+            (int) x,
+            (int) y,
+            GameConstants.PLAYER_WIDTH_TILES,
+            GameConstants.PLAYER_HEIGHT_TILES
+        )) {
+            this.enteringCastle = false;
+            this.levelCompleted = true;
+        }
 
         final boolean onGround = world.collidesWithSolid(
             tileX,
@@ -211,6 +223,18 @@ public final class PlayerController implements ControllerObserver {
      */
     public void negatesSpace() {
         this.space = false;
+    }
+
+    public void enterCastle() {
+        this.enteringCastle = true;
+    }
+
+    public void cancelEnterCastle() {
+        this.enteringCastle = false;
+    }
+
+    public boolean isLevelCompleted() {
+        return levelCompleted;
     }
 
 }

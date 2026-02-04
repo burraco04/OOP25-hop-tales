@@ -23,6 +23,7 @@ public final class Collider {
     private final Map<Point, WorldObject> collectableMap;
     private final Set<Point> powerupBlockTiles;
     private final Set<Point> hazardTiles;
+    private final Set<Point> doorTiles;
     private final List<WorldObject> entities;
     private final List<Enemy> enemies;
     private final int levelId;
@@ -37,6 +38,7 @@ public final class Collider {
      * @param collectableMap map that binds tiles to objects.
      * @param powerupBlockTiles set of all the {@link PowerupBlock} tiles.
      * @param hazardTiles set of all the hazard tiles.
+     * @param doorTiles set of all the door tiles.
      * @param entities list of all the objects.
      * @param enemies list of all the enemies.
      */
@@ -48,6 +50,7 @@ public final class Collider {
         final Map<Point, WorldObject> collectableMap,
         final Set<Point> powerupBlockTiles,
         final Set<Point> hazardTiles,
+        final Set<Point> doorTiles,
         final List<WorldObject> entities,
         final List<Enemy> enemies,
         final int levelId
@@ -59,6 +62,7 @@ public final class Collider {
         this.collectableMap = collectableMap;
         this.powerupBlockTiles = powerupBlockTiles;
         this.hazardTiles = hazardTiles;
+        this.doorTiles = doorTiles;
         this.entities = entities;
         this.enemies = enemies;
         this.levelId = levelId;
@@ -201,6 +205,22 @@ public final class Collider {
         for (int dx = 0; dx < GameConstants.PLAYER_WIDTH_TILES; dx++) {
             for (int dy = 0; dy < GameConstants.PLAYER_HEIGHT_TILES; dy++) {
                 if (hazardTiles.contains(new Point(x + dx, y + dy))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean enteringCastle(
+        final int x,
+        final int y,
+        final int widthTiles,
+        final int heightTiles
+    ) {
+        for (int dx = 0; dx < widthTiles; dx++) {
+            for (int dy = 0; dy < heightTiles; dy++) {
+                if (doorTiles.contains(new Point(x + dx, y + dy))) {
                     return true;
                 }
             }

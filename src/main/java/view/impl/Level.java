@@ -135,6 +135,13 @@ private void update() {
     }
 
     /**
+     * Stop the level timer to prevent background updates.
+     */
+    public void stop() {
+        timer.stop();
+    }
+
+    /**
      * Draw on the screen a basic HUD. 
      *
      * @param g {@link Graphics} object used to draw on the panel.

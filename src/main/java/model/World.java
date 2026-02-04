@@ -22,6 +22,7 @@ import model.objects.impl.brick.PowerupBlock;
 public class World {
     static final String POWERUP_BLOCK_TYPE = "powerup_block";
     static final Set<String> HAZARD_TYPES = Set.of("lava", "top_lava", "water", "water_top");
+    static final Set<String> DOOR_TYPES = Set.of("door", "door_top");
     private static final Set<String> SOLID_TYPES = Set.of("grass", "green_grass", "brick", "floating_grass",
         "floating_grass_left", "floating_grass_right", "block_planks", "dirt_block", "top_dirt_block", "floating_dirt_middle", 
         "floating_dirt_left", "floating_dirt_right", POWERUP_BLOCK_TYPE
@@ -36,6 +37,7 @@ public class World {
     private final Map<Point, WorldObject> collectableMap = new HashMap<>();
     private final Set<Point> powerupBlockTiles = new HashSet<>();
     private final Set<Point> hazardTiles = new HashSet<>();
+    private final Set<Point> doorTiles = new HashSet<>();
     private final Collider collider;
     private final List<Enemy> enemies = new ArrayList<>();
     private final Player player;
@@ -71,6 +73,7 @@ public class World {
             collectableMap,
             powerupBlockTiles,
             hazardTiles,
+            doorTiles,
             entities,
             enemies,
             levelId
@@ -110,6 +113,8 @@ public class World {
                 }
             } else if (isHazardType(entity.getType())) {
                 hazardTiles.add(new Point(entity.getX(), entity.getY()));
+            } else if (isDoorType(entity.getType())) {
+                doorTiles.add(new Point(entity.getX(), entity.getY()));
             } else if (isCollectableType(entity.getType())) {
                 final var tk = new Point(entity.getX(), entity.getY());
                 collectableMap.put(tk, entity);
@@ -252,6 +257,15 @@ public class World {
         return collider.collidesWithEnemy(x, y);
     }
 
+    public boolean enteringCastle(
+        final int x,
+        final int y,
+        final int widthTiles,
+        final int heightTiles
+    ) {
+        return collider.enteringCastle(x, y, widthTiles, heightTiles);
+    }
+
     /**
      * Check if the given type is solid.
      *
@@ -300,6 +314,10 @@ public class World {
      */
     private static boolean isHazardType(final String type) {
         return HAZARD_TYPES.contains(type);
+    }
+
+    private static boolean isDoorType(final String type) {
+        return DOOR_TYPES.contains(type);
     }
 
 }

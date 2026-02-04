@@ -9,6 +9,7 @@ import controller.api.ControllerMenu;
 import controller.api.State;
 import model.CoinStorage;
 import model.GameConstants;
+import model.ShopModel;
 import view.utils.ButtonBackFactory;
 import view.utils.FontFactory;
 import view.utils.ShopButton;
@@ -43,7 +44,7 @@ public final class Shop extends JPanel {
     final JButton back = this.buttonbackFactory.buildbackbutton();
     back.addActionListener(e -> controller.handleEvent(State.MAIN_MENU));
     final JPanel topBar = topBarpan.buildTopPanel(back);
-    final JPanel panel = new ShopButton(controller);
+    final JPanel panel = new ShopButton(controller, controller.getShopModel());
 
     this.add(topBar);
     this.add(title);

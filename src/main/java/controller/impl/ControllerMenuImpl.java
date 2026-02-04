@@ -3,6 +3,7 @@ package controller.impl;
 import controller.GameController;
 import controller.api.ControllerMenu;
 import controller.api.State;
+import model.ShopModel;
 import view.utils.Draw;
 import view.api.View;
 
@@ -12,7 +13,8 @@ import view.api.View;
 public class ControllerMenuImpl implements ControllerMenu {
 
     private final View view;
-
+    private final ShopModel shopModel = new ShopModel();
+    
     /**
      * Constructor for the class.
      *
@@ -48,5 +50,11 @@ public class ControllerMenuImpl implements ControllerMenu {
     @Override
     public void selectSkin(final String frame1, final String frame2) {
         Draw.setPlayerSkin(frame1, frame2);
+    }
+
+    
+    @Override
+    public ShopModel getShopModel() {
+        return this.shopModel;
     }
 }

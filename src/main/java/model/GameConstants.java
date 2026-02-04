@@ -45,8 +45,6 @@ public final class GameConstants {
     public static final JButton SKINSHARK = ShopButtonFactory.build("/img/squalo_frame_1.png");
     public static final JButton SKINPURPLE = ShopButtonFactory.build("/img/purple_player_frame_1.png");
     public static final JButton SKINGHOST = ShopButtonFactory.build("/img/ghost_frame_1.png");
-    public static final Set<JButton> PURCHASED_BUTTON = new HashSet<>(Set.of(SKINDEFAULT));
-    public static final Set<JButton> TO_BUY_BUTTONS =  new HashSet<>(Set.of(SKINGHOST, SKINPURPLE, SKINSHARK));
 
     private GameConstants() { }
 

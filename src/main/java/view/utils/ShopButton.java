@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 
 import controller.api.ControllerMenu;
 import model.CoinStorage;
-import model.objects.CollectableManager;
 
 /**
  * Panel used to buy and select the skins.
@@ -155,9 +154,8 @@ public class ShopButton extends JPanel {
     }
 
     private void buySkinForOneGame(final JButton btn, final ControllerMenu controller, final String f1, final String f2) {
-        if (CollectableManager.getCoins() >= SKIN_COST) {
-            CoinStorage.addCoins(-SKIN_COST);
-
+        if (CoinStorage.getCoins() >= SKIN_COST) {
+            CoinStorage.paySkinFromShop();;
             toBuyButtons.remove(btn);
             purchasedButtons.add(btn);
 
@@ -166,7 +164,7 @@ public class ShopButton extends JPanel {
         } else {
             JOptionPane.showMessageDialog(
                 this,
-                "Fondi insufficienti, ti mancano " + (SKIN_COST - CollectableManager.getCoins()),
+                "Fondi insufficienti, ti mancano " + (SKIN_COST - CoinStorage.getCoins()),
                 "Shop",
                 JOptionPane.WARNING_MESSAGE
             );

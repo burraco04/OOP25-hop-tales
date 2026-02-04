@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import controller.api.ControllerMenu;
 import controller.api.State;
+import model.CoinStorage;
 import model.GameConstants;
 import view.utils.ButtonBackFactory;
 import view.utils.FontFactory;
@@ -32,6 +33,7 @@ public final class Shop extends JPanel {
      * @param controller pass the menu controller used to handle user interactions and navigation
      */
     public Shop(final ControllerMenu controller) {
+    CoinStorage.loadTotalCoins();
     final JLabel title = new JLabel("penaldooo");
     title.setFont(this.font.getFont(TITLE_FONT, TITLE_SIZE, this));
 

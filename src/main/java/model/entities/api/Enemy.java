@@ -11,5 +11,5 @@ public interface Enemy extends Entity {
      * @return the type of the enemy.
      */
     EnemyType getType();
-  
+
 }

@@ -8,7 +8,7 @@ import model.entities.api.EnemyType;
  */
 public final class WalkerImpl extends AbstractEnemyImpl {
 
-    private static final double SPEED = 0.2;
+    private static final double SPEED = 0.15;
 
     /**
      * Creates a new Walker enemy at the specified position.

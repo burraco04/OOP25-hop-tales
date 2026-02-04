@@ -1,6 +1,7 @@
 package controller.impl;
 
 import controller.api.ControllerObserver;
+import model.GameConstants;
 import model.World;
 
 /**
@@ -8,7 +9,7 @@ import model.World;
  */
 public class EnemyController implements ControllerObserver {
 
-    private static final double DELTA = 1.0 / 60.0;
+    private static final double DELTA = 1.0 / GameConstants.TARGET_FPS;
     private final World world;
 
     /**

@@ -1,9 +1,12 @@
 package controller.deserialization.level;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * MacroData is used when an entity must generate multiple objects
  * or requires size information, such as blocks created through "fill" operations.
  */
+@SuppressFBWarnings(value = "UWF_UNWRITTEN_FIELD", justification = "Fields populated by JSON deserialization (Gson)")
 public final class MacroData {
 
     private String type;

@@ -26,7 +26,7 @@ public final class Menu extends JPanel {
     private static final float TITLE_SIZE = 100f;
     private final transient FontFactory fontFactory = new FontFactory();
     private final transient ButtonFactory buttonFactory = new ButtonFactory();
-    private final Image image = CreateBackground.create("/img/Piattaforma_retro_con_personaggio_pixelato.png");
+    private final transient Image image = CreateBackground.create("/img/Piattaforma_retro_con_personaggio_pixelato.png");
 
     /**
      * constructor of menu.

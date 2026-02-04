@@ -1,10 +1,13 @@
 package controller.deserialization.level;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Represents the data of a single entity loaded from a level file.
  * This class is used during deserialization to transfer raw information
  * about an entity before it is converted into a game object.
  */
+@SuppressFBWarnings(value = "UWF_UNWRITTEN_FIELD", justification = "Fields populated by JSON deserialization (Gson)")
 public class EntityData {
 
     private String type;

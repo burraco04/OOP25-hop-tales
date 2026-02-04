@@ -33,8 +33,8 @@ public final class ShopModel {
     /**
      * Checks whether the given skin has already been purchased.
      *
-     * @param id
-     * @return
+     * @param id id the identifier of the skin
+     * @return {@code true} if the skin has been purchased, {@code false} otherwise
      */
     public boolean isPurchased(final SkinId id) {
         return purchasedSkins.contains(id.name());

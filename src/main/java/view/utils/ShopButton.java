@@ -35,7 +35,7 @@ public class ShopButton extends JPanel {
     private static final Color DEFAULT_COLOR = new Color(208, 208, 208);
     private static final Color MAIN_COLOR = new Color(144, 238, 144);
     private static final String SKIN_COST_STRING = "20$";
-    private final ShopModel shopModel;
+    private final transient ShopModel shopModel;
 
     private final GridLayout grid;
     private final transient Image background;

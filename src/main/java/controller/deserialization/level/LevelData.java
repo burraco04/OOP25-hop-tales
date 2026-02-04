@@ -1,12 +1,16 @@
 package controller.deserialization.level;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * This class contains all the information necessary to recreate a level,
  * including its name, spawn position, entities and enemies.
  * It is used as an intermediate object during deserialization.
  */
+@SuppressFBWarnings(value = "UWF_UNWRITTEN_FIELD", justification = "Fields populated by JSON deserialization (Gson)")
 public class LevelData {
     private int spawnPointX;
     private int spawnPointY;
@@ -37,7 +41,7 @@ public class LevelData {
      * @return a list of EntityData objects representing level entities
      */
     public List<EntityData> getEntities() {
-        return entities;
+        return new ArrayList<>(entities);
     }
 
     /**
@@ -46,6 +50,6 @@ public class LevelData {
      * @return a list of EntityData objects representing enemies
      */
     public List<EntityData> getEnemies() {
-        return enemies;
+        return new ArrayList<>(enemies);
     }
 }

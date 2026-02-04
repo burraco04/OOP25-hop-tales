@@ -32,15 +32,21 @@ public class ShopButton extends JPanel {
     private static final float GAP_PERCENTUALE = 0.20f;
     private static final Color DEFAULT_COLOR = new Color(205, 170, 125);
     private static final Color SELECTED_COLOR = new Color(208, 208, 208);
-    private static final Color MAIN_COLOR= new Color(144, 238, 144);
+    private static final Color MAIN_COLOR = new Color(144, 238, 144);
     private static final int SKIN_COST = 20;
+    private static final String SKIN_COST_STRING = "20$";
 
     private final GridLayout grid;
     private final Image background;
     private final JButton[] allButtons;
 
-    private final Set<JButton> purchasedButtons = new HashSet<>();
-    private final Set<JButton> toBuyButtons = new HashSet<>();
+    final JButton skinDefault = ShopButtonFactory.build("/img/Player_1_frame_1.png");
+    final JButton skinShark = ShopButtonFactory.build("/img/squalo_frame_1.png");
+    final JButton skinPurple = ShopButtonFactory.build("/img/purple_player_frame_1.png");
+    final JButton skinGhost = ShopButtonFactory.build("/img/ghost_frame_1.png");
+
+    private final Set<JButton> purchasedButtons = new HashSet<>(Set.of(skinDefault));
+    private final Set<JButton> toBuyButtons =  new HashSet<>(Set.of(skinGhost, skinPurple, skinShark));
 
     /**
      * Creates the shop button panel.
@@ -49,31 +55,18 @@ public class ShopButton extends JPanel {
      */
     public ShopButton(final ControllerMenu controller) {
 
+        this.allButtons = new JButton[] { skinDefault, skinShark, skinPurple, skinGhost };
+
         this.background = CreateBackground.create("/img/Shopback.png");
 
         this.grid = new GridLayout(ROWS, COLS, 0, 0);
         setLayout(this.grid);
 
-        final JButton skinDefault = ShopButtonFactory.build("/img/Player_1_frame_1.png");
-        final JButton skinShark = ShopButtonFactory.build("/img/squalo_frame_1.png");
-        final JButton skinPurple = ShopButtonFactory.build("/img/purple_player_frame_1.png");
-        final JButton skinGhost = ShopButtonFactory.build("/img/ghost_frame_1.png");
-
-        this.allButtons = new JButton[] { skinDefault, skinShark, skinPurple, skinGhost };
-
         skinDefault.setText("DEFAULT");
-        skinShark.setText("20$");
-        skinPurple.setText("20$");
-        skinGhost.setText("20$");
+        skinShark.setText(SKIN_COST_STRING);
+        skinPurple.setText(SKIN_COST_STRING);
+        skinGhost.setText(SKIN_COST_STRING);
 
-
-        purchasedButtons.add(skinDefault);
-
-        toBuyButtons.add(skinShark);
-        toBuyButtons.add(skinPurple);
-        toBuyButtons.add(skinGhost);
-
-        // >>> LISTENER UNICO: decide cosa fare in base al set
         skinDefault.addActionListener(e -> onSkinButtonClick(skinDefault, controller,
                 "img/Player_1_frame_1.png", "img/Player_1_frame_2.png"));
 
@@ -91,7 +84,7 @@ public class ShopButton extends JPanel {
         add(skinShark);
         add(skinGhost);
 
-        selectButton(skinDefault, allButtons);
+       PaintButton(allButtons);
     }
 
     /**
@@ -134,9 +127,25 @@ public class ShopButton extends JPanel {
      * @param selected the selected button
      * @param all all available buttons
      */
+    private void PaintButton( final JButton[] all) {
+        for (final JButton b : all) {
+            if (purchasedButtons.contains(b)) {
+            b.setBackground(DEFAULT_COLOR);
+            } else {
+                b.setBackground(SELECTED_COLOR);
+            }
+        }
+    }
+
+    /**
+     * selects a button and updates the colors of all buttons.
+     *
+     * @param selected the selected button
+     * @param all all available buttons
+     */
     private void selectButton(final JButton selected, final JButton[] all) {
         for (final JButton b : all) {
-            if(purchasedButtons.contains(b)){
+            if (purchasedButtons.contains(b)) {
             b.setBackground(DEFAULT_COLOR);
             } else {
                 b.setBackground(SELECTED_COLOR);

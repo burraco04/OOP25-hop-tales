@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 import controller.api.ControllerMenu;
 import controller.api.State;
 import view.utils.ButtonFactory;
-import view.utils.Draw;
 
 /**
  * Game over panel.

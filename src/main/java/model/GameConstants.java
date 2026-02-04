@@ -1,6 +1,12 @@
 package model;
 
 import java.awt.Color;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.swing.JButton;
+
+import view.utils.ShopButtonFactory;
 
 /**
  * Class used for storing constants shared by classes present in the model section of the project.
@@ -35,6 +41,13 @@ public final class GameConstants {
     public static final String EMPTY_HEART = "empty_heart";
     public static final int COIN_COUNT_SIZE = 28;
     public static final int SKIN_COST = 20;
+    public static final JButton skinDefault = ShopButtonFactory.build("/img/Player_1_frame_1.png");
+    public static final JButton skinShark = ShopButtonFactory.build("/img/squalo_frame_1.png");
+    public static final JButton skinPurple = ShopButtonFactory.build("/img/purple_player_frame_1.png");
+    public static final JButton skinGhost = ShopButtonFactory.build("/img/ghost_frame_1.png");
+    public static final Set<JButton> purchasedButtons = new HashSet<>(Set.of(skinDefault));
+    public static final Set<JButton> toBuyButtons =  new HashSet<>(Set.of(skinGhost, skinPurple, skinShark));
+
    
     private GameConstants() { }
 

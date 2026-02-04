@@ -194,7 +194,7 @@ public abstract class AbstractEnemyImpl implements Enemy {
      */
     protected void applyGravity(final double gravityStep) {
 
-        double targetY = getY() + gravityStep;
+        final double targetY = getY() + gravityStep;
         if (!isOnGround(getX(), getY()) && canMoveTo(getX(), targetY)) {
                 setY(targetY);
         }

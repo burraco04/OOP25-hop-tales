@@ -18,8 +18,8 @@ public final class LevelBuilder {
         m.imgCoinGoldSide = Assets.load("/img/coin_gold_side.png");
         m.imgPlatform     = Assets.load("/img/piattaforma_finale.png");
         m.imgBoulder      = Assets.load("/img/masso_finale.png");
-        m.imgP1           = Assets.load("/img/player1_finale.png");
-        m.imgP2           = Assets.load("/img/player2_finale.png");
+        m.imgP1           = Assets.load("/img/Player_1_frame_1.png");
+        m.imgP2           = Assets.load("/img/Player_1_frame_2.png");
     }
     //legge RAW_MAP e costruisce gli oggetti del livello
     public static void loadMap(LevelModel m) {

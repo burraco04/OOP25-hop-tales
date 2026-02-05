@@ -4,10 +4,9 @@ import app.level.FireboyWatergirlLevel;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import model.entities.impl.PlayerImpl;
 import model.objects.api.WorldEntity;
 
-// Player lo aggancerai dopo: qui lo lasciamo come Object per non bloccarti ora.
-// Quando avrai Player definitivo, rimetti Player al posto di Object.
 public class Boulder extends WorldEntity {
 
     public double vy = 0;
@@ -40,9 +39,35 @@ public class Boulder extends WorldEntity {
                 || w.isSolidAtPixel(nx + this.w - 2, ny + this.h - 2, this);
     }
 
-    // TODO: quando avrai Player vero, rimetti Player qui
-    public void tryPushBy(Object player, FireboyWatergirlLevel world) {
-        // placeholder: verrà ripristinato quando integri Player del team
+    public void tryPushBy(PlayerImpl player, FireboyWatergirlLevel world) {
+        Rectangle pr = new Rectangle(
+                (int) Math.round(player.getX()),
+                (int) Math.round(player.getY()),
+                (int) Math.round(player.getWidth()),
+                (int) Math.round(player.getHeight())
+        );
+
+        Rectangle br = rect();
+        if (!pr.intersects(br)) {
+            return;
+        }
+
+        double vx = player.getVelocityX();
+        if (vx == 0) {
+            return;
+        }
+
+        int step = vx > 0 ? 1 : -1;
+        int steps = (int) Math.abs(vx);
+
+        for (int i = 0; i < steps; i++) {
+            int nextX = x + step;
+            if (!collides(world, nextX, y)) {
+                x = nextX;
+            } else {
+                break;
+            }
+        }
     }
 
     @Override

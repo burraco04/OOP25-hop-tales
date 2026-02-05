@@ -13,6 +13,8 @@ public final class PlayerImpl implements Player {
     private final double height;
     private double x;
     private double y;
+    private double velocityX;
+    private double velocityY;
     private boolean onGround;
     private boolean facingRight = true;
     private boolean leftPressed;
@@ -43,6 +45,8 @@ public final class PlayerImpl implements Player {
         this.height = height;
         this.healthPoints = GameConstants.STARTING_HEALTH;
         this.powerUpped = false;
+        this.velocityX = 0.0;
+        this.velocityY = 0.0;
     }
 
     /**
@@ -117,6 +121,66 @@ public final class PlayerImpl implements Player {
     @Override
     public double getHeight() {
         return height;
+    }
+
+    /**
+     * @return the current horizontal velocity.
+     */
+    public double getVelocityX() {
+        return velocityX;
+    }
+
+    /**
+     * @return the current vertical velocity.
+     */
+    public double getVelocityY() {
+        return velocityY;
+    }
+
+    /**
+     * Set the horizontal velocity.
+     *
+     * @param velocityX the new horizontal velocity.
+     */
+    public void setVelocityX(final double velocityX) {
+        this.velocityX = velocityX;
+        if (velocityX != 0) {
+            this.facingRight = velocityX > 0;
+        }
+    }
+
+    /**
+     * Set the vertical velocity.
+     *
+     * @param velocityY the new vertical velocity.
+     */
+    public void setVelocityY(final double velocityY) {
+        this.velocityY = velocityY;
+    }
+
+    /**
+     * Adds a delta to the vertical velocity.
+     *
+     * @param deltaY the delta to apply.
+     */
+    public void addVelocityY(final double deltaY) {
+        this.velocityY += deltaY;
+    }
+
+    /**
+     * @return true if the player is grounded.
+     */
+    public boolean isOnGround() {
+        return onGround;
+    }
+
+    /**
+     * Set the grounded state.
+     *
+     * @param onGround the grounded flag.
+     */
+    public void setOnGround(final boolean onGround) {
+        this.onGround = onGround;
     }
 
     /**

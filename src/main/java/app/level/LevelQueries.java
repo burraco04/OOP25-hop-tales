@@ -41,17 +41,21 @@ public final class LevelQueries {
         return m.map[r][c] == '7';
     }
 
-    public static boolean isOnGoal(LevelModel m, model.entities.Player p) {
-        int cx = p.x + p.w / 2;
-        int cy = p.y + p.h / 2;
+    public static boolean isOnGoal(LevelModel m, model.entities.api.Player p) {
+        int cx = (int) Math.round(p.getX() + p.getWidth() / 2.0);
+        int cy = (int) Math.round(p.getY() + p.getHeight() / 2.0);
         int c = cx / FireboyWatergirlLevel.TILE;
         int r = cy / FireboyWatergirlLevel.TILE;
         if (r < 0 || r >= m.rows || c < 0 || c >= m.cols) return false;
         return m.map[r][c] == '5';
     }
 
-    public static boolean touchesLava(LevelModel m, model.entities.Player p) {
-        return isLavaAtPixel(m, p.x + 1, p.y + p.h - 1)
-                || isLavaAtPixel(m, p.x + p.w - 2, p.y + p.h - 1);
+    public static boolean touchesLava(LevelModel m, model.entities.api.Player p) {
+        int px = (int) Math.round(p.getX());
+        int py = (int) Math.round(p.getY());
+        int w = (int) Math.round(p.getWidth());
+        int h = (int) Math.round(p.getHeight());
+        return isLavaAtPixel(m, px + 1, py + h - 1)
+                || isLavaAtPixel(m, px + w - 2, py + h - 1);
     }
 }

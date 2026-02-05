@@ -77,8 +77,8 @@ public final class LevelModel {
     public final List<model.objects.impl.ButtonPad> buttons = new ArrayList<>();
 
     // players 
-    public model.entities.api.Player fireboy;
-    public model.entities.api.Player watergirl;
+    public model.entities.impl.PlayerImpl fireboy;
+    public model.entities.impl.PlayerImpl watergirl;
 
     public boolean gameOver = false;
     public boolean levelComplete = false;

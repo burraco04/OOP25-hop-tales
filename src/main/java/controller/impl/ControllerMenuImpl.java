@@ -40,6 +40,7 @@ public class ControllerMenuImpl implements ControllerMenu {
         case OPTIONS -> view.showOptions();
 
         case LEVEL_1 -> new GameController(this.view);
+        case LEVEL_3 -> view.showLevel3();
      }
     }
 }

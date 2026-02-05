@@ -48,8 +48,8 @@ public final class LevelRenderer {
         for (model.objects.impl.MovingPlatform p : m.platforms) p.draw(g2);
         for (model.objects.impl.Boulder b : m.boulders) b.draw(g2);
 
-        m.fireboy.draw(g2);
-        m.watergirl.draw(g2);
+        drawPlayer(g2, m.fireboy, m.imgP1);
+        drawPlayer(g2, m.watergirl, m.imgP2);
 
         g2.setTransform(old);
 
@@ -72,5 +72,18 @@ public final class LevelRenderer {
         FontMetrics fm2 = g2.getFontMetrics();
         int sx = (panel.getWidth() - fm2.stringWidth(subtitle)) / 2;
         g2.drawString(subtitle, sx, panel.getHeight() / 2 + 20);
+    }
+
+    private static void drawPlayer(Graphics2D g2, model.entities.api.Player p, java.awt.image.BufferedImage sprite) {
+        int x = (int) Math.round(p.getX());
+        int y = (int) Math.round(p.getY());
+        int w = (int) Math.round(p.getWidth());
+        int h = (int) Math.round(p.getHeight());
+        if (sprite != null) {
+            g2.drawImage(sprite, x, y, w, h, null);
+        } else {
+            g2.setColor(Color.RED);
+            g2.fillRect(x, y, w, h);
+        }
     }
 }

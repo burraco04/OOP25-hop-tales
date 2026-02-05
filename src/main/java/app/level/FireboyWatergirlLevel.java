@@ -9,6 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import model.CoinStorage;
+import model.entities.impl.PlayerImpl;
+
 /**
  * Pannello principale del livello di gioco.
  * Gestisce ciclo di gioco, input e rendering.
@@ -21,23 +24,20 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
     private final javax.swing.Timer timer = new javax.swing.Timer(1000 / FPS, this);
 
     private final LevelModel model = new LevelModel();
-    private final LevelInput input = new LevelInput();
+    private final LevelInput input;
+    private final Runnable onHome;
 
     public FireboyWatergirlLevel() {
+        this(null);
+    }
+
+    public FireboyWatergirlLevel(final Runnable onHome) {
+        this.onHome = onHome;
+        this.input = new LevelInput(onHome);
         setFocusable(true);
         addKeyListener(this);
 
-        LevelBuilder.loadImages(model);
-        LevelBuilder.loadMap(model);
-        LevelBuilder.buildAssociations(model);
-
-        model.totalCoinsSaved = model.CoinStorage.loadTotalCoins();
-
-        // spawn player 1 in alto-sinistra (tile 2,2)
-        model.fireboy = new model.entities.api.Player(2 * TILE, 2 * TILE, TILE, model.imgP1);
-
-        // spawn player 2 in basso-destra (tile 35,34 come avevi tu)
-        model.watergirl = new model.entities.api.Player((34 - 1) * TILE, (35 - 1) * TILE, TILE, model.imgP2);
+        initializeLevel(true);
 
         timer.start();
     }
@@ -61,23 +61,23 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
         return LevelQueries.isLavaAtPixel(model, px, py);
     }
 
-    public boolean isOnGoal(model.entities.Player p) {
+    public boolean isOnGoal(model.entities.api.Player p) {
         return LevelQueries.isOnGoal(model, p);
     }
 
-    public boolean touchesLava(model.entities.Player p) {
+    public boolean touchesLava(model.entities.api.Player p) {
         return LevelQueries.touchesLava(model, p);
     }
 
-    public void collectCoins(model.entities.Player p) {
+    public void collectCoins(model.entities.api.Player p) {
         LevelInteractions.collectCoins(model, p);
     }
 
-    public void handleButtons(model.entities.Player p) {
+    public void handleButtons(model.entities.api.Player p) {
         LevelInteractions.handleButtons(model, p);
     }
 
-    public void handleTeleport(model.entities.Player p) {
+    public void handleTeleport(model.entities.api.Player p) {
         LevelInteractions.handleTeleport(model, p);
     }
 
@@ -106,6 +106,18 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
         main(null);
     }
 
+    void restartLevel() {
+        initializeLevel(false);
+        input.reset();
+    }
+
+    void goHome() {
+        timer.stop();
+        if (onHome != null) {
+            onHome.run();
+        }
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame f = new JFrame("Fireboy & Watergirl - Single Level");
@@ -121,5 +133,24 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
 
             panel.requestFocusInWindow();
         });
+    }
+
+    private void initializeLevel(final boolean loadImages) {
+        if (loadImages) {
+            LevelBuilder.loadImages(model);
+        }
+        LevelBuilder.loadMap(model);
+        LevelBuilder.buildAssociations(model);
+
+        model.totalCoinsSaved = CoinStorage.loadTotalCoins();
+
+        // spawn player 1 in alto-sinistra (tile 2,2)
+        model.fireboy = new PlayerImpl(2 * TILE, 2 * TILE, TILE, TILE);
+
+        // spawn player 2 in basso-destra (tile 35,34 come avevi tu)
+        model.watergirl = new PlayerImpl((34 - 1) * TILE, (35 - 1) * TILE, TILE, TILE);
+
+        model.gameOver = false;
+        model.levelComplete = false;
     }
 }

@@ -9,8 +9,8 @@ public final class LevelInteractions {
 
     private LevelInteractions() {}
     // raccoglie le monete quando il player ci passa sopra e aggiorna il totale salvato
-    public static void collectCoins(LevelModel m, model.entities.Player p) {
-        Rectangle pr = p.getRect();
+    public static void collectCoins(LevelModel m, model.entities.api.Player p) {
+        Rectangle pr = playerRect(p);
 
         Iterator<model.objects.impl.collectable.Coin> it = m.coins.iterator();
         while (it.hasNext()) {
@@ -31,9 +31,9 @@ public final class LevelInteractions {
         }
     }
     // se un player preme un bottone, apre la porta associata
-    public static void handleButtons(LevelModel m, model.entities.Player p) {
+    public static void handleButtons(LevelModel m, model.entities.api.Player p) {
         for (model.objects.impl.ButtonPad b : m.buttons) {
-            if (b.intersects(p.getRect())) {
+            if (b.intersects(playerRect(p))) {
                 Point tilePos = new Point(b.getX() / FireboyWatergirlLevel.TILE, b.getY() / FireboyWatergirlLevel.TILE);
                 String doorId = m.buttonToDoorId.get(tilePos);
 
@@ -50,16 +50,24 @@ public final class LevelInteractions {
         }
     }
 
-    public static void handleTeleport(LevelModel m, model.entities.Player p) {
+    public static void handleTeleport(LevelModel m, model.entities.api.Player p) {
         for (model.objects.impl.Teleporter t : m.teleporters) {
-            if (t.intersects(p.getRect())) {
+            if (t.intersects(playerRect(p))) {
                 Point from = new Point(t.getX() / FireboyWatergirlLevel.TILE, t.getY() / FireboyWatergirlLevel.TILE);
                 Point dest = m.teleportDestTile.get(from);
                 if (dest != null) {
-                    p.x = dest.x * FireboyWatergirlLevel.TILE;
-                    p.y = dest.y * FireboyWatergirlLevel.TILE;
+                    p.setX(dest.x * FireboyWatergirlLevel.TILE);
+                    p.setY(dest.y * FireboyWatergirlLevel.TILE);
                 }
             }
         }
+    }
+
+    private static Rectangle playerRect(model.entities.api.Player p) {
+        int x = (int) Math.round(p.getX());
+        int y = (int) Math.round(p.getY());
+        int w = (int) Math.round(p.getWidth());
+        int h = (int) Math.round(p.getHeight());
+        return new Rectangle(x, y, w, h);
     }
 }

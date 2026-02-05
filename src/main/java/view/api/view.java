@@ -35,4 +35,9 @@ void showOptions();
  * @param kim a {@link KeyboardInputManager} instance.
  */
 void showLevel1(World world, KeyboardInputManager kim);
+
+/**
+ * Display the third level.
+ */
+void showLevel3();
 }

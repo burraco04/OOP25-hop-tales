@@ -14,10 +14,10 @@ public final class ShopModel {
      * Creates a new shop model with the default initial state.
      */
     public ShopModel() {
-        purchasedSkins.add(SkinId.DEFAULT.name());
-        toBuySkins.add(SkinId.SHARK.name());
-        toBuySkins.add(SkinId.PURPLE.name());
-        toBuySkins.add(SkinId.GHOST.name());
+        purchasedSkins.add(SkinId.DEFAULT.toString());
+        toBuySkins.add(SkinId.SHARK.toString());
+        toBuySkins.add(SkinId.PURPLE.toString());
+        toBuySkins.add(SkinId.GHOST.toString());
     }
 
     /**
@@ -27,7 +27,7 @@ public final class ShopModel {
      * @return {@code true} if the skin has not been purchased yet and can be bought, {@code false} otherwise
      */
     public boolean isToBuy(final SkinId id) {
-        return toBuySkins.contains(id.name());
+        return toBuySkins.contains(id.toString());
     }
 
     /**
@@ -37,7 +37,7 @@ public final class ShopModel {
      * @return {@code true} if the skin has been purchased, {@code false} otherwise
      */
     public boolean isPurchased(final SkinId id) {
-        return purchasedSkins.contains(id.name());
+        return purchasedSkins.contains(id.toString());
     }
 
     /**
@@ -46,8 +46,8 @@ public final class ShopModel {
      * @param id id the identifier of the skin
      */
     public void markPurchased(final SkinId id) {
-        toBuySkins.remove(id.name());
-        purchasedSkins.add(id.name());
+        toBuySkins.remove(id.toString());
+        purchasedSkins.add(id.toString());
     }
 
     /**

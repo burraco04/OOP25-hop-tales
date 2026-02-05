@@ -1,8 +1,13 @@
-package app.level;
+package controller.level;
 
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.Comparator;
+
+import model.level.LevelInteractions;
+import model.level.LevelModel;
+import model.level.LevelQueries;
+import view.impl.FireboyWatergirlLevel;
 
 public final class LevelLogic {
 

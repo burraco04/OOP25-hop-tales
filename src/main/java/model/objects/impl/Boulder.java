@@ -1,6 +1,6 @@
 package model.objects.impl;
 
-import app.level.FireboyWatergirlLevel;
+import view.impl.FireboyWatergirlLevel;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;

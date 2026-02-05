@@ -9,7 +9,7 @@ import controller.api.State;
 import model.World;
 import view.api.View;
 import java.util.Optional;
-import app.level.FireboyWatergirlLevel;
+import view.impl.FireboyWatergirlLevel;
 
 /**
  * make view.

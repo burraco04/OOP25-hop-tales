@@ -1,12 +1,12 @@
-package app.level;
+package model.level;
 
 public final class LevelQueries {
 
     private LevelQueries() {}
     // verifica se un pixel cade su qualcosa di solido (mappa + oggetti)
     public static boolean isSolidAtPixel(LevelModel m, int px, int py, Object ignore) {
-        int c = px / FireboyWatergirlLevel.TILE;
-        int r = py / FireboyWatergirlLevel.TILE;
+        int c = px / LevelConstants.TILE;
+        int r = py / LevelConstants.TILE;
 
         if (r < 0 || r >= m.rows || c < 0 || c >= m.cols) return true;
 
@@ -35,8 +35,8 @@ public final class LevelQueries {
     }
 
     public static boolean isLavaAtPixel(LevelModel m, int px, int py) {
-        int c = px / FireboyWatergirlLevel.TILE;
-        int r = py / FireboyWatergirlLevel.TILE;
+        int c = px / LevelConstants.TILE;
+        int r = py / LevelConstants.TILE;
         if (r < 0 || r >= m.rows || c < 0 || c >= m.cols) return false;
         return m.map[r][c] == '7';
     }
@@ -44,8 +44,8 @@ public final class LevelQueries {
     public static boolean isOnGoal(LevelModel m, model.entities.api.Player p) {
         int cx = (int) Math.round(p.getX() + p.getWidth() / 2.0);
         int cy = (int) Math.round(p.getY() + p.getHeight() / 2.0);
-        int c = cx / FireboyWatergirlLevel.TILE;
-        int r = cy / FireboyWatergirlLevel.TILE;
+        int c = cx / LevelConstants.TILE;
+        int r = cy / LevelConstants.TILE;
         if (r < 0 || r >= m.rows || c < 0 || c >= m.cols) return false;
         return m.map[r][c] == '5';
     }

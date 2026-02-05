@@ -1,4 +1,4 @@
-package app.level;
+package view.impl;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -11,6 +11,14 @@ import javax.swing.SwingUtilities;
 
 import model.CoinStorage;
 import model.entities.impl.PlayerImpl;
+import model.level.LevelBuilder;
+import model.level.LevelConstants;
+import model.level.LevelInteractions;
+import model.level.LevelModel;
+import model.level.LevelQueries;
+import controller.level.LevelInput;
+import controller.level.LevelLogic;
+import view.utils.Assets;
 
 /**
  * Pannello principale del livello di gioco.
@@ -18,7 +26,6 @@ import model.entities.impl.PlayerImpl;
  */
 public class FireboyWatergirlLevel extends JPanel implements ActionListener, KeyListener {
 
-    public static final int TILE = 24;
     private static final int FPS = 60;
 
     private final javax.swing.Timer timer = new javax.swing.Timer(1000 / FPS, this);
@@ -106,12 +113,12 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
         main(null);
     }
 
-    void restartLevel() {
+    public void restartLevel() {
         initializeLevel(false);
         input.reset();
     }
 
-    void goHome() {
+    public void goHome() {
         timer.stop();
         if (onHome != null) {
             onHome.run();
@@ -137,7 +144,14 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
 
     private void initializeLevel(final boolean loadImages) {
         if (loadImages) {
-            LevelBuilder.loadImages(model);
+            model.imgMap = Assets.load("/img/mappa_finale.png");
+            model.imgDoor = Assets.load("/img/porta_finale.png");
+            model.imgCoinGold = Assets.load("/img/coin_gold.png");
+            model.imgCoinGoldSide = Assets.load("/img/coin_gold_side.png");
+            model.imgPlatform = Assets.load("/img/piattaforma_finale.png");
+            model.imgBoulder = Assets.load("/img/masso_finale.png");
+            model.imgP1 = Assets.load("/img/Player_1_frame_1.png");
+            model.imgP2 = Assets.load("/img/Player_1_frame_2.png");
         }
         LevelBuilder.loadMap(model);
         LevelBuilder.buildAssociations(model);
@@ -145,10 +159,11 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
         model.totalCoinsSaved = CoinStorage.loadTotalCoins();
 
         // spawn player 1 in alto-sinistra (tile 2,2)
-        model.fireboy = new PlayerImpl(2 * TILE, 2 * TILE, TILE, TILE);
+        model.fireboy = new PlayerImpl(2 * LevelConstants.TILE, 2 * LevelConstants.TILE, LevelConstants.TILE, LevelConstants.TILE);
 
         // spawn player 2 in basso-destra (tile 35,34 come avevi tu)
-        model.watergirl = new PlayerImpl((34 - 1) * TILE, (35 - 1) * TILE, TILE, TILE);
+        model.watergirl = new PlayerImpl((34 - 1) * LevelConstants.TILE, (35 - 1) * LevelConstants.TILE,
+                LevelConstants.TILE, LevelConstants.TILE);
 
         model.gameOver = false;
         model.levelComplete = false;

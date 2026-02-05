@@ -1,4 +1,4 @@
-package app.level;
+package view.utils;
 
 import java.awt.image.BufferedImage;
 import java.io.InputStream;

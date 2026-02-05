@@ -1,4 +1,4 @@
-package app.level;
+package model.level;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.Iterator;
@@ -19,8 +19,8 @@ public final class LevelInteractions {
             Rectangle cr = new Rectangle(
                     c.getX(),
                     c.getY(),
-                    FireboyWatergirlLevel.TILE,
-                    FireboyWatergirlLevel.TILE
+                    LevelConstants.TILE,
+                    LevelConstants.TILE
             );
 
             if (cr.intersects(pr)) {
@@ -34,15 +34,15 @@ public final class LevelInteractions {
     public static void handleButtons(LevelModel m, model.entities.api.Player p) {
         for (model.objects.impl.ButtonPad b : m.buttons) {
             if (b.intersects(playerRect(p))) {
-                Point tilePos = new Point(b.getX() / FireboyWatergirlLevel.TILE, b.getY() / FireboyWatergirlLevel.TILE);
+                Point tilePos = new Point(b.getX() / LevelConstants.TILE, b.getY() / LevelConstants.TILE);
                 String doorId = m.buttonToDoorId.get(tilePos);
 
                 if (doorId != null) {
                     LevelBuilder.removeDoorTilesFromMap(m, doorId);
 
                     for (model.objects.impl.Door d : m.doors) {
-                        int rr = d.getY() / FireboyWatergirlLevel.TILE;
-                        int cc = d.getX() / FireboyWatergirlLevel.TILE;
+                        int rr = d.getY() / LevelConstants.TILE;
+                        int cc = d.getX() / LevelConstants.TILE;
                         if (m.map[rr][cc] != '3') d.open = true;
                     }
                 }
@@ -53,11 +53,11 @@ public final class LevelInteractions {
     public static void handleTeleport(LevelModel m, model.entities.api.Player p) {
         for (model.objects.impl.Teleporter t : m.teleporters) {
             if (t.intersects(playerRect(p))) {
-                Point from = new Point(t.getX() / FireboyWatergirlLevel.TILE, t.getY() / FireboyWatergirlLevel.TILE);
+                Point from = new Point(t.getX() / LevelConstants.TILE, t.getY() / LevelConstants.TILE);
                 Point dest = m.teleportDestTile.get(from);
                 if (dest != null) {
-                    p.setX(dest.x * FireboyWatergirlLevel.TILE);
-                    p.setY(dest.y * FireboyWatergirlLevel.TILE);
+                    p.setX(dest.x * LevelConstants.TILE);
+                    p.setY(dest.y * LevelConstants.TILE);
                 }
             }
         }

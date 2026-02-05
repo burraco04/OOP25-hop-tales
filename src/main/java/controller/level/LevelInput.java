@@ -1,8 +1,11 @@
-package app.level;
+package controller.level;
 
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
+
+import model.level.LevelModel;
+import view.impl.FireboyWatergirlLevel;
 
 public final class LevelInput {
 
@@ -11,11 +14,11 @@ public final class LevelInput {
     boolean watergirlJumpQueued = false;
     private final Runnable onHome;
 
-    LevelInput(Runnable onHome) {
+    public LevelInput(Runnable onHome) {
         this.onHome = onHome;
     }
 
-    void keyPressed(FireboyWatergirlLevel panel, LevelModel m, KeyEvent e) {
+    public void keyPressed(FireboyWatergirlLevel panel, LevelModel m, KeyEvent e) {
         int k = e.getKeyCode();
         keysDown.add(k);
 
@@ -37,11 +40,11 @@ public final class LevelInput {
         }
     }
 
-    void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e) {
         keysDown.remove(e.getKeyCode());
     }
 
-    void reset() {
+    public void reset() {
         keysDown.clear();
         fireboyJumpQueued = false;
         watergirlJumpQueued = false;

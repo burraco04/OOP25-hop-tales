@@ -1,4 +1,4 @@
-package app.level;
+package view.impl;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -7,6 +7,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+import model.level.LevelConstants;
+import model.level.LevelModel;
+
 public final class LevelRenderer {
 
     private LevelRenderer() {}
@@ -14,8 +17,8 @@ public final class LevelRenderer {
     public static void render(FireboyWatergirlLevel panel, LevelModel m, Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
-        int worldW = m.cols * FireboyWatergirlLevel.TILE;
-        int worldH = m.rows * FireboyWatergirlLevel.TILE;
+        int worldW = m.cols * LevelConstants.TILE;
+        int worldH = m.rows * LevelConstants.TILE;
 
         double sx = panel.getWidth() / (double) worldW;
         double sy = panel.getHeight() / (double) worldH;
@@ -41,7 +44,7 @@ public final class LevelRenderer {
         // coin: non hanno draw, quindi le disegniamo qui
         if (m.imgCoinGold != null) {
             for (model.objects.impl.collectable.Coin c : m.coins) {
-                g2.drawImage(m.imgCoinGold, c.getX(), c.getY(), FireboyWatergirlLevel.TILE, FireboyWatergirlLevel.TILE, null);
+                g2.drawImage(m.imgCoinGold, c.getX(), c.getY(), LevelConstants.TILE, LevelConstants.TILE, null);
             }
         }
 

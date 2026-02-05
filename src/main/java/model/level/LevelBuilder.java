@@ -1,4 +1,4 @@
-package app.level;
+package model.level;
 
 import java.awt.Point;
 import java.util.ArrayDeque;
@@ -11,16 +11,6 @@ public final class LevelBuilder {
 
     private LevelBuilder() {}
 
-    public static void loadImages(LevelModel m) {
-        m.imgMap          = Assets.load("/img/mappa_finale.png");
-        m.imgDoor         = Assets.load("/img/porta_finale.png");
-        m.imgCoinGold     = Assets.load("/img/coin_gold.png");
-        m.imgCoinGoldSide = Assets.load("/img/coin_gold_side.png");
-        m.imgPlatform     = Assets.load("/img/piattaforma_finale.png");
-        m.imgBoulder      = Assets.load("/img/masso_finale.png");
-        m.imgP1           = Assets.load("/img/Player_1_frame_1.png");
-        m.imgP2           = Assets.load("/img/Player_1_frame_2.png");
-    }
     //legge RAW_MAP e costruisce gli oggetti del livello
     public static void loadMap(LevelModel m) {
         m.doors.clear();
@@ -48,20 +38,20 @@ public final class LevelBuilder {
 
                 switch (ch) {
                     case '3' -> m.doors.add(new model.objects.impl.Door(
-                            c * FireboyWatergirlLevel.TILE, r * FireboyWatergirlLevel.TILE,
-                            FireboyWatergirlLevel.TILE, FireboyWatergirlLevel.TILE,
-                            m.imgDoor, FireboyWatergirlLevel.TILE));
+                            c * LevelConstants.TILE, r * LevelConstants.TILE,
+                            LevelConstants.TILE, LevelConstants.TILE,
+                            m.imgDoor, LevelConstants.TILE));
 
                     case '4' -> m.coins.add(new model.objects.impl.collectable.Coin(
-                            c * FireboyWatergirlLevel.TILE, r * FireboyWatergirlLevel.TILE));
+                            c * LevelConstants.TILE, r * LevelConstants.TILE));
 
                     case '*' -> m.teleporters.add(new model.objects.impl.Teleporter(
-                            c * FireboyWatergirlLevel.TILE, r * FireboyWatergirlLevel.TILE,
-                            FireboyWatergirlLevel.TILE, FireboyWatergirlLevel.TILE));
+                            c * LevelConstants.TILE, r * LevelConstants.TILE,
+                            LevelConstants.TILE, LevelConstants.TILE));
 
                     case '2' -> m.buttons.add(new model.objects.impl.ButtonPad(
-                            c * FireboyWatergirlLevel.TILE, r * FireboyWatergirlLevel.TILE,
-                            FireboyWatergirlLevel.TILE, FireboyWatergirlLevel.TILE));
+                            c * LevelConstants.TILE, r * LevelConstants.TILE,
+                            LevelConstants.TILE, LevelConstants.TILE));
 
                     default -> { /* niente */ }
                 }
@@ -105,12 +95,12 @@ public final class LevelBuilder {
                     }
                 }
 
-                int x = minC * FireboyWatergirlLevel.TILE;
-                int y = minR * FireboyWatergirlLevel.TILE;
-                int w = (maxC - minC + 1) * FireboyWatergirlLevel.TILE;
-                int h = (maxR - minR + 1) * FireboyWatergirlLevel.TILE;
+                int x = minC * LevelConstants.TILE;
+                int y = minR * LevelConstants.TILE;
+                int w = (maxC - minC + 1) * LevelConstants.TILE;
+                int h = (maxR - minR + 1) * LevelConstants.TILE;
 
-                m.boulders.add(new model.objects.impl.Boulder(x, y, w, h, m.imgBoulder, FireboyWatergirlLevel.TILE));
+                m.boulders.add(new model.objects.impl.Boulder(x, y, w, h, m.imgBoulder, LevelConstants.TILE));
             }
         }
     }
@@ -131,12 +121,12 @@ public final class LevelBuilder {
                 }
 
                 int tilesWide = endC - startC;
-                int x = startC * FireboyWatergirlLevel.TILE;
-                int y = r * FireboyWatergirlLevel.TILE;
-                int w = tilesWide * FireboyWatergirlLevel.TILE;
-                int h = FireboyWatergirlLevel.TILE;
+                int x = startC * LevelConstants.TILE;
+                int y = r * LevelConstants.TILE;
+                int w = tilesWide * LevelConstants.TILE;
+                int h = LevelConstants.TILE;
 
-                m.platforms.add(new model.objects.impl.MovingPlatform(x, y, w, h, m.imgPlatform, FireboyWatergirlLevel.TILE));
+                m.platforms.add(new model.objects.impl.MovingPlatform(x, y, w, h, m.imgPlatform, LevelConstants.TILE));
             }
         }
 
@@ -145,8 +135,8 @@ public final class LevelBuilder {
             model.objects.impl.MovingPlatform left = m.platforms.get(0);
             model.objects.impl.MovingPlatform right = m.platforms.get(m.platforms.size() - 1);
 
-            left.setBalanceRole(true, +7 * FireboyWatergirlLevel.TILE, 1.0);
-            right.setBalanceRole(false, -4 * FireboyWatergirlLevel.TILE, 1.0);
+            left.setBalanceRole(true, +7 * LevelConstants.TILE, 1.0);
+            right.setBalanceRole(false, -4 * LevelConstants.TILE, 1.0);
         }
     }
 

@@ -57,6 +57,24 @@ public class Boulder extends WorldEntity {
             return;
         }
 
+        boolean verticalOverlap =
+                pr.y + pr.height > br.y + 2
+                        && pr.y < br.y + br.height - 2;
+        if (!verticalOverlap) {
+            return;
+        }
+
+        // Only push when the player is on the side, not on top.
+        if (vx > 0) {
+            if (pr.x + pr.width > br.x + 2) {
+                return;
+            }
+        } else {
+            if (pr.x < br.x + br.width - 2) {
+                return;
+            }
+        }
+
         int step = vx > 0 ? 1 : -1;
         int steps = (int) Math.abs(vx);
 

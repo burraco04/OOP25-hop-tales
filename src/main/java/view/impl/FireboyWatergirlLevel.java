@@ -5,11 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import model.CoinStorage;
+import model.entities.api.Player;
 import model.entities.impl.PlayerImpl;
 import model.level.LevelBuilder;
 import model.level.LevelConstants;
@@ -28,7 +31,7 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
 
     private static final int FPS = 60;
 
-    private final javax.swing.Timer timer = new javax.swing.Timer(1000 / FPS, this);
+    private final Timer timer = new Timer(1000 / FPS, this);
 
     private final LevelModel model;
     private final LevelInput input;
@@ -69,28 +72,28 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
         return LevelQueries.isLavaAtPixel(model, px, py);
     }
 
-    public boolean isOnGoal(model.entities.api.Player p) {
+    public boolean isOnGoal(Player p) {
         return LevelQueries.isOnGoal(model, p);
     }
 
-    public boolean touchesLava(model.entities.api.Player p) {
+    public boolean touchesLava(Player p) {
         return LevelQueries.touchesLava(model, p);
     }
 
-    public void collectCoins(model.entities.api.Player p) {
+    public void collectCoins(Player p) {
         LevelInteractions.collectCoins(model, p);
     }
 
-    public void handleButtons(model.entities.api.Player p) {
+    public void handleButtons(Player p) {
         LevelInteractions.handleButtons(model, p);
     }
 
-    public void handleTeleport(model.entities.api.Player p) {
+    public void handleTeleport(Player p) {
         LevelInteractions.handleTeleport(model, p);
     }
 
     @Override
-    protected void paintComponent(java.awt.Graphics g) {
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         LevelRenderer.render(this, model, g);
     }
@@ -111,6 +114,9 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
 
     public void restartLevel() {
         initializeLevel(false);
+        model.setGameOver(false);
+        model.setLevelComplete(false);
+        resetPlayersToSpawn();
         input.reset();
     }
 
@@ -134,5 +140,19 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
         }
         LevelBuilder.loadMap(model);
         LevelBuilder.buildAssociations(model);
+    }
+
+    private void resetPlayersToSpawn() {
+        model.getFireboy().setX(2 * LevelConstants.TILE);
+        model.getFireboy().setY(2 * LevelConstants.TILE);
+        model.getFireboy().setVelocityX(0);
+        model.getFireboy().setVelocityY(0);
+        model.getFireboy().setOnGround(false);
+
+        model.getWatergirl().setX((34 - 1) * LevelConstants.TILE);
+        model.getWatergirl().setY((35 - 1) * LevelConstants.TILE);
+        model.getWatergirl().setVelocityX(0);
+        model.getWatergirl().setVelocityY(0);
+        model.getWatergirl().setOnGround(false);
     }
 }

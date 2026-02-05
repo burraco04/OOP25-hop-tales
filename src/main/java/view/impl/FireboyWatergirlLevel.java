@@ -30,7 +30,7 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
 
     private final javax.swing.Timer timer = new javax.swing.Timer(1000 / FPS, this);
 
-    private final LevelModel model = new LevelModel();
+    private final LevelModel model;
     private final LevelInput input;
     private final Runnable onHome;
 
@@ -39,6 +39,7 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
     }
 
     public FireboyWatergirlLevel(final Runnable onHome) {
+        this.model = new LevelModel();
         this.onHome = onHome;
         this.input = new LevelInput(onHome);
         setFocusable(true);
@@ -107,11 +108,6 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
     @Override
     public void keyTyped(KeyEvent e) {}
 
-    void restart() {
-        JFrame top = (JFrame) SwingUtilities.getWindowAncestor(this);
-        top.dispose();
-        main(null);
-    }
 
     public void restartLevel() {
         initializeLevel(false);
@@ -123,23 +119,6 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
         if (onHome != null) {
             onHome.run();
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame f = new JFrame("Fireboy & Watergirl - Single Level");
-            FireboyWatergirlLevel panel = new FireboyWatergirlLevel();
-
-            panel.setPreferredSize(new Dimension(1000, 800));
-            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            f.setContentPane(panel);
-            f.pack();
-            f.setLocationRelativeTo(null);
-            f.setResizable(true);
-            f.setVisible(true);
-
-            panel.requestFocusInWindow();
-        });
     }
 
     private void initializeLevel(final boolean loadImages) {
@@ -155,17 +134,5 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
         }
         LevelBuilder.loadMap(model);
         LevelBuilder.buildAssociations(model);
-
-        model.totalCoinsSaved = CoinStorage.loadTotalCoins();
-
-        // spawn player 1 in alto-sinistra (tile 2,2)
-        model.fireboy = new PlayerImpl(2 * LevelConstants.TILE, 2 * LevelConstants.TILE, LevelConstants.TILE, LevelConstants.TILE);
-
-        // spawn player 2 in basso-destra (tile 35,34 come avevi tu)
-        model.watergirl = new PlayerImpl((34 - 1) * LevelConstants.TILE, (35 - 1) * LevelConstants.TILE,
-                LevelConstants.TILE, LevelConstants.TILE);
-
-        model.gameOver = false;
-        model.levelComplete = false;
     }
 }

@@ -141,6 +141,10 @@ public final class LevelBuilder {
     }
 
     public static void buildAssociations(LevelModel m) {
+        m.buttonToDoorId.clear();
+        m.doorPosToId.clear();
+        m.teleportDestTile.clear();
+
         java.util.function.BiFunction<Integer, Integer, Point> RC = (r, c) -> new Point(c - 1, r - 1);
 
         java.util.function.BiConsumer<String, List<Point>> addDoorTiles = (id, tiles) -> {

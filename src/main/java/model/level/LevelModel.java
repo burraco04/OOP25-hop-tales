@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import model.CoinStorage;
+import model.entities.impl.PlayerImpl;
+
 public final class LevelModel {
 
     public final String[] RAW_MAP = {
@@ -51,6 +54,7 @@ public final class LevelModel {
 
     public int rows, cols;
     public char[][] map;
+    public static final int TILE = 24;
 
     public int totalCoinsSaved;
 
@@ -87,4 +91,15 @@ public final class LevelModel {
     public final Map<Point, String> buttonToDoorId = new HashMap<>();
     public final Map<Point, String> doorPosToId = new HashMap<>();
     public final Map<Point, Point> teleportDestTile = new HashMap<>();
+
+    public LevelModel() {
+        totalCoinsSaved = CoinStorage.loadTotalCoins();
+         // spawn player 1 in alto-sinistra (tile 2,2)
+        fireboy = new PlayerImpl(2 * TILE, 2 * TILE, TILE, TILE);
+
+        // spawn player 2 in basso-destra (tile 35,34)
+        watergirl = new PlayerImpl((34 - 1) * TILE, (35 - 1) * TILE, TILE, TILE);
+        levelComplete = false;
+        gameOver = false;
+    }
 }

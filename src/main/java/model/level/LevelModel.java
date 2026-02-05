@@ -12,7 +12,7 @@ import model.entities.impl.PlayerImpl;
 
 public final class LevelModel {
 
-    public final String[] RAW_MAP = {
+    private final String[] rawMap = {
             "11111111111111111111111111111111111",
             "10000000000000100000000300000000001",
             "10000000440000100000000300000000001",
@@ -52,54 +52,246 @@ public final class LevelModel {
             "11111111111111111111111111111111111"
     };
 
-    public int rows, cols;
-    public char[][] map;
-    public static final int TILE = 24;
+    private int rows;
+    private int cols;
+    private char[][] map;
 
-    public int totalCoinsSaved;
+    private int totalCoinsSaved;
 
-    public double viewScale = 1.0;
-    public int viewOffsetX = 0;
-    public int viewOffsetY = 0;
+    private double viewScale = 1.0;
+    private int viewOffsetX = 0;
+    private int viewOffsetY = 0;
 
     // immagini
-    public BufferedImage imgMap;
-    public BufferedImage imgDoor;
-    public BufferedImage imgCoinGold;
-    public BufferedImage imgCoinGoldSide;
-    public BufferedImage imgPlatform;
-    public BufferedImage imgBoulder;
-    public BufferedImage imgP1;
-    public BufferedImage imgP2;
+    private BufferedImage imgMap;
+    private BufferedImage imgDoor;
+    private BufferedImage imgCoinGold;
+    private BufferedImage imgCoinGoldSide;
+    private BufferedImage imgPlatform;
+    private BufferedImage imgBoulder;
+    private BufferedImage imgP1;
+    private BufferedImage imgP2;
 
     // entità
-    public final List<model.objects.impl.Door> doors = new ArrayList<>();
-    public final List<model.objects.impl.collectable.Coin> coins = new ArrayList<>();
-    public final List<model.objects.impl.Teleporter> teleporters = new ArrayList<>();
-    public final List<model.objects.impl.MovingPlatform> platforms = new ArrayList<>();
-    public final List<model.objects.impl.Boulder> boulders = new ArrayList<>();
-    public final List<model.objects.impl.ButtonPad> buttons = new ArrayList<>();
+    private final List<model.objects.impl.Door> doors = new ArrayList<>();
+    private final List<model.objects.impl.collectable.Coin> coins = new ArrayList<>();
+    private final List<model.objects.impl.Teleporter> teleporters = new ArrayList<>();
+    private final List<model.objects.impl.MovingPlatform> platforms = new ArrayList<>();
+    private final List<model.objects.impl.Boulder> boulders = new ArrayList<>();
+    private final List<model.objects.impl.ButtonPad> buttons = new ArrayList<>();
 
     // players 
-    public model.entities.impl.PlayerImpl fireboy;
-    public model.entities.impl.PlayerImpl watergirl;
+    private model.entities.impl.PlayerImpl fireboy;
+    private model.entities.impl.PlayerImpl watergirl;
 
-    public boolean gameOver = false;
-    public boolean levelComplete = false;
+    private boolean gameOver = false;
+    private boolean levelComplete = false;
 
     // associazioni
-    public final Map<Point, String> buttonToDoorId = new HashMap<>();
-    public final Map<Point, String> doorPosToId = new HashMap<>();
-    public final Map<Point, Point> teleportDestTile = new HashMap<>();
+    private final Map<Point, String> buttonToDoorId = new HashMap<>();
+    private final Map<Point, String> doorPosToId = new HashMap<>();
+    private final Map<Point, Point> teleportDestTile = new HashMap<>();
 
     public LevelModel() {
         totalCoinsSaved = CoinStorage.loadTotalCoins();
-         // spawn player 1 in alto-sinistra (tile 2,2)
-        fireboy = new PlayerImpl(2 * TILE, 2 * TILE, TILE, TILE);
+        // spawn player 1 in alto-sinistra (tile 2,2)
+        fireboy = new PlayerImpl(2 * LevelConstants.TILE, 2 * LevelConstants.TILE, LevelConstants.TILE, LevelConstants.TILE);
 
         // spawn player 2 in basso-destra (tile 35,34)
-        watergirl = new PlayerImpl((34 - 1) * TILE, (35 - 1) * TILE, TILE, TILE);
+        watergirl = new PlayerImpl((34 - 1) * LevelConstants.TILE, (35 - 1) * LevelConstants.TILE, LevelConstants.TILE, LevelConstants.TILE);
         levelComplete = false;
         gameOver = false;
+    }
+
+    public String[] getRawMap() {
+        return rawMap;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
+
+    public int getCols() {
+        return cols;
+    }
+
+    public void setCols(int cols) {
+        this.cols = cols;
+    }
+
+    public char[][] getMap() {
+        return map;
+    }
+
+    public void setMap(char[][] map) {
+        this.map = map;
+    }
+
+    public int getTotalCoinsSaved() {
+        return totalCoinsSaved;
+    }
+
+    public void setTotalCoinsSaved(int totalCoinsSaved) {
+        this.totalCoinsSaved = totalCoinsSaved;
+    }
+
+    public double getViewScale() {
+        return viewScale;
+    }
+
+    public void setViewScale(double viewScale) {
+        this.viewScale = viewScale;
+    }
+
+    public int getViewOffsetX() {
+        return viewOffsetX;
+    }
+
+    public void setViewOffsetX(int viewOffsetX) {
+        this.viewOffsetX = viewOffsetX;
+    }
+
+    public int getViewOffsetY() {
+        return viewOffsetY;
+    }
+
+    public void setViewOffsetY(int viewOffsetY) {
+        this.viewOffsetY = viewOffsetY;
+    }
+
+    public BufferedImage getImgMap() {
+        return imgMap;
+    }
+
+    public void setImgMap(BufferedImage imgMap) {
+        this.imgMap = imgMap;
+    }
+
+    public BufferedImage getImgDoor() {
+        return imgDoor;
+    }
+
+    public void setImgDoor(BufferedImage imgDoor) {
+        this.imgDoor = imgDoor;
+    }
+
+    public BufferedImage getImgCoinGold() {
+        return imgCoinGold;
+    }
+
+    public void setImgCoinGold(BufferedImage imgCoinGold) {
+        this.imgCoinGold = imgCoinGold;
+    }
+
+    public BufferedImage getImgCoinGoldSide() {
+        return imgCoinGoldSide;
+    }
+
+    public void setImgCoinGoldSide(BufferedImage imgCoinGoldSide) {
+        this.imgCoinGoldSide = imgCoinGoldSide;
+    }
+
+    public BufferedImage getImgPlatform() {
+        return imgPlatform;
+    }
+
+    public void setImgPlatform(BufferedImage imgPlatform) {
+        this.imgPlatform = imgPlatform;
+    }
+
+    public BufferedImage getImgBoulder() {
+        return imgBoulder;
+    }
+
+    public void setImgBoulder(BufferedImage imgBoulder) {
+        this.imgBoulder = imgBoulder;
+    }
+
+    public BufferedImage getImgP1() {
+        return imgP1;
+    }
+
+    public void setImgP1(BufferedImage imgP1) {
+        this.imgP1 = imgP1;
+    }
+
+    public BufferedImage getImgP2() {
+        return imgP2;
+    }
+
+    public void setImgP2(BufferedImage imgP2) {
+        this.imgP2 = imgP2;
+    }
+
+    public List<model.objects.impl.Door> getDoors() {
+        return doors;
+    }
+
+    public List<model.objects.impl.collectable.Coin> getCoins() {
+        return coins;
+    }
+
+    public List<model.objects.impl.Teleporter> getTeleporters() {
+        return teleporters;
+    }
+
+    public List<model.objects.impl.MovingPlatform> getPlatforms() {
+        return platforms;
+    }
+
+    public List<model.objects.impl.Boulder> getBoulders() {
+        return boulders;
+    }
+
+    public List<model.objects.impl.ButtonPad> getButtons() {
+        return buttons;
+    }
+
+    public model.entities.impl.PlayerImpl getFireboy() {
+        return fireboy;
+    }
+
+    public void setFireboy(PlayerImpl fireboy) {
+        this.fireboy = fireboy;
+    }
+
+    public model.entities.impl.PlayerImpl getWatergirl() {
+        return watergirl;
+    }
+
+    public void setWatergirl(PlayerImpl watergirl) {
+        this.watergirl = watergirl;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    public boolean isLevelComplete() {
+        return levelComplete;
+    }
+
+    public void setLevelComplete(boolean levelComplete) {
+        this.levelComplete = levelComplete;
+    }
+
+    public Map<Point, String> getButtonToDoorId() {
+        return buttonToDoorId;
+    }
+
+    public Map<Point, String> getDoorPosToId() {
+        return doorPosToId;
+    }
+
+    public Map<Point, Point> getTeleportDestTile() {
+        return teleportDestTile;
     }
 }

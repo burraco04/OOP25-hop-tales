@@ -123,14 +123,14 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
 
     private void initializeLevel(final boolean loadImages) {
         if (loadImages) {
-            model.imgMap = Assets.load("/img/mappa_finale.png");
-            model.imgDoor = Assets.load("/img/porta_finale.png");
-            model.imgCoinGold = Assets.load("/img/coin_gold.png");
-            model.imgCoinGoldSide = Assets.load("/img/coin_gold_side.png");
-            model.imgPlatform = Assets.load("/img/piattaforma_finale.png");
-            model.imgBoulder = Assets.load("/img/masso_finale.png");
-            model.imgP1 = Assets.load("/img/Player_1_frame_1.png");
-            model.imgP2 = Assets.load("/img/Player_1_frame_2.png");
+            model.setImgMap(Assets.load("/img/mappa_finale.png"));
+            model.setImgDoor(Assets.load("/img/porta_finale.png"));
+            model.setImgCoinGold(Assets.load("/img/coin_gold.png"));
+            model.setImgCoinGoldSide(Assets.load("/img/coin_gold_side.png"));
+            model.setImgPlatform(Assets.load("/img/piattaforma_finale.png"));
+            model.setImgBoulder(Assets.load("/img/masso_finale.png"));
+            model.setImgP1(Assets.load("/img/Player_1_frame_1.png"));
+            model.setImgP2(Assets.load("/img/Player_1_frame_2.png"));
         }
         LevelBuilder.loadMap(model);
         LevelBuilder.buildAssociations(model);

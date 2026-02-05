@@ -17,47 +17,47 @@ public final class LevelRenderer {
     public static void render(FireboyWatergirlLevel panel, LevelModel m, Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
-        int worldW = m.cols * LevelConstants.TILE;
-        int worldH = m.rows * LevelConstants.TILE;
+        int worldW = m.getCols() * LevelConstants.TILE;
+        int worldH = m.getRows() * LevelConstants.TILE;
 
         double sx = panel.getWidth() / (double) worldW;
         double sy = panel.getHeight() / (double) worldH;
-        m.viewScale = Math.min(sx, sy);
+        m.setViewScale(Math.min(sx, sy));
 
-        m.viewOffsetX = (int) ((panel.getWidth() - worldW * m.viewScale) / 2.0);
-        m.viewOffsetY = (int) ((panel.getHeight() - worldH * m.viewScale) / 2.0);
+        m.setViewOffsetX((int) ((panel.getWidth() - worldW * m.getViewScale()) / 2.0));
+        m.setViewOffsetY((int) ((panel.getHeight() - worldH * m.getViewScale()) / 2.0));
 
         AffineTransform old = g2.getTransform();
 
-        g2.translate(m.viewOffsetX, m.viewOffsetY);
-        g2.scale(m.viewScale, m.viewScale);
+        g2.translate(m.getViewOffsetX(), m.getViewOffsetY());
+        g2.scale(m.getViewScale(), m.getViewScale());
 
-        if (m.imgMap != null) {
-            g2.drawImage(m.imgMap, 0, 0, worldW, worldH, null);
+        if (m.getImgMap() != null) {
+            g2.drawImage(m.getImgMap(), 0, 0, worldW, worldH, null);
         } else {
             g2.setColor(Color.BLACK);
             g2.fillRect(0, 0, worldW, worldH);
         }
 
-        for (model.objects.impl.Door d : m.doors) d.draw(g2);
+        for (model.objects.impl.Door d : m.getDoors()) d.draw(g2);
 
         // coin: non hanno draw, quindi le disegniamo qui
-        if (m.imgCoinGold != null) {
-            for (model.objects.impl.collectable.Coin c : m.coins) {
-                g2.drawImage(m.imgCoinGold, c.getX(), c.getY(), LevelConstants.TILE, LevelConstants.TILE, null);
+        if (m.getImgCoinGold() != null) {
+            for (model.objects.impl.collectable.Coin c : m.getCoins()) {
+                g2.drawImage(m.getImgCoinGold(), c.getX(), c.getY(), LevelConstants.TILE, LevelConstants.TILE, null);
             }
         }
 
-        for (model.objects.impl.MovingPlatform p : m.platforms) p.draw(g2);
-        for (model.objects.impl.Boulder b : m.boulders) b.draw(g2);
+        for (model.objects.impl.MovingPlatform p : m.getPlatforms()) p.draw(g2);
+        for (model.objects.impl.Boulder b : m.getBoulders()) b.draw(g2);
 
-        drawPlayer(g2, m.fireboy, m.imgP1);
-        drawPlayer(g2, m.watergirl, m.imgP2);
+        drawPlayer(g2, m.getFireboy(), m.getImgP1());
+        drawPlayer(g2, m.getWatergirl(), m.getImgP2());
 
         g2.setTransform(old);
 
-        if (m.gameOver) drawOverlay(g2, panel, "HAI PERSO", "R = Retry, H = Home");
-        else if (m.levelComplete) drawOverlay(g2, panel, "LIVELLO COMPLETATO", "R = Replay, H = Home");
+        if (m.isGameOver()) drawOverlay(g2, panel, "HAI PERSO", "R = Retry, H = Home");
+        else if (m.isLevelComplete()) drawOverlay(g2, panel, "LIVELLO COMPLETATO", "R = Replay, H = Home");
     }
     // schermata scura + testo centrato (game over / vittoria)
     private static void drawOverlay(Graphics g, FireboyWatergirlLevel panel, String title, String subtitle) {

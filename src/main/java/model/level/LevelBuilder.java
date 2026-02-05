@@ -13,43 +13,44 @@ public final class LevelBuilder {
 
     //legge RAW_MAP e costruisce gli oggetti del livello
     public static void loadMap(LevelModel m) {
-        m.doors.clear();
-        m.coins.clear();
-        m.teleporters.clear();
-        m.platforms.clear();
-        m.boulders.clear();
-        m.buttons.clear();
+        m.getDoors().clear();
+        m.getCoins().clear();
+        m.getTeleporters().clear();
+        m.getPlatforms().clear();
+        m.getBoulders().clear();
+        m.getButtons().clear();
 
-        m.rows = m.RAW_MAP.length;
-        m.cols = m.RAW_MAP[0].length();
-        m.map = new char[m.rows][m.cols];
+        String[] rawMap = m.getRawMap();
+        m.setRows(rawMap.length);
+        m.setCols(rawMap[0].length());
+        m.setMap(new char[m.getRows()][m.getCols()]);
 
-        for (int r = 0; r < m.rows; r++) {
-            if (m.RAW_MAP[r].length() != m.cols) {
-                throw new IllegalStateException("Riga " + r + " length diversa: " + m.RAW_MAP[r].length() + " vs " + m.cols);
+        for (int r = 0; r < m.getRows(); r++) {
+            if (rawMap[r].length() != m.getCols()) {
+                throw new IllegalStateException("Riga " + r + " length diversa: " + rawMap[r].length() + " vs " + m.getCols());
             }
 
-            for (int c = 0; c < m.cols; c++) {
-                char ch = m.RAW_MAP[r].charAt(c);
+            for (int c = 0; c < m.getCols(); c++) {
+                char ch = rawMap[r].charAt(c);
 
                 
 
-                m.map[r][c] = ch;
+                m.getMap()[r][c] = ch;
 
                 switch (ch) {
-                    case '3' -> m.doors.add(new model.objects.impl.Door(
+                    case '3' -> m.getDoors().add(new model.objects.impl.Door(
                             c * LevelConstants.TILE, r * LevelConstants.TILE,
                             LevelConstants.TILE, LevelConstants.TILE,
-                            m.imgDoor, LevelConstants.TILE));
+                            m.getImgDoor(), LevelConstants.TILE));
 
-                    case '4' -> m.coins.add(new model.objects.impl.collectable.Coin(
+                    case '4' -> m.getCoins().add(new model.objects.impl.collectable.Coin(
                             c * LevelConstants.TILE, r * LevelConstants.TILE));
 
-                    case '*' -> m.teleporters.add(new model.objects.impl.Teleporter(
+                    case '*' -> m.getTeleporters().add(new model.objects.impl.Teleporter(
                             c * LevelConstants.TILE, r * LevelConstants.TILE,
                             LevelConstants.TILE, LevelConstants.TILE));
 
-                    case '2' -> m.buttons.add(new model.objects.impl.ButtonPad(
+                    case '2' -> m.getButtons().add(new model.objects.impl.ButtonPad(
                             c * LevelConstants.TILE, r * LevelConstants.TILE,
                             LevelConstants.TILE, LevelConstants.TILE));
 
@@ -63,11 +64,11 @@ public final class LevelBuilder {
     }
 // raggruppa blocchi '8' adiacenti e li trasforma in un unico Boulder (rettangolo)
     private static void buildBouldersFromMapFloodFill(LevelModel m) {
-        boolean[][] vis = new boolean[m.rows][m.cols];
+        boolean[][] vis = new boolean[m.getRows()][m.getCols()];
 
-        for (int r = 0; r < m.rows; r++) {
-            for (int c = 0; c < m.cols; c++) {
-                if (m.map[r][c] != '8' || vis[r][c]) continue;
+        for (int r = 0; r < m.getRows(); r++) {
+            for (int c = 0; c < m.getCols(); c++) {
+                if (m.getMap()[r][c] != '8' || vis[r][c]) continue;
 
                 ArrayDeque<Point> q = new ArrayDeque<>();
                 q.add(new Point(c, r));
@@ -87,9 +88,9 @@ public final class LevelBuilder {
                     int[][] dir = {{1,0},{-1,0},{0,1},{0,-1}};
                     for (int[] d : dir) {
                         int nc = cc + d[0], nr = rr + d[1];
-                        if (nr < 0 || nr >= m.rows || nc < 0 || nc >= m.cols) continue;
+                        if (nr < 0 || nr >= m.getRows() || nc < 0 || nc >= m.getCols()) continue;
                         if (vis[nr][nc]) continue;
-                        if (m.map[nr][nc] != '8') continue;
+                        if (m.getMap()[nr][nc] != '8') continue;
                         vis[nr][nc] = true;
                         q.add(new Point(nc, nr));
                     }
@@ -100,22 +101,22 @@ public final class LevelBuilder {
                 int w = (maxC - minC + 1) * LevelConstants.TILE;
                 int h = (maxR - minR + 1) * LevelConstants.TILE;
 
-                m.boulders.add(new model.objects.impl.Boulder(x, y, w, h, m.imgBoulder, LevelConstants.TILE));
+                m.getBoulders().add(new model.objects.impl.Boulder(x, y, w, h, m.getImgBoulder(), LevelConstants.TILE));
             }
         }
     }
 
     private static void buildMovingPlatformsFromMap(LevelModel m) {
-        boolean[][] used = new boolean[m.rows][m.cols];
+        boolean[][] used = new boolean[m.getRows()][m.getCols()];
 
-        for (int r = 0; r < m.rows; r++) {
-            for (int c = 0; c < m.cols; c++) {
-                if (m.map[r][c] != '9' || used[r][c]) continue;
+        for (int r = 0; r < m.getRows(); r++) {
+            for (int c = 0; c < m.getCols(); c++) {
+                if (m.getMap()[r][c] != '9' || used[r][c]) continue;
 
                 int startC = c;
                 int endC = c;
 
-                while (endC < m.cols && m.map[r][endC] == '9' && !used[r][endC]) {
+                while (endC < m.getCols() && m.getMap()[r][endC] == '9' && !used[r][endC]) {
                     used[r][endC] = true;
                     endC++;
                 }
@@ -126,14 +127,14 @@ public final class LevelBuilder {
                 int w = tilesWide * LevelConstants.TILE;
                 int h = LevelConstants.TILE;
 
-                m.platforms.add(new model.objects.impl.MovingPlatform(x, y, w, h, m.imgPlatform, LevelConstants.TILE));
+                m.getPlatforms().add(new model.objects.impl.MovingPlatform(x, y, w, h, m.getImgPlatform(), LevelConstants.TILE));
             }
         }
 
-        if (m.platforms.size() >= 2) {
-            m.platforms.sort(Comparator.comparingInt(p -> p.getX()));
-            model.objects.impl.MovingPlatform left = m.platforms.get(0);
-            model.objects.impl.MovingPlatform right = m.platforms.get(m.platforms.size() - 1);
+        if (m.getPlatforms().size() >= 2) {
+            m.getPlatforms().sort(Comparator.comparingInt(p -> p.getX()));
+            model.objects.impl.MovingPlatform left = m.getPlatforms().get(0);
+            model.objects.impl.MovingPlatform right = m.getPlatforms().get(m.getPlatforms().size() - 1);
 
             left.setBalanceRole(true, +7 * LevelConstants.TILE, 1.0);
             right.setBalanceRole(false, -4 * LevelConstants.TILE, 1.0);
@@ -141,14 +142,14 @@ public final class LevelBuilder {
     }
 
     public static void buildAssociations(LevelModel m) {
-        m.buttonToDoorId.clear();
-        m.doorPosToId.clear();
-        m.teleportDestTile.clear();
+        m.getButtonToDoorId().clear();
+        m.getDoorPosToId().clear();
+        m.getTeleportDestTile().clear();
 
         java.util.function.BiFunction<Integer, Integer, Point> RC = (r, c) -> new Point(c - 1, r - 1);
 
         java.util.function.BiConsumer<String, List<Point>> addDoorTiles = (id, tiles) -> {
-            for (Point t : tiles) m.doorPosToId.put(t, id);
+            for (Point t : tiles) m.getDoorPosToId().put(t, id);
         };
 
         java.util.function.BiFunction<Integer, int[], List<Point>> rowWithCols = (row, colsArr) -> {
@@ -164,10 +165,10 @@ public final class LevelBuilder {
         };
 
         java.util.function.BiConsumer<Point, String> linkButton = (btnTile, doorId) ->
-                m.buttonToDoorId.put(btnTile, doorId);
+                m.getButtonToDoorId().put(btnTile, doorId);
 
         java.util.function.BiConsumer<Point, Point> linkTeleport = (fromTile, toTile) ->
-                m.teleportDestTile.put(fromTile, toTile);
+                m.getTeleportDestTile().put(fromTile, toTile);
 
         addDoorTiles.accept("D1", colWithRows.apply(new int[]{8, 9}, 11));
         linkButton.accept(RC.apply(35, 25), "D1");
@@ -201,16 +202,16 @@ public final class LevelBuilder {
     }
 
     static void removeDoorTilesFromMap(LevelModel m, String doorId) {
-        for (Map.Entry<Point, String> e : m.doorPosToId.entrySet()) {
+        for (Map.Entry<Point, String> e : m.getDoorPosToId().entrySet()) {
             if (doorId.equals(e.getValue())) {
                 Point t = e.getKey();
                 int rr = t.y;
                 int cc = t.x;
-                if (rr >= 0 && rr < m.rows && cc >= 0 && cc < m.cols) {
-                    m.map[rr][cc] = '0';
+                if (rr >= 0 && rr < m.getRows() && cc >= 0 && cc < m.getCols()) {
+                    m.getMap()[rr][cc] = '0';
                 }
             }
         }
-        m.doorPosToId.entrySet().removeIf(en -> doorId.equals(en.getValue()));
+        m.getDoorPosToId().entrySet().removeIf(en -> doorId.equals(en.getValue()));
     }
 }

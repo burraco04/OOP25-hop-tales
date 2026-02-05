@@ -18,81 +18,81 @@ public final class LevelLogic {
     private static final double JUMP_SPEED = -8.0;
 
     public static void tick(FireboyWatergirlLevel panel, LevelModel m, LevelInput input) {
-        if (m.gameOver || m.levelComplete) return;
+        if (m.isGameOver() || m.isLevelComplete()) return;
 
         // input continuo
         if (input.keysDown.contains(KeyEvent.VK_LEFT) && !input.keysDown.contains(KeyEvent.VK_RIGHT)) {
-            m.fireboy.setVelocityX(-3);
+            m.getFireboy().setVelocityX(-3);
         } else if (input.keysDown.contains(KeyEvent.VK_RIGHT) && !input.keysDown.contains(KeyEvent.VK_LEFT)) {
-            m.fireboy.setVelocityX(3);
+            m.getFireboy().setVelocityX(3);
         } else {
-            m.fireboy.setVelocityX(0);
+            m.getFireboy().setVelocityX(0);
         }
 
         if (input.keysDown.contains(KeyEvent.VK_A) && !input.keysDown.contains(KeyEvent.VK_D)) {
-            m.watergirl.setVelocityX(-3);
+            m.getWatergirl().setVelocityX(-3);
         } else if (input.keysDown.contains(KeyEvent.VK_D) && !input.keysDown.contains(KeyEvent.VK_A)) {
-            m.watergirl.setVelocityX(3);
+            m.getWatergirl().setVelocityX(3);
         } else {
-            m.watergirl.setVelocityX(0);
+            m.getWatergirl().setVelocityX(0);
         }
 
         if (input.fireboyJumpQueued) {
-            tryJump(m.fireboy);
+            tryJump(m.getFireboy());
             input.fireboyJumpQueued = false;
         }
         if (input.watergirlJumpQueued) {
-            tryJump(m.watergirl);
+            tryJump(m.getWatergirl());
             input.watergirlJumpQueued = false;
         }
 
         // push massi
-        for (model.objects.impl.Boulder b : m.boulders) {
-            b.tryPushBy(m.fireboy, panel);
-            b.tryPushBy(m.watergirl, panel);
+        for (model.objects.impl.Boulder b : m.getBoulders()) {
+            b.tryPushBy(m.getFireboy(), panel);
+            b.tryPushBy(m.getWatergirl(), panel);
         }
 
         // update player
-        updatePlayer(m, m.fireboy);
-        updatePlayer(m, m.watergirl);
+        updatePlayer(m, m.getFireboy());
+        updatePlayer(m, m.getWatergirl());
 
         // fisica massi
-        for (model.objects.impl.Boulder b : m.boulders) b.updatePhysics(panel);
+        for (model.objects.impl.Boulder b : m.getBoulders()) b.updatePhysics(panel);
 
         // schiacciamento
-        for (model.objects.impl.Boulder b : m.boulders) {
+        for (model.objects.impl.Boulder b : m.getBoulders()) {
             if (b.vy > 0) {
-                if (isCrushedByBoulder(panel, m.fireboy, b) || isCrushedByBoulder(panel, m.watergirl, b)) {
-                    m.gameOver = true;
+                if (isCrushedByBoulder(panel, m.getFireboy(), b) || isCrushedByBoulder(panel, m.getWatergirl(), b)) {
+                    m.setGameOver(true);
                     break;
                 }
             }
         }
 
         // lava
-        if (LevelQueries.touchesLava(m, m.fireboy) || LevelQueries.touchesLava(m, m.watergirl)) m.gameOver = true;
+        if (LevelQueries.touchesLava(m, m.getFireboy()) || LevelQueries.touchesLava(m, m.getWatergirl())) m.setGameOver(true);
 
         // monete
-        LevelInteractions.collectCoins(m, m.fireboy);
-        LevelInteractions.collectCoins(m, m.watergirl);
+        LevelInteractions.collectCoins(m, m.getFireboy());
+        LevelInteractions.collectCoins(m, m.getWatergirl());
 
         // bottoni
-        LevelInteractions.handleButtons(m, m.fireboy);
-        LevelInteractions.handleButtons(m, m.watergirl);
+        LevelInteractions.handleButtons(m, m.getFireboy());
+        LevelInteractions.handleButtons(m, m.getWatergirl());
 
         // teleport
-        LevelInteractions.handleTeleport(m, m.fireboy);
-        LevelInteractions.handleTeleport(m, m.watergirl);
+        LevelInteractions.handleTeleport(m, m.getFireboy());
+        LevelInteractions.handleTeleport(m, m.getWatergirl());
 
         // bilancia attiva se un masso sta sulla piattaforma sinistra
         boolean balanceActive = false;
-        model.objects.impl.MovingPlatform leftPlatform = m.platforms.stream()
+        model.objects.impl.MovingPlatform leftPlatform = m.getPlatforms().stream()
                 .filter(p -> p.isLeftSide)
                 .min(Comparator.comparingInt(model.objects.impl.MovingPlatform::getX))
                 .orElse(null);
 
         if (leftPlatform != null) {
-            for (model.objects.impl.Boulder b : m.boulders) {
+            for (model.objects.impl.Boulder b : m.getBoulders()) {
                 if (isBoulderOnPlatform(b, leftPlatform)) {
                     balanceActive = true;
                     break;
@@ -101,15 +101,15 @@ public final class LevelLogic {
         }
 
         // muovi piattaforme
-        for (model.objects.impl.MovingPlatform p : m.platforms) p.updateBalance(balanceActive);
+        for (model.objects.impl.MovingPlatform p : m.getPlatforms()) p.updateBalance(balanceActive);
 
         // trascina massi sopra piattaforme
-        for (model.objects.impl.MovingPlatform p : m.platforms) {
+        for (model.objects.impl.MovingPlatform p : m.getPlatforms()) {
             int dx = p.deltaX();
             int dy = p.deltaY();
             if (dx == 0 && dy == 0) continue;
 
-            for (model.objects.impl.Boulder b : m.boulders) {
+            for (model.objects.impl.Boulder b : m.getBoulders()) {
                 if (isBoulderOnPlatform(b, p)) {
                     b.translate(dx, dy);
 
@@ -118,28 +118,28 @@ public final class LevelLogic {
         }
 
         // trascina player sopra piattaforme
-        for (model.objects.impl.MovingPlatform p : m.platforms) {
+        for (model.objects.impl.MovingPlatform p : m.getPlatforms()) {
             int dx = p.deltaX();
             int dy = p.deltaY();
             if (dx == 0 && dy == 0) continue;
 
-            if (isPlayerOnPlatform(m.fireboy, p)) {
-                m.fireboy.setX(m.fireboy.getX() + dx);
-                m.fireboy.setY(m.fireboy.getY() + dy);
-                m.fireboy.setVelocityY(0);
-                m.fireboy.setOnGround(true);
+            if (isPlayerOnPlatform(m.getFireboy(), p)) {
+                m.getFireboy().setX(m.getFireboy().getX() + dx);
+                m.getFireboy().setY(m.getFireboy().getY() + dy);
+                m.getFireboy().setVelocityY(0);
+                m.getFireboy().setOnGround(true);
             }
 
-            if (isPlayerOnPlatform(m.watergirl, p)) {
-                m.watergirl.setX(m.watergirl.getX() + dx);
-                m.watergirl.setY(m.watergirl.getY() + dy);
-                m.watergirl.setVelocityY(0);
-                m.watergirl.setOnGround(true);
+            if (isPlayerOnPlatform(m.getWatergirl(), p)) {
+                m.getWatergirl().setX(m.getWatergirl().getX() + dx);
+                m.getWatergirl().setY(m.getWatergirl().getY() + dy);
+                m.getWatergirl().setVelocityY(0);
+                m.getWatergirl().setOnGround(true);
             }
         }
 
         // goal
-        if (LevelQueries.isOnGoal(m, m.fireboy) && LevelQueries.isOnGoal(m, m.watergirl)) m.levelComplete = true;
+        if (LevelQueries.isOnGoal(m, m.getFireboy()) && LevelQueries.isOnGoal(m, m.getWatergirl())) m.setLevelComplete(true);
     }
 
     private static boolean isBoulderOnPlatform(model.objects.impl.Boulder b, model.objects.impl.MovingPlatform p) {

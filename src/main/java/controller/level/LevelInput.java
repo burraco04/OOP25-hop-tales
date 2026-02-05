@@ -26,11 +26,11 @@ public final class LevelInput {
         if (k == KeyEvent.VK_W) watergirlJumpQueued = true;
 
         if (k == KeyEvent.VK_R) {
-            if (m.gameOver || m.levelComplete) panel.restartLevel();
+            if (m.isGameOver() || m.isLevelComplete()) panel.restartLevel();
         }
 
         if (k == KeyEvent.VK_H) {
-            if (m.gameOver || m.levelComplete) {
+            if (m.isGameOver() || m.isLevelComplete()) {
                 if (onHome != null) {
                     panel.goHome();
                 } else {

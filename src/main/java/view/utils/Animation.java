@@ -22,7 +22,10 @@ public final class Animation {
             throw new IllegalArgumentException("frames vuoto");
         }
         this.currentFrame = 0;
-        this.frames = frames.clone();
+        this.frames = new Image[frames.length];
+        for (int i = 0; i < frames.length; i++) {
+        this.frames[i] = frames[i];
+        }
         this.frameDuration = frameDuration;
     }
 

@@ -14,6 +14,7 @@ public class CollectableManager {
     @SuppressFBWarnings(value = "UWF_UNWRITTEN_FIELD", justification = "Legacy field kept for API stability.")
     private static int collectedCoins;
     private static final String COIN_SOUND = "coin_sound";
+    private static final String POWERUP_SOUND = "powerup_sound";
     private final World world;
     private boolean powerupCollected;
 
@@ -25,7 +26,9 @@ public class CollectableManager {
     public CollectableManager(final World world) {
         this.world = world;
         AudioManager.load(COIN_SOUND, "/sounds/CoinSound.wav");
+        AudioManager.load(POWERUP_SOUND, "/sounds/Powerup.wav");
         AudioManager.setVolume(AudioManager.getClip(COIN_SOUND), AudioManager.getMusicVolume());
+        AudioManager.setVolume(AudioManager.getClip(POWERUP_SOUND), AudioManager.getMusicVolume());
     }
 
     /**
@@ -43,6 +46,7 @@ public class CollectableManager {
     private void collectPowerup() {
         powerupCollected = true;
         world.getPlayer().setPowerUp(true);
+        AudioManager.play(POWERUP_SOUND);
     }
 
     /**

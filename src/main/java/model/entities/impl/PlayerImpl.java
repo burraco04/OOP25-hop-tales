@@ -123,7 +123,6 @@ public final class PlayerImpl implements Player {
     @Override
     public boolean applyDamage() {
         final long now = System.currentTimeMillis();
-        
         if (lastDamageMillis != 0 && isHurt()) {
             return false;
         }

@@ -8,18 +8,12 @@ import model.entities.api.Player;
 /**
  * Default physics-backed implementation of the controllable player.
  */
-@SuppressWarnings({"PMD.UnusedPrivateField", "PMD.ImmutableField"})
 public final class PlayerImpl implements Player {
     private static final int MIN_DELTA_SECONDS = 1;
     private final double width;
     private final double height;
     private double x;
     private double y;
-    private boolean onGround;
-    private boolean facingRight = true;
-    private boolean leftPressed;
-    private boolean rightPressed;
-    private boolean jumpQueued;
     private int healthPoints;
     private boolean powerUpped;
     private long lastDamageMillis;
@@ -45,30 +39,6 @@ public final class PlayerImpl implements Player {
         this.height = height;
         this.healthPoints = GameConstants.STARTING_HEALTH;
         this.powerUpped = false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setLeftPressed(final boolean pressed) {
-        this.leftPressed = pressed;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setRightPressed(final boolean pressed) {
-        this.rightPressed = pressed;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void queueJump() {
-        this.jumpQueued = true;
     }
 
     /**

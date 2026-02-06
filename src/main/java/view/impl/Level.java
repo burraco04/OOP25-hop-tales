@@ -100,7 +100,6 @@ public class Level extends JPanel {
             return;
         }
 
-        drawHUD(g, timePassed);
         final int offsetX = camera.getX();
 
         for (final var object : world.getEntities()) {
@@ -141,6 +140,9 @@ public class Level extends JPanel {
             GameConstants.TILE_SIZE * GameConstants.PLAYER_HEIGHT_TILES,
             null
         );
+
+        drawHUD(g, timePassed);
+
     }
 
     /**

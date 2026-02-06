@@ -6,6 +6,10 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 import controller.api.ControllerObserver;
+import controller.deserialization.level.EntityData;
+import controller.deserialization.level.EntityFactory;
+import controller.deserialization.level.LevelData;
+import controller.deserialization.level.LevelLoader;
 import controller.impl.CollectablesController;
 import controller.impl.EnemyController;
 import controller.impl.PlayerController;
@@ -33,7 +37,7 @@ public final class GameController implements ActionListener {
      * @param view the {@link View} that is responsible for the game.
      * @param levelId number representing the level selected.
      */
-    public GameController(final View view, final int levelId) {
+    public GameController(final View view, final int levelId, final String levelPath) {
         this.view = view;
         this.world = new World(levelId);
         this.playerController = new PlayerController(this.world);
@@ -43,6 +47,19 @@ public final class GameController implements ActionListener {
         this.timer = new Timer(GameConstants.MILLIS_PER_SECOND / GameConstants.TARGET_UPS, this);
         this.start();
         this.view.showLevel(this.world, kim);
+
+        final LevelData data = LevelLoader.load(levelPath);
+
+        world.getPlayer().setX(data.getSpawnPointX());
+        world.getPlayer().setY(data.getSpawnPointY());
+
+        for (final EntityData e : data.getEntities()) {
+           world.addEntities(EntityFactory.create(e));
+        }
+
+        for (final EntityData e : data.getEnemies()) {
+           world.addEnemy(EntityFactory.createEnemy(e));
+        }
     }
 
     /**

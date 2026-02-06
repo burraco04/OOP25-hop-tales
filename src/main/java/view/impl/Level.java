@@ -44,18 +44,7 @@ public class Level extends JPanel {
     @SuppressWarnings("PMD.ConstructorCallsOverridableMethod")
     public Level(final String levelPath, final World world, final KeyboardInputManager kim) {
         this.world = world;
-        final LevelData data = LevelLoader.load(levelPath);
-
-        world.getPlayer().setX(data.getSpawnPointX());
-        world.getPlayer().setY(data.getSpawnPointY());
-
-        for (final EntityData e : data.getEntities()) {
-           world.addEntities(EntityFactory.create(e));
-        }
-
-        for (final EntityData e : data.getEnemies()) {
-           world.addEnemy(EntityFactory.createEnemy(e));
-        }
+    
 
         this.timer = new Timer(MILLISEC, e -> {
             update();

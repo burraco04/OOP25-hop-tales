@@ -140,7 +140,6 @@ public class Level extends JPanel {
             GameConstants.TILE_SIZE * GameConstants.PLAYER_HEIGHT_TILES,
             null
         );
-
         drawHUD(g, timePassed);
 
     }
@@ -200,6 +199,14 @@ public class Level extends JPanel {
                     GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
             }
             default -> throw new IllegalArgumentException("Illegal health points");
+        }
+        if (world.getPlayer().hasPowerUp()) {
+            g.drawImage(
+                Draw.get(GameConstants.FULL_HEART, timePassed),
+                GameConstants.TILE_SIZE * 4,
+                GameConstants.TILE_SIZE,
+                null
+            );
         }
         final Font coinFont = new Font("Arial", Font.BOLD, GameConstants.COIN_COUNT_SIZE);
         g.setFont(coinFont);

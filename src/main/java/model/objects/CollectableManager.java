@@ -42,6 +42,7 @@ public class CollectableManager {
      */
     private void collectPowerup() {
         powerupCollected = true;
+        world.getPlayer().setPowerUp(true);
     }
 
     /**

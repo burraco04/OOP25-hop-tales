@@ -22,6 +22,13 @@ public interface Player extends Entity {
     boolean hasPowerUp();
 
     /**
+     * Set whether the player currently owns a power-up.
+     *
+     * @param poweredUp {@code true} if the player has a power-up
+     */
+    void setPowerUp(boolean poweredUp);
+
+    /**
      * Apply damage to the player if the cooldown allows it.
      *
      * @return {@code true} if damage was applied.

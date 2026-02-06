@@ -113,12 +113,23 @@ public final class PlayerImpl implements Player {
      * {@inheritDoc}
      */
     @Override
+    public void setPowerUp(final boolean poweredUp) {
+        this.powerUpped = poweredUp;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean applyDamage() {
         final long now = System.currentTimeMillis();
+        
         if (lastDamageMillis != 0 && isHurt()) {
             return false;
         }
-        if (healthPoints > 0) {
+        if (powerUpped) {
+            powerUpped = false;
+        } else if (healthPoints > 0) {
             healthPoints -= 1;
         }
         AudioManager.play("player_damaged");

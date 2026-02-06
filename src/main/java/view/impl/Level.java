@@ -38,7 +38,7 @@ public class Level extends JPanel {
      * @param kim KeyboardInputManager instance.
      */
     @SuppressWarnings("PMD.ConstructorCallsOverridableMethod")
-    public Level(final String levelPath, final World world, final KeyboardInputManager kim) {
+    public Level(final World world, final KeyboardInputManager kim) {
         this.world = world;
 
         this.timer = new Timer(MILLISEC, e -> {

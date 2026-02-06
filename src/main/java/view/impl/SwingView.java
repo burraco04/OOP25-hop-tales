@@ -25,7 +25,7 @@ public final class SwingView implements View {
      * Initializes the main application window and configures basic settings such as size and audio.
      */
     public SwingView() {
-        this.frame = new JFrame("PENALDO & PESSI");
+        this.frame = new JFrame("HOPTALES");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setSize(WIDTH, HEIGHT);
         AudioManager.load(MENU_OST_NAME, "/sounds/MenuSoundtrack.wav");
@@ -96,7 +96,7 @@ public final class SwingView implements View {
     @Override
     public void showLevel(final World world, final KeyboardInputManager kim) {
         stopActiveLevel();
-        this.activeLevel = new Level(world.getJsonPath(), world, kim);
+        this.activeLevel = new Level(world, kim);
         this.frame.setContentPane(this.activeLevel);
         this.frame.revalidate();
         this.frame.repaint();

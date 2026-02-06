@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import model.entities.api.Enemy;
 import model.objects.api.WorldObject;
 import model.objects.impl.brick.Brick;
 import model.objects.impl.brick.PowerupBlock;
 import model.objects.impl.collectable.Powerup;
-import model.entities.api.Enemy;
 
 /**
  * Class responsible for checking and handling the collisions in the game phase.
@@ -291,6 +291,6 @@ public final class Collider {
         if (levelId == 2) {
             return GameConstants.LEVEL_2_WIDTH;
         }
-        throw new IllegalArgumentException("levelId non accettabile");
+        throw new IllegalArgumentException("levelId not acceptable");
     }
 }

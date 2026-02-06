@@ -110,7 +110,7 @@ public final class Draw {
             case "floating_dirt_middle" -> "img/floating_dirt_middle.png";
             case "floating_dirt_left" -> "img/floating_dirt_left.png";
             case "floating_dirt_right" -> "img/floating_dirt_right.png";
-            default -> throw new IllegalArgumentException("Tipo sprite sconosciuto: " + type);
+            default -> throw new IllegalArgumentException("Unknown sprite type: " + type);
         };
 
         return loadFromResources(path);
@@ -147,7 +147,7 @@ public final class Draw {
     private static Image loadFromResources(final String path) {
         try (var in = Draw.class.getClassLoader().getResourceAsStream(path)) {
             if (in == null) {
-                throw new IllegalArgumentException("Sprite non trovato in resources: " + path);
+                throw new IllegalArgumentException("Sprite not found in resources: " + path);
             }
             return ImageIO.read(in);
         } catch (final IOException e) {

@@ -199,7 +199,7 @@ public class ShopButton extends JPanel {
         } else {
             JOptionPane.showMessageDialog(
                 this,
-                "Fondi insufficienti, ti mancano " + (GameConstants.SKIN_COST - CoinStorage.getCoins()),
+                "Insufficient funds, you're missing " + (GameConstants.SKIN_COST - CoinStorage.getCoins()),
                 "Shop",
                 JOptionPane.WARNING_MESSAGE
             );

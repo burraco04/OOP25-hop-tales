@@ -34,7 +34,7 @@ public final class Shop extends JPanel {
      */
     public Shop(final ControllerMenu controller) {
     CoinStorage.loadTotalCoins();
-    final JLabel title = new JLabel("penaldooo");
+    final JLabel title = new JLabel("SHOP");
     title.setFont(this.font.getFont(TITLE_FONT, TITLE_SIZE, this));
 
     setBackground(GameConstants.BACK_COLOR);

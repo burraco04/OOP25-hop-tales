@@ -33,7 +33,7 @@ public final class LevelLoader {
         final var in = LevelLoader.class.getClassLoader().getResourceAsStream(path);
 
         if (in == null) {
-            throw new IllegalArgumentException("File non trovato in resources: " + path);
+            throw new IllegalArgumentException("File not found in resources: " + path);
         }
          try (var reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
             return GSON.fromJson(reader, LevelData.class);

@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -28,7 +29,7 @@ public final class FontFactory {
             font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/Font/" + nameFont + ".ttf"))
             .deriveFont(fontSize);
         } catch (FontFormatException | IOException e) {
-            JOptionPane.showMessageDialog(component, "non si carica il font.");
+            JOptionPane.showMessageDialog(component, "Font not loading");
         } 
         return font;
 

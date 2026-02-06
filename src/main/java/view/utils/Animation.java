@@ -19,7 +19,7 @@ public final class Animation {
      */
     public Animation(final Image[] frames, final long frameDuration) {
         if (frames == null || frames.length == 0) {
-            throw new IllegalArgumentException("frames vuoto");
+            throw new IllegalArgumentException("Empty frames");
         }
         this.currentFrame = 0;
         this.frames = new Image[frames.length];

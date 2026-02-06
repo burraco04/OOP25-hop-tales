@@ -36,7 +36,7 @@ public final class Menu extends JPanel {
 
     public Menu(final ControllerMenu controller) {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        final JLabel title = new JLabel("PESSI & PENALDO");
+        final JLabel title = new JLabel("HOP TALES");
         title.setFont(this.fontFactory.getFont(TITLE_FONT, TITLE_SIZE, this));
         title.setAlignmentY(CENTER_ALIGNMENT);
 

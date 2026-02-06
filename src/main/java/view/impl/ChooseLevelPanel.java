@@ -33,13 +33,13 @@ public final class ChooseLevelPanel extends JPanel {
 
     public ChooseLevelPanel(final ControllerMenu controller) {
 
-        final JLabel title = new JLabel("GIVE ME SOME PENALTY");
+        final JLabel title = new JLabel("CHOOSE THE LEVEL");
         setBackground(GameConstants.BACK_COLOR);
 
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        final JButton level1 = this.buttonFactory.buildbutton("penalty");
-        final JButton level2 = this.buttonFactory.buildbutton("penalty2");
-        final JButton level3 = this.buttonFactory.buildbutton("penalty3");
+        final JButton level1 = this.buttonFactory.buildbutton("LEVEL_1");
+        final JButton level2 = this.buttonFactory.buildbutton("LEVEL_2");
+        final JButton level3 = this.buttonFactory.buildbutton("LEVEL_3");
 
         title.setFont(title.getFont().deriveFont(TITLE_SIZE));
 

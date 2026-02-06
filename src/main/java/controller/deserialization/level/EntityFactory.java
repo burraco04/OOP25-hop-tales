@@ -78,7 +78,7 @@ public final class EntityFactory {
                     }
                 }
             }
-            default -> throw new IllegalArgumentException("Macro sconosciuta: " + macro.getType());
+            default -> throw new IllegalArgumentException("Unknown macro: " + macro.getType());
         }
 
         return entities;
@@ -117,7 +117,7 @@ public final class EntityFactory {
             case "floating_dirt_middle" -> new FloatingDirtMid(x, y);
             case "floating_dirt_left" -> new FloatingDirtleLeft(x, y);
             case "floating_dirt_right" -> new FloatingDirtRight(x, y);
-            default -> throw new IllegalArgumentException("Tipo entita sconosciuta: " + type);
+            default -> throw new IllegalArgumentException("Unknown entity: " + type);
         };
     }
 
@@ -131,7 +131,7 @@ public final class EntityFactory {
         return switch (data.getType()) {
             case "walker" -> new WalkerImpl(data.getX(), data.getY(), EnemyType.WALKER);
             case "jumper" -> new JumperImpl(data.getX(), data.getY(), EnemyType.JUMPER);
-            default -> throw new IllegalArgumentException("Tipo nemico sconosciuto: " + data.getType());
+            default -> throw new IllegalArgumentException("Unknown enemy: " + data.getType());
         };
     }
 }

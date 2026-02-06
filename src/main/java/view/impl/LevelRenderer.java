@@ -10,78 +10,109 @@ import java.awt.geom.AffineTransform;
 import model.level.LevelConstants;
 import model.level.LevelModel;
 
+/**
+ * Renders the third level view.
+ */
 public final class LevelRenderer {
 
-    private LevelRenderer() {}
-// disegna tutto il livello (mappa, oggetti, player, overlay finale)
-    public static void render(FireboyWatergirlLevel panel, LevelModel m, Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
+    private static final int OVERLAY_ALPHA = 170;
+    private static final int TITLE_FONT_SIZE = 40;
+    private static final int SUBTITLE_FONT_SIZE = 18;
+    private static final int TITLE_OFFSET = 20;
+    private static final int SUBTITLE_OFFSET = 20;
 
-        int worldW = m.getCols() * LevelConstants.TILE;
-        int worldH = m.getRows() * LevelConstants.TILE;
+    private LevelRenderer() {
+    }
 
-        double sx = panel.getWidth() / (double) worldW;
-        double sy = panel.getHeight() / (double) worldH;
-        m.setViewScale(Math.min(sx, sy));
+    /**
+     * Draws the level (map, objects, players, overlays).
+     *
+     * @param panel view panel
+     * @param model level model
+     * @param graphics graphics context
+     */
+    public static void render(final FireboyWatergirlLevel panel, final LevelModel model,
+            final Graphics graphics) {
+        final Graphics2D g2 = (Graphics2D) graphics;
 
-        m.setViewOffsetX((int) ((panel.getWidth() - worldW * m.getViewScale()) / 2.0));
-        m.setViewOffsetY((int) ((panel.getHeight() - worldH * m.getViewScale()) / 2.0));
+        final int worldW = model.getCols() * LevelConstants.TILE;
+        final int worldH = model.getRows() * LevelConstants.TILE;
 
-        AffineTransform old = g2.getTransform();
+        final double sx = panel.getWidth() / (double) worldW;
+        final double sy = panel.getHeight() / (double) worldH;
+        model.setViewScale(Math.min(sx, sy));
 
-        g2.translate(m.getViewOffsetX(), m.getViewOffsetY());
-        g2.scale(m.getViewScale(), m.getViewScale());
+        model.setViewOffsetX((int) ((panel.getWidth() - worldW * model.getViewScale()) / 2.0));
+        model.setViewOffsetY((int) ((panel.getHeight() - worldH * model.getViewScale()) / 2.0));
 
-        if (m.getImgMap() != null) {
-            g2.drawImage(m.getImgMap(), 0, 0, worldW, worldH, null);
+        final AffineTransform old = g2.getTransform();
+
+        g2.translate(model.getViewOffsetX(), model.getViewOffsetY());
+        g2.scale(model.getViewScale(), model.getViewScale());
+
+        if (model.getImgMap() != null) {
+            g2.drawImage(model.getImgMap(), 0, 0, worldW, worldH, null);
         } else {
             g2.setColor(Color.BLACK);
             g2.fillRect(0, 0, worldW, worldH);
         }
 
-        for (model.objects.impl.Door d : m.getDoors()) d.draw(g2);
+        for (final model.objects.impl.Door d : model.getDoors()) {
+            d.draw(g2);
+        }
 
         // coin: non hanno draw, quindi le disegniamo qui
-        if (m.getImgCoinGold() != null) {
-            for (model.objects.impl.collectable.Coin c : m.getCoins()) {
-                g2.drawImage(m.getImgCoinGold(), c.getX(), c.getY(), LevelConstants.TILE, LevelConstants.TILE, null);
+        if (model.getImgCoinGold() != null) {
+            for (final model.objects.impl.collectable.Coin c : model.getCoins()) {
+                g2.drawImage(model.getImgCoinGold(), c.getX(), c.getY(),
+                        LevelConstants.TILE, LevelConstants.TILE, null);
             }
         }
 
-        for (model.objects.impl.MovingPlatform p : m.getPlatforms()) p.draw(g2);
-        for (model.objects.impl.Boulder b : m.getBoulders()) b.draw(g2);
+        for (final model.objects.impl.MovingPlatform p : model.getPlatforms()) {
+            p.draw(g2);
+        }
+        for (final model.objects.impl.Boulder b : model.getBoulders()) {
+            b.draw(g2);
+        }
 
-        drawPlayer(g2, m.getFireboy(), m.getImgP1());
-        drawPlayer(g2, m.getWatergirl(), m.getImgP2());
+        drawPlayer(g2, model.getFireboy(), model.getImgP1());
+        drawPlayer(g2, model.getWatergirl(), model.getImgP2());
 
         g2.setTransform(old);
 
-        if (m.isGameOver()) drawOverlay(g2, panel, "HAI PERSO", "R = Retry, H = Home");
-        else if (m.isLevelComplete()) drawOverlay(g2, panel, "LIVELLO COMPLETATO", "R = Replay, H = Home");
+        if (model.isGameOver()) {
+            drawOverlay(g2, panel, "HAI PERSO", "R = Retry, H = Home");
+        } else if (model.isLevelComplete()) {
+            drawOverlay(g2, panel, "LIVELLO COMPLETATO", "R = Replay, H = Home");
+        }
     }
+
     // schermata scura + testo centrato (game over / vittoria)
-    private static void drawOverlay(Graphics g, FireboyWatergirlLevel panel, String title, String subtitle) {
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(new Color(0, 0, 0, 170));
+    private static void drawOverlay(final Graphics g, final FireboyWatergirlLevel panel,
+            final String title, final String subtitle) {
+        final Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(new Color(0, 0, 0, OVERLAY_ALPHA));
         g2.fillRect(0, 0, panel.getWidth(), panel.getHeight());
 
         g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Arial", Font.BOLD, 40));
-        FontMetrics fm = g2.getFontMetrics();
-        int tx = (panel.getWidth() - fm.stringWidth(title)) / 2;
-        g2.drawString(title, tx, panel.getHeight() / 2 - 20);
+        g2.setFont(new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
+        final FontMetrics fm = g2.getFontMetrics();
+        final int tx = (panel.getWidth() - fm.stringWidth(title)) / 2;
+        g2.drawString(title, tx, panel.getHeight() / 2 - TITLE_OFFSET);
 
-        g2.setFont(new Font("Arial", Font.PLAIN, 18));
-        FontMetrics fm2 = g2.getFontMetrics();
-        int sx = (panel.getWidth() - fm2.stringWidth(subtitle)) / 2;
-        g2.drawString(subtitle, sx, panel.getHeight() / 2 + 20);
+        g2.setFont(new Font("Arial", Font.PLAIN, SUBTITLE_FONT_SIZE));
+        final FontMetrics fm2 = g2.getFontMetrics();
+        final int sx = (panel.getWidth() - fm2.stringWidth(subtitle)) / 2;
+        g2.drawString(subtitle, sx, panel.getHeight() / 2 + SUBTITLE_OFFSET);
     }
 
-    private static void drawPlayer(Graphics2D g2, model.entities.api.Player p, java.awt.image.BufferedImage sprite) {
-        int x = (int) Math.round(p.getX());
-        int y = (int) Math.round(p.getY());
-        int w = (int) Math.round(p.getWidth());
-        int h = (int) Math.round(p.getHeight());
+    private static void drawPlayer(final Graphics2D g2, final model.entities.api.Player player,
+            final java.awt.image.BufferedImage sprite) {
+        final int x = (int) Math.round(player.getX());
+        final int y = (int) Math.round(player.getY());
+        final int w = (int) Math.round(player.getWidth());
+        final int h = (int) Math.round(player.getHeight());
         if (sprite != null) {
             g2.drawImage(sprite, x, y, w, h, null);
         } else {

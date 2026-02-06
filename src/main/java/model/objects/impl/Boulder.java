@@ -5,65 +5,112 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import model.entities.impl.PlayerImpl;
-import model.objects.api.WorldEntity;
+import model.objects.api.AbstractWorldEntity;
 
-public class Boulder extends WorldEntity {
+/**
+ * Boulder entity with simple physics and push interaction.
+ */
+public final class Boulder extends AbstractWorldEntity {
 
-    public double vy = 0;
+    private static final double GRAVITY = 0.35;
+    private static final double MAX_FALL_SPEED = 10.0;
+    private static final int CORNER_OFFSET = 1;
+    private static final int OPPOSITE_OFFSET = 2;
+
+    private double velocityY;
     private final BufferedImage tileTexture;
     private final int tileSize;
 
-    public Boulder(int x, int y, int w, int h, BufferedImage tileTexture, int tileSize) {
+    /**
+     * Creates a boulder.
+     *
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param w width
+     * @param h height
+     * @param tileTexture texture tile
+     * @param tileSize tile size
+     */
+    public Boulder(
+            final int x,
+            final int y,
+            final int w,
+            final int h,
+            final BufferedImage tileTexture,
+            final int tileSize
+    ) {
         super(x, y, w, h, "BOULDER");
         this.tileTexture = tileTexture;
         this.tileSize = tileSize;
     }
 
-    public void updatePhysics(FireboyWatergirlLevel world) {
-        vy += 0.35;
-        if (vy > 10) vy = 10;
+    /**
+     * Returns the current vertical velocity.
+     *
+     * @return vertical velocity
+     */
+    public double getVelocityY() {
+        return velocityY;
+    }
 
-        int ny = (int) (y + vy);
+    /**
+     * Updates physics for the boulder.
+     *
+     * @param world game world
+     */
+    public void updatePhysics(final FireboyWatergirlLevel world) {
+        velocityY += GRAVITY;
+        if (velocityY > MAX_FALL_SPEED) {
+            velocityY = MAX_FALL_SPEED;
+        }
 
-        if (!collides(world, x, ny)) {
-            y = ny;
+        final int nextY = (int) (getY() + velocityY);
+
+        if (!collides(world, getX(), nextY)) {
+            setY(nextY);
         } else {
-            vy = 0;
+            velocityY = 0;
         }
     }
 
-    private boolean collides(FireboyWatergirlLevel w, int nx, int ny) {
-        return w.isSolidAtPixel(nx + 1, ny + 1, this)
-                || w.isSolidAtPixel(nx + this.w - 2, ny + 1, this)
-                || w.isSolidAtPixel(nx + 1, ny + this.h - 2, this)
-                || w.isSolidAtPixel(nx + this.w - 2, ny + this.h - 2, this);
+    private boolean collides(final FireboyWatergirlLevel world, final int nx, final int ny) {
+        return world.isSolidAtPixel(nx + CORNER_OFFSET, ny + CORNER_OFFSET, this)
+                || world.isSolidAtPixel(nx + getW() - OPPOSITE_OFFSET, ny + CORNER_OFFSET, this)
+                || world.isSolidAtPixel(nx + CORNER_OFFSET, ny + getH() - OPPOSITE_OFFSET, this)
+                || world.isSolidAtPixel(nx + getW() - OPPOSITE_OFFSET, ny + getH() - OPPOSITE_OFFSET, this);
     }
 
-    public void tryPushBy(PlayerImpl player, FireboyWatergirlLevel world) {
-        Rectangle pr = new Rectangle(
+    /**
+     * Attempts to push the boulder by the given player.
+     *
+     * @param player player instance
+     * @param world game world
+     */
+    public void tryPushBy(final PlayerImpl player, final FireboyWatergirlLevel world) {
+        final Rectangle playerRect = new Rectangle(
                 (int) Math.round(player.getX()),
                 (int) Math.round(player.getY()),
                 (int) Math.round(player.getWidth()),
                 (int) Math.round(player.getHeight())
         );
 
-        Rectangle br = rect();
-        if (!pr.intersects(br)) {
+        final Rectangle boulderRect = rect();
+        if (!playerRect.intersects(boulderRect)) {
             return;
         }
 
-        double vx = player.getVelocityX();
-        if (vx == 0) {
+        final double velocityX = player.getVelocityX();
+        if (velocityX == 0) {
             return;
         }
 
-        int step = vx > 0 ? 1 : -1;
-        int steps = (int) Math.abs(vx);
+        final int step = velocityX > 0 ? 1 : -1;
+        final int steps = (int) Math.abs(velocityX);
 
         for (int i = 0; i < steps; i++) {
-            int nextX = x + step;
-            if (!collides(world, nextX, y)) {
-                x = nextX;
+            final int nextX = getX() + step;
+            if (!collides(world, nextX, getY())) {
+                setX(nextX);
             } else {
                 break;
             }
@@ -71,7 +118,7 @@ public class Boulder extends WorldEntity {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(final Graphics g) {
         drawTiled(g, tileTexture, tileSize);
     }
 }

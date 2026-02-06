@@ -1,18 +1,12 @@
 package view.impl;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
-import model.CoinStorage;
-import model.entities.impl.PlayerImpl;
 import model.level.LevelBuilder;
-import model.level.LevelConstants;
 import model.level.LevelInteractions;
 import model.level.LevelModel;
 import model.level.LevelQueries;
@@ -24,7 +18,7 @@ import view.utils.Assets;
  * Pannello principale del livello di gioco.
  * Gestisce ciclo di gioco, input e rendering.
  */
-public class FireboyWatergirlLevel extends JPanel implements ActionListener, KeyListener {
+public final class FireboyWatergirlLevel extends JPanel implements ActionListener, KeyListener {
 
     private static final int FPS = 60;
 
@@ -34,10 +28,18 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
     private final LevelInput input;
     private final Runnable onHome;
 
+    /**
+     * Creates the level panel.
+     */
     public FireboyWatergirlLevel() {
         this(null);
     }
 
+    /**
+     * Creates the level panel.
+     *
+     * @param onHome callback used to return to the main menu
+     */
     public FireboyWatergirlLevel(final Runnable onHome) {
         this.model = new LevelModel();
         this.onHome = onHome;
@@ -51,69 +53,124 @@ public class FireboyWatergirlLevel extends JPanel implements ActionListener, Key
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
         LevelLogic.tick(this, model, input);
         repaint();
     }
 
-    // ====== API usata da Player/Boulder per collisioni ======
-    public boolean isSolidAtPixel(int px, int py) {
+    /**
+     * Checks if the map is solid at the given pixel coordinates.
+     *
+     * @param px x coordinate in pixels
+     * @param py y coordinate in pixels
+     * @return true if the tile is solid
+     */
+    public boolean isSolidAtPixel(final int px, final int py) {
         return isSolidAtPixel(px, py, null);
     }
 
-    public boolean isSolidAtPixel(int px, int py, Object ignore) {
+    /**
+     * Checks if the map is solid at the given pixel coordinates, ignoring an object.
+     *
+     * @param px x coordinate in pixels
+     * @param py y coordinate in pixels
+     * @param ignore object to ignore during collision checks
+     * @return true if the tile is solid
+     */
+    public boolean isSolidAtPixel(final int px, final int py, final Object ignore) {
         return LevelQueries.isSolidAtPixel(model, px, py, ignore);
     }
 
-    public boolean isLavaAtPixel(int px, int py) {
+    /**
+     * Checks if the map is lava at the given pixel coordinates.
+     *
+     * @param px x coordinate in pixels
+     * @param py y coordinate in pixels
+     * @return true if the tile is lava
+     */
+    public boolean isLavaAtPixel(final int px, final int py) {
         return LevelQueries.isLavaAtPixel(model, px, py);
     }
 
-    public boolean isOnGoal(model.entities.api.Player p) {
+    /**
+     * Checks if the player is on the goal area.
+     *
+     * @param p player instance
+     * @return true if the player reached the goal
+     */
+    public boolean isOnGoal(final model.entities.api.Player p) {
         return LevelQueries.isOnGoal(model, p);
     }
 
-    public boolean touchesLava(model.entities.api.Player p) {
+    /**
+     * Checks if the player is touching lava.
+     *
+     * @param p player instance
+     * @return true if the player touches lava
+     */
+    public boolean touchesLava(final model.entities.api.Player p) {
         return LevelQueries.touchesLava(model, p);
     }
 
-    public void collectCoins(model.entities.api.Player p) {
+    /**
+     * Collects all coins touched by the player.
+     *
+     * @param p player instance
+     */
+    public void collectCoins(final model.entities.api.Player p) {
         LevelInteractions.collectCoins(model, p);
     }
 
-    public void handleButtons(model.entities.api.Player p) {
+    /**
+     * Updates button-pad interactions for the player.
+     *
+     * @param p player instance
+     */
+    public void handleButtons(final model.entities.api.Player p) {
         LevelInteractions.handleButtons(model, p);
     }
 
-    public void handleTeleport(model.entities.api.Player p) {
+    /**
+     * Updates teleporter interactions for the player.
+     *
+     * @param p player instance
+     */
+    public void handleTeleport(final model.entities.api.Player p) {
         LevelInteractions.handleTeleport(model, p);
     }
 
     @Override
-    protected void paintComponent(java.awt.Graphics g) {
+    protected void paintComponent(final java.awt.Graphics g) {
         super.paintComponent(g);
         LevelRenderer.render(this, model, g);
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(final KeyEvent e) {
         input.keyPressed(this, model, e);
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(final KeyEvent e) {
         input.keyReleased(e);
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(final KeyEvent e) {
+        // Not used.
+    }
 
-
+    /**
+     * Restarts the current level state.
+     */
     public void restartLevel() {
         initializeLevel(false);
         input.reset();
     }
 
+    /**
+     * Returns to the main menu if available.
+     */
     public void goHome() {
         timer.stop();
         if (onHome != null) {

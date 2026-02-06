@@ -9,7 +9,6 @@ import controller.api.State;
 import model.World;
 import view.api.View;
 import java.util.Optional;
-import view.impl.FireboyWatergirlLevel;
 
 /**
  * make view.
@@ -92,9 +91,12 @@ public class SwingView implements View {
         l1.focus(); 
     }
 
+    /**
+     * Shows the level 3 panel.
+     */
     @Override
     public void showLevel3() {
-        FireboyWatergirlLevel l3 = new FireboyWatergirlLevel(
+        final FireboyWatergirlLevel l3 = new FireboyWatergirlLevel(
             () -> this.controller.handleEvent(State.MAIN_MENU, Optional.empty())
         );
         this.frame.setContentPane(l3);

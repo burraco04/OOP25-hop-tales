@@ -7,92 +7,115 @@ import java.util.Comparator;
 import model.level.LevelInteractions;
 import model.level.LevelModel;
 import model.level.LevelQueries;
+import model.objects.impl.MovingPlatform;
 import view.impl.FireboyWatergirlLevel;
 
+/**
+ * Controller for the third level gameplay loop.
+ */
 public final class LevelLogic {
-
-    private LevelLogic() {}
 
     private static final double GRAVITY = 0.35;
     private static final double MAX_FALL_SPEED = 10.0;
     private static final double JUMP_SPEED = -8.0;
+    private static final int MOVE_SPEED = 3;
+    private static final int PLATFORM_TOLERANCE = 3;
+    private static final int CRUSH_TOP_TOLERANCE = 2;
+    private static final int CRUSH_BOTTOM_TOLERANCE = 6;
 
-    public static void tick(FireboyWatergirlLevel panel, LevelModel m, LevelInput input) {
-        if (m.isGameOver() || m.isLevelComplete()) return;
+    private LevelLogic() { }
+
+    /**
+     * Advances the level simulation by one tick.
+     *
+     * @param panel view panel
+     * @param model level model
+     * @param input input handler
+     */
+    public static void tick(final FireboyWatergirlLevel panel, final LevelModel model, final LevelInput input) {
+        if (model.isGameOver() || model.isLevelComplete()) {
+            return;
+        }
 
         // input continuo
-        if (input.keysDown.contains(KeyEvent.VK_LEFT) && !input.keysDown.contains(KeyEvent.VK_RIGHT)) {
-            m.getFireboy().setVelocityX(-3);
-        } else if (input.keysDown.contains(KeyEvent.VK_RIGHT) && !input.keysDown.contains(KeyEvent.VK_LEFT)) {
-            m.getFireboy().setVelocityX(3);
+        if (input.isKeyDown(KeyEvent.VK_LEFT) && !input.isKeyDown(KeyEvent.VK_RIGHT)) {
+            model.getFireboy().setVelocityX(-MOVE_SPEED);
+        } else if (input.isKeyDown(KeyEvent.VK_RIGHT) && !input.isKeyDown(KeyEvent.VK_LEFT)) {
+            model.getFireboy().setVelocityX(MOVE_SPEED);
         } else {
-            m.getFireboy().setVelocityX(0);
+            model.getFireboy().setVelocityX(0);
         }
 
-        if (input.keysDown.contains(KeyEvent.VK_A) && !input.keysDown.contains(KeyEvent.VK_D)) {
-            m.getWatergirl().setVelocityX(-3);
-        } else if (input.keysDown.contains(KeyEvent.VK_D) && !input.keysDown.contains(KeyEvent.VK_A)) {
-            m.getWatergirl().setVelocityX(3);
+        if (input.isKeyDown(KeyEvent.VK_A) && !input.isKeyDown(KeyEvent.VK_D)) {
+            model.getWatergirl().setVelocityX(-MOVE_SPEED);
+        } else if (input.isKeyDown(KeyEvent.VK_D) && !input.isKeyDown(KeyEvent.VK_A)) {
+            model.getWatergirl().setVelocityX(MOVE_SPEED);
         } else {
-            m.getWatergirl().setVelocityX(0);
+            model.getWatergirl().setVelocityX(0);
         }
 
-        if (input.fireboyJumpQueued) {
-            tryJump(m.getFireboy());
-            input.fireboyJumpQueued = false;
+        if (input.isFireboyJumpQueued()) {
+            tryJump(model.getFireboy());
+            input.consumeFireboyJump();
         }
-        if (input.watergirlJumpQueued) {
-            tryJump(m.getWatergirl());
-            input.watergirlJumpQueued = false;
+        if (input.isWatergirlJumpQueued()) {
+            tryJump(model.getWatergirl());
+            input.consumeWatergirlJump();
         }
 
         // push massi
-        for (model.objects.impl.Boulder b : m.getBoulders()) {
-            b.tryPushBy(m.getFireboy(), panel);
-            b.tryPushBy(m.getWatergirl(), panel);
+        for (final model.objects.impl.Boulder b : model.getBoulders()) {
+            b.tryPushBy(model.getFireboy(), panel);
+            b.tryPushBy(model.getWatergirl(), panel);
         }
 
         // update player
-        updatePlayer(m, m.getFireboy());
-        updatePlayer(m, m.getWatergirl());
+        updatePlayer(model, model.getFireboy());
+        updatePlayer(model, model.getWatergirl());
 
         // fisica massi
-        for (model.objects.impl.Boulder b : m.getBoulders()) b.updatePhysics(panel);
+        for (final model.objects.impl.Boulder b : model.getBoulders()) {
+            b.updatePhysics(panel);
+        }
 
         // schiacciamento
-        for (model.objects.impl.Boulder b : m.getBoulders()) {
-            if (b.vy > 0) {
-                if (isCrushedByBoulder(panel, m.getFireboy(), b) || isCrushedByBoulder(panel, m.getWatergirl(), b)) {
-                    m.setGameOver(true);
+        for (final model.objects.impl.Boulder b : model.getBoulders()) {
+            if (b.getVelocityY() > 0) {
+                if (isCrushedByBoulder(panel, model.getFireboy(), b)
+                        || isCrushedByBoulder(panel, model.getWatergirl(), b)) {
+                    model.setGameOver(true);
                     break;
                 }
             }
         }
 
         // lava
-        if (LevelQueries.touchesLava(m, m.getFireboy()) || LevelQueries.touchesLava(m, m.getWatergirl())) m.setGameOver(true);
+        if (LevelQueries.touchesLava(model, model.getFireboy())
+                || LevelQueries.touchesLava(model, model.getWatergirl())) {
+            model.setGameOver(true);
+        }
 
         // monete
-        LevelInteractions.collectCoins(m, m.getFireboy());
-        LevelInteractions.collectCoins(m, m.getWatergirl());
+        LevelInteractions.collectCoins(model, model.getFireboy());
+        LevelInteractions.collectCoins(model, model.getWatergirl());
 
         // bottoni
-        LevelInteractions.handleButtons(m, m.getFireboy());
-        LevelInteractions.handleButtons(m, m.getWatergirl());
+        LevelInteractions.handleButtons(model, model.getFireboy());
+        LevelInteractions.handleButtons(model, model.getWatergirl());
 
         // teleport
-        LevelInteractions.handleTeleport(m, m.getFireboy());
-        LevelInteractions.handleTeleport(m, m.getWatergirl());
+        LevelInteractions.handleTeleport(model, model.getFireboy());
+        LevelInteractions.handleTeleport(model, model.getWatergirl());
 
         // bilancia attiva se un masso sta sulla piattaforma sinistra
         boolean balanceActive = false;
-        model.objects.impl.MovingPlatform leftPlatform = m.getPlatforms().stream()
-                .filter(p -> p.isLeftSide)
-                .min(Comparator.comparingInt(model.objects.impl.MovingPlatform::getX))
+        final MovingPlatform leftPlatform = model.getPlatforms().stream()
+                .filter(MovingPlatform::isLeftSide)
+                .min(Comparator.comparingInt(MovingPlatform::getX))
                 .orElse(null);
 
         if (leftPlatform != null) {
-            for (model.objects.impl.Boulder b : m.getBoulders()) {
+            for (final model.objects.impl.Boulder b : model.getBoulders()) {
                 if (isBoulderOnPlatform(b, leftPlatform)) {
                     balanceActive = true;
                     break;
@@ -101,190 +124,209 @@ public final class LevelLogic {
         }
 
         // muovi piattaforme
-        for (model.objects.impl.MovingPlatform p : m.getPlatforms()) p.updateBalance(balanceActive);
+        for (final model.objects.impl.MovingPlatform p : model.getPlatforms()) {
+            p.updateBalance(balanceActive);
+        }
 
         // trascina massi sopra piattaforme
-        for (model.objects.impl.MovingPlatform p : m.getPlatforms()) {
-            int dx = p.deltaX();
-            int dy = p.deltaY();
-            if (dx == 0 && dy == 0) continue;
+        for (final model.objects.impl.MovingPlatform p : model.getPlatforms()) {
+            final int dx = p.deltaX();
+            final int dy = p.deltaY();
+            if (dx == 0 && dy == 0) {
+                continue;
+            }
 
-            for (model.objects.impl.Boulder b : m.getBoulders()) {
+            for (final model.objects.impl.Boulder b : model.getBoulders()) {
                 if (isBoulderOnPlatform(b, p)) {
                     b.translate(dx, dy);
-
                 }
             }
         }
 
         // trascina player sopra piattaforme
-        for (model.objects.impl.MovingPlatform p : m.getPlatforms()) {
-            int dx = p.deltaX();
-            int dy = p.deltaY();
-            if (dx == 0 && dy == 0) continue;
-
-            if (isPlayerOnPlatform(m.getFireboy(), p)) {
-                m.getFireboy().setX(m.getFireboy().getX() + dx);
-                m.getFireboy().setY(m.getFireboy().getY() + dy);
-                m.getFireboy().setVelocityY(0);
-                m.getFireboy().setOnGround(true);
+        for (final model.objects.impl.MovingPlatform p : model.getPlatforms()) {
+            final int dx = p.deltaX();
+            final int dy = p.deltaY();
+            if (dx == 0 && dy == 0) {
+                continue;
             }
 
-            if (isPlayerOnPlatform(m.getWatergirl(), p)) {
-                m.getWatergirl().setX(m.getWatergirl().getX() + dx);
-                m.getWatergirl().setY(m.getWatergirl().getY() + dy);
-                m.getWatergirl().setVelocityY(0);
-                m.getWatergirl().setOnGround(true);
+            if (isPlayerOnPlatform(model.getFireboy(), p)) {
+                model.getFireboy().setX(model.getFireboy().getX() + dx);
+                model.getFireboy().setY(model.getFireboy().getY() + dy);
+                model.getFireboy().setVelocityY(0);
+                model.getFireboy().setOnGround(true);
+            }
+
+            if (isPlayerOnPlatform(model.getWatergirl(), p)) {
+                model.getWatergirl().setX(model.getWatergirl().getX() + dx);
+                model.getWatergirl().setY(model.getWatergirl().getY() + dy);
+                model.getWatergirl().setVelocityY(0);
+                model.getWatergirl().setOnGround(true);
             }
         }
 
         // goal
-        if (LevelQueries.isOnGoal(m, m.getFireboy()) && LevelQueries.isOnGoal(m, m.getWatergirl())) m.setLevelComplete(true);
+        if (LevelQueries.isOnGoal(model, model.getFireboy())
+                && LevelQueries.isOnGoal(model, model.getWatergirl())) {
+            model.setLevelComplete(true);
+        }
     }
 
-    private static boolean isBoulderOnPlatform(model.objects.impl.Boulder b, model.objects.impl.MovingPlatform p) {
-        Rectangle br = b.rect();
-        Rectangle pr = p.rect();
+    private static boolean isBoulderOnPlatform(final model.objects.impl.Boulder b,
+            final model.objects.impl.MovingPlatform p) {
+        final Rectangle br = b.rect();
+        final Rectangle pr = p.rect();
 
-        int bBottom = br.y + br.height;
-        boolean xOverlap = br.x + br.width > pr.x && br.x < pr.x + pr.width;
-        boolean onTop = (bBottom >= pr.y - 3) && (bBottom <= pr.y + 3);
+        final int bBottom = br.y + br.height;
+        final boolean xOverlap = br.x + br.width > pr.x && br.x < pr.x + pr.width;
+        final boolean onTop = bBottom >= pr.y - PLATFORM_TOLERANCE && bBottom <= pr.y + PLATFORM_TOLERANCE;
         return xOverlap && onTop;
     }
 
-    private static boolean isPlayerOnPlatform(model.entities.api.Player pl, model.objects.impl.MovingPlatform p) {
-        Rectangle pr = playerRect(pl);
-        Rectangle plat = p.rect();
+    private static boolean isPlayerOnPlatform(final model.entities.api.Player player,
+            final model.objects.impl.MovingPlatform p) {
+        final Rectangle pr = playerRect(player);
+        final Rectangle plat = p.rect();
 
-        int pBottom = pr.y + pr.height;
-        boolean xOverlap = pr.x + pr.width > plat.x && pr.x < plat.x + plat.width;
-        boolean onTop = (pBottom >= plat.y - 3) && (pBottom <= plat.y + 3);
+        final int pBottom = pr.y + pr.height;
+        final boolean xOverlap = pr.x + pr.width > plat.x && pr.x < plat.x + plat.width;
+        final boolean onTop = pBottom >= plat.y - PLATFORM_TOLERANCE && pBottom <= plat.y + PLATFORM_TOLERANCE;
         return xOverlap && onTop;
     }
 
-    private static boolean isCrushedByBoulder(FireboyWatergirlLevel panel, model.entities.api.Player p, model.objects.impl.Boulder b) {
-        Rectangle pr = playerRect(p);
-        Rectangle br = b.rect();
+    private static boolean isCrushedByBoulder(final FireboyWatergirlLevel panel,
+            final model.entities.api.Player player, final model.objects.impl.Boulder b) {
+        final Rectangle pr = playerRect(player);
+        final Rectangle br = b.rect();
 
-        boolean xOverlap = pr.x + pr.width > br.x && pr.x < br.x + br.width;
-        if (!xOverlap) return false;
+        final boolean xOverlap = pr.x + pr.width > br.x && pr.x < br.x + br.width;
+        if (!xOverlap) {
+            return false;
+        }
 
-        int pTop = pr.y;
-        int bBottom = br.y + br.height;
+        final int pTop = pr.y;
+        final int bBottom = br.y + br.height;
 
-        boolean bOnTopOfPlayer = (bBottom >= pTop - 2) && (bBottom <= pTop + 6);
-        if (!bOnTopOfPlayer) return false;
+        final boolean bOnTopOfPlayer = bBottom >= pTop - CRUSH_TOP_TOLERANCE
+                && bBottom <= pTop + CRUSH_BOTTOM_TOLERANCE;
+        if (!bOnTopOfPlayer) {
+            return false;
+        }
 
-        boolean ceiling =
+        final boolean ceiling =
                 panel.isSolidAtPixel(pr.x + 2, pr.y - 2)
                         || panel.isSolidAtPixel(pr.x + pr.width - 3, pr.y - 2);
 
         return ceiling;
     }
 
-    private static void tryJump(model.entities.impl.PlayerImpl p) {
-        if (p.isOnGround()) {
-            p.setVelocityY(JUMP_SPEED);
-            p.setOnGround(false);
+    private static void tryJump(final model.entities.impl.PlayerImpl player) {
+        if (player.isOnGround()) {
+            player.setVelocityY(JUMP_SPEED);
+            player.setOnGround(false);
         }
     }
 
-    private static void updatePlayer(LevelModel m, model.entities.impl.PlayerImpl p) {
-        p.addVelocityY(GRAVITY);
-        if (p.getVelocityY() > MAX_FALL_SPEED) {
-            p.setVelocityY(MAX_FALL_SPEED);
+    private static void updatePlayer(final LevelModel model, final model.entities.impl.PlayerImpl player) {
+        player.addVelocityY(GRAVITY);
+        if (player.getVelocityY() > MAX_FALL_SPEED) {
+            player.setVelocityY(MAX_FALL_SPEED);
         }
 
-        moveHorizontal(m, p);
-        moveVertical(m, p);
+        moveHorizontal(model, player);
+        moveVertical(model, player);
 
-        if (!p.isOnGround()) {
-            p.setOnGround(isGrounded(m, p));
+        if (!player.isOnGround()) {
+            player.setOnGround(isGrounded(model, player));
         }
     }
 
-    private static void moveHorizontal(LevelModel m, model.entities.impl.PlayerImpl p) {
-        double vx = p.getVelocityX();
-        if (vx == 0) return;
+    private static void moveHorizontal(final LevelModel model, final model.entities.impl.PlayerImpl player) {
+        final double vx = player.getVelocityX();
+        if (vx == 0) {
+            return;
+        }
 
-        int step = vx > 0 ? 1 : -1;
-        int steps = (int) Math.abs(vx);
+        final int step = vx > 0 ? 1 : -1;
+        final int steps = (int) Math.abs(vx);
 
         for (int i = 0; i < steps; i++) {
-            int nx = (int) Math.round(p.getX()) + step;
-            int ny = (int) Math.round(p.getY());
-            if (!collidesAt(m, p, nx, ny)) {
-                p.setX(nx);
+            final int nx = (int) Math.round(player.getX()) + step;
+            final int ny = (int) Math.round(player.getY());
+            if (!collidesAt(model, player, nx, ny)) {
+                player.setX(nx);
             } else {
                 break;
             }
         }
     }
 
-    private static void moveVertical(LevelModel m, model.entities.impl.PlayerImpl p) {
-        double vy = p.getVelocityY();
+    private static void moveVertical(final LevelModel model, final model.entities.impl.PlayerImpl player) {
+        final double vy = player.getVelocityY();
         if (vy == 0) {
-            p.setOnGround(isGrounded(m, p));
+            player.setOnGround(isGrounded(model, player));
             return;
         }
 
-        int step = vy > 0 ? 1 : -1;
-        int steps = (int) Math.floor(Math.abs(vy));
-        double remainder = Math.abs(vy) - steps;
+        final int step = vy > 0 ? 1 : -1;
+        final int steps = (int) Math.floor(Math.abs(vy));
+        final double remainder = Math.abs(vy) - steps;
 
         for (int i = 0; i < steps; i++) {
-            int nx = (int) Math.round(p.getX());
-            int ny = (int) Math.round(p.getY()) + step;
-            if (!collidesAt(m, p, nx, ny)) {
-                p.setY(ny);
-                p.setOnGround(false);
+            final int nx = (int) Math.round(player.getX());
+            final int ny = (int) Math.round(player.getY()) + step;
+            if (!collidesAt(model, player, nx, ny)) {
+                player.setY(ny);
+                player.setOnGround(false);
             } else {
                 if (step > 0) {
-                    p.setOnGround(true);
+                    player.setOnGround(true);
                 }
-                p.setVelocityY(0);
+                player.setVelocityY(0);
                 return;
             }
         }
 
         if (remainder > 0) {
-            int nx = (int) Math.round(p.getX());
-            int ny = (int) Math.round(p.getY() + remainder * step);
-            if (!collidesAt(m, p, nx, ny)) {
-                p.setY(p.getY() + remainder * step);
-                p.setOnGround(false);
+            final int nx = (int) Math.round(player.getX());
+            final int ny = (int) Math.round(player.getY() + remainder * step);
+            if (!collidesAt(model, player, nx, ny)) {
+                player.setY(player.getY() + remainder * step);
+                player.setOnGround(false);
             } else {
                 if (step > 0) {
-                    p.setOnGround(true);
+                    player.setOnGround(true);
                 }
-                p.setVelocityY(0);
+                player.setVelocityY(0);
             }
         }
     }
 
-    private static boolean collidesAt(LevelModel m, model.entities.api.Player p, int nx, int ny) {
-        int w = (int) Math.round(p.getWidth());
-        int h = (int) Math.round(p.getHeight());
-        return LevelQueries.isSolidAtPixel(m, nx + 1, ny + 1, null)
-                || LevelQueries.isSolidAtPixel(m, nx + w - 2, ny + 1, null)
-                || LevelQueries.isSolidAtPixel(m, nx + 1, ny + h - 2, null)
-                || LevelQueries.isSolidAtPixel(m, nx + w - 2, ny + h - 2, null);
+    private static boolean collidesAt(final LevelModel model, final model.entities.api.Player player,
+            final int nx, final int ny) {
+        final int w = (int) Math.round(player.getWidth());
+        final int h = (int) Math.round(player.getHeight());
+        return LevelQueries.isSolidAtPixel(model, nx + 1, ny + 1, null)
+                || LevelQueries.isSolidAtPixel(model, nx + w - 2, ny + 1, null)
+                || LevelQueries.isSolidAtPixel(model, nx + 1, ny + h - 2, null)
+                || LevelQueries.isSolidAtPixel(model, nx + w - 2, ny + h - 2, null);
     }
 
-    private static boolean isGrounded(LevelModel m, model.entities.api.Player p) {
-        int x = (int) Math.round(p.getX());
-        int y = (int) Math.round(p.getY());
-        int w = (int) Math.round(p.getWidth());
-        int h = (int) Math.round(p.getHeight());
-        return LevelQueries.isSolidAtPixel(m, x + 1, y + h + 1, null)
-                || LevelQueries.isSolidAtPixel(m, x + w - 2, y + h + 1, null);
+    private static boolean isGrounded(final LevelModel model, final model.entities.api.Player player) {
+        final int x = (int) Math.round(player.getX());
+        final int y = (int) Math.round(player.getY());
+        final int w = (int) Math.round(player.getWidth());
+        final int h = (int) Math.round(player.getHeight());
+        return LevelQueries.isSolidAtPixel(model, x + 1, y + h + 1, null)
+                || LevelQueries.isSolidAtPixel(model, x + w - 2, y + h + 1, null);
     }
 
-    private static Rectangle playerRect(model.entities.api.Player p) {
-        int x = (int) Math.round(p.getX());
-        int y = (int) Math.round(p.getY());
-        int w = (int) Math.round(p.getWidth());
-        int h = (int) Math.round(p.getHeight());
+    private static Rectangle playerRect(final model.entities.api.Player player) {
+        final int x = (int) Math.round(player.getX());
+        final int y = (int) Math.round(player.getY());
+        final int w = (int) Math.round(player.getWidth());
+        final int h = (int) Math.round(player.getHeight());
         return new Rectangle(x, y, w, h);
     }
 }

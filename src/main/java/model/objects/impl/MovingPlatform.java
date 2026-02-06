@@ -2,54 +2,120 @@ package model.objects.impl;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import model.objects.api.WorldEntity;
+import model.objects.api.AbstractWorldEntity;
 
-public class MovingPlatform extends WorldEntity {
+/**
+ * Moving platform that can move vertically based on balance state.
+ */
+public final class MovingPlatform extends AbstractWorldEntity {
 
     private final BufferedImage tileTexture;
     private final int tileSize;
 
-    public int startY;
-    public int targetDy = 0;
-    public double speed = 1.0;
+    private int startY;
+    private int targetDy;
+    private double speed = 1.0;
 
-    public boolean isLeftSide = false;
+    private boolean isLeftSide;
 
-    private int prevX, prevY;
+    private int prevX;
+    private int prevY;
 
-    public MovingPlatform(int x, int y, int w, int h, BufferedImage tileTexture, int tileSize) {
+    /**
+     * Creates a moving platform.
+     *
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param w width
+     * @param h height
+     * @param tileTexture texture tile
+     * @param tileSize tile size
+     */
+    public MovingPlatform(
+            final int x,
+            final int y,
+            final int w,
+            final int h,
+            final BufferedImage tileTexture,
+            final int tileSize
+    ) {
         super(x, y, w, h, "PLATFORM");
         this.tileTexture = tileTexture;
         this.tileSize = tileSize;
 
-        startY = y;
-        prevX = x;
-        prevY = y;
+        startY = getY();
+        prevX = getX();
+        prevY = getY();
     }
 
-    public void setBalanceRole(boolean isLeft, int dyWhenActive, double speed) {
+    /**
+     * Configures the platform balance role.
+     *
+     * @param isLeft true if the platform is on the left side
+     * @param dyWhenActive vertical offset when active
+     * @param newSpeed movement speed
+     */
+    public void setBalanceRole(final boolean isLeft, final int dyWhenActive, final double newSpeed) {
         this.isLeftSide = isLeft;
         this.targetDy = dyWhenActive;
-        this.speed = speed;
+        this.speed = newSpeed;
     }
 
-    public void updateBalance(boolean active) {
-        prevX = x;
-        prevY = y;
+    /**
+     * Updates the platform position based on the balance state.
+     *
+     * @param active true if the balance is active
+     */
+    public void updateBalance(final boolean active) {
+        prevX = getX();
+        prevY = getY();
 
-        int desiredY = active ? (startY + targetDy) : startY;
+        final int desiredY = active ? (startY + targetDy) : startY;
+        int currentY = getY();
 
-        if (y < desiredY) y += (int) Math.ceil(speed);
-        if (y > desiredY) y -= (int) Math.ceil(speed);
+        if (currentY < desiredY) {
+            currentY += (int) Math.ceil(speed);
+        }
+        if (currentY > desiredY) {
+            currentY -= (int) Math.ceil(speed);
+        }
 
-        if (Math.abs(y - desiredY) <= 1) y = desiredY;
+        if (Math.abs(currentY - desiredY) <= 1) {
+            currentY = desiredY;
+        }
+
+        setY(currentY);
     }
 
-    public int deltaX() { return x - prevX; }
-    public int deltaY() { return y - prevY; }
+    /**
+     * Returns the platform delta x since last update.
+     *
+     * @return delta x
+     */
+    public int deltaX() {
+        return getX() - prevX;
+    }
+
+    /**
+     * Returns the platform delta y since last update.
+     *
+     * @return delta y
+     */
+    public int deltaY() {
+        return getY() - prevY;
+    }
+
+    /**
+     * Returns whether the platform is on the left side.
+     *
+     * @return true if left side
+     */
+    public boolean isLeftSide() {
+        return isLeftSide;
+    }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(final Graphics g) {
         drawTiled(g, tileTexture, tileSize);
     }
 }

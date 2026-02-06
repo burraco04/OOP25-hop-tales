@@ -1,22 +1,33 @@
 package model.level;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.Iterator;
 
 import model.CoinStorage;
 
+/**
+ * Utility class for level interactions.
+ */
 public final class LevelInteractions {
 
-    private LevelInteractions() {}
-    // raccoglie le monete quando il player ci passa sopra e aggiorna il totale salvato
-    public static void collectCoins(LevelModel m, model.entities.api.Player p) {
-        Rectangle pr = playerRect(p);
+    private LevelInteractions() {
+    }
 
-        Iterator<model.objects.impl.collectable.Coin> it = m.getCoins().iterator();
+    /**
+     * Collects coins when the player touches them and updates the saved total.
+     *
+     * @param model level model
+     * @param player player entity
+     */
+    public static void collectCoins(final LevelModel model, final model.entities.api.Player player) {
+        final Rectangle pr = playerRect(player);
+
+        final Iterator<model.objects.impl.collectable.Coin> it = model.getCoins().iterator();
         while (it.hasNext()) {
-            model.objects.impl.collectable.Coin c = it.next();
+            final model.objects.impl.collectable.Coin c = it.next();
 
-            Rectangle cr = new Rectangle(
+            final Rectangle cr = new Rectangle(
                     c.getX(),
                     c.getY(),
                     LevelConstants.TILE,
@@ -25,49 +36,63 @@ public final class LevelInteractions {
 
             if (cr.intersects(pr)) {
                 it.remove();
-                m.setTotalCoinsSaved(CoinStorage.addCoins(1));
-                System.out.println("Moneta presa! Totale salvato = " + m.getTotalCoinsSaved());
+                model.setTotalCoinsSaved(CoinStorage.addCoins(1));
+                System.out.println("Moneta presa! Totale salvato = " + model.getTotalCoinsSaved());
             }
         }
     }
-    // se un player preme un bottone, apre la porta associata
-    public static void handleButtons(LevelModel m, model.entities.api.Player p) {
-        for (model.objects.impl.ButtonPad b : m.getButtons()) {
-            if (b.intersects(playerRect(p))) {
-                Point tilePos = new Point(b.getX() / LevelConstants.TILE, b.getY() / LevelConstants.TILE);
-                String doorId = m.getButtonToDoorId().get(tilePos);
+
+    /**
+     * Handles door buttons.
+     *
+     * @param model level model
+     * @param player player entity
+     */
+    public static void handleButtons(final LevelModel model, final model.entities.api.Player player) {
+        for (final model.objects.impl.ButtonPad b : model.getButtons()) {
+            if (b.intersects(playerRect(player))) {
+                final Point tilePos = new Point(b.getX() / LevelConstants.TILE, b.getY() / LevelConstants.TILE);
+                final String doorId = model.getButtonToDoorId().get(tilePos);
 
                 if (doorId != null) {
-                    LevelBuilder.removeDoorTilesFromMap(m, doorId);
+                    LevelBuilder.removeDoorTilesFromMap(model, doorId);
 
-                    for (model.objects.impl.Door d : m.getDoors()) {
-                        int rr = d.getY() / LevelConstants.TILE;
-                        int cc = d.getX() / LevelConstants.TILE;
-                        if (m.getMap()[rr][cc] != '3') d.open = true;
+                    for (final model.objects.impl.Door d : model.getDoors()) {
+                        final int rr = d.getY() / LevelConstants.TILE;
+                        final int cc = d.getX() / LevelConstants.TILE;
+                        if (model.getMap()[rr][cc] != '3') {
+                            d.setOpen(true);
+                        }
                     }
                 }
             }
         }
     }
 
-    public static void handleTeleport(LevelModel m, model.entities.api.Player p) {
-        for (model.objects.impl.Teleporter t : m.getTeleporters()) {
-            if (t.intersects(playerRect(p))) {
-                Point from = new Point(t.getX() / LevelConstants.TILE, t.getY() / LevelConstants.TILE);
-                Point dest = m.getTeleportDestTile().get(from);
+    /**
+     * Handles teleport interactions.
+     *
+     * @param model level model
+     * @param player player entity
+     */
+    public static void handleTeleport(final LevelModel model, final model.entities.api.Player player) {
+        for (final model.objects.impl.Teleporter t : model.getTeleporters()) {
+            if (t.intersects(playerRect(player))) {
+                final Point from = new Point(t.getX() / LevelConstants.TILE, t.getY() / LevelConstants.TILE);
+                final Point dest = model.getTeleportDestTile().get(from);
                 if (dest != null) {
-                    p.setX(dest.x * LevelConstants.TILE);
-                    p.setY(dest.y * LevelConstants.TILE);
+                    player.setX(dest.x * LevelConstants.TILE);
+                    player.setY(dest.y * LevelConstants.TILE);
                 }
             }
         }
     }
 
-    private static Rectangle playerRect(model.entities.api.Player p) {
-        int x = (int) Math.round(p.getX());
-        int y = (int) Math.round(p.getY());
-        int w = (int) Math.round(p.getWidth());
-        int h = (int) Math.round(p.getHeight());
+    private static Rectangle playerRect(final model.entities.api.Player player) {
+        final int x = (int) Math.round(player.getX());
+        final int y = (int) Math.round(player.getY());
+        final int w = (int) Math.round(player.getWidth());
+        final int h = (int) Math.round(player.getHeight());
         return new Rectangle(x, y, w, h);
     }
 }

@@ -2,67 +2,126 @@ package model.objects.impl;
 
 import model.objects.api.WorldObject;
 
-public class Boulder implements WorldObject {
+/**
+ * Simple physics-driven boulder object.
+ */
+public final class Boulder implements WorldObject {
 
-    private int x, y, w, h;
+    private static final double GRAVITY_STEP = 0.35;
+    private static final double MAX_FALL_SPEED = 10.0;
+    private int x;
+    private int y;
+    private final int w;
+    private final int h;
+    private double vy;
 
-    private double vy = 0;
-
-    public Boulder(int x, int y, int w, int h) {
+    /**
+     * Create a boulder at the given position.
+     *
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param w width
+     * @param h height
+     */
+    public Boulder(final int x, final int y, final int w, final int h) {
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
     }
 
-  
+    /** {@inheritDoc} */
     @Override
-    public int getX() { 
-        return x; 
+    public int getX() {
+        return x;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getY() {
-        return y; 
+        return y;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getType() {
-        return "BOULDER"; 
+        return "BOULDER";
     }
 
-    
+    /**
+     * Return the width of the boulder.
+     *
+     * @return width
+     */
     public int getW() {
-        return w; 
-    }
-    public int getH() {
-        return h; 
+        return w;
     }
 
-    public double getVy() { 
-        return vy; 
+    /**
+     * Return the height of the boulder.
+     *
+     * @return height
+     */
+    public int getH() {
+        return h;
     }
-    public void setVy(double vy) {
+
+    /**
+     * Return the current vertical speed.
+     *
+     * @return vertical speed
+     */
+    public double getVy() {
+        return vy;
+    }
+
+    /**
+     * Set the current vertical speed.
+     *
+     * @param vy new vertical speed
+     */
+    public void setVy(final double vy) {
         this.vy = vy;
     }
 
-    public void setX(int x) {
-        this.x = x; 
-        }
-    public void setY(int y) {
-        this.y = y;
-}
-
-    //logica caduta masso
-    public void applyGravity() {
-        vy += 0.35;
-        if (vy > 10) vy = 10;
+    /**
+     * Set the x coordinate.
+     *
+     * @param x new x coordinate
+     */
+    public void setX(final int x) {
+        this.x = x;
     }
 
+    /**
+     * Set the y coordinate.
+     *
+     * @param y new y coordinate
+     */
+    public void setY(final int y) {
+        this.y = y;
+    }
+
+    /**
+     * Apply gravity to the boulder.
+     */
+    public void applyGravity() {
+        vy += GRAVITY_STEP;
+        if (vy > MAX_FALL_SPEED) {
+            vy = MAX_FALL_SPEED;
+        }
+    }
+
+    /**
+     * Apply the current vertical speed to the position.
+     */
     public void stepVertical() {
         y = (int) (y + vy);
     }
 
+    /**
+     * Stop the vertical movement.
+     */
     public void stopVertical() {
         vy = 0;
     }

@@ -1,8 +1,6 @@
 package view.impl;
 
 import controller.api.ControllerMenu;
-import controller.api.State;
-import view.utils.ButtonFactory;
 
 /**
  * Game over panel.

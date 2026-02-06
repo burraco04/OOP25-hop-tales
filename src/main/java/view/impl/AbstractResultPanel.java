@@ -18,6 +18,15 @@ public abstract class AbstractResultPanel extends JPanel {
     private static final int PADDING = 24;
     private final transient ButtonFactory buttonFactory = new ButtonFactory();
 
+    /**
+     * Builds a result panel with a title and a single action to return to the menu.
+     *
+     * @param controller menu controller to notify on exit
+     * @param onClose callback executed after requesting the menu change
+     * @param titleText title displayed on the panel
+     * @param titleSize font size for the title
+     */
+    @SuppressWarnings("PMD.ConstructorCallsOverridableMethod")
     protected AbstractResultPanel(
         final ControllerMenu controller,
         final Runnable onClose,

@@ -3,6 +3,8 @@ package controller;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -18,6 +20,7 @@ import model.GameConstants;
  */
 public final class AudioManager {
     private static final Map<String, Clip> SOUNDS = new HashMap<>();
+    private static final Logger LOGGER = Logger.getLogger(AudioManager.class.getName());
     private static float musicVolume;
 
     /**
@@ -29,7 +32,6 @@ public final class AudioManager {
      * Register a given file into a map of sounds usable in the game.
      *
      * @param name name used to address the file in the map.
-     * 
      * @param path path of the file.
      */
     public static void load(final String name, final String path) {
@@ -41,14 +43,11 @@ public final class AudioManager {
             clip.open(ais);
             SOUNDS.put(name, clip);
         } catch (final UnsupportedAudioFileException e) {
-            System.err.println("Formato audio non supportato: " + path);
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, "Unsupported audio format: " + path, e);
         } catch (final IOException e) {
-            System.err.println("Errore di I/O nel caricamento: " + path);
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, "I/O error while loading audio: " + path, e);
         } catch (final LineUnavailableException e) {
-            System.err.println("Linea audio non disponibile");
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, "Audio line unavailable for: " + path, e);
         }
     }
 
@@ -106,11 +105,11 @@ public final class AudioManager {
      * @param volume volume desired.
      */
     public static void setMusicVolume(final float volume) {
-    musicVolume = volume;
+        musicVolume = volume;
 
-    for (final Clip clip : SOUNDS.values()) {
-        setVolume(clip, musicVolume); 
-    }
+        for (final Clip clip : SOUNDS.values()) {
+            setVolume(clip, musicVolume);
+        }
     }
 
     /**
@@ -119,7 +118,7 @@ public final class AudioManager {
      * @return the standard volume.
      */
     public static float getMusicVolume() {
-    return musicVolume;
+        return musicVolume;
     }
 
 }

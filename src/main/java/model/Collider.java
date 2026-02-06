@@ -41,6 +41,7 @@ public final class Collider {
      * @param doorTiles set of all the door tiles.
      * @param entities list of all the objects.
      * @param enemies list of all the enemies.
+     * @param levelId id of the level used for boundary checks.
      */
     protected Collider(
         final Set<Point> solidTiles,
@@ -212,6 +213,15 @@ public final class Collider {
         return false;
     }
 
+    /**
+     * Check if the player is in front of a door tile.
+     *
+     * @param x entity x tile
+     * @param y entity y tile
+     * @param widthTiles entity width in tiles
+     * @param heightTiles entity height in tiles
+     * @return true if a door tile is in the entity bounds
+     */
     public boolean enteringCastle(
         final int x,
         final int y,
@@ -268,17 +278,19 @@ public final class Collider {
         }
         entities.add(replacement);
     }
-    
+
+    /**
+     * Returns the width of the current level in tiles.
+     *
+     * @return the level width
+     */
     public int getLevelWidth() {
         if (levelId == 1) {
             return GameConstants.LEVEL_1_WIDTH;
         }
         if (levelId == 2) {
-
             return GameConstants.LEVEL_2_WIDTH;
-        } else {
-            throw new IllegalArgumentException("levelId non accettabile");
         }
-
+        throw new IllegalArgumentException("levelId non accettabile");
     }
 }

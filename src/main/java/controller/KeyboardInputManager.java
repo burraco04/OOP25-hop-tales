@@ -4,15 +4,17 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import controller.impl.PlayerController;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Class responsible for taking the user's input.
  */
+@SuppressFBWarnings(value = "EI2", justification = "Controller reference is shared across input handling.")
 public final class KeyboardInputManager extends KeyAdapter {
-    private PlayerController playerController; 
+    private final PlayerController playerController;
 
     /**
-     * Create a {@KeyboardInputController}.
+     * Create a {@link KeyboardInputManager}.
      *
      * @param playerController instance of the controller responsible for handling the inputs.
      */
@@ -44,6 +46,7 @@ public final class KeyboardInputManager extends KeyAdapter {
                 break;
             case KeyEvent.VK_E:
                 playerController.enterCastle();
+                break;
             default:
                 break;
         }

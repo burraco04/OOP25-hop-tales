@@ -19,8 +19,6 @@ import view.api.View;
 public final class GameController implements ActionListener {
 
     private final PlayerController playerController;
-    @SuppressWarnings("unused")
-    private final KeyboardInputManager kim;
     private final CollectablesController coinsController;
     private final EnemyController enemyController;
     private final Timer timer;
@@ -39,12 +37,12 @@ public final class GameController implements ActionListener {
         this.view = view;
         this.world = new World(levelId);
         this.playerController = new PlayerController(this.world);
-        this.kim = new KeyboardInputManager(playerController);
+        final KeyboardInputManager kim = new KeyboardInputManager(playerController);
         this.coinsController = new CollectablesController(this.world);
         this.enemyController = new EnemyController(this.world);
-        this.timer = new Timer((int) (GameConstants.MILLIS_PER_SECOND / GameConstants.TARGET_UPS), this);
+        this.timer = new Timer(GameConstants.MILLIS_PER_SECOND / GameConstants.TARGET_UPS, this);
         this.start();
-        this.view.showLevel(this.world, this.kim);
+        this.view.showLevel(this.world, kim);
     }
 
     /**

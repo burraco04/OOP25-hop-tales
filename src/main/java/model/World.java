@@ -2,12 +2,14 @@ package model;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.entities.api.Enemy;
 import model.entities.api.Player;
 import model.entities.impl.AbstractEnemyImpl;
@@ -19,7 +21,7 @@ import model.objects.impl.brick.PowerupBlock;
 /**
  * create class world.
  */
-public class World {
+public final class World {
     static final String POWERUP_BLOCK_TYPE = "powerup_block";
     static final Set<String> HAZARD_TYPES = Set.of("lava", "top_lava", "water", "water_top");
     static final Set<String> DOOR_TYPES = Set.of("door", "door_top");
@@ -48,6 +50,8 @@ public class World {
 
     /**
      * Create a {@link World} object.
+     *
+     * @param levelId id of the level to load
      */
     public World(final int levelId) {
         this.levelId = levelId;
@@ -91,7 +95,7 @@ public class World {
 
     /**
      * Get the relative path to the file containing the data to load.
-     * 
+     *
      * @return the path.
      */
     public String getJsonPath() {
@@ -146,7 +150,7 @@ public class World {
      * @return the objects.
      */
     public List<WorldObject> getEntities() {
-        return entities;
+        return Collections.unmodifiableList(new ArrayList<>(entities));
     }
 
     /**
@@ -154,6 +158,7 @@ public class World {
      *
      * @return the {@link Player}.
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Player instance is shared across layers.")
     public Player getPlayer() {
         return player;
     }
@@ -182,7 +187,7 @@ public class World {
      * @return the list of enemies.
      */
     public List<Enemy> getEnemies() {
-        return enemies;
+        return Collections.unmodifiableList(new ArrayList<>(enemies));
     }
 
     /**
@@ -191,6 +196,7 @@ public class World {
      * @param x the next update entity x value.
      * @param y the next update entity y value.
      * @param widthTiles the width of the entity.
+     * @param heightTiles the height of the entity.
      * @return true if the entity is going to collide.
      */
     public boolean collidesWithSolid(
@@ -257,6 +263,15 @@ public class World {
         return collider.collidesWithEnemy(x, y);
     }
 
+    /**
+     * Check if the player is in front of a door.
+     *
+     * @param x player x tile
+     * @param y player y tile
+     * @param widthTiles player width in tiles
+     * @param heightTiles player height in tiles
+     * @return true if the player is entering the castle
+     */
     public boolean enteringCastle(
         final int x,
         final int y,

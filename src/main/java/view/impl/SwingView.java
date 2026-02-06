@@ -13,7 +13,7 @@ import view.api.View;
 /**
  * This class represents the main graphical view of the application.
  */
-public class SwingView implements View {
+public final class SwingView implements View {
     private static final int HEIGHT = 600;
     private static final int WIDTH = 800;
     private static final String MENU_OST_NAME = "MenuOST";

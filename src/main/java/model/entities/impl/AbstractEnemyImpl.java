@@ -1,5 +1,6 @@
 package model.entities.impl;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.Collider;
 import model.entities.api.Enemy;
 import model.entities.api.EnemyType;
@@ -7,6 +8,7 @@ import model.entities.api.EnemyType;
 /**
  * Default implementation of an enemy entity.
  */
+@SuppressWarnings("PMD.ImmutableField")
 public abstract class AbstractEnemyImpl implements Enemy {
 
     private static final double LEFT_BOUNDARY = 0.0;
@@ -103,6 +105,7 @@ public abstract class AbstractEnemyImpl implements Enemy {
      *
      * @param collider the collider
      */
+    @SuppressFBWarnings(value = "EI2", justification = "Collider is shared across world entities by design.")
     public void setCollider(final Collider collider) {
         this.collider = collider;
     }
@@ -137,10 +140,7 @@ public abstract class AbstractEnemyImpl implements Enemy {
      * @return true if the enemy is on ground, false otherwise
      */
     protected boolean isOnGround(final double posX, final double posY) {
-        if (collider == null) {
-            return true;
-        }
-        return collider.collidesWithSolid(
+        return collider == null || collider.collidesWithSolid(
             (int) Math.floor(posX), 
             (int) Math.floor(posY + height), 
             (int) width, 

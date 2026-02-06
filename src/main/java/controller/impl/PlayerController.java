@@ -4,11 +4,13 @@ import controller.AudioManager;
 import controller.api.ControllerObserver;
 import model.GameConstants;
 import model.World;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.entities.api.Player;
 
 /**
  * Controller responsible for the behaviour of {@link Player}.
  */
+@SuppressFBWarnings(value = "EI2", justification = "World is shared across controllers by design.")
 public final class PlayerController implements ControllerObserver {
     private boolean w;
     private boolean a;
@@ -19,8 +21,9 @@ public final class PlayerController implements ControllerObserver {
     private final World world;
     private boolean enteringCastle;
     private boolean levelCompleted;
+
     /**
-     * Create a {@PlayerController}.
+     * Create a {@link PlayerController}.
      *
      * @param world the world instance.
      */
@@ -225,14 +228,25 @@ public final class PlayerController implements ControllerObserver {
         this.space = false;
     }
 
+    /**
+     * Set the enteringCastle variable true.
+     */
     public void enterCastle() {
         this.enteringCastle = true;
     }
 
+    /**
+     * Set the enteringCastle variable false.
+     */
     public void cancelEnterCastle() {
         this.enteringCastle = false;
     }
 
+    /**
+     * Check whether the level completion has been triggered.
+     *
+     * @return {@code true} if the level is completed
+     */
     public boolean isLevelCompleted() {
         return levelCompleted;
     }

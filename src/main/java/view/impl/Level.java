@@ -9,10 +9,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import controller.KeyboardInputManager;
-import controller.deserialization.level.EntityData;
-import controller.deserialization.level.EntityFactory;
-import controller.deserialization.level.LevelData;
-import controller.deserialization.level.LevelLoader;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.Camera;
 import model.CoinStorage;
@@ -44,7 +40,6 @@ public class Level extends JPanel {
     @SuppressWarnings("PMD.ConstructorCallsOverridableMethod")
     public Level(final String levelPath, final World world, final KeyboardInputManager kim) {
         this.world = world;
-    
 
         this.timer = new Timer(MILLISEC, e -> {
             update();

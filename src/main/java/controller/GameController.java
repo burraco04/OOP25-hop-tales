@@ -36,6 +36,7 @@ public final class GameController implements ActionListener {
      *
      * @param view the {@link View} that is responsible for the game.
      * @param levelId number representing the level selected.
+     * @param levelPath path of the level choose by the user.
      */
     public GameController(final View view, final int levelId, final String levelPath) {
         this.view = view;

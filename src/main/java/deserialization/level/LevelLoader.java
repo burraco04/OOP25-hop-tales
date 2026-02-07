@@ -1,4 +1,4 @@
-package controller.deserialization.level;
+package deserialization.level;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

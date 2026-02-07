@@ -6,13 +6,13 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 import controller.api.ControllerObserver;
-import controller.deserialization.level.EntityData;
-import controller.deserialization.level.EntityFactory;
-import controller.deserialization.level.LevelData;
-import controller.deserialization.level.LevelLoader;
 import controller.impl.CollectablesController;
 import controller.impl.EnemyController;
 import controller.impl.PlayerController;
+import deserialization.level.EntityData;
+import deserialization.level.EntityFactory;
+import deserialization.level.LevelData;
+import deserialization.level.LevelLoader;
 import model.GameConstants;
 import model.World;
 import view.api.View;
@@ -36,7 +36,7 @@ public final class GameController implements ActionListener {
      *
      * @param view the {@link View} that is responsible for the game.
      * @param levelId number representing the level selected.
-     * @param levelPath path of the level choose by the user.
+     * @param levelPath path of the level choose by the.
      */
     public GameController(final View view, final int levelId, final String levelPath) {
         this.view = view;

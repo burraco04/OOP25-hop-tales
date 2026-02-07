@@ -1,4 +1,4 @@
-package controller.deserialization.level;
+package deserialization.level;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 

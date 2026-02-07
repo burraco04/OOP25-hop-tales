@@ -3,10 +3,6 @@ package deserialization.level;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.entities.api.Enemy;
-import model.entities.api.EnemyType;
-import model.entities.impl.JumperImpl;
-import model.entities.impl.WalkerImpl;
 import model.objects.api.WorldObject;
 import model.objects.impl.brick.Brick;
 import model.objects.impl.brick.BrickCastle;
@@ -120,20 +116,4 @@ public final class EntityFactory {
             default -> throw new IllegalArgumentException("Unknown entity: " + type);
         };
     }
-
-    /**
-     * create the enemies.
-     *
-     * @param data entity
-     * @return the enemy
-     */
-    public static Enemy createEnemy(final EntityData data) {
-        return switch (data.getType()) {
-            case "walker" -> new WalkerImpl(data.getX(), data.getY(), EnemyType.WALKER);
-            case "jumper" -> new JumperImpl(data.getX(), data.getY(), EnemyType.JUMPER);
-            default -> throw new IllegalArgumentException("Unknown enemy: " + data.getType());
-        };
-    }
 }
-
-

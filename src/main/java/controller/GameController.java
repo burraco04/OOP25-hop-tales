@@ -9,6 +9,7 @@ import controller.api.ControllerObserver;
 import controller.impl.CollectablesController;
 import controller.impl.EnemyController;
 import controller.impl.PlayerController;
+import deserialization.level.EnemyFactory;
 import deserialization.level.EntityData;
 import deserialization.level.EntityFactory;
 import deserialization.level.LevelData;
@@ -59,7 +60,7 @@ public final class GameController implements ActionListener {
         }
 
         for (final EntityData e : data.getEnemies()) {
-           world.addEnemy(EntityFactory.createEnemy(e));
+           world.addEnemy(EnemyFactory.createEnemy(e));
         }
     }
 

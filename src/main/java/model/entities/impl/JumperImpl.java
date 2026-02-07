@@ -30,16 +30,22 @@ public final class JumperImpl extends AbstractEnemyImpl {
     }
 
     /**
-     * Updates the enemy’s position.
-     * Handles horizontal movement, jumping, and gravity. 
+     * Returns the horizontal speed of the enemy jumper.
      *
-     * @param deltaSeconds time elapsed since last update
+     * @return horizontal speed
      */
     @Override
-    public void update(final double deltaSeconds) {
+    public double getSpeed() {
+        return SPEED;
+    }
 
-        moveHorizontal(getDirection() * SPEED);
-
+    /**
+     * Handles the jumping behavior of the Jumper.
+     *
+     * @param deltaSeconds time since the last update
+     */
+    @Override
+    protected void jumpStep(final double deltaSeconds) {
         if (jumpRemaining == 0 && isOnGround(getX(), getY())) {
             jumpRemaining = JUMP_HEIGHT;
         }
@@ -52,9 +58,21 @@ public final class JumperImpl extends AbstractEnemyImpl {
             } else {
                 jumpRemaining = 0;
             }
-        } else {
-            applyGravity(GameConstants.GRAVITY);
         }
+    }
+
+    /**
+     * Handles gravity for the Jumper.
+     * Gravity is ignored while jumping
+     *
+     * @param deltaSeconds time since the last update
+     */
+    @Override
+    protected void gravityStep(final double deltaSeconds) {
+        if (jumpRemaining > 0) {
+            return;
+        }
+        applyGravity(GameConstants.GRAVITY);
     }
 
 }

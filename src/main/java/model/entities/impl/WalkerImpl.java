@@ -28,16 +28,13 @@ public final class WalkerImpl extends AbstractEnemyImpl {
     }
 
     /**
-     * Updates the enemy’s position.
-     * Handles horizontal movement and gravity. 
+     * Returns the horizontal speed of the enemy walker.
      *
-     * @param deltaSeconds time elapsed since last update
+     * @return horizontal speed
      */
     @Override
-    public void update(final double deltaSeconds) {
-
-        moveHorizontal(getDirection() * SPEED);
-        applyGravity(GameConstants.GRAVITY);
+    public double getSpeed() {
+        return SPEED;
     }
 
 }

@@ -2,6 +2,7 @@ package model.entities.impl;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.Collider;
+import model.GameConstants;
 import model.entities.api.Enemy;
 import model.entities.api.EnemyType;
 
@@ -42,7 +43,48 @@ public abstract class AbstractEnemyImpl implements Enemy {
 
     /** {@inheritDoc} */
     @Override
-    public abstract void update(double deltaSecond);
+    public final void update(final double deltaSecond) {
+        moveHorizontalStep(deltaSecond);
+        jumpStep(deltaSecond);
+        gravityStep(deltaSecond);
+    }
+
+    /**
+     * Handles the horizontal movement of the enemy.
+     * This is a hook called by {@link #update(double)} as part of the template method.
+     *
+     * @param deltaSecond time since the last update
+     */
+    protected void moveHorizontalStep(final double deltaSecond) {
+        moveHorizontal(getDirection() * getSpeed());
+    }
+
+    /**
+     * Handles the jump movement of the enemy.
+     * Default implementation does nothing.
+     *
+     * @param deltaSecond time since the last update
+     */
+    protected void jumpStep(final double deltaSecond) {
+    }
+
+    /**
+     * Handles the graviti for the enemy.
+     * Default implementation applies gravity.
+     *
+     * @param deltaSecond time since the last update
+     */
+    protected void gravityStep(final double deltaSecond) {
+        applyGravity(GameConstants.GRAVITY);
+    }
+
+    /**
+     * Returns the horizontal speed of the enemy.
+     * Subclasses must implement this to provide their movement speed.
+     *
+     * @return the speed of the enemy
+     */
+    protected abstract double getSpeed();
 
     /** {@inheritDoc} */
     @Override

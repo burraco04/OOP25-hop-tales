@@ -7,7 +7,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
-import model.level.LevelConstants;
+import model.GameConstants;
 import model.level.LevelModel;
 
 /**
@@ -15,11 +15,11 @@ import model.level.LevelModel;
  */
 public final class LevelRenderer {
 
-    private static final int OVERLAY_ALPHA = 170;
-    private static final int TITLE_FONT_SIZE = 40;
-    private static final int SUBTITLE_FONT_SIZE = 18;
-    private static final int TITLE_OFFSET = 20;
-    private static final int SUBTITLE_OFFSET = 20;
+    private static final int OVERLAY_ALPHA = GameConstants.LEVEL3_OVERLAY_ALPHA;
+    private static final int TITLE_FONT_SIZE = GameConstants.LEVEL3_OVERLAY_TITLE_FONT_SIZE;
+    private static final int SUBTITLE_FONT_SIZE = GameConstants.LEVEL3_OVERLAY_SUBTITLE_FONT_SIZE;
+    private static final int TITLE_OFFSET = GameConstants.LEVEL3_OVERLAY_TITLE_VERTICAL_OFFSET;
+    private static final int SUBTITLE_OFFSET = GameConstants.LEVEL3_OVERLAY_SUBTITLE_VERTICAL_OFFSET;
 
     private LevelRenderer() {
     }
@@ -35,8 +35,8 @@ public final class LevelRenderer {
             final Graphics graphics) {
         final Graphics2D g2 = (Graphics2D) graphics;
 
-        final int worldW = model.getCols() * LevelConstants.TILE;
-        final int worldH = model.getRows() * LevelConstants.TILE;
+        final int worldW = model.getCols() * GameConstants.LEVEL3_TILE_PIXEL_SIZE;
+        final int worldH = model.getRows() * GameConstants.LEVEL3_TILE_PIXEL_SIZE;
 
         final double sx = panel.getWidth() / (double) worldW;
         final double sy = panel.getHeight() / (double) worldH;
@@ -65,7 +65,7 @@ public final class LevelRenderer {
         if (model.getImgCoinGold() != null) {
             for (final model.objects.impl.collectable.Coin c : model.getCoins()) {
                 g2.drawImage(model.getImgCoinGold(), c.getX(), c.getY(),
-                        LevelConstants.TILE, LevelConstants.TILE, null);
+                        GameConstants.LEVEL3_TILE_PIXEL_SIZE, GameConstants.LEVEL3_TILE_PIXEL_SIZE, null);
             }
         }
 

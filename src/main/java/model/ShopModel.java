@@ -14,10 +14,11 @@ public final class ShopModel {
      * Creates a new shop model with the default initial state.
      */
     public ShopModel() {
+        CoinStorage.loadTotalCoins();
         purchasedSkins.add(SkinId.DEFAULT.toString());
-        toBuySkins.add(SkinId.SHARK.toString());
-        toBuySkins.add(SkinId.PURPLE.toString());
-        toBuySkins.add(SkinId.GHOST.toString());
+        initializeSkinState(SkinId.SHARK);
+        initializeSkinState(SkinId.PURPLE);
+        initializeSkinState(SkinId.GHOST);
     }
 
     /**
@@ -48,6 +49,15 @@ public final class ShopModel {
     public void markPurchased(final SkinId id) {
         toBuySkins.remove(id.toString());
         purchasedSkins.add(id.toString());
+        CoinStorage.markSkinPurchased(id);
+    }
+
+    private void initializeSkinState(final SkinId id) {
+        if (CoinStorage.isSkinPurchased(id)) {
+            purchasedSkins.add(id.toString());
+        } else {
+            toBuySkins.add(id.toString());
+        }
     }
 
     /**

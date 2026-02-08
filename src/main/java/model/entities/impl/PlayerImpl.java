@@ -16,6 +16,7 @@ public final class PlayerImpl implements Player {
     private double y;
     private double velocityX;
     private double velocityY;
+    private boolean onGround;
     private int healthPoints;
     private boolean powerUpped;
     private long lastDamageMillis;
@@ -110,7 +111,6 @@ public final class PlayerImpl implements Player {
      */
     public void setVelocityX(final double velocityX) {
         this.velocityX = velocityX;
-        
     }
 
     /**

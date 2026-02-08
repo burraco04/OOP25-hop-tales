@@ -167,4 +167,22 @@ public final class Draw {
         ANIMATIONS.remove(PLAYER);
     }
 
+    /**
+     * Returns the current first player skin frame path.
+     *
+     * @return path for the first frame
+     */
+    public static String getPlayerFrame1() {
+        return playerFrame1;
+    }
+
+    /**
+     * Returns the current second player skin frame path.
+     *
+     * @return path for the second frame
+     */
+    public static String getPlayerFrame2() {
+        return playerFrame2;
+    }
+
 }

@@ -8,19 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 import model.CoinStorage;
+import model.GameConstants;
 import model.entities.impl.PlayerImpl;
 
 /**
  * Model for the third level.
  */
 public final class LevelModel {
-
-    private static final int FIREBOY_START_TILE_X = 2;
-    private static final int FIREBOY_START_TILE_Y = 2;
-    private static final int WATERGIRL_START_TILE_X = 33;
-    private static final int WATERGIRL_START_TILE_Y = 34;
-    private static final int PLAYER_WIDTH_TILES = 1;
-    private static final int PLAYER_HEIGHT_TILES = 1;
 
     private final String[] rawMap = {
             "11111111111111111111111111111111111",
@@ -106,21 +100,22 @@ public final class LevelModel {
      * Creates the level model with default state.
      */
     public LevelModel() {
-        totalCoinsSaved = CoinStorage.loadTotalCoins();
+        CoinStorage.loadTotalCoins();
+        totalCoinsSaved = CoinStorage.getCoins();
         // spawn player 1 in alto-sinistra (tile 2,2)
         fireboy = new PlayerImpl(
-                FIREBOY_START_TILE_X * LevelConstants.TILE,
-                FIREBOY_START_TILE_Y * LevelConstants.TILE,
-                PLAYER_WIDTH_TILES * LevelConstants.TILE,
-                PLAYER_HEIGHT_TILES * LevelConstants.TILE
+                GameConstants.LEVEL3_FIREBOY_SPAWN_TILE_X * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
+                GameConstants.LEVEL3_FIREBOY_SPAWN_TILE_Y * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
+                GameConstants.LEVEL3_PLAYER_WIDTH_TILES * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
+                GameConstants.LEVEL3_PLAYER_HEIGHT_TILES * GameConstants.LEVEL3_TILE_PIXEL_SIZE
         );
 
         // spawn player 2 in basso-destra (tile 35,34)
         watergirl = new PlayerImpl(
-                WATERGIRL_START_TILE_X * LevelConstants.TILE,
-                WATERGIRL_START_TILE_Y * LevelConstants.TILE,
-                PLAYER_WIDTH_TILES * LevelConstants.TILE,
-                PLAYER_HEIGHT_TILES * LevelConstants.TILE
+                GameConstants.LEVEL3_WATERGIRL_SPAWN_TILE_X * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
+                GameConstants.LEVEL3_WATERGIRL_SPAWN_TILE_Y * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
+                GameConstants.LEVEL3_PLAYER_WIDTH_TILES * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
+                GameConstants.LEVEL3_PLAYER_HEIGHT_TILES * GameConstants.LEVEL3_TILE_PIXEL_SIZE
         );
     }
 

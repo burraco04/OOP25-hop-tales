@@ -1,21 +1,22 @@
 package model.objects.impl;
 
-import view.impl.FireboyWatergirlLevel;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import model.GameConstants;
 import model.entities.impl.PlayerImpl;
 import model.objects.api.AbstractWorldEntity;
+import view.impl.FireboyWatergirlLevel;
 
 /**
  * Boulder entity with simple physics and push interaction.
  */
 public final class Boulder extends AbstractWorldEntity {
 
-    private static final double GRAVITY = 0.35;
-    private static final double MAX_FALL_SPEED = 10.0;
-    private static final int CORNER_OFFSET = 1;
-    private static final int OPPOSITE_OFFSET = 2;
+    private static final double GRAVITY = GameConstants.LEVEL3_BOULDER_GRAVITY_PER_TICK;
+    private static final double MAX_FALL_SPEED = GameConstants.LEVEL3_BOULDER_MAX_FALL_SPEED;
+    private static final int CORNER_OFFSET = GameConstants.LEVEL3_BOULDER_CORNER_OFFSET_PIXELS;
+    private static final int OPPOSITE_OFFSET = GameConstants.LEVEL3_BOULDER_OPPOSITE_CORNER_OFFSET_PIXELS;
 
     private double velocityY;
     private final BufferedImage tileTexture;
@@ -104,31 +105,26 @@ public final class Boulder extends AbstractWorldEntity {
             return;
         }
 
-<<<<<<< HEAD
-        final int step = velocityX > 0 ? 1 : -1;
-        final int steps = (int) Math.abs(velocityX);
-=======
-        boolean verticalOverlap =
-                pr.y + pr.height > br.y + 2
-                        && pr.y < br.y + br.height - 2;
+        final boolean verticalOverlap =
+                playerRect.y + playerRect.height > boulderRect.y + 2
+                        && playerRect.y < boulderRect.y + boulderRect.height - 2;
         if (!verticalOverlap) {
             return;
         }
 
-        // Only push when the player is on the side, not on top.
-        if (vx > 0) {
-            if (pr.x + pr.width > br.x + 2) {
+        // Only push when the player is on the side, not on top or bottom.
+        if (velocityX > 0) {
+            if (playerRect.x + playerRect.width > boulderRect.x + 2) {
                 return;
             }
         } else {
-            if (pr.x < br.x + br.width - 2) {
+            if (playerRect.x < boulderRect.x + boulderRect.width - 2) {
                 return;
             }
         }
 
-        int step = vx > 0 ? 1 : -1;
-        int steps = (int) Math.abs(vx);
->>>>>>> 9be1b94f420a8be73fdf6eeb0065cccf209bfaed
+        final int step = velocityX > 0 ? 1 : -1;
+        final int steps = (int) Math.abs(velocityX);
 
         for (int i = 0; i < steps; i++) {
             final int nextX = getX() + step;

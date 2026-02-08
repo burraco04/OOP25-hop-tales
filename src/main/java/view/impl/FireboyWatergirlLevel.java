@@ -1,30 +1,22 @@
 package view.impl;
 
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-<<<<<<< HEAD
 import javax.swing.JPanel;
-
-=======
-import java.awt.Graphics;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import model.CoinStorage;
-import model.entities.api.Player;
-import model.entities.impl.PlayerImpl;
->>>>>>> 9be1b94f420a8be73fdf6eeb0065cccf209bfaed
+import controller.level.LevelInput;
+import controller.level.LevelLogic;
 import model.level.LevelBuilder;
+import model.GameConstants;
 import model.level.LevelInteractions;
 import model.level.LevelModel;
 import model.level.LevelQueries;
-import controller.level.LevelInput;
-import controller.level.LevelLogic;
 import view.utils.Assets;
+import view.utils.Draw;
 
 /**
  * Pannello principale del livello di gioco.
@@ -32,13 +24,14 @@ import view.utils.Assets;
  */
 public final class FireboyWatergirlLevel extends JPanel implements ActionListener, KeyListener {
 
-    private static final int FPS = 60;
+    private static final int FPS = GameConstants.LEVEL3_FRAME_TIMER_FPS;
 
     private final Timer timer = new Timer(1000 / FPS, this);
 
     private final LevelModel model;
     private final LevelInput input;
     private final Runnable onHome;
+    private String lastSkinFrame1;
 
     /**
      * Creates the level panel.
@@ -67,6 +60,7 @@ public final class FireboyWatergirlLevel extends JPanel implements ActionListene
     @Override
     public void actionPerformed(final ActionEvent e) {
         LevelLogic.tick(this, model, input);
+        refreshPlayerSkinsIfNeeded();
         repaint();
     }
 
@@ -104,7 +98,6 @@ public final class FireboyWatergirlLevel extends JPanel implements ActionListene
         return LevelQueries.isLavaAtPixel(model, px, py);
     }
 
-<<<<<<< HEAD
     /**
      * Checks if the player is on the goal area.
      *
@@ -149,34 +142,11 @@ public final class FireboyWatergirlLevel extends JPanel implements ActionListene
      * @param p player instance
      */
     public void handleTeleport(final model.entities.api.Player p) {
-=======
-    public boolean isOnGoal(Player p) {
-        return LevelQueries.isOnGoal(model, p);
-    }
-
-    public boolean touchesLava(Player p) {
-        return LevelQueries.touchesLava(model, p);
-    }
-
-    public void collectCoins(Player p) {
-        LevelInteractions.collectCoins(model, p);
-    }
-
-    public void handleButtons(Player p) {
-        LevelInteractions.handleButtons(model, p);
-    }
-
-    public void handleTeleport(Player p) {
->>>>>>> 9be1b94f420a8be73fdf6eeb0065cccf209bfaed
         LevelInteractions.handleTeleport(model, p);
     }
 
     @Override
-<<<<<<< HEAD
-    protected void paintComponent(final java.awt.Graphics g) {
-=======
-    protected void paintComponent(Graphics g) {
->>>>>>> 9be1b94f420a8be73fdf6eeb0065cccf209bfaed
+    protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
         LevelRenderer.render(this, model, g);
     }
@@ -225,22 +195,43 @@ public final class FireboyWatergirlLevel extends JPanel implements ActionListene
             model.setImgCoinGoldSide(Assets.load("/img/coin_gold_side.png"));
             model.setImgPlatform(Assets.load("/img/piattaforma_finale.png"));
             model.setImgBoulder(Assets.load("/img/masso_finale.png"));
-            model.setImgP1(Assets.load("/img/Player_1_frame_1.png"));
-            model.setImgP2(Assets.load("/img/Player_1_frame_2.png"));
+            refreshPlayerSkinsIfNeeded();
         }
         LevelBuilder.loadMap(model);
         LevelBuilder.buildAssociations(model);
     }
 
+    private void refreshPlayerSkinsIfNeeded() {
+        final String frame1 = resolveSkinPath(Draw.getPlayerFrame1());
+        if (frame1.equals(lastSkinFrame1)) {
+            return;
+        }
+        lastSkinFrame1 = frame1;
+        final java.awt.image.BufferedImage img = Assets.load(frame1);
+        model.setImgP1(img);
+        model.setImgP2(img);
+    }
+
+    private static String resolveSkinPath(final String framePath) {
+        if (framePath.startsWith("/")) {
+            return framePath;
+        }
+        return "/" + framePath;
+    }
+
     private void resetPlayersToSpawn() {
-        model.getFireboy().setX(2 * LevelConstants.TILE);
-        model.getFireboy().setY(2 * LevelConstants.TILE);
+        model.getFireboy().setX(GameConstants.LEVEL3_FIREBOY_SPAWN_TILE_X * GameConstants.LEVEL3_TILE_PIXEL_SIZE);
+        model.getFireboy().setY(GameConstants.LEVEL3_FIREBOY_SPAWN_TILE_Y * GameConstants.LEVEL3_TILE_PIXEL_SIZE);
         model.getFireboy().setVelocityX(0);
         model.getFireboy().setVelocityY(0);
         model.getFireboy().setOnGround(false);
 
-        model.getWatergirl().setX((34 - 1) * LevelConstants.TILE);
-        model.getWatergirl().setY((35 - 1) * LevelConstants.TILE);
+        model.getWatergirl().setX(
+                GameConstants.LEVEL3_WATERGIRL_SPAWN_TILE_X * GameConstants.LEVEL3_TILE_PIXEL_SIZE
+        );
+        model.getWatergirl().setY(
+                GameConstants.LEVEL3_WATERGIRL_SPAWN_TILE_Y * GameConstants.LEVEL3_TILE_PIXEL_SIZE
+        );
         model.getWatergirl().setVelocityX(0);
         model.getWatergirl().setVelocityY(0);
         model.getWatergirl().setOnGround(false);

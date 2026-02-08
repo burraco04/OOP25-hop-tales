@@ -33,7 +33,6 @@ public class Level extends JPanel {
     /**
      * Create the Level 1 view. 
      *
-     * @param levelPath string containing the path of the file that contains Level 1 data.
      * @param world world instance.
      * @param kim KeyboardInputManager instance.
      */

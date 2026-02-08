@@ -1,5 +1,7 @@
 package model.level;
 
+import model.GameConstants;
+
 /**
  * Query helpers for level geometry and interactions.
  */
@@ -19,8 +21,8 @@ public final class LevelQueries {
      */
     public static boolean isSolidAtPixel(final LevelModel model, final int px, final int py,
             final Object ignore) {
-        final int c = px / LevelConstants.TILE;
-        final int r = py / LevelConstants.TILE;
+        final int c = px / GameConstants.LEVEL3_TILE_PIXEL_SIZE;
+        final int r = py / GameConstants.LEVEL3_TILE_PIXEL_SIZE;
 
         if (r < 0 || r >= model.getRows() || c < 0 || c >= model.getCols()) {
             return true;
@@ -65,8 +67,8 @@ public final class LevelQueries {
      * @return true if the pixel is on lava
      */
     public static boolean isLavaAtPixel(final LevelModel model, final int px, final int py) {
-        final int c = px / LevelConstants.TILE;
-        final int r = py / LevelConstants.TILE;
+        final int c = px / GameConstants.LEVEL3_TILE_PIXEL_SIZE;
+        final int r = py / GameConstants.LEVEL3_TILE_PIXEL_SIZE;
         if (r < 0 || r >= model.getRows() || c < 0 || c >= model.getCols()) {
             return false;
         }
@@ -81,8 +83,8 @@ public final class LevelQueries {
     public static boolean isOnGoal(final LevelModel model, final model.entities.api.Player player) {
         final int cx = (int) Math.round(player.getX() + player.getWidth() / 2.0);
         final int cy = (int) Math.round(player.getY() + player.getHeight() / 2.0);
-        final int c = cx / LevelConstants.TILE;
-        final int r = cy / LevelConstants.TILE;
+        final int c = cx / GameConstants.LEVEL3_TILE_PIXEL_SIZE;
+        final int r = cy / GameConstants.LEVEL3_TILE_PIXEL_SIZE;
         if (r < 0 || r >= model.getRows() || c < 0 || c >= model.getCols()) {
             return false;
         }

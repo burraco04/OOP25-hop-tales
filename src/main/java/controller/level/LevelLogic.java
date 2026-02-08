@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.util.Comparator;
 
 import model.level.LevelInteractions;
+import model.GameConstants;
 import model.level.LevelModel;
 import model.level.LevelQueries;
 import model.objects.impl.MovingPlatform;
@@ -15,13 +16,13 @@ import view.impl.FireboyWatergirlLevel;
  */
 public final class LevelLogic {
 
-    private static final double GRAVITY = 0.35;
-    private static final double MAX_FALL_SPEED = 10.0;
-    private static final double JUMP_SPEED = -8.0;
-    private static final int MOVE_SPEED = 3;
-    private static final int PLATFORM_TOLERANCE = 3;
-    private static final int CRUSH_TOP_TOLERANCE = 2;
-    private static final int CRUSH_BOTTOM_TOLERANCE = 6;
+    private static final double GRAVITY = GameConstants.LEVEL3_PLAYER_GRAVITY_PER_TICK;
+    private static final double MAX_FALL_SPEED = GameConstants.LEVEL3_PLAYER_MAX_FALL_SPEED;
+    private static final double JUMP_SPEED = GameConstants.LEVEL3_PLAYER_JUMP_SPEED;
+    private static final int MOVE_SPEED = GameConstants.LEVEL3_PLAYER_MOVE_SPEED_PIXELS;
+    private static final int PLATFORM_TOLERANCE = GameConstants.LEVEL3_PLATFORM_VERTICAL_TOLERANCE_PIXELS;
+    private static final int CRUSH_TOP_TOLERANCE = GameConstants.LEVEL3_CRUSH_TOP_TOLERANCE_PIXELS;
+    private static final int CRUSH_BOTTOM_TOLERANCE = GameConstants.LEVEL3_CRUSH_BOTTOM_TOLERANCE_PIXELS;
 
     private LevelLogic() { }
 

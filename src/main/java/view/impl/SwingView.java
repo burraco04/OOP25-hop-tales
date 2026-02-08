@@ -6,11 +6,10 @@ import javax.swing.JDialog;
 import controller.AudioManager;
 import controller.KeyboardInputManager;
 import controller.api.ControllerMenu;
-import model.GameConstants;
 import controller.api.State;
+import model.GameConstants;
 import model.World;
 import view.api.View;
-
 
 /**
  * This class represents the main graphical view of the application.
@@ -41,7 +40,7 @@ public final class SwingView implements View {
      * @param controller the menu controller used to manage user interactions
      */
     public void setController(final ControllerMenu controller) {
-    this.controller = controller;
+        this.controller = controller;
     }
 
     /**

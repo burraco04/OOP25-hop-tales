@@ -2,6 +2,7 @@ package model.objects.impl;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import model.GameConstants;
 import model.objects.api.AbstractWorldEntity;
 
 /**
@@ -14,7 +15,7 @@ public final class MovingPlatform extends AbstractWorldEntity {
 
     private int startY;
     private int targetDy;
-    private double speed = 1.0;
+    private double speed = GameConstants.LEVEL3_PLATFORM_DEFAULT_SPEED;
 
     private boolean isLeftSide;
 

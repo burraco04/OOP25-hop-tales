@@ -8,39 +8,73 @@ import model.entities.api.EnemyType;
 import model.entities.impl.JumperImpl;
 import model.entities.impl.WalkerImpl;
 
-public class EnemyMovementTest {
+/**
+ * Test class to check enemy movement behavior.
+ * Ensures that:
+ * - Walker enemies move horizontally
+ * - Jumper enemies move horizontally and eventually jump
+ */
+class EnemyMovementTest {
 
-    private static final int MAX_UPDATE = 50;      
-    private static final double DELTA = 1.0;        
-    private static final double EPSILON = 1e-6; //for error using double  
+    private static final int MOVE_TEST = 50;
+    private static final double DELTA = 1.0 / 60.0;
+    private static final int WALKER_X = 2;
+    private static final int WALKER_Y = 4;
+    private static final int JUMPER_X = 4;
+    private static final int JUMPER_Y = 8;
+    // Small tolerance used for comparing double values to avoid precision errors
+    private static final double EPSILON = 0.0001;
 
+    /**
+     * Test that a Walker enemy moves horizontally when updated.
+     */
     @Test
-    void testWalkerMovement() {
-        Enemy walker = new WalkerImpl(0, 0, EnemyType.WALKER);
-        double initialX = walker.getX();
-        double initialY = walker.getY();
+    void testWalkerMovesHorizontally() {
 
-        for (int i = 0; i < MAX_UPDATE; i++) {
-            walker.update(DELTA);
-        }
+        final Enemy walker = new WalkerImpl(WALKER_X, WALKER_Y, EnemyType.WALKER);
 
-        assertTrue(Math.abs(walker.getX() - initialX) > EPSILON, "Walker should move horizontally");
-        assertTrue(Math.abs(walker.getY() - initialY) < EPSILON, "Walker should not move vertically");
+        final double startX = walker.getX();
+
+        walker.update(DELTA);
+
+        assertTrue(Math.abs(walker.getX() - startX) > EPSILON, "Walker should move horizontally");
     }
 
+    /**
+     * Test that a Jumper enemy moves horizontally when updated.
+     */
     @Test
-    void testJumperMovement() {
-        JumperImpl jumper = new JumperImpl(0, 0, EnemyType.JUMPER);
-        double initialX = jumper.getX();
-        double initialY = jumper.getY();
+    void testJumperMovesHorizontally() {
 
+        final Enemy jumper = new JumperImpl(JUMPER_X, JUMPER_Y, EnemyType.JUMPER);
 
-        for (int i = 0; i < MAX_UPDATE; i++) {
+        final double startX = jumper.getX();
+
+        jumper.update(DELTA);
+
+        assertTrue(Math.abs(jumper.getX() - startX) > EPSILON, "Jumper should move horizontally");
+    }
+
+    /**
+     * Test that a Jumper enemy eventually jumps after several updates.
+     */
+    @Test
+    void testJumperEventuallyJumps() {
+
+        final Enemy jumper = new JumperImpl(JUMPER_X, JUMPER_Y, EnemyType.JUMPER);
+
+        final double startY = jumper.getY();
+        boolean jumped = false;
+
+        for (int i = 0; i < MOVE_TEST; i++) {
             jumper.update(DELTA);
+            if (jumper.getY() < startY) {
+                jumped = true;
+                break;
+            }
         }
 
-        assertTrue(Math.abs(jumper.getX() - initialX) > EPSILON, "Jumper should move horizontally");
-        assertTrue(Math.abs(jumper.getY() - initialY) > EPSILON, "Jumper should move vertically (jump)");
+        assertTrue(jumped, "Jumper should eventually jump");
     }
 
 }

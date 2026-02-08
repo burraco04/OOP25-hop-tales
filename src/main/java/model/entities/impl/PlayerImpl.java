@@ -111,7 +111,6 @@ public final class PlayerImpl implements Player {
      */
     public void setVelocityX(final double velocityX) {
         this.velocityX = velocityX;
-        
     }
 
     /**

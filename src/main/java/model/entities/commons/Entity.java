@@ -42,11 +42,6 @@ public interface Entity {
     double getHeight();
 
     /**
-     * @return true if the entity is alive.
-     */
-    boolean isAlive();
-
-    /**
      * Updates entity logic.
      *
      * @param deltaSeconds time in seconds since last update

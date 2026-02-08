@@ -108,12 +108,6 @@ public abstract class AbstractEnemyImpl implements Enemy {
         return height; 
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public boolean isAlive() { 
-        return true; // Enemy cannot die
-    }
-
     /**
      * {@inheritDoc}
      */

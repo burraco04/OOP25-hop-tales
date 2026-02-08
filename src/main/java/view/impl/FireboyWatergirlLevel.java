@@ -1,17 +1,18 @@
 package view.impl;
 
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import controller.level.LevelInput;
 import controller.level.LevelLogic;
-import model.level.LevelBuilder;
 import model.GameConstants;
+import model.entities.api.Player;
+import model.level.LevelBuilder;
 import model.level.LevelInteractions;
 import model.level.LevelModel;
 import model.level.LevelQueries;
@@ -99,49 +100,49 @@ public final class FireboyWatergirlLevel extends JPanel implements ActionListene
     }
 
     /**
-     * Checks if the player is on the goal area.
+     * Checks if the given player is on the goal tile.
      *
-     * @param p player instance
-     * @return true if the player reached the goal
+     * @param p the player to check
+     * @return true if the player is on a goal tile
      */
-    public boolean isOnGoal(final model.entities.api.Player p) {
+    public boolean isOnGoal(final Player p) {
         return LevelQueries.isOnGoal(model, p);
     }
 
     /**
-     * Checks if the player is touching lava.
+     * Checks if the given player touches lava.
      *
-     * @param p player instance
-     * @return true if the player touches lava
+     * @param p the player to check
+     * @return true if the player is touching lava
      */
-    public boolean touchesLava(final model.entities.api.Player p) {
+    public boolean touchesLava(final Player p) {
         return LevelQueries.touchesLava(model, p);
     }
 
     /**
-     * Collects all coins touched by the player.
+     * Collects coins for the given player if possible.
      *
-     * @param p player instance
+     * @param p the player collecting coins
      */
-    public void collectCoins(final model.entities.api.Player p) {
+    public void collectCoins(final Player p) {
         LevelInteractions.collectCoins(model, p);
     }
 
     /**
-     * Updates button-pad interactions for the player.
+     * Handles button interactions for the given player.
      *
-     * @param p player instance
+     * @param p the player interacting with buttons
      */
-    public void handleButtons(final model.entities.api.Player p) {
+    public void handleButtons(final Player p) {
         LevelInteractions.handleButtons(model, p);
     }
 
     /**
-     * Updates teleporter interactions for the player.
+     * Handles teleporter interactions for the given player.
      *
-     * @param p player instance
+     * @param p the player interacting with teleporters
      */
-    public void handleTeleport(final model.entities.api.Player p) {
+    public void handleTeleport(final Player p) {
         LevelInteractions.handleTeleport(model, p);
     }
 

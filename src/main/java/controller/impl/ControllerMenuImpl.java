@@ -4,7 +4,6 @@ import controller.GameController;
 import controller.api.ControllerMenu;
 import controller.api.State;
 import model.ShopModel;
-import view.utils.Draw;
 import view.api.View;
 
 /**
@@ -45,15 +44,8 @@ public class ControllerMenuImpl implements ControllerMenu {
      * {@inheritDoc}
      */
     @Override
-    public void selectSkin(final String frame1, final String frame2) {
-        Draw.setPlayerSkin(frame1, frame2);
+    public ShopModel getShopModel() {
+        return shopModel;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ShopModel getShopModel() {
-        return this.shopModel;
-    }
 }

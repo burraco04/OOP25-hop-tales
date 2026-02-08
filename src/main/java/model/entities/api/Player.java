@@ -8,6 +8,11 @@ import model.entities.commons.Entity;
 public interface Player extends Entity {
 
     /**
+     * @return true if the player is alive.
+     */
+    boolean isAlive();
+
+    /**
      * Get the player's current health. 
      *
      * @return the {@link Player} current health points. 

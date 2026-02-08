@@ -20,9 +20,20 @@ import model.GameConstants;
 import model.World;
 import model.objects.api.WorldObject;
 
-public class MapTest {
+/**
+ * Automated tests for map loading, entity creation and world initialization.
+ */
+class MapTest {
     private static final String LEVEL_1_PATH = "levels/Level1.json";
     private static final String LEVEL_2_PATH = "levels/Level2.json";
+    private static final int SPAWN_PLAYER_Y = 26;
+    private static final int SOLID_TILE_Y = 26;
+    private static final int EMPTY_TILE_X = 10;
+    private static final int EMPTY_TILE_Y = 5;
+    private static final int HAZARD_X = 100;
+    private static final int HAZARD_Y = 27;
+    private static final int CASTLE_X = 191;
+    private static final int CASTLE_Y = 20;
 
     // verifies the correct loading and deserialization of the first level.
     @Test
@@ -32,7 +43,7 @@ public class MapTest {
         assertAll(
             () -> assertNotNull(level),
             () -> assertEquals(1, level.getSpawnPointX()),
-            () -> assertEquals(24, level.getSpawnPointY()),
+            () -> assertEquals(SPAWN_PLAYER_Y, level.getSpawnPointY()),
             () -> assertFalse(level.getEntities().isEmpty()),
             () -> assertFalse(level.getEnemies().isEmpty())
         );
@@ -52,10 +63,10 @@ public class MapTest {
         final World world = loadWorldWithEntities(1, LEVEL_1_PATH);
 
         assertAll(
-            () -> assertTrue(world.collidesWithSolid(0, 26, 1, 1)),
-            () -> assertFalse(world.collidesWithSolid(10, 5, 1, 1)),
-            () -> assertTrue(world.collidesWithHazard(100, 27)),
-            () -> assertTrue(world.enteringCastle(191, 20, 1, 2))
+            () -> assertTrue(world.collidesWithSolid(0, SOLID_TILE_Y, 1, 1)),
+            () -> assertFalse(world.collidesWithSolid(EMPTY_TILE_X, EMPTY_TILE_Y, 1, 1)),
+            () -> assertTrue(world.collidesWithHazard(HAZARD_X, HAZARD_Y)),
+            () -> assertTrue(world.enteringCastle(CASTLE_X, CASTLE_Y, 1, 2))
         );
     }
 

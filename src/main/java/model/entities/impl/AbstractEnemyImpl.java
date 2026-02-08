@@ -9,7 +9,6 @@ import model.entities.api.EnemyType;
 /**
  * Default implementation of an enemy entity.
  */
-@SuppressWarnings("PMD.ImmutableField")
 public abstract class AbstractEnemyImpl implements Enemy {
 
     private static final double LEFT_BOUNDARY = 0.0;
@@ -22,7 +21,6 @@ public abstract class AbstractEnemyImpl implements Enemy {
     private final EnemyType type;
     private double x;
     private double y;
-    private boolean alive = true;
 
     /**
      * Creates an enemy with the provided initial state.
@@ -113,7 +111,7 @@ public abstract class AbstractEnemyImpl implements Enemy {
     /** {@inheritDoc} */
     @Override
     public boolean isAlive() { 
-        return alive; 
+        return true; // Enemy cannot die
     }
 
     /**

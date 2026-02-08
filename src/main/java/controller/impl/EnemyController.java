@@ -28,11 +28,7 @@ public class EnemyController implements ControllerObserver {
      */
     @Override
     public void update() {
-        world.getEnemies().forEach(enemy -> {
-            if (enemy.isAlive()) {
-                enemy.update(DELTA);
-            }
-        });
+        world.getEnemies().forEach(enemy -> enemy.update(DELTA));
     }
 
 }

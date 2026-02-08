@@ -109,9 +109,6 @@ public final class Collider {
             GameConstants.PLAYER_HEIGHT_TILES
         );
         for (final Enemy enemy : enemies) {
-            if (!enemy.isAlive()) {
-                continue;
-            }
             final int ex = (int) Math.floor(enemy.getX());
             final int ey = (int) Math.floor(enemy.getY());
             final Rectangle enemyRect = new Rectangle(ex, ey, GameConstants.ENEMY_WITDH, GameConstants.ENEMY_HEIGHT);

@@ -1,71 +1,43 @@
 package model.objects.impl;
 
-import model.objects.api.WorldObject;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import model.objects.api.AbstractWorldEntity;
 
 /**
- * Door that can be opened or closed.
+ * Door entity that can be opened to allow passage.
  */
-public final class Door implements WorldObject {
+public final class Door extends AbstractWorldEntity {
 
-    private final int x;
-    private final int y;
-    private final int w;
-    private final int h;
     private boolean open;
+    private final BufferedImage tileTexture;
+    private final int tileSize;
 
     /**
-     * Create a door.
+     * Creates a new door.
      *
      * @param x x coordinate
      * @param y y coordinate
      * @param w width
      * @param h height
+     * @param tileTexture texture tile
+     * @param tileSize tile size
      */
-    public Door(final int x, final int y, final int w, final int h) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getType() {
-        return "DOOR";
+    public Door(
+            final int x,
+            final int y,
+            final int w,
+            final int h,
+            final BufferedImage tileTexture,
+            final int tileSize
+    ) {
+        super(x, y, w, h, "DOOR");
+        this.tileTexture = tileTexture;
+        this.tileSize = tileSize;
     }
 
     /**
-     * Return the width.
-     *
-     * @return width
-     */
-    public int getW() {
-        return w;
-    }
-
-    /**
-     * Return the height.
-     *
-     * @return height
-     */
-    public int getH() {
-        return h;
-    }
-
-    /**
-     * Check whether the door is open.
+     * Returns whether the door is open.
      *
      * @return true if open
      */
@@ -74,16 +46,19 @@ public final class Door implements WorldObject {
     }
 
     /**
-     * Open the door.
+     * Sets the door open state.
+     *
+     * @param open true to open
      */
-    public void open() {
-        open = true;
+    public void setOpen(final boolean open) {
+        this.open = open;
     }
 
-    /**
-     * Close the door.
-     */
-    public void close() {
-        open = false;
+    @Override
+    public void draw(final Graphics g) {
+        if (open) {
+            return;
+        }
+        drawTiled(g, tileTexture, tileSize);
     }
 }

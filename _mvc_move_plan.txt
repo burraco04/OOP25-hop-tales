@@ -1,0 +1,11 @@
+Planned moves:
+- app.level.Assets -> view.utils.Assets
+- app.level.FireboyWatergirlLevel -> view.impl.FireboyWatergirlLevel
+- app.level.LevelRenderer -> view.impl.LevelRenderer
+- app.level.LevelInput -> controller.level.LevelInput
+- app.level.LevelLogic -> controller.level.LevelLogic
+- app.level.LevelModel -> model.level.LevelModel
+- app.level.LevelBuilder -> model.level.LevelBuilder (remove loadImages)
+- app.level.LevelQueries -> model.level.LevelQueries
+- app.level.LevelInteractions -> model.level.LevelInteractions
++ new model.level.LevelConstants (TILE)

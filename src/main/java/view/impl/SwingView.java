@@ -7,8 +7,10 @@ import controller.AudioManager;
 import controller.KeyboardInputManager;
 import controller.api.ControllerMenu;
 import model.GameConstants;
+import controller.api.State;
 import model.World;
 import view.api.View;
+
 
 /**
  * This class represents the main graphical view of the application.
@@ -135,6 +137,20 @@ public final class SwingView implements View {
             this.activeLevel.stop();
             this.activeLevel = null;
         }
+    }
+
+    /**
+     * Shows the level 3 panel.
+     */
+    @Override
+    public void showLevel3() {
+        final FireboyWatergirlLevel l3 = new FireboyWatergirlLevel(
+            () -> this.controller.handleEvent(State.MAIN_MENU)
+        );
+        this.frame.setContentPane(l3);
+        this.frame.revalidate();
+        this.frame.repaint();
+        l3.requestFocusInWindow();
     }
 
 }

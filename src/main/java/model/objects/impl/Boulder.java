@@ -1,128 +1,147 @@
 package model.objects.impl;
 
-import model.objects.api.WorldObject;
+import view.impl.FireboyWatergirlLevel;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import model.entities.impl.PlayerImpl;
+import model.objects.api.AbstractWorldEntity;
 
 /**
- * Simple physics-driven boulder object.
+ * Boulder entity with simple physics and push interaction.
  */
-public final class Boulder implements WorldObject {
+public final class Boulder extends AbstractWorldEntity {
 
-    private static final double GRAVITY_STEP = 0.35;
+    private static final double GRAVITY = 0.35;
     private static final double MAX_FALL_SPEED = 10.0;
-    private int x;
-    private int y;
-    private final int w;
-    private final int h;
-    private double vy;
+    private static final int CORNER_OFFSET = 1;
+    private static final int OPPOSITE_OFFSET = 2;
+
+    private double velocityY;
+    private final BufferedImage tileTexture;
+    private final int tileSize;
 
     /**
-     * Create a boulder at the given position.
+     * Creates a boulder.
      *
      * @param x x coordinate
      * @param y y coordinate
      * @param w width
      * @param h height
+     * @param tileTexture texture tile
+     * @param tileSize tile size
      */
-    public Boulder(final int x, final int y, final int w, final int h) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getType() {
-        return "BOULDER";
+    public Boulder(
+            final int x,
+            final int y,
+            final int w,
+            final int h,
+            final BufferedImage tileTexture,
+            final int tileSize
+    ) {
+        super(x, y, w, h, "BOULDER");
+        this.tileTexture = tileTexture;
+        this.tileSize = tileSize;
     }
 
     /**
-     * Return the width of the boulder.
+     * Returns the current vertical velocity.
      *
-     * @return width
+     * @return vertical velocity
      */
-    public int getW() {
-        return w;
+    public double getVelocityY() {
+        return velocityY;
     }
 
     /**
-     * Return the height of the boulder.
+     * Updates physics for the boulder.
      *
-     * @return height
+     * @param world game world
      */
-    public int getH() {
-        return h;
-    }
+    public void updatePhysics(final FireboyWatergirlLevel world) {
+        velocityY += GRAVITY;
+        if (velocityY > MAX_FALL_SPEED) {
+            velocityY = MAX_FALL_SPEED;
+        }
 
-    /**
-     * Return the current vertical speed.
-     *
-     * @return vertical speed
-     */
-    public double getVy() {
-        return vy;
-    }
+        final int nextY = (int) (getY() + velocityY);
 
-    /**
-     * Set the current vertical speed.
-     *
-     * @param vy new vertical speed
-     */
-    public void setVy(final double vy) {
-        this.vy = vy;
-    }
-
-    /**
-     * Set the x coordinate.
-     *
-     * @param x new x coordinate
-     */
-    public void setX(final int x) {
-        this.x = x;
-    }
-
-    /**
-     * Set the y coordinate.
-     *
-     * @param y new y coordinate
-     */
-    public void setY(final int y) {
-        this.y = y;
-    }
-
-    /**
-     * Apply gravity to the boulder.
-     */
-    public void applyGravity() {
-        vy += GRAVITY_STEP;
-        if (vy > MAX_FALL_SPEED) {
-            vy = MAX_FALL_SPEED;
+        if (!collides(world, getX(), nextY)) {
+            setY(nextY);
+        } else {
+            velocityY = 0;
         }
     }
 
-    /**
-     * Apply the current vertical speed to the position.
-     */
-    public void stepVertical() {
-        y = (int) (y + vy);
+    private boolean collides(final FireboyWatergirlLevel world, final int nx, final int ny) {
+        return world.isSolidAtPixel(nx + CORNER_OFFSET, ny + CORNER_OFFSET, this)
+                || world.isSolidAtPixel(nx + getW() - OPPOSITE_OFFSET, ny + CORNER_OFFSET, this)
+                || world.isSolidAtPixel(nx + CORNER_OFFSET, ny + getH() - OPPOSITE_OFFSET, this)
+                || world.isSolidAtPixel(nx + getW() - OPPOSITE_OFFSET, ny + getH() - OPPOSITE_OFFSET, this);
     }
 
     /**
-     * Stop the vertical movement.
+     * Attempts to push the boulder by the given player.
+     *
+     * @param player player instance
+     * @param world game world
      */
-    public void stopVertical() {
-        vy = 0;
+    public void tryPushBy(final PlayerImpl player, final FireboyWatergirlLevel world) {
+        final Rectangle playerRect = new Rectangle(
+                (int) Math.round(player.getX()),
+                (int) Math.round(player.getY()),
+                (int) Math.round(player.getWidth()),
+                (int) Math.round(player.getHeight())
+        );
+
+        final Rectangle boulderRect = rect();
+        if (!playerRect.intersects(boulderRect)) {
+            return;
+        }
+
+        final double velocityX = player.getVelocityX();
+        if (velocityX == 0) {
+            return;
+        }
+
+<<<<<<< HEAD
+        final int step = velocityX > 0 ? 1 : -1;
+        final int steps = (int) Math.abs(velocityX);
+=======
+        boolean verticalOverlap =
+                pr.y + pr.height > br.y + 2
+                        && pr.y < br.y + br.height - 2;
+        if (!verticalOverlap) {
+            return;
+        }
+
+        // Only push when the player is on the side, not on top.
+        if (vx > 0) {
+            if (pr.x + pr.width > br.x + 2) {
+                return;
+            }
+        } else {
+            if (pr.x < br.x + br.width - 2) {
+                return;
+            }
+        }
+
+        int step = vx > 0 ? 1 : -1;
+        int steps = (int) Math.abs(vx);
+>>>>>>> 9be1b94f420a8be73fdf6eeb0065cccf209bfaed
+
+        for (int i = 0; i < steps; i++) {
+            final int nextX = getX() + step;
+            if (!collides(world, nextX, getY())) {
+                setX(nextX);
+            } else {
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void draw(final Graphics g) {
+        drawTiled(g, tileTexture, tileSize);
     }
 }

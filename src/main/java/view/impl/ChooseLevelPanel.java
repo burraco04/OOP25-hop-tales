@@ -51,6 +51,8 @@ public final class ChooseLevelPanel extends JPanel {
         level1.addActionListener(e -> controller.handleEvent(State.LEVEL_1));
 
         level2.addActionListener(e -> controller.handleEvent(State.LEVEL_2));
+        
+        level3.addActionListener(e -> controller.handleEvent(State.LEVEL_3, Optional.empty()));
 
         final JButton back = this.buttonbackFactory.buildbackbutton();
 

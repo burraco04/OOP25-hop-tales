@@ -1,18 +1,18 @@
 package model.objects.impl;
 
-import model.objects.api.WorldObject;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import model.objects.api.AbstractWorldEntity;
 
 /**
- * Moving platform that can shift vertically.
+ * Moving platform that can move vertically based on balance state.
  */
-public final class MovingPlatform implements WorldObject {
+public final class MovingPlatform extends AbstractWorldEntity {
 
-    private final int x;
-    private int y;
-    private final int w;
-    private final int h;
+    private final BufferedImage tileTexture;
+    private final int tileSize;
 
-    private final int startY;
+    private int startY;
     private int targetDy;
     private double speed = 1.0;
 
@@ -22,74 +22,91 @@ public final class MovingPlatform implements WorldObject {
     private int prevY;
 
     /**
-     * Create a moving platform.
+     * Creates a moving platform.
      *
      * @param x x coordinate
      * @param y y coordinate
      * @param w width
      * @param h height
+     * @param tileTexture texture tile
+     * @param tileSize tile size
      */
-    public MovingPlatform(final int x, final int y, final int w, final int h) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-        this.startY = y;
-        this.prevX = x;
-        this.prevY = y;
-    }
+    public MovingPlatform(
+            final int x,
+            final int y,
+            final int w,
+            final int h,
+            final BufferedImage tileTexture,
+            final int tileSize
+    ) {
+        super(x, y, w, h, "PLATFORM");
+        this.tileTexture = tileTexture;
+        this.tileSize = tileSize;
 
-    /** {@inheritDoc} */
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getType() {
-        return "PLATFORM";
+        startY = getY();
+        prevX = getX();
+        prevY = getY();
     }
 
     /**
-     * Return the width.
+     * Configures the platform balance role.
      *
-     * @return width
+     * @param isLeft true if the platform is on the left side
+     * @param dyWhenActive vertical offset when active
+     * @param newSpeed movement speed
      */
-    public int getW() {
-        return w;
-    }
-
-    /**
-     * Return the height.
-     *
-     * @return height
-     */
-    public int getH() {
-        return h;
-    }
-
-    /**
-     * Configure the balancing role.
-     *
-     * @param isLeft whether this platform is on the left side
-     * @param dyWhenActive vertical delta when active
-     * @param speedValue movement speed
-     */
-    public void setBalanceRole(final boolean isLeft, final int dyWhenActive, final double speedValue) {
+    public void setBalanceRole(final boolean isLeft, final int dyWhenActive, final double newSpeed) {
         this.isLeftSide = isLeft;
         this.targetDy = dyWhenActive;
-        this.speed = speedValue;
+        this.speed = newSpeed;
     }
 
     /**
-     * Return whether the platform is on the left side.
+     * Updates the platform position based on the balance state.
+     *
+     * @param active true if the balance is active
+     */
+    public void updateBalance(final boolean active) {
+        prevX = getX();
+        prevY = getY();
+
+        final int desiredY = active ? (startY + targetDy) : startY;
+        int currentY = getY();
+
+        if (currentY < desiredY) {
+            currentY += (int) Math.ceil(speed);
+        }
+        if (currentY > desiredY) {
+            currentY -= (int) Math.ceil(speed);
+        }
+
+        if (Math.abs(currentY - desiredY) <= 1) {
+            currentY = desiredY;
+        }
+
+        setY(currentY);
+    }
+
+    /**
+     * Returns the platform delta x since last update.
+     *
+     * @return delta x
+     */
+    public int deltaX() {
+        return getX() - prevX;
+    }
+
+    /**
+     * Returns the platform delta y since last update.
+     *
+     * @return delta y
+     */
+    public int deltaY() {
+        return getY() - prevY;
+    }
+
+    /**
+     * Returns whether the platform is on the left side.
      *
      * @return true if left side
      */
@@ -97,45 +114,8 @@ public final class MovingPlatform implements WorldObject {
         return isLeftSide;
     }
 
-    /**
-     * Update the vertical balance position.
-     *
-     * @param active whether the balancing trigger is active
-     */
-    public void updateBalance(final boolean active) {
-        prevX = x;
-        prevY = y;
-
-        final int desiredY = active ? (startY + targetDy) : startY;
-        final int step = (int) Math.ceil(speed);
-
-        if (y < desiredY) {
-            y += step;
-        }
-        if (y > desiredY) {
-            y -= step;
-        }
-
-        if (Math.abs(y - desiredY) <= 1) {
-            y = desiredY;
-        }
-    }
-
-    /**
-     * Return the horizontal delta since last update.
-     *
-     * @return delta x
-     */
-    public int deltaX() {
-        return x - prevX;
-    }
-
-    /**
-     * Return the vertical delta since last update.
-     *
-     * @return delta y
-     */
-    public int deltaY() {
-        return y - prevY;
+    @Override
+    public void draw(final Graphics g) {
+        drawTiled(g, tileTexture, tileSize);
     }
 }

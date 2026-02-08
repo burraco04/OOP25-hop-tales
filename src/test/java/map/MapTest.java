@@ -1,15 +1,14 @@
 package map;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 import deserialization.level.EntityData;
@@ -26,7 +25,7 @@ import model.objects.api.WorldObject;
 class MapTest {
     private static final String LEVEL_1_PATH = "levels/Level1.json";
     private static final String LEVEL_2_PATH = "levels/Level2.json";
-    private static final int SPAWN_PLAYER_Y = 26;
+    private static final int SPAWN_PLAYER_Y = 24;
     private static final int SOLID_TILE_Y = 26;
     private static final int EMPTY_TILE_X = 10;
     private static final int EMPTY_TILE_Y = 5;

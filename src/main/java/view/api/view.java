@@ -47,7 +47,6 @@ void showGameOver();
  * Show the level completed panel.
  */
 void showLevelCompleted();
-void showLevel1(World world, KeyboardInputManager kim);
 
 /**
  * Display the third level.

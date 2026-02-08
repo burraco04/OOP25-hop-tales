@@ -106,7 +106,7 @@ public final class LevelModel {
      * Creates the level model with default state.
      */
     public LevelModel() {
-        totalCoinsSaved = CoinStorage.loadTotalCoins();
+        totalCoinsSaved = CoinStorage.getCoins();
         // spawn player 1 in alto-sinistra (tile 2,2)
         fireboy = new PlayerImpl(
                 FIREBOY_START_TILE_X * LevelConstants.TILE,

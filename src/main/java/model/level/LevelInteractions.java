@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.util.Iterator;
 
 import model.CoinStorage;
+import model.GameConstants;
 
 /**
  * Utility class for level interactions.
@@ -36,7 +37,8 @@ public final class LevelInteractions {
 
             if (cr.intersects(pr)) {
                 it.remove();
-                model.setTotalCoinsSaved(CoinStorage.addCoins(1));
+                CoinStorage.collectCoin();
+                model.setTotalCoinsSaved(CoinStorage.getCoins());
                 System.out.println("Moneta presa! Totale salvato = " + model.getTotalCoinsSaved());
             }
         }

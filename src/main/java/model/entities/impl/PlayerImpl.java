@@ -19,6 +19,7 @@ public final class PlayerImpl implements Player {
     private int healthPoints;
     private boolean powerUpped;
     private long lastDamageMillis;
+    private boolean onGround;
 
     /**
      * Builds a new player instance bound to the given level geometry.

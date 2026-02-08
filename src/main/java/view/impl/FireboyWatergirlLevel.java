@@ -4,10 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-<<<<<<< HEAD
-import javax.swing.JPanel;
-
-=======
 import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,8 +13,8 @@ import javax.swing.Timer;
 import model.CoinStorage;
 import model.entities.api.Player;
 import model.entities.impl.PlayerImpl;
->>>>>>> 9be1b94f420a8be73fdf6eeb0065cccf209bfaed
 import model.level.LevelBuilder;
+import model.level.LevelConstants;
 import model.level.LevelInteractions;
 import model.level.LevelModel;
 import model.level.LevelQueries;
@@ -104,52 +100,6 @@ public final class FireboyWatergirlLevel extends JPanel implements ActionListene
         return LevelQueries.isLavaAtPixel(model, px, py);
     }
 
-<<<<<<< HEAD
-    /**
-     * Checks if the player is on the goal area.
-     *
-     * @param p player instance
-     * @return true if the player reached the goal
-     */
-    public boolean isOnGoal(final model.entities.api.Player p) {
-        return LevelQueries.isOnGoal(model, p);
-    }
-
-    /**
-     * Checks if the player is touching lava.
-     *
-     * @param p player instance
-     * @return true if the player touches lava
-     */
-    public boolean touchesLava(final model.entities.api.Player p) {
-        return LevelQueries.touchesLava(model, p);
-    }
-
-    /**
-     * Collects all coins touched by the player.
-     *
-     * @param p player instance
-     */
-    public void collectCoins(final model.entities.api.Player p) {
-        LevelInteractions.collectCoins(model, p);
-    }
-
-    /**
-     * Updates button-pad interactions for the player.
-     *
-     * @param p player instance
-     */
-    public void handleButtons(final model.entities.api.Player p) {
-        LevelInteractions.handleButtons(model, p);
-    }
-
-    /**
-     * Updates teleporter interactions for the player.
-     *
-     * @param p player instance
-     */
-    public void handleTeleport(final model.entities.api.Player p) {
-=======
     public boolean isOnGoal(Player p) {
         return LevelQueries.isOnGoal(model, p);
     }
@@ -167,16 +117,11 @@ public final class FireboyWatergirlLevel extends JPanel implements ActionListene
     }
 
     public void handleTeleport(Player p) {
->>>>>>> 9be1b94f420a8be73fdf6eeb0065cccf209bfaed
         LevelInteractions.handleTeleport(model, p);
     }
 
     @Override
-<<<<<<< HEAD
-    protected void paintComponent(final java.awt.Graphics g) {
-=======
     protected void paintComponent(Graphics g) {
->>>>>>> 9be1b94f420a8be73fdf6eeb0065cccf209bfaed
         super.paintComponent(g);
         LevelRenderer.render(this, model, g);
     }

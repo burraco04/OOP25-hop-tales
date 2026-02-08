@@ -104,31 +104,26 @@ public final class Boulder extends AbstractWorldEntity {
             return;
         }
 
-<<<<<<< HEAD
-        final int step = velocityX > 0 ? 1 : -1;
-        final int steps = (int) Math.abs(velocityX);
-=======
         boolean verticalOverlap =
-                pr.y + pr.height > br.y + 2
-                        && pr.y < br.y + br.height - 2;
+                playerRect.y + playerRect.height > boulderRect.y + 2
+                        && playerRect.y < boulderRect.y + boulderRect.height - 2;
         if (!verticalOverlap) {
             return;
         }
 
         // Only push when the player is on the side, not on top.
-        if (vx > 0) {
-            if (pr.x + pr.width > br.x + 2) {
+        if (velocityX > 0) {
+            if (playerRect.x + playerRect.width > boulderRect.x + 2) {
                 return;
             }
         } else {
-            if (pr.x < br.x + br.width - 2) {
+            if (playerRect.x < boulderRect.x + boulderRect.width - 2) {
                 return;
             }
         }
 
-        int step = vx > 0 ? 1 : -1;
-        int steps = (int) Math.abs(vx);
->>>>>>> 9be1b94f420a8be73fdf6eeb0065cccf209bfaed
+        int step = velocityX > 0 ? 1 : -1;
+        int steps = (int) Math.abs(velocityX);
 
         for (int i = 0; i < steps; i++) {
             final int nextX = getX() + step;

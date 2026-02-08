@@ -43,7 +43,7 @@ public class ControllerMenuImpl implements ControllerMenu {
 
         case LEVEL_2 -> new GameController(this.view, 2, "levels/Level2.json");
 
-         case LEVEL_3 -> view.showLevel3();
+        case LEVEL_3 -> view.showLevel3();
      }
     }
 
@@ -63,19 +63,4 @@ public class ControllerMenuImpl implements ControllerMenu {
         return this.shopModel;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void selectSkin(final String frame1, final String frame2) {
-        Draw.setPlayerSkin(frame1, frame2);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ShopModel getShopModel() {
-        return this.shopModel;
-    }
 }

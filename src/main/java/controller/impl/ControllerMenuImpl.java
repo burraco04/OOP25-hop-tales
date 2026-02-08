@@ -5,6 +5,7 @@ import controller.api.ControllerMenu;
 import controller.api.State;
 import model.ShopModel;
 import view.api.View;
+import view.utils.Draw;
 
 /**
  * Implementation of the ControllerMenu interface.
@@ -38,6 +39,14 @@ public class ControllerMenuImpl implements ControllerMenu {
         case LEVEL_3 -> view.showLevel3();
         default -> { }
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void selectSkin(final String frame1, final String frame2) {
+        Draw.setPlayerSkin(frame1, frame2);
     }
 
     /**

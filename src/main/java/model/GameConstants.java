@@ -28,6 +28,8 @@ public final class GameConstants {
     public static final int COIN_VALUE = 5;
     public static final int COIN_POSITION = 50;
     public static final int TILE_SIZE = 30; //pixel
+    public static final int TILE_SIZE_X = 20;
+    public static final int TILE_SIZE_Y = 30;
     public static final int LEVEL_1_WIDTH = 1000;
     public static final int LEVEL_2_WIDTH = 800;
     public static final Color BACK_COLOR = new Color(34, 85, 34);

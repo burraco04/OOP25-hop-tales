@@ -223,4 +223,5 @@ public final class PlayerImpl implements Player {
         final long cooldownMillis = (long) (GameConstants.DAMAGE_COOLDOWN * 1000f);
         return now - lastDamageMillis < cooldownMillis;
     }
+
 }

@@ -21,35 +21,47 @@ import model.objects.impl.collectable.Powerup;
  * Tests for collider tile-based checks.
  */
 class ColliderTest {
+    private static final int SOLID_X = 2;
+    private static final int SOLID_Y = 3;
+    private static final int HAZARD_X = 4;
+    private static final int HAZARD_Y = 5;
+    private static final int DOOR_X = 10;
+    private static final int DOOR_Y = 10;
+    private static final int FAR_X = 9;
+    private static final int FAR_Y = 9;
+    private static final int COIN_X = 3;
+    private static final int COIN_Y = 3;
+    private static final int POWERUP_X = 5;
+    private static final int POWERUP_Y = 5;
 
     @Test
     void testCollidesWithSolid() {
         final Set<Point> solids = new HashSet<>();
-        solids.add(new Point(2, 3));
+        solids.add(new Point(SOLID_X, SOLID_Y));
         final Collider collider = buildCollider(solids);
 
-        assertTrue(collider.collidesWithSolid(2, 3, 1, 1));
+        assertTrue(collider.collidesWithSolid(SOLID_X, SOLID_Y, 1, 1));
         assertFalse(collider.collidesWithSolid(0, 0, 1, 1));
     }
 
     @Test
     void testCollidesWithHazard() {
         final Set<Point> hazards = new HashSet<>();
-        hazards.add(new Point(4, 5));
+        hazards.add(new Point(HAZARD_X, HAZARD_Y));
         final Collider collider = buildCollider(new HashSet<>(), hazards);
 
-        assertTrue(collider.collidesWithHazard(4, 5));
+        assertTrue(collider.collidesWithHazard(HAZARD_X, HAZARD_Y));
         assertFalse(collider.collidesWithHazard(1, 1));
     }
 
     @Test
     void testEnteringCastle() {
         final Set<Point> doors = new HashSet<>();
-        doors.add(new Point(10, 10));
+        doors.add(new Point(DOOR_X, DOOR_Y));
         final Collider collider = buildCollider(new HashSet<>(), new HashSet<>(), doors);
 
-        assertTrue(collider.enteringCastle(10, 10, 1, 1));
-        assertFalse(collider.enteringCastle(9, 9, 1, 1));
+        assertTrue(collider.enteringCastle(DOOR_X, DOOR_Y, 1, 1));
+        assertFalse(collider.enteringCastle(FAR_X, FAR_Y, 1, 1));
     }
 
     @Test
@@ -58,8 +70,8 @@ class ColliderTest {
         final Set<Point> coins = new HashSet<>();
         final Map<Point, WorldObject> collectableMap = new HashMap<>();
         final List<WorldObject> entities = new ArrayList<>();
-        final Point coinKey = new Point(3, 3);
-        final Coin coin = new Coin(3, 3);
+        final Point coinKey = new Point(COIN_X, COIN_Y);
+        final Coin coin = new Coin(COIN_X, COIN_Y);
 
         collectables.add(coinKey);
         coins.add(coinKey);
@@ -80,7 +92,7 @@ class ColliderTest {
             1
         );
 
-        assertTrue(collider.collidesWithCoin(3, 3));
+        assertTrue(collider.collidesWithCoin(COIN_X, COIN_Y));
         assertFalse(collectables.contains(coinKey));
         assertFalse(coins.contains(coinKey));
     }
@@ -91,8 +103,8 @@ class ColliderTest {
         final Set<Point> powerups = new HashSet<>();
         final Map<Point, WorldObject> collectableMap = new HashMap<>();
         final List<WorldObject> entities = new ArrayList<>();
-        final Point powerupKey = new Point(5, 5);
-        final Powerup powerup = new Powerup(5, 5);
+        final Point powerupKey = new Point(POWERUP_X, POWERUP_Y);
+        final Powerup powerup = new Powerup(POWERUP_X, POWERUP_Y);
 
         collectables.add(powerupKey);
         powerups.add(powerupKey);
@@ -113,7 +125,7 @@ class ColliderTest {
             1
         );
 
-        assertTrue(collider.collidesWithPowerup(5, 5));
+        assertTrue(collider.collidesWithPowerup(POWERUP_X, POWERUP_Y));
         assertFalse(collectables.contains(powerupKey));
         assertFalse(powerups.contains(powerupKey));
     }

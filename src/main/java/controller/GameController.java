@@ -100,4 +100,22 @@ public final class GameController implements ActionListener {
             view.showLevelCompleted();
         }
     }
+
+    /**
+     * Expose the world for test purposes.
+     *
+     * @return the current world
+     */
+    World getWorldForTest() {
+        return world;
+    }
+
+    /**
+     * Expose the player controller for test purposes.
+     *
+     * @return the player controller
+     */
+    PlayerController getPlayerControllerForTest() {
+        return playerController;
+    }
 }

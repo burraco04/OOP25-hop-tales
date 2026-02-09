@@ -4,11 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import java.awt.event.ActionEvent;
-import java.lang.reflect.Field;
+import java.util.List;
 
 import controller.impl.PlayerController;
+import model.GameConstants;
 import model.World;
 import model.entities.impl.PlayerImpl;
+import model.objects.impl.door.Door;
 import view.api.View;
 
 /**
@@ -17,14 +19,14 @@ import view.api.View;
 class GameControllerTest {
 
     @Test
-    void testGameOverTriggersView() throws Exception {
+    void testGameOverTriggersView() {
         final StubView view = new StubView();
         final GameController controller = new GameController(view, 1, "levels/Level1.json");
         controller.stop();
 
-        final World world = getField(controller, "world", World.class);
+        final World world = controller.getWorldForTest();
         final PlayerImpl player = (PlayerImpl) world.getPlayer();
-        setField(player, "healthPoints", 0);
+        reduceHealthToZero(player);
 
         controller.actionPerformed(new ActionEvent(this, 0, "tick"));
 
@@ -32,33 +34,36 @@ class GameControllerTest {
     }
 
     @Test
-    void testLevelCompletedTriggersView() throws Exception {
+    void testLevelCompletedTriggersView() {
         final StubView view = new StubView();
         final GameController controller = new GameController(view, 1, "levels/Level1.json");
         controller.stop();
 
-        final World world = getField(controller, "world", World.class);
-        final PlayerImpl player = (PlayerImpl) world.getPlayer();
-        setField(player, "healthPoints", 1);
+        final World world = controller.getWorldForTest();
 
-        final PlayerController playerController = getField(controller, "playerController", PlayerController.class);
-        setField(playerController, "levelCompleted", true);
+        final PlayerController playerController = controller.getPlayerControllerForTest();
+        final int doorX = (int) world.getPlayer().getX();
+        final int doorY = (int) world.getPlayer().getY();
+        world.addEntities(List.of(new Door(doorX, doorY)));
+        playerController.enterCastle();
 
         controller.actionPerformed(new ActionEvent(this, 0, "tick"));
 
         assertTrue(view.levelCompletedShown);
     }
 
-    private static <T> T getField(final Object target, final String name, final Class<T> type) throws Exception {
-        final Field field = target.getClass().getDeclaredField(name);
-        field.setAccessible(true);
-        return type.cast(field.get(target));
-    }
-
-    private static void setField(final Object target, final String name, final Object value) throws Exception {
-        final Field field = target.getClass().getDeclaredField(name);
-        field.setAccessible(true);
-        field.set(target, value);
+    private static void reduceHealthToZero(final PlayerImpl player) {
+        while (player.isAlive()) {
+            player.applyDamage();
+            if (player.isAlive()) {
+                try {
+                    Thread.sleep((long) (GameConstants.DAMAGE_COOLDOWN * 1000f) + 10L);
+                } catch (final InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    throw new AssertionError("Test interrupted while waiting for damage cooldown.", e);
+                }
+            }
+        }
     }
 
     private static final class StubView implements View {

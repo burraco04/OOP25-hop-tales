@@ -29,6 +29,7 @@ public class Level extends JPanel {
     private final transient World world;
     private final Timer timer;
     private transient Camera camera;
+    private int tileSize;
 
     /**
      * Create the Level 1 view. 
@@ -57,17 +58,26 @@ public class Level extends JPanel {
         }
 
         if (camera == null && getWidth() > 0) {
-            camera = new Camera(world.getLevelWidth() * GameConstants.TILE_SIZE, getWidth());
+            camera = new Camera(world.getLevelWidth() * tileSize, getWidth());
         }
 
         if (camera != null) {
-            final int playerWorldX = (int) (world.getPlayer().getX() * GameConstants.TILE_SIZE);
-            final int playerCenterX = playerWorldX + (GameConstants.TILE_SIZE / 2);
+            final int playerWorldX = (int) (world.getPlayer().getX() * tileSize);
+            final int playerCenterX = playerWorldX + (tileSize / 2);
             camera.update(
                 playerCenterX,
                 getWidth()
             );
         }
+    }
+
+    private void updateTileSize() {
+   
+
+    int sizeX = getWidth() / GameConstants.TILE_SIZE_X;
+    int sizeY = getHeight() / GameConstants.TILE_SIZE_Y;
+
+    tileSize = Math.min(sizeX, sizeY);
     }
 
     /**
@@ -76,6 +86,7 @@ public class Level extends JPanel {
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
+        updateTileSize();
 
         final long timePassed = System.currentTimeMillis();
         //Se la camera ancora non esiste non disegna niente
@@ -89,10 +100,10 @@ public class Level extends JPanel {
             final var img = Draw.get(object.getType(), timePassed);
             g.drawImage(
                 img,
-                object.getX() * GameConstants.TILE_SIZE - offsetX,
-                object.getY() * GameConstants.TILE_SIZE,
-                GameConstants.TILE_SIZE,
-                GameConstants.TILE_SIZE,
+                object.getX() * tileSize - offsetX,
+                object.getY() * tileSize,
+                tileSize,
+                tileSize,
                 null
             );
         }
@@ -106,10 +117,10 @@ public class Level extends JPanel {
             final var img = Draw.get(enemyName, timePassed);
             g.drawImage(
                 img,
-                (int) enemy.getX() * GameConstants.TILE_SIZE - offsetX,
-                (int) enemy.getY() * GameConstants.TILE_SIZE,
-                GameConstants.TILE_SIZE * GameConstants.ENEMY_WITDH,
-                GameConstants.TILE_SIZE * GameConstants.ENEMY_HEIGHT,
+                (int) enemy.getX() * tileSize - offsetX,
+                (int) enemy.getY() * tileSize,
+                tileSize * GameConstants.ENEMY_WITDH,
+                tileSize * GameConstants.ENEMY_HEIGHT,
                 null
             );
         }
@@ -117,10 +128,10 @@ public class Level extends JPanel {
         final String type = world.getPlayer().isHurt() ? "player_hurt" : "player";
         g.drawImage(
             Draw.get(type, timePassed),
-            (int) world.getPlayer().getX() * GameConstants.TILE_SIZE - offsetX,
-            (int) world.getPlayer().getY() * GameConstants.TILE_SIZE,
-            GameConstants.TILE_SIZE * GameConstants.PLAYER_WIDTH_TILES,
-            GameConstants.TILE_SIZE * GameConstants.PLAYER_HEIGHT_TILES,
+            (int) world.getPlayer().getX() * tileSize - offsetX,
+            (int) world.getPlayer().getY() * tileSize,
+            tileSize * GameConstants.PLAYER_WIDTH_TILES,
+            tileSize * GameConstants.PLAYER_HEIGHT_TILES,
             null
         );
         drawHUD(g, timePassed);
@@ -151,60 +162,60 @@ public class Level extends JPanel {
         switch (world.getPlayer().getHealthPoints()) {
             case 3 -> {
                 g.drawImage(Draw.get(GameConstants.FULL_HEART, timePassed),
-                    GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                    tileSize, tileSize, null);
                 g.drawImage(Draw.get(GameConstants.FULL_HEART, timePassed),
-                    GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
+                    tileSize * 2, tileSize, null);
                 g.drawImage(Draw.get(GameConstants.FULL_HEART, timePassed),
-                    GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
+                    tileSize * 3, tileSize, null);
             }
             case 2 -> {
                 g.drawImage(Draw.get(GameConstants.FULL_HEART, timePassed),
-                    GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                    tileSize, tileSize, null);
                 g.drawImage(Draw.get(GameConstants.FULL_HEART, timePassed),
-                    GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
+                    tileSize * 2, tileSize, null);
                 g.drawImage(Draw.get(GameConstants.EMPTY_HEART, timePassed),
-                    GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
+                    tileSize * 3, tileSize, null);
             }
             case 1 -> {
                 g.drawImage(Draw.get(GameConstants.FULL_HEART, timePassed),
-                    GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                    tileSize, tileSize, null);
                 g.drawImage(Draw.get(GameConstants.EMPTY_HEART, timePassed),
-                    GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
+                    tileSize * 2, tileSize, null);
                 g.drawImage(Draw.get(GameConstants.EMPTY_HEART, timePassed),
-                    GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
+                    tileSize * 3, tileSize, null);
             }
             case 0 -> {
                 g.drawImage(Draw.get(GameConstants.EMPTY_HEART, timePassed),
-                    GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                    tileSize, tileSize, null);
                 g.drawImage(Draw.get(GameConstants.EMPTY_HEART, timePassed),
-                    GameConstants.TILE_SIZE * 2, GameConstants.TILE_SIZE, null);
+                    tileSize * 2, tileSize, null);
                 g.drawImage(Draw.get(GameConstants.EMPTY_HEART, timePassed),
-                    GameConstants.TILE_SIZE * 3, GameConstants.TILE_SIZE, null);
+                    tileSize * 3, tileSize, null);
             }
             default -> throw new IllegalArgumentException("Illegal health points");
         }
         if (world.getPlayer().hasPowerUp()) {
             g.drawImage(
                 Draw.get(GameConstants.FULL_HEART, timePassed),
-                GameConstants.TILE_SIZE * 4,
-                GameConstants.TILE_SIZE,
+                tileSize * 4,
+                tileSize,
                 null
             );
         }
         final Font coinFont = new Font("Arial", Font.BOLD, GameConstants.COIN_COUNT_SIZE);
         g.setFont(coinFont);
         final FontMetrics fm = g.getFontMetrics();
-        final int coinX = getWidth() - 2 * GameConstants.TILE_SIZE;
-        final int coinY = GameConstants.TILE_SIZE;
+        final int coinX = getWidth() - 2 * tileSize;
+        final int coinY = tileSize;
         final int textX = coinX - fm.stringWidth(String.valueOf(CoinStorage.getCoins())) - 10;
-        final int textY = coinY + GameConstants.TILE_SIZE + fm.getAscent() / 2;
+        final int textY = coinY + tileSize + fm.getAscent() / 2;
         g.drawString(Integer.toString(CoinStorage.getCoins()), textX, textY);
         g.drawImage(
             Draw.get("coin", timePassed),
-            getWidth() - 2 * GameConstants.TILE_SIZE,
-            GameConstants.TILE_SIZE,
-            GameConstants.TILE_SIZE * 2,
-            GameConstants.TILE_SIZE * 2,
+            getWidth() - 2 * tileSize,
+            tileSize,
+            tileSize * 2,
+            tileSize * 2,
             null
         );
     }

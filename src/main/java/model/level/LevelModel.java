@@ -7,19 +7,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.CoinStorage;
-import model.GameConstants;
 import model.entities.impl.PlayerImpl;
 
 /**
  * Model for the third level.
  */
-@SuppressFBWarnings(
-        value = "EI_EXPOSE_REP",
-        justification = "Level model exposes live references to simplify MVC wiring."
-)
 public final class LevelModel {
+
+    private static final int FIREBOY_START_TILE_X = 2;
+    private static final int FIREBOY_START_TILE_Y = 2;
+    private static final int WATERGIRL_START_TILE_X = 33;
+    private static final int WATERGIRL_START_TILE_Y = 34;
 
     private final String[] rawMap = {
             "11111111111111111111111111111111111",
@@ -35,9 +34,9 @@ public final class LevelModel {
             "10000000001111100001111111100000001",
             "10000000111111144000000000000110001",
             "19999111111111111000000000000000001",
-            "10000000000000100000111111111111111",
+            "10000000000000100011111111111111111",
             "1000000000440010000010*000000000001",
-            "1000000000110010000010*044000000001",
+            "1000000000110011100010*044000000001",
             "1000000000000*11550010*000000000001",
             "1000000000000*145500411111110000001",
             "1000000000000*145500401111110000001",
@@ -90,8 +89,8 @@ public final class LevelModel {
     private final List<model.objects.impl.ButtonPad> buttons = new ArrayList<>();
 
     // players 
-    private PlayerImpl fireboy;
-    private PlayerImpl watergirl;
+    private model.entities.impl.PlayerImpl fireboy;
+    private model.entities.impl.PlayerImpl watergirl;
 
     private boolean gameOver;
     private boolean levelComplete;
@@ -105,22 +104,21 @@ public final class LevelModel {
      * Creates the level model with default state.
      */
     public LevelModel() {
-        CoinStorage.loadTotalCoins();
-        totalCoinsSaved = CoinStorage.getCoins();
+        totalCoinsSaved = CoinStorage.loadTotalCoins();
         // spawn player 1 in alto-sinistra (tile 2,2)
         fireboy = new PlayerImpl(
-                GameConstants.LEVEL3_FIREBOY_SPAWN_TILE_X * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
-                GameConstants.LEVEL3_FIREBOY_SPAWN_TILE_Y * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
-                GameConstants.LEVEL3_PLAYER_WIDTH_TILES * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
-                GameConstants.LEVEL3_PLAYER_HEIGHT_TILES * GameConstants.LEVEL3_TILE_PIXEL_SIZE
+                FIREBOY_START_TILE_X * LevelConstants.TILE,
+                FIREBOY_START_TILE_Y * LevelConstants.TILE,
+                LevelConstants.TILE,
+                LevelConstants.TILE
         );
 
         // spawn player 2 in basso-destra (tile 35,34)
         watergirl = new PlayerImpl(
-                GameConstants.LEVEL3_WATERGIRL_SPAWN_TILE_X * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
-                GameConstants.LEVEL3_WATERGIRL_SPAWN_TILE_Y * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
-                GameConstants.LEVEL3_PLAYER_WIDTH_TILES * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
-                GameConstants.LEVEL3_PLAYER_HEIGHT_TILES * GameConstants.LEVEL3_TILE_PIXEL_SIZE
+                WATERGIRL_START_TILE_X * LevelConstants.TILE,
+                WATERGIRL_START_TILE_Y * LevelConstants.TILE,
+                LevelConstants.TILE,
+                LevelConstants.TILE
         );
     }
 
@@ -128,7 +126,7 @@ public final class LevelModel {
      * @return the raw map rows.
      */
     public String[] getRawMap() {
-        return rawMap.clone();
+        return rawMap;
     }
 
     /**
@@ -162,7 +160,6 @@ public final class LevelModel {
     /**
      * @return the map tiles.
      */
-    @SuppressWarnings("PMD.MethodReturnsInternalArray")
     public char[][] getMap() {
         return map;
     }
@@ -171,11 +168,7 @@ public final class LevelModel {
      * @param map tiles map
      */
     public void setMap(final char[][] map) {
-        final char[][] copy = new char[map.length][];
-        for (int i = 0; i < map.length; i++) {
-            copy[i] = map[i].clone();
-        }
-        this.map = copy;
+        this.map = map;
     }
 
     /**
@@ -391,7 +384,7 @@ public final class LevelModel {
     /**
      * @return fireboy player.
      */
-    public PlayerImpl getFireboy() {
+    public model.entities.impl.PlayerImpl getFireboy() {
         return fireboy;
     }
 
@@ -405,7 +398,7 @@ public final class LevelModel {
     /**
      * @return watergirl player.
      */
-    public PlayerImpl getWatergirl() {
+    public model.entities.impl.PlayerImpl getWatergirl() {
         return watergirl;
     }
 

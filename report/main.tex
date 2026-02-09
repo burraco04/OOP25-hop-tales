@@ -172,9 +172,158 @@ Riduce la duplicazione del codice e migliora le prestazioni tramite caching;
     \caption{Diagramma gestione animazioni e risorse grafiche}
     \label{fig:uml-level-loading}
 \end{figure}
+
+
+\section{Design dettagliato - Bartoletti Eleonora}
+
+\subsection{Gestione del Livello 3 (mappa, entità, interazioni)}
+
+\paragraph{Problema:}
+Il livello 3 richiede una mappa complessa con oggetti eterogenei (porte, massi, pulsanti, piattaforme mobili, teletrasporti) e una logica fisica specifica (gravità, collisioni, teletrasporto, interazioni con porte e pulsanti). È necessario mantenere il pattern MVC e non intrecciare il rendering con la logica di gioco.
+
+\paragraph{Soluzione adottata:}
+\begin{itemize}
+  \item Model: `LevelModel` mantiene lo stato del livello (mappa, entità, immagini, associazioni logiche).
+  \item Controller: `LevelLogic` esegue il tick di gioco, gestendo input, fisica, interazioni e condizioni di vittoria/sconfitta.
+  \item View: `FireboyWatergirlLevel` + `LevelRenderer` mostrano la scena e delegano la logica al controller.
+\end{itemize}
+
+Le associazioni “porta–pulsante” e “teletrasporto–destinazione” vengono costruite una sola volta da `LevelBuilder` usando funzioni di mapping tra tile e oggetti.
+
+\paragraph{Alternative considerate:}
+\begin{itemize}
+  \item God class unica che gestisce rendering e logica: scartata perché infrange MVC e rende difficile isolare bug.
+  \item Ogni oggetto con logica autonoma (porte, pulsanti, teleporters autogestiti): scartata per eccessiva frammentazione e difficoltà di coordinamento temporale (tick unico).
+\end{itemize}
+
+\paragraph{Pro/Contro:}
+\begin{itemize}
+  \item Pro: separazione netta di responsabilità, logica testabile, rendering sostituibile.
+  \item Contro: più classi e passaggi di dati (model-controller-view) rispetto a una soluzione monolitica.
+\end{itemize}
+
+\paragraph{UML:}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm]{Figure1Bartoletti.png}
+    \caption{Vista d’insieme del design del Livello 3 (MVC) con costruzione iniziale delle entità.}
+    \label{fig:uml_design_1}
+\end{figure}
+
+\paragraph{Pattern utilizzati:}
+\begin{itemize}
+  \item Template Method (variante leggera): `AbstractWorldEntity` definisce l’interfaccia comune `draw(...)` e fornisce il metodo condiviso `drawTiled(...)`. Le entità (Boulder, Door, MovingPlatform) specializzano il comportamento grafico. È una forma di Template Method: la “struttura” della renderizzazione è fornita dalla superclasse e le sottoclassi completano il comportamento.
+\end{itemize}
+
+\subsection{2.2.2 Associazioni logiche (porte, pulsanti, teleport)}
+
+\paragraph{Problema:}
+Nella mappa del livello 3 esistono oggetti che devono essere collegati logicamente: pulsanti che aprono porte , teleport che portano a specifiche coordinate.  
+Il collegamento non può essere hardcoded nella logica del controller.
+
+\paragraph{Soluzione adottata:}
+Nel `LevelBuilder` si costruiscono mappe:
+\begin{itemize}
+  \item `buttonToDoorId`: associazione tile–id porta
+  \item `teleportDestTile`: associazione tile–destinazione
+\end{itemize}
+Queste strutture vengono poi usate da `LevelInteractions` durante il runtime.
+
+\paragraph{Alternative considerate:}
+\begin{itemize}
+  \item Hardcode nel controller: scartato per bassa manutenibilità.
+  \item Configurazione esterna (JSON): scartata per evitare modifiche strutturali al progetto.
+\end{itemize}
+
+\paragraph{Pro/Contro:}
+\begin{itemize}
+  \item Pro: maggiore chiarezza, logica separata e riutilizzabile.
+  \item Contro: aggiunta di step di build (ma una tantum).
+\end{itemize}
+
+\paragraph{UML:}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm]{Figure2Bartoletti.png}
+    \caption{Associazioni logiche nel Livello 3: mapping tra pulsanti, porte e teletrasporti.}
+    \label{fig:uml_design_2}
+\end{figure}
+
+\paragraph{Pattern utilizzati}
+\begin{itemize}
+  \item Separazione delle responsabilità: `LevelInteractions` centralizza le interazioni (porte, teleport) mantenendo la logica di movimento in `LevelLogic` e il rendering nella view.
+\end{itemize}
+
+
+\subsection{Persistenza monete e skin (CoinStorage)}
+
+\paragraph{Problema:}
+Le monete raccolte e le skin acquistate devono essere persistenti fra sessioni. È necessario leggere e scrivere su file evitando duplicazioni e mantenendo compatibilità con l’economia del gioco.
+
+\paragraph{Soluzione adottata:}
+`CoinStorage` centralizza:
+\begin{itemize}
+  \item conteggio monete
+  \item lettura/scrittura su `coins.txt`
+  \item stato di acquisto delle skin (0/1)
+\end{itemize}
+Lo stato viene caricato all’avvio e aggiornato dopo ogni acquisto/collezione.
+
+\paragraph{Alternative considerate:}
+\begin{itemize}
+  \item Scrivere file separati: scartato per maggiore complessità.
+  \item Salvataggio in JSON: scartato per non introdurre dipendenze extra e mantenere semplicità.
+\end{itemize}
+
+\paragraph{Pro/Contro:}
+\begin{itemize}
+  \item Pro: persistenza stabile, file unico e facile da ispezionare.
+  \item Contro: struttura rigida (3 righe per skin, ordine fisso).
+\end{itemize}
+
+\paragraph{UML:}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm]{Figure3Bartoletti.png}
+    \caption{Gestione persistente delle risorse di gioco (monete e skin) e loro integrazione con lo shop.}
+    \label{fig:uml_design_3}
+\end{figure}
+
+\paragraph{Pattern utilizzati}
+\begin{itemize}
+  \item Separazione delle responsabilità: `LevelInteractions` centralizza le interazioni (porte, teleport) mantenendo la logica di movimento in `LevelLogic` e il rendering nella view.
+\end{itemize}
+
+
+\paragraph{Contro-esempio UML (diagramma fatto male) :}
+Un diagramma “cattivo” è quello che mescola tutto in una sola classe o include dettagli implementativi inutili (metodi privati, variabili temporanee). 
+
+Esempio errato: un’unica classe `Level3` con campi di rendering, logica, input, salvataggio monete e disegno UI.  
+
+Questo viola il principio di separazione delle responsabilità e rende impossibile capire la struttura reale.
+
 \section{Sviluppo}
-\subsection{Test}
-blabla
+\section{Testing automatizzato}
+
+Il testing automatico serve per evitare regressioni e garantire che le funzionalità principali rimangano corrette dopo ogni modifica.  
+Nel progetto sono stati adottati test completamente automatici basati su JUnit, senza intervento umano.
+
+I test coprono in modo minimale ma significativo il Livello 3 e la persistenza delle risorse:
+
+\begin{itemize}
+  \item \textbf{Livello 3}: testiamo che la mappa venga caricata correttamente, che le entità principali vengano create (porte, massi, bottoni, teleport, piattaforme) e che le associazioni logiche (pulsante--porta, teleport--destinazione) siano consistenti con le costanti di gioco.
+  \item \textbf{CoinStorage}: testiamo la lettura/scrittura da file, verificando il caricamento delle monete e dei flag di acquisto delle skin e la persistenza di un acquisto.
+\end{itemize}
+
+In questo modo il test automatico intercetta errori tipici (mappa incoerente, associazioni mancanti, persistenza non salvata) e rende possibile rilevare regressioni in modo affidabile.
+
+\paragraph{Note sui criteri di qualità}
+\begin{itemize}
+  \item \textbf{Elementi positivi}: test automatici eseguiti con JUnit, nessuna interazione manuale richiesta.
+  \item \textbf{Elementi negativi evitati}: non sono presenti test manuali, né test che falliscono o non inclusi nel sorgente.
+\end{itemize}
+
 \subsection{Note di sviluppo}
 \subsection{CAPACCI SIMONE}
 \paragraph{Uso di librerie di terze parti}
@@ -190,6 +339,36 @@ usati in :
 \paragraph{parte di codice riadattata da internet}
 FontFactory.
 
+\section{Note di sviluppo - Bartoletti}
+
+\paragraph{Feature avanzate Java utilizzate (con esempi di codice):}
+\begin{itemize}
+  \item Lambdas e interfacce funzionali: uso di `BiFunction`, `BiConsumer` e funzioni lambda per costruire associazioni (porte, bottoni, teletrasporti) in modo dichiarativo, riducendo duplicazioni e migliorando la leggibilità.  
+  \begin{sloppypar}
+  \url{https://github.com/burraco04/OOP25-hop-tales/blob/bff6094f7ce7ab1c8f222baf7a095938b35ef692/src/main/java/model/level/LevelBuilder.java#L186}
+  \end{sloppypar}
+  \item Method reference: impiego di `AbstractWorldEntity::getX` per ordinare le piattaforme in modo conciso e type-safe.  
+   \begin{sloppypar}
+  \url{https://github.com/burraco04/OOP25-hop-tales/blob/bff6094f7ce7ab1c8f222baf7a095938b35ef692/src/main/java/model/level/LevelBuilder.java#L134}
+  \end{sloppypar}
+  \item Generics con collezioni e comparator tipizzati: uso di `List`, `Map`, `Comparator` e `Deque` con tipi concreti per garantire sicurezza a compile-time e semplificare la logica del builder. 
+  \begin{sloppypar}
+  \url{https://github.com/burraco04/OOP25-hop-tales/blob/bff6094f7ce7ab1c8f222baf7a095938b35ef692/src/main/java/model/level/LevelBuilder.java#L26}
+  \end{sloppypar}
+
+  \item Annotazioni di terze parti (SpotBugs): utilizzo di `@SuppressFBWarnings` per documentare e controllare esposizioni intenzionali di riferimenti live nel modello MVC.  
+  \begin{sloppypar}
+  \url{https://github.com/burraco04/OOP25-hop-tales/blob/bff6094f7ce7ab1c8f222baf7a095938b35ef692/src/main/java/model/level/LevelModel.java#L18}
+  \end{sloppypar}
+  \item Graphics2D e trasformazioni affini (JDK avanzato): uso di `Graphics2D` e `AffineTransform` per gestire scaling e offset della scena in modo robusto e indipendente dalla risoluzione.  
+  \begin{sloppypar}
+  \url{https://github.com/burraco04/OOP25-hop-tales/blob/bff6094f7ce7ab1c8f222baf7a095938b35ef692/src/main/java/view/impl/LevelRenderer.java#L28}
+\end{sloppypar}
+\end{itemize}
+
+\paragraph{Codice riadattato o preso da fonti esterne}
+Nessun codice copiato integralmente da risorse esterne. Le scelte di implementazione per il livello 3 sono originali; eventuali ispirazioni generali (es. gestione del loop di gioco) derivano da conoscenze pregresse e documentazione standard Java/Swing.
+
 
 \section{Commenti finali}
 
@@ -202,5 +381,7 @@ parti legate interfaccia utente (menu , negozio(creazione di skin e possibilità
 
 Non sono completamente soddisfatto del mio lavoro in quanto per mancanza di tempo non sono riuscito a modellare lo shop e la gestione skin come volevo per mancanza di tempo. Nonostante ciò, penso sia stata un ottima esperienza formativa che mi ha permesso di consolidare e migliorare le mie competenze di programmazione.
 
-
+\section{Bartoletti}
+La realizzazione di questo progetto per me è stata rivelatrice: in particolare, mi ha aiutato a capire che il lavoro di gruppo è fondamentale, e che lo sarà sempre di più nel mondo del lavoro. Mi è servito a realizzare che il teamworking è una cosa su cui devo ancora lavorare, ma sono convinta di essere nella giusta strada. Un gruppo unito e che si aiuta a vicenda ha sicuramente una riuscita migliore del lavoro del singolo. 
+Detto questo, ritengo che il gruppo nella totalità abbia lavorato molto bene, nonostante le normali e, molte volte necessarie, divergenze riguardo il da farsi.
 \end{document}

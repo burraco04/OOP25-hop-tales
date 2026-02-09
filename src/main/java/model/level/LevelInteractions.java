@@ -39,7 +39,6 @@ public final class LevelInteractions {
                 it.remove();
                 CoinStorage.collectCoin();
                 model.setTotalCoinsSaved(CoinStorage.getCoins());
-                System.out.println("Moneta presa! Totale salvato = " + model.getTotalCoinsSaved());
             }
         }
     }

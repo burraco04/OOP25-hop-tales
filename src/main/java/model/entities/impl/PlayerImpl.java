@@ -1,7 +1,6 @@
 package model.entities.impl;
 
 import controller.AudioManager;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.GameConstants;
 import model.entities.api.Player;
 
@@ -50,11 +49,12 @@ public final class PlayerImpl implements Player {
      * {@inheritDoc}
      */
     @Override
-    @SuppressWarnings("PMD.UnnecessaryReturn")
-    @SuppressFBWarnings(value = "UC_USELESS_METHOD", justification = "Update is currently handled by controllers.")
     public void update(final double deltaSeconds) {
         if (deltaSeconds <= MIN_DELTA_SECONDS) {
             return;
+        }
+        if (lastDamageMillis != 0 && !isHurt()) {
+            lastDamageMillis = 0;
         }
     }
 

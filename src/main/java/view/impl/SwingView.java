@@ -143,8 +143,12 @@ public final class SwingView implements View {
      */
     @Override
     public void showLevel3() {
+        if (this.controller == null) {
+            throw new IllegalStateException("Controller not set");
+        }
+        final ControllerMenu menuController = this.controller;
         final FireboyWatergirlLevel l3 = new FireboyWatergirlLevel(
-            () -> this.controller.handleEvent(State.MAIN_MENU)
+            () -> menuController.handleEvent(State.MAIN_MENU)
         );
         this.frame.setContentPane(l3);
         this.frame.revalidate();

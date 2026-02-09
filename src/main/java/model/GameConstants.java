@@ -4,11 +4,17 @@ import java.awt.Color;
 
 import javax.swing.JButton;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import view.utils.ShopButtonFactory;
 
 /**
  * Class used for storing constants shared by classes present in the model section of the project.
  */
+
+@SuppressFBWarnings(
+        value = "MS_MUTABLE_ARRAY",
+        justification = "Constants are used read-only throughout the codebase."
+)
 public final class GameConstants {
     public static final int STARTING_POSITION_X = 1;
     public static final int STARTING_POSITION_Y = 24;

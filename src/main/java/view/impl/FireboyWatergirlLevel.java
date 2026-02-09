@@ -25,13 +25,12 @@ import view.utils.Draw;
  */
 public final class FireboyWatergirlLevel extends JPanel implements ActionListener, KeyListener {
 
-    private static final int FPS = GameConstants.LEVEL3_FRAME_TIMER_FPS;
+    private static final long serialVersionUID = 1L;
+    private final Timer timer = new Timer(1000 / GameConstants.LEVEL3_FRAME_TIMER_FPS, this);
 
-    private final Timer timer = new Timer(1000 / FPS, this);
-
-    private final LevelModel model;
-    private final LevelInput input;
-    private final Runnable onHome;
+    private final transient LevelModel model;
+    private final transient LevelInput input;
+    private final transient Runnable onHome;
     private String lastSkinFrame1;
 
     /**

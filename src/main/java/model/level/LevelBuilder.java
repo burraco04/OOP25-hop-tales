@@ -1,13 +1,14 @@
 package model.level;
 
 import java.awt.Point;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 
 import model.GameConstants;
+import model.objects.api.AbstractWorldEntity;
 
 /**
  * Builds level entities from the raw map.
@@ -82,7 +83,7 @@ public final class LevelBuilder {
                     continue;
                 }
 
-                final ArrayDeque<Point> q = new ArrayDeque<>();
+                final Deque<Point> q = new java.util.ArrayDeque<>();
                 q.add(new Point(c, r));
                 vis[r][c] = true;
 
@@ -151,15 +152,14 @@ public final class LevelBuilder {
                 final int x = startC * GameConstants.LEVEL3_TILE_PIXEL_SIZE;
                 final int y = r * GameConstants.LEVEL3_TILE_PIXEL_SIZE;
                 final int w = tilesWide * GameConstants.LEVEL3_TILE_PIXEL_SIZE;
-                final int h = GameConstants.LEVEL3_TILE_PIXEL_SIZE;
-
                 model.getPlatforms().add(new model.objects.impl.MovingPlatform(
-                        x, y, w, h, model.getImgPlatform(), GameConstants.LEVEL3_TILE_PIXEL_SIZE));
+                        x, y, w, GameConstants.LEVEL3_TILE_PIXEL_SIZE,
+                        model.getImgPlatform(), GameConstants.LEVEL3_TILE_PIXEL_SIZE));
             }
         }
 
         if (model.getPlatforms().size() >= 2) {
-            model.getPlatforms().sort(Comparator.comparingInt(p -> p.getX()));
+            model.getPlatforms().sort(Comparator.comparingInt(AbstractWorldEntity::getX));
             final model.objects.impl.MovingPlatform left = model.getPlatforms().get(0);
             final model.objects.impl.MovingPlatform right = model.getPlatforms().get(model.getPlatforms().size() - 1);
 

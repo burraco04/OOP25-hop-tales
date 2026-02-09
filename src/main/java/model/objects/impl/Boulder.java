@@ -3,6 +3,7 @@ package model.objects.impl;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.GameConstants;
 import model.entities.impl.PlayerImpl;
 import model.objects.api.AbstractWorldEntity;
@@ -11,12 +12,11 @@ import view.impl.FireboyWatergirlLevel;
 /**
  * Boulder entity with simple physics and push interaction.
  */
+@SuppressFBWarnings(
+        value = "EI_EXPOSE_REP2",
+        justification = "Texture reference is shared and managed by the level renderer."
+)
 public final class Boulder extends AbstractWorldEntity {
-
-    private static final double GRAVITY = GameConstants.LEVEL3_BOULDER_GRAVITY_PER_TICK;
-    private static final double MAX_FALL_SPEED = GameConstants.LEVEL3_BOULDER_MAX_FALL_SPEED;
-    private static final int CORNER_OFFSET = GameConstants.LEVEL3_BOULDER_CORNER_OFFSET_PIXELS;
-    private static final int OPPOSITE_OFFSET = GameConstants.LEVEL3_BOULDER_OPPOSITE_CORNER_OFFSET_PIXELS;
 
     private double velocityY;
     private final BufferedImage tileTexture;
@@ -60,9 +60,9 @@ public final class Boulder extends AbstractWorldEntity {
      * @param world game world
      */
     public void updatePhysics(final FireboyWatergirlLevel world) {
-        velocityY += GRAVITY;
-        if (velocityY > MAX_FALL_SPEED) {
-            velocityY = MAX_FALL_SPEED;
+        velocityY += GameConstants.LEVEL3_BOULDER_GRAVITY_PER_TICK;
+        if (velocityY > GameConstants.LEVEL3_BOULDER_MAX_FALL_SPEED) {
+            velocityY = GameConstants.LEVEL3_BOULDER_MAX_FALL_SPEED;
         }
 
         final int nextY = (int) (getY() + velocityY);
@@ -75,10 +75,14 @@ public final class Boulder extends AbstractWorldEntity {
     }
 
     private boolean collides(final FireboyWatergirlLevel world, final int nx, final int ny) {
-        return world.isSolidAtPixel(nx + CORNER_OFFSET, ny + CORNER_OFFSET, this)
-                || world.isSolidAtPixel(nx + getW() - OPPOSITE_OFFSET, ny + CORNER_OFFSET, this)
-                || world.isSolidAtPixel(nx + CORNER_OFFSET, ny + getH() - OPPOSITE_OFFSET, this)
-                || world.isSolidAtPixel(nx + getW() - OPPOSITE_OFFSET, ny + getH() - OPPOSITE_OFFSET, this);
+        return world.isSolidAtPixel(nx + GameConstants.LEVEL3_BOULDER_CORNER_OFFSET_PIXELS,
+                        ny + GameConstants.LEVEL3_BOULDER_CORNER_OFFSET_PIXELS, this)
+                || world.isSolidAtPixel(nx + getW() - GameConstants.LEVEL3_BOULDER_OPPOSITE_CORNER_OFFSET_PIXELS,
+                        ny + GameConstants.LEVEL3_BOULDER_CORNER_OFFSET_PIXELS, this)
+                || world.isSolidAtPixel(nx + GameConstants.LEVEL3_BOULDER_CORNER_OFFSET_PIXELS,
+                        ny + getH() - GameConstants.LEVEL3_BOULDER_OPPOSITE_CORNER_OFFSET_PIXELS, this)
+                || world.isSolidAtPixel(nx + getW() - GameConstants.LEVEL3_BOULDER_OPPOSITE_CORNER_OFFSET_PIXELS,
+                        ny + getH() - GameConstants.LEVEL3_BOULDER_OPPOSITE_CORNER_OFFSET_PIXELS, this);
     }
 
     /**

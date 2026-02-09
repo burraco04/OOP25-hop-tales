@@ -61,7 +61,7 @@ public final class CoinStorage {
             collectedCoins = Integer.parseInt(lines.get(0).trim());
             loadSkinFlags(lines);
         } catch (final IOException | NumberFormatException e) {
-            LOGGER.log(Level.WARNING, "Invalid coin save data, resetting to 0.", e);
+            LOGGER.log(Level.WARNING, "Invalid coin save data, resetting to 0", e);
             collectedCoins = 0;
             clearSkinFlags();
         }
@@ -78,7 +78,7 @@ public final class CoinStorage {
                 Files.createDirectories(parent);
             }
 
-            // scrittura atomica: scrive su file temp e poi sostituisce
+            // scrive su file temp e poi sostituisce
             final Path tmp = path.resolveSibling(FILE_NAME + ".tmp");
             final List<String> lines = new ArrayList<>();
             lines.add(Integer.toString(collectedCoins));

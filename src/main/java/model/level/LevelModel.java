@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.CoinStorage;
 import model.GameConstants;
 import model.entities.impl.PlayerImpl;
@@ -14,6 +15,10 @@ import model.entities.impl.PlayerImpl;
 /**
  * Model for the third level.
  */
+@SuppressFBWarnings(
+        value = "EI_EXPOSE_REP",
+        justification = "Level model exposes live references to simplify MVC wiring."
+)
 public final class LevelModel {
 
     private final String[] rawMap = {
@@ -85,8 +90,8 @@ public final class LevelModel {
     private final List<model.objects.impl.ButtonPad> buttons = new ArrayList<>();
 
     // players 
-    private model.entities.impl.PlayerImpl fireboy;
-    private model.entities.impl.PlayerImpl watergirl;
+    private PlayerImpl fireboy;
+    private PlayerImpl watergirl;
 
     private boolean gameOver;
     private boolean levelComplete;
@@ -123,7 +128,7 @@ public final class LevelModel {
      * @return the raw map rows.
      */
     public String[] getRawMap() {
-        return rawMap;
+        return rawMap.clone();
     }
 
     /**
@@ -157,6 +162,7 @@ public final class LevelModel {
     /**
      * @return the map tiles.
      */
+    @SuppressWarnings("PMD.MethodReturnsInternalArray")
     public char[][] getMap() {
         return map;
     }
@@ -165,7 +171,11 @@ public final class LevelModel {
      * @param map tiles map
      */
     public void setMap(final char[][] map) {
-        this.map = map;
+        final char[][] copy = new char[map.length][];
+        for (int i = 0; i < map.length; i++) {
+            copy[i] = map[i].clone();
+        }
+        this.map = copy;
     }
 
     /**
@@ -381,7 +391,7 @@ public final class LevelModel {
     /**
      * @return fireboy player.
      */
-    public model.entities.impl.PlayerImpl getFireboy() {
+    public PlayerImpl getFireboy() {
         return fireboy;
     }
 
@@ -395,7 +405,7 @@ public final class LevelModel {
     /**
      * @return watergirl player.
      */
-    public model.entities.impl.PlayerImpl getWatergirl() {
+    public PlayerImpl getWatergirl() {
         return watergirl;
     }
 

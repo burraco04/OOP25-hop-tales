@@ -44,20 +44,12 @@ public final class LevelInput {
             watergirlJumpQueued = true;
         }
 
-        if (keyCode == KeyEvent.VK_R) {
-            if (model.isGameOver() || model.isLevelComplete()) {
-                panel.restartLevel();
-            }
+        if (keyCode == KeyEvent.VK_R && (model.isGameOver() || model.isLevelComplete())) {
+            panel.restartLevel();
         }
 
-        if (keyCode == KeyEvent.VK_H) {
-            if (model.isGameOver() || model.isLevelComplete()) {
-                if (onHome != null) {
-                    panel.goHome();
-                } else {
-                    System.out.println("HOME (da collegare al tuo menu)");
-                }
-            }
+        if (keyCode == KeyEvent.VK_H && (model.isGameOver() || model.isLevelComplete()) && onHome != null) {
+            panel.goHome();
         }
     }
 

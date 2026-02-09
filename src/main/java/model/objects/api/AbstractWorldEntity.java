@@ -11,8 +11,8 @@ public abstract class AbstractWorldEntity implements WorldObject {
 
     private int x;
     private int y;
-    private int w;
-    private int h;
+    private final int w;
+    private final int h;
     private final String type;
 
     /**
@@ -138,8 +138,8 @@ public abstract class AbstractWorldEntity implements WorldObject {
 
         for (int yy = y; yy < y + h; yy += tileSize) {
             for (int xx = x; xx < x + w; xx += tileSize) {
-                final int ww = Math.min(tileSize, (x + w) - xx);
-                final int hh = Math.min(tileSize, (y + h) - yy);
+                final int ww = Math.min(tileSize, x + w - xx);
+                final int hh = Math.min(tileSize, y + h - yy);
 
                 g.drawImage(tile,
                         xx, yy, xx + ww, yy + hh,

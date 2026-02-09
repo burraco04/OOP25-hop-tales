@@ -37,7 +37,7 @@ public final class LevelQueries {
         // porte chiuse = solide
         if (ch == '3') {
             for (final model.objects.impl.Door d : model.getDoors()) {
-                if (d != ignore && d.contains(px, py) && !d.isOpen()) {
+                if (!d.equals(ignore) && d.contains(px, py) && !d.isOpen()) {
                     return true;
                 }
             }
@@ -45,14 +45,14 @@ public final class LevelQueries {
 
         // piattaforme
         for (final model.objects.impl.MovingPlatform p : model.getPlatforms()) {
-            if (p != ignore && p.contains(px, py)) {
+            if (!p.equals(ignore) && p.contains(px, py)) {
                 return true;
             }
         }
 
         // massi
         for (final model.objects.impl.Boulder b : model.getBoulders()) {
-            if (b != ignore && b.contains(px, py)) {
+            if (!b.equals(ignore) && b.contains(px, py)) {
                 return true;
             }
         }

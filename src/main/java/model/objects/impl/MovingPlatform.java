@@ -2,18 +2,23 @@ package model.objects.impl;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.GameConstants;
 import model.objects.api.AbstractWorldEntity;
 
 /**
  * Moving platform that can move vertically based on balance state.
  */
+@SuppressFBWarnings(
+        value = "EI_EXPOSE_REP2",
+        justification = "Texture reference is shared and managed by the level renderer."
+)
 public final class MovingPlatform extends AbstractWorldEntity {
 
     private final BufferedImage tileTexture;
     private final int tileSize;
 
-    private int startY;
+    private final int startY;
     private int targetDy;
     private double speed = GameConstants.LEVEL3_PLATFORM_DEFAULT_SPEED;
 

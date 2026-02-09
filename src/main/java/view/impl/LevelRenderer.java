@@ -15,12 +15,6 @@ import model.level.LevelModel;
  */
 public final class LevelRenderer {
 
-    private static final int OVERLAY_ALPHA = GameConstants.LEVEL3_OVERLAY_ALPHA;
-    private static final int TITLE_FONT_SIZE = GameConstants.LEVEL3_OVERLAY_TITLE_FONT_SIZE;
-    private static final int SUBTITLE_FONT_SIZE = GameConstants.LEVEL3_OVERLAY_SUBTITLE_FONT_SIZE;
-    private static final int TITLE_OFFSET = GameConstants.LEVEL3_OVERLAY_TITLE_VERTICAL_OFFSET;
-    private static final int SUBTITLE_OFFSET = GameConstants.LEVEL3_OVERLAY_SUBTITLE_VERTICAL_OFFSET;
-
     private LevelRenderer() {
     }
 
@@ -33,6 +27,9 @@ public final class LevelRenderer {
      */
     public static void render(final FireboyWatergirlLevel panel, final LevelModel model,
             final Graphics graphics) {
+        if (!(graphics instanceof Graphics2D)) {
+            return;
+        }
         final Graphics2D g2 = (Graphics2D) graphics;
 
         final int worldW = model.getCols() * GameConstants.LEVEL3_TILE_PIXEL_SIZE;
@@ -92,19 +89,19 @@ public final class LevelRenderer {
     private static void drawOverlay(final Graphics g, final FireboyWatergirlLevel panel,
             final String title, final String subtitle) {
         final Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(new Color(0, 0, 0, OVERLAY_ALPHA));
+        g2.setColor(new Color(0, 0, 0, GameConstants.LEVEL3_OVERLAY_ALPHA));
         g2.fillRect(0, 0, panel.getWidth(), panel.getHeight());
 
         g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Arial", Font.BOLD, TITLE_FONT_SIZE));
+        g2.setFont(new Font("Arial", Font.BOLD, GameConstants.LEVEL3_OVERLAY_TITLE_FONT_SIZE));
         final FontMetrics fm = g2.getFontMetrics();
         final int tx = (panel.getWidth() - fm.stringWidth(title)) / 2;
-        g2.drawString(title, tx, panel.getHeight() / 2 - TITLE_OFFSET);
+        g2.drawString(title, tx, panel.getHeight() / 2 - GameConstants.LEVEL3_OVERLAY_TITLE_VERTICAL_OFFSET);
 
-        g2.setFont(new Font("Arial", Font.PLAIN, SUBTITLE_FONT_SIZE));
+        g2.setFont(new Font("Arial", Font.PLAIN, GameConstants.LEVEL3_OVERLAY_SUBTITLE_FONT_SIZE));
         final FontMetrics fm2 = g2.getFontMetrics();
         final int sx = (panel.getWidth() - fm2.stringWidth(subtitle)) / 2;
-        g2.drawString(subtitle, sx, panel.getHeight() / 2 + SUBTITLE_OFFSET);
+        g2.drawString(subtitle, sx, panel.getHeight() / 2 + GameConstants.LEVEL3_OVERLAY_SUBTITLE_VERTICAL_OFFSET);
     }
 
     private static void drawPlayer(final Graphics2D g2, final model.entities.api.Player player,

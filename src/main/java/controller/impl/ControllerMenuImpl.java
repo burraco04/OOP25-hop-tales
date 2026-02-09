@@ -37,7 +37,6 @@ public class ControllerMenuImpl implements ControllerMenu {
         case LEVEL_1 -> new GameController(this.view, 1, "levels/Level1.json");
         case LEVEL_2 -> new GameController(this.view, 2, "levels/Level2.json");
         case LEVEL_3 -> view.showLevel3();
-        default -> { }
         }
     }
 

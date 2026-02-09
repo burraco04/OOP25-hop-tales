@@ -2,11 +2,16 @@ package model.objects.impl;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.objects.api.AbstractWorldEntity;
 
 /**
  * Door entity that can be opened to allow passage.
  */
+@SuppressFBWarnings(
+        value = "EI_EXPOSE_REP2",
+        justification = "Texture reference is shared and managed by the level renderer."
+)
 public final class Door extends AbstractWorldEntity {
 
     private boolean open;

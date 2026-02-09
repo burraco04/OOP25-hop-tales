@@ -7,18 +7,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.CoinStorage;
+import model.GameConstants;
 import model.entities.impl.PlayerImpl;
 
 /**
  * Model for the third level.
  */
+@SuppressFBWarnings(
+        value = "EI_EXPOSE_REP",
+        justification = "Level model exposes live references to simplify MVC wiring."
+)
 public final class LevelModel {
-
-    private static final int FIREBOY_START_TILE_X = 2;
-    private static final int FIREBOY_START_TILE_Y = 2;
-    private static final int WATERGIRL_START_TILE_X = 33;
-    private static final int WATERGIRL_START_TILE_Y = 34;
 
     private final String[] rawMap = {
             "11111111111111111111111111111111111",
@@ -89,8 +90,8 @@ public final class LevelModel {
     private final List<model.objects.impl.ButtonPad> buttons = new ArrayList<>();
 
     // players 
-    private model.entities.impl.PlayerImpl fireboy;
-    private model.entities.impl.PlayerImpl watergirl;
+    private PlayerImpl fireboy;
+    private PlayerImpl watergirl;
 
     private boolean gameOver;
     private boolean levelComplete;
@@ -104,21 +105,22 @@ public final class LevelModel {
      * Creates the level model with default state.
      */
     public LevelModel() {
-        totalCoinsSaved = CoinStorage.loadTotalCoins();
+        CoinStorage.loadTotalCoins();
+        totalCoinsSaved = CoinStorage.getCoins();
         // spawn player 1 in alto-sinistra (tile 2,2)
         fireboy = new PlayerImpl(
-                FIREBOY_START_TILE_X * LevelConstants.TILE,
-                FIREBOY_START_TILE_Y * LevelConstants.TILE,
-                LevelConstants.TILE,
-                LevelConstants.TILE
+                GameConstants.LEVEL3_FIREBOY_SPAWN_TILE_X * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
+                GameConstants.LEVEL3_FIREBOY_SPAWN_TILE_Y * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
+                GameConstants.LEVEL3_PLAYER_WIDTH_TILES * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
+                GameConstants.LEVEL3_PLAYER_HEIGHT_TILES * GameConstants.LEVEL3_TILE_PIXEL_SIZE
         );
 
         // spawn player 2 in basso-destra (tile 35,34)
         watergirl = new PlayerImpl(
-                WATERGIRL_START_TILE_X * LevelConstants.TILE,
-                WATERGIRL_START_TILE_Y * LevelConstants.TILE,
-                LevelConstants.TILE,
-                LevelConstants.TILE
+                GameConstants.LEVEL3_WATERGIRL_SPAWN_TILE_X * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
+                GameConstants.LEVEL3_WATERGIRL_SPAWN_TILE_Y * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
+                GameConstants.LEVEL3_PLAYER_WIDTH_TILES * GameConstants.LEVEL3_TILE_PIXEL_SIZE,
+                GameConstants.LEVEL3_PLAYER_HEIGHT_TILES * GameConstants.LEVEL3_TILE_PIXEL_SIZE
         );
     }
 
@@ -126,7 +128,7 @@ public final class LevelModel {
      * @return the raw map rows.
      */
     public String[] getRawMap() {
-        return rawMap;
+        return rawMap.clone();
     }
 
     /**
@@ -160,6 +162,7 @@ public final class LevelModel {
     /**
      * @return the map tiles.
      */
+    @SuppressWarnings("PMD.MethodReturnsInternalArray")
     public char[][] getMap() {
         return map;
     }
@@ -168,7 +171,11 @@ public final class LevelModel {
      * @param map tiles map
      */
     public void setMap(final char[][] map) {
-        this.map = map;
+        final char[][] copy = new char[map.length][];
+        for (int i = 0; i < map.length; i++) {
+            copy[i] = map[i].clone();
+        }
+        this.map = copy;
     }
 
     /**
@@ -384,7 +391,7 @@ public final class LevelModel {
     /**
      * @return fireboy player.
      */
-    public model.entities.impl.PlayerImpl getFireboy() {
+    public PlayerImpl getFireboy() {
         return fireboy;
     }
 
@@ -398,7 +405,7 @@ public final class LevelModel {
     /**
      * @return watergirl player.
      */
-    public model.entities.impl.PlayerImpl getWatergirl() {
+    public PlayerImpl getWatergirl() {
         return watergirl;
     }
 

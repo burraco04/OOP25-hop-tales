@@ -33,7 +33,7 @@ public final class WalkerImpl extends AbstractEnemyImpl {
      * @return horizontal speed
      */
     @Override
-    public double getSpeed() {
+    protected double getSpeed() {
         return SPEED;
     }
 

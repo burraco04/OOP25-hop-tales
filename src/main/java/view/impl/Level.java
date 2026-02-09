@@ -72,12 +72,10 @@ public class Level extends JPanel {
     }
 
     private void updateTileSize() {
-   
+        final int sizeX = getWidth() / GameConstants.TILE_SIZE_X;
+        final int sizeY = getHeight() / GameConstants.TILE_SIZE_Y;
 
-    int sizeX = getWidth() / GameConstants.TILE_SIZE_X;
-    int sizeY = getHeight() / GameConstants.TILE_SIZE_Y;
-
-    tileSize = Math.min(sizeX, sizeY);
+        tileSize = Math.min(sizeX, sizeY);
     }
 
     /**

@@ -24,7 +24,7 @@ import view.api.View;
 public final class GameController implements ActionListener {
 
     private final PlayerController playerController;
-    private final CollectablesController coinsController;
+    private final CollectablesController collectablesController;
     private final EnemyController enemyController;
     private final Timer timer;
     private final View view;
@@ -44,7 +44,7 @@ public final class GameController implements ActionListener {
         this.world = new World(levelId);
         this.playerController = new PlayerController(this.world);
         final KeyboardInputManager kim = new KeyboardInputManager(playerController);
-        this.coinsController = new CollectablesController(this.world);
+        this.collectablesController = new CollectablesController(this.world);
         this.enemyController = new EnemyController(this.world);
         this.timer = new Timer(GameConstants.MILLIS_PER_SECOND / GameConstants.TARGET_UPS, this);
         this.start();
@@ -86,7 +86,7 @@ public final class GameController implements ActionListener {
     @Override
     public void actionPerformed(final ActionEvent event) {
         playerController.update();
-        coinsController.update();
+        collectablesController.update();
         enemyController.update();
         if (!gameOver && !world.getPlayer().isAlive()) {
             gameOver = true;

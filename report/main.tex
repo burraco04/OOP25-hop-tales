@@ -1,0 +1,206 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{chngcntr}
+\usepackage{float}
+\usepackage{hyperref}
+\counterwithin{figure}{section}
+
+\title{Hop-Tales}
+\author{Enrico Casadei, 
+\texttt{enrico.casadei18@studio.unibo.it}
+\and
+Simone Capacci,
+\texttt{simone.capacci3@studio.unibo.it}
+\and
+Simone Gentili,
+\texttt{simone.gentili4@studio.unibo.it}
+\and
+Eleonora Bartoletti,
+\texttt{eleonora.bartoletti2@studio.unibo.it}
+}
+\date{February 2026}
+
+\renewcommand{\contentsname}{Indice} % cambia "Contents" in "Indice"
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents  % genera l’indice
+
+\section{ Analisi}
+\subsection{Descrizione e requisiti}
+Il gruppo si pone come obiettivo la realizzazione di un gioco platformer chiamato Hop-Tales. Il gioco si sviluppa in 3 livelli: nel primo il giocatore si muove in avanti evitando i nemici fino a raggiungere un castello posto alla fine del livello; nel secondo livello, simile al primo, si utilizza un secondo personaggio che a fine livello raggiunge lo stesso castello; nel terzo livello, da giocare in due, il gioco diventa un puzzle-platformer, in cui i due personaggi devono risolvere dei mini-puzzle per finalmente riunirsi.
+\paragraph{Requisiti funzionali}
+\begin{itemize}
+    \item Il giocatore sarà in grado di muoversi liberamente su due dimensioni per tutti e tre i livelli.
+    \item I primi due livelli avranno lo stesso stile da classico platformer, in cui il giocatore procede verso una direzione finchè non completa il livello, mentre il terzo livello sarà composto da una stanza predefinita contenente dei puzzle.
+    \item Il giocatore avrà la possibilità di interagire con diversi elementi del livello che avranno particolari effetti; in particolare nei primi due livelli forniranno un potenziamento al personaggio, mentre nel terzo livello permetteranno di risolvere i puzzle al fine di completare il livello.
+    \item Tra gli elementi interagibili nei vari livelli ci saranno anche le monete, oggetti raccoglibili che potranno essere utilizzati nel menù per fini puramente decorativi.
+    \item Sarà presente un menù principale da cui saranno accessibili i vari livelli oltre allo shop, in cui si potranno spendere le monete raccolte per comprare delle skin per i personaggi, e alle impostazioni, che riguarderanno principalmente effetti audio.
+    \item Saranno presenti diversi tipi di nemici in grado di ostacolare il giocatore. Essi avranno anche la possibilità di "terminare" la partita, colpendo il giocatore un certo numero di volte.    
+\end{itemize}
+\paragraph{Requisiti non funzionali}
+\begin{itemize}
+    \item Il gioco dovrà funzionare senza errori su diversi sistemi operativi, tra cui sicuramente una qualsiasi distribuzione Linux. 
+\end{itemize}
+\subsection{Modello del Dominio}
+All'avvio del gioco si crea una finestra dove viene mostrato il menù principale, da cui il giocatore può scegliere di aprire lo shop (per comprare delle skin per i personaggi), le opzioni (per modificare gli effetti audio) o giocare. Scegliendo l'ultima opzione a sua volta gli verrà chiesto quale livello vuole affrontare. In seguito la finestra mostrerà il livello selezionato e all'interno di esso si troveranno diversi elementi: ovviamente ci sarà il personaggio del giocatore, in grado di muoversi liberamente e saltare, inoltre saranno presenti dei nemici, anch'essi in grado di muoversi (anche se in maniera predefinita). Il giocatore presenta i punti vita, ovvero un indice numerico che si abbassa ogni volta che l'entità subisce danni. Qualora l'indice scenda a 0 o inferiore finisce la partita. Il giocatore inoltre avrà la possibilità di raccogliere dei "Power-up", che gli permetteranno di non subire danni la prossima volta che verrà colpito. Oltre alle entità saranno presenti oggetti che avranno caratteristiche diverse tra di loro. Tutti gli oggetti hanno un determinato comportamento quando vengono toccati in base al tipo. Gli elementi sopracitati con le loro relazioni sono riassunti nella Figura~\ref{fig:uml_analisi}. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm]{Level System and Shop Flow-2026-02-08-164651.png}
+    \caption{Diagramma UML dell'analisi del dominio}
+    \label{fig:uml_analisi}
+\end{figure}
+
+\section{Design}
+\subsection{Architettura}
+
+Considerando che il gioco è diviso in due sezioni decisamente diverse, ovvero la parte del menù e quella della partita, si è optato per dividere la struttura architetturale del gioco in due blocchi. Per l'architettura del menu di gioco si sfrutta una variante semplificata del pattern MVC. Lo stato del menu è infatti gestito implicitamente dal Controller, che decide quale schermata visualizzare in base agli input ricevuti.
+ All'avvio del gioco viene creato il Menu, che rappresenta la \textit{View} principale. Esso riceve gli input attraverso cui notifica il MenuController, che rappresenta il \textit{Controller}, il quale gestisce i vari stati del menu che vengono modificati in base agli input dell' user. Ogni volta che si verifica il cambiamento di stato (ovvero l'utente seleziona la schermata interessata) Il MenuController si attiva chiamando direttamente la view mostrando dunque la schermata corretta. Per passare al secondo caso d'uso, ovvero lo stato di gioco vero e proprio, serve l'input del giocatore per avviare un livello, in modo tale che il Menu lo riceva, avvisi il MenuController e quest'ultimo permetta di accedere alla partita.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Duck beakColor Taxonomy Flow-2026-02-09-112200.png}
+    \caption{Diagramma UML dell'architettura del sistema}
+    \label{fig:uml_design}
+\end{figure}
+
+\subsection{Design dettagliato}
+\subsubsection{CAPACCI SIMONE}
+\subsubsection{Caricamento dei livelli tramite DTO, Mapper e Factory}
+
+Problema:
+Il gioco deve caricare i livelli da file esterni, descritti tramite una
+rappresentazione persistente (file JSON).
+Era necessario evitare che il modello di gioco dipendesse direttamente dalla
+struttura dei file. Inoltre, il sistema deve permettere l’aggiunta di nuovi
+livelli senza richiedere modifiche al codice del modello.
+
+
+Soluzione:
+La soluzione adottata consente di utilizzare più file JSON per definire livelli
+differenti, permettendo l’aggiunta di nuovi livelli in futuro senza modificare il
+modello di gioco.
+
+I file di livello vengono deserializzati dalla classe LevelLoader, che produce
+strutture dati intermedie prive di logica (LevelData, EntityData,
+MacroData). Tali classi svolgono il ruolo di DTO (Data Transfer Object) e
+rappresentano esclusivamente i dati necessari al trasferimento delle informazioni.
+
+Pattern usato: DTO (Data Transfer Object) 
+Un DTO è un oggetto che contiene solo dati, senza logica applicativa, ed è
+utilizzato per trasferire informazioni tra diversi strati dell’applicazione,
+mantenendo il modello indipendente dai dettagli di persistenza.
+
+La conversione dai DTO agli oggetti del dominio è demandata a un componente
+dedicato, EntityFactory (Factory Method), che si occupa di istanziare le corrette entità di gioco
+a partire dai dati deserializzati, cosi che la logica di conversione è centralizzata in un
+unico punto.
+
+Il Gamecontroller coordina il processo di caricamento utilizzando i DTO e il mapper
+per inizializzare lo stato del mondo di gioco.
+
+Pattern usati:Factory Method, Mapper.
+Il Factory Method centralizza la creazione degli oggetti, nascondendo al
+chiamante le classi concrete utilizzate.
+
+Il Mapper si occupa di convertire dati da una rappresentazione a
+un’altra, tipicamente da oggetti di trasferimento (DTO) a oggetti del dominio,
+mantenendo separata la logica di conversione dal modello.
+
+Motivazione:
+Questa soluzione permette di mantenere il modello indipendente, centralizzare la logica di creazione delle entità, facilitare l’estensione del sistema con nuovi tipi di entità o nuovi
+formati di livello.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{level_loading.png}
+    \caption{Diagramma UML del caricamento dei livelli tramite DTO e Factory}
+    \label{fig:uml-level-loading}
+\end{figure}
+
+\subsubsection{Gestione degli stati dell’applicazione}
+Problema:
+L’applicazione presenta diverse modalità operative (menu principale, selezione del
+livello, negozio, opzioni e gioco), che devono essere gestite in modo coerente e
+esclusivo.
+Una gestione basata su condizioni sparse avrebbe reso il sistema
+difficile da estendere e manutenere.
+
+Soluzione:
+Gli stati dell’applicazione sono rappresentati tramite un’enumerazione (State)
+che descrive in modo esplicito tutte le modalità operative.
+Il ControllerMenu utilizza tale rappresentazione per gestire le transizioni tra
+gli stati e decidere quale componente della view visualizzare.
+
+Pattern usati: State (variante semplificata basata su enumerazioni)
+gli stati dell’applicazione sono rappresentati tramite
+un’enumerazione che rende esplicite le modalità operative possibili e consente
+al controller di gestire in modo centralizzato le transizioni tra gli stati.
+
+Motivazioni:
+Si rendono espliciti gli stati dell’applicazione, centralizza la gestione delle transizioni e si semplifica l'aggiunta di nuove modalità operative.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{menu_state.png}
+    \caption{Diagramma UML della gestione degli stati dell'applicazione}
+    \label{fig:uml-level-loading}
+\end{figure}
+\subsubsection{Gestione delle animazioni e delle risorse grafiche}
+Problema:
+Le entità di gioco richiedono animazioni basate su sequenze di immagini e una
+gestione efficiente delle risorse grafiche.
+Una gestione diretta delle immagini all’interno delle singole entità come inizialmente pensato avrebbe
+portato a duplicazione di codice e spreco di risorse.
+
+Soluzione:
+La gestione delle animazioni è separata dalla gestione delle risorse grafiche:
+la classe Animation incapsula la logica temporale dei frame, mentre Draw
+delega ad Animation la selezione del frame corretto da visualizzare.
+Il caricamento e il caching delle immagini sono centralizzati nella classe
+Draw(Factory), che evita il caricamento ripetuto delle stesse risorse grafiche.
+
+Pattern usati: Factory(per la creazione e gestione delle risorse)
+
+Motivazione:
+Riduce la duplicazione del codice e migliora le prestazioni tramite caching;
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Draw.png}
+    \caption{Diagramma gestione animazioni e risorse grafiche}
+    \label{fig:uml-level-loading}
+\end{figure}
+\section{Sviluppo}
+\subsection{Test}
+blabla
+\subsection{Note di sviluppo}
+\subsection{CAPACCI SIMONE}
+\paragraph{Uso di librerie di terze parti}
+usati in :
+\begin{sloppypar}
+  \url{https://github.com/burraco04/OOP25-hop-tales/blob/a4aaf040e954816289de773d2bdcfe55a6639e04/src/main/java/deserialization/level/LevelLoader.java#L8}
+\end{sloppypar}
+\paragraph{Uso di method reference}
+\begin{sloppypar}
+  \url{https://github.com/burraco04/OOP25-hop-tales/blob/a4aaf040e954816289de773d2bdcfe55a6639e04/src/main/java/view/utils/Draw.java#L39C2-L39C61}
+\end{sloppypar}
+
+\paragraph{parte di codice riadattata da internet}
+FontFactory.
+
+
+\section{Commenti finali}
+
+\subsection{CAPACCI SIMONE}
+All’interno del gruppo mi sono occupato principalmente della progettazione
+e dell’implementazione delle componenti legate al caricamento dei livelli primo e secondo,
+ In particolare la creazione di tiles e della struttura intera della mappa relativa al primo livello.
+alla gestione delle risorse grafiche e delle animazioni, nonché di
+parti legate interfaccia utente (menu , negozio(creazione di skin e possibilità di comprarle), opzioni).
+
+Non sono completamente soddisfatto del mio lavoro in quanto per mancanza di tempo non sono riuscito ad adattare corretamente i tiles degli oggetti e più in generale, le immagini alla dimensione della finsetra di gioco. Nonostante ciò, penso sia stata un ottima esperienza formativa che mi ha permesso di consolidare e migliorare le mie competenze di programmazione.
+
+
+\end{document}

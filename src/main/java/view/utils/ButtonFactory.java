@@ -34,9 +34,6 @@ public class ButtonFactory {
         button.setMinimumSize(BUTTON_DIM);
 
         button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
-        button.setFocusPainted(false);
-        button.setContentAreaFilled(true);
-        button.setOpaque(true);
 
         return button;
     }

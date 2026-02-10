@@ -47,7 +47,22 @@ Il gruppo si pone come obiettivo la realizzazione di un gioco platformer chiamat
     \item Il gioco dovrà funzionare senza errori su diversi sistemi operativi, tra cui sicuramente una qualsiasi distribuzione Linux. 
 \end{itemize}
 \subsection{Modello del Dominio}
-All'avvio del gioco si crea una finestra dove viene mostrato il menù principale, da cui il giocatore può scegliere di aprire lo shop (per comprare delle skin per i personaggi), le opzioni (per modificare gli effetti audio) o giocare. Scegliendo l'ultima opzione a sua volta gli verrà chiesto quale livello vuole affrontare. In seguito la finestra mostrerà il livello selezionato e all'interno di esso si troveranno diversi elementi: ovviamente ci sarà il personaggio del giocatore, in grado di muoversi liberamente e saltare, inoltre saranno presenti dei nemici, anch'essi in grado di muoversi (anche se in maniera predefinita). Il giocatore presenta i punti vita, ovvero un indice numerico che si abbassa ogni volta che l'entità subisce danni. Qualora l'indice scenda a 0 o inferiore finisce la partita. Il giocatore inoltre avrà la possibilità di raccogliere dei "Power-up", che gli permetteranno di non subire danni la prossima volta che verrà colpito. Oltre alle entità saranno presenti oggetti che avranno caratteristiche diverse tra di loro. Tutti gli oggetti hanno un determinato comportamento quando vengono toccati in base al tipo. Gli elementi sopracitati con le loro relazioni sono riassunti nella Figura~\ref{fig:uml_analisi}. 
+All'avvio del gioco si crea una finestra dove viene mostrato il menù principale, 
+da cui il giocatore può scegliere di aprire lo shop (per comprare delle skin per i 
+personaggi), le opzioni (per modificare gli effetti audio) o giocare. Scegliendo 
+l'ultima opzione a sua volta gli verrà chiesto quale livello vuole affrontare.
+In seguito la finestra mostrerà il livello selezionato e all'interno di esso si 
+troveranno diversi elementi: ovviamente ci sarà il personaggio del giocatore, 
+in grado di muoversi liberamente e saltare, inoltre saranno presenti dei nemici, 
+anch'essi in grado di muoversi (anche se in maniera predefinita). Il giocatore 
+presenta i punti vita, ovvero un indice numerico che si abbassa ogni volta che 
+l'entità subisce danni. Qualora l'indice scenda a 0 o inferiore finisce la partita. 
+Il giocatore inoltre avrà la possibilità di raccogliere dei "Power-up", che gli 
+permetteranno di non subire danni la prossima volta che verrà colpito. 
+Oltre alle entità saranno presenti oggetti che avranno caratteristiche diverse 
+tra di loro. Tutti gli oggetti hanno un determinato comportamento quando vengono 
+toccati in base al tipo. Gli elementi sopracitati con le loro relazioni sono 
+riassunti nella Figura~\ref{fig:uml_analisi}. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=10cm]{Level System and Shop Flow-2026-02-08-164651.png}
@@ -68,9 +83,9 @@ Considerando che il gioco è diviso in due sezioni decisamente diverse, ovvero l
 \end{figure}
 
 \subsection{Design dettagliato}
-\subsubsection{CAPACCI SIMONE}
-\subsubsection{Caricamento dei livelli tramite DTO, Mapper e Factory}
-
+\subsubsection{Capacci Simone}
+\paragraph{Caricamento dei livelli tramite DTO, Mapper e Factory}
+\par
 Problema:
 Il gioco deve caricare i livelli da file esterni, descritti tramite una
 rappresentazione persistente (file JSON).
@@ -120,7 +135,8 @@ formati di livello.
     \label{fig:uml-level-loading}
 \end{figure}
 
-\subsubsection{Gestione degli stati dell’applicazione}
+\paragraph{Gestione degli stati dell’applicazione}
+\par
 Problema:
 L’applicazione presenta diverse modalità operative (menu principale, selezione del
 livello, negozio, opzioni e gioco), che devono essere gestite in modo coerente e
@@ -147,7 +163,7 @@ Si rendono espliciti gli stati dell’applicazione, centralizza la gestione dell
     \caption{Diagramma UML della gestione degli stati dell'applicazione}
     \label{fig:uml-level-loading}
 \end{figure}
-\subsubsection{Gestione delle animazioni e delle risorse grafiche}
+\paragraph{Gestione delle animazioni e delle risorse grafiche}
 Problema:
 Le entità di gioco richiedono animazioni basate su sequenze di immagini e una
 gestione efficiente delle risorse grafiche.
@@ -174,10 +190,10 @@ Riduce la duplicazione del codice e migliora le prestazioni tramite caching;
 \end{figure}
 
 
-\section{Design dettagliato - Bartoletti Eleonora}
+\subsubsection{Bartoletti Eleonora}
 
-\subsection{Gestione del Livello 3 (mappa, entità, interazioni)}
-
+\paragraph{Gestione del Livello 3 (mappa, entità, interazioni)}
+\par
 \paragraph{Problema:}
 Il livello 3 richiede una mappa complessa con oggetti eterogenei (porte, massi, pulsanti, piattaforme mobili, teletrasporti) e una logica fisica specifica (gravità, collisioni, teletrasporto, interazioni con porte e pulsanti). È necessario mantenere il pattern MVC e non intrecciare il rendering con la logica di gioco.
 
@@ -216,7 +232,7 @@ Le associazioni “porta–pulsante” e “teletrasporto–destinazione” veng
   \item Template Method (variante leggera): `AbstractWorldEntity` definisce l’interfaccia comune `draw(...)` e fornisce il metodo condiviso `drawTiled(...)`. Le entità (Boulder, Door, MovingPlatform) specializzano il comportamento grafico. È una forma di Template Method: la “struttura” della renderizzazione è fornita dalla superclasse e le sottoclassi completano il comportamento.
 \end{itemize}
 
-\subsection{2.2.2 Associazioni logiche (porte, pulsanti, teleport)}
+\paragraph{Associazioni logiche (porte, pulsanti, teleport)}
 
 \paragraph{Problema:}
 Nella mappa del livello 3 esistono oggetti che devono essere collegati logicamente: pulsanti che aprono porte , teleport che portano a specifiche coordinate.  
@@ -256,8 +272,8 @@ Queste strutture vengono poi usate da `LevelInteractions` durante il runtime.
 \end{itemize}
 
 
-\subsection{Persistenza monete e skin (CoinStorage)}
-
+\paragraph{Persistenza monete e skin (CoinStorage)}
+\par
 \paragraph{Problema:}
 Le monete raccolte e le skin acquistate devono essere persistenti fra sessioni. È necessario leggere e scrivere su file evitando duplicazioni e mantenendo compatibilità con l’economia del gioco.
 
@@ -303,8 +319,9 @@ Esempio errato: un’unica classe `Level3` con campi di rendering, logica, input
 
 Questo viola il principio di separazione delle responsabilità e rende impossibile capire la struttura reale.
 
-\subsubsection{GENTILI SIMONE}
-\subsubsection{Struttura base dei nemici}
+\subsubsection{Gentili Simone}
+\paragraph{Struttura base dei nemici}
+\par
 
 \paragraph{Problema} I nemici presenti nel gioco appartengono a tipologie diverse, ma condividono la stessa struttura di base e gran parte del comportamento. 
 Questo portava alla creazione di classi molto simili tra loro, con duplicazione di codice e difficoltà di manutenzione.
@@ -328,8 +345,8 @@ La personalizzazione del comportamento avviene tramite:
 
 Grazie a questa struttura l'aggiunta di un nuovo tipo di enemy è molto semplice e di facile manutenzione.
 
-\subsubsection{Creazione dei nemici}
-
+\paragraph{Creazione dei nemici}
+\par
 \paragraph{Problema} 
 Nel gioco esistono diversi tipi di nemici, ciascuno con comportamenti e caratteristiche specifiche, 
 che devono essere inseriti nei livelli in posizioni precise. Senza una gestione centralizzata la creazione di ogni nemico comporterebbe 
@@ -339,7 +356,7 @@ la duplicazione di codice e un aumento delle dipendenze tra classi, rendendo dif
 Per risolvere il problema è stato utilizzato il \textit{pattern Factory Method}. È stata introdotta la classe \textbf{EnemyFactory}, 
 responsabile della creazione degli oggetti \textit{Enemy}. La factory decide quale implementazione concreta istanziare in base al tipo di nemico, 
 definito dalla classe di tipo ENUM \textbf{EnemyType}, restituendo sempre un riferimento all'interfaccia \textit{Enemy}. In questo modo la logica di creazione è centralizzata e le dipendenze dalle classi sono ridotte. 
-Questo comporta : 
+Questo comporta: 
 
 \begin{itemize}
     \item una facilità d'uso; quando c'è bisogno di creare un nemico basta richiamare il metodo \textbf{createEnemy()} della factory
@@ -356,9 +373,61 @@ Questo comporta :
 La \textbf{EnemyFactory} rimane separata dalla (\textbf{EntityFactory}) perché i nemici e le entità statiche hanno logiche diversi; 
 ciò violerebbe il \textit{Single Responsibility Principle} e renderebbe il codice più difficile da mantenere ed estendere.  
 
+\subsubsection{Casadei Enrico}
+\paragraph{Gestione del controller in fase di gioco}
 
+\textbf{Problema}  Nella fase di gioco la parte implementativa legata al Model è piuttosto corposa, di conseguenza la logica per ogni update chiamato dal Controller potrebbe creare delle classi troppo grandi con molti compiti diversi.
+
+\textbf{Soluzione}  Suddivisione della parte del Controller legata alla fase di gioco in più classi, seguendo l' \textit{Observer pattern}.
+La classe GameController sarà \textit{Observable}, mentre le classi PlayerController, EnemyController e CollectablesController saranno gli \textit{Observers}. Il GameController si serve di un Timer che richiama ad una certa frequenza il metodo del GameController che notifica gli \textit{Observers}. Questi ultimi quindi richiamano l'update della parte del Model che li riguarda. 
+Per il PlayerController ho preferito gestire la logica al suo interno per non appesantire troppo la classe del Player, mentre per il CollectablesController mi sono servito di una classe helper comune ai vari \textit{Collectables} chiamata CollectableManager. La realizzazione è riassunta in Figura~\ref{fig:uml_controller}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm]{ControllerHandling.png}
+    \caption{Diagramma UML del pattern \textit{Observer} utilizzato per la rappresentazione del Controller}
+    \label{fig:uml_controller}
+\end{figure}
+\paragraph{Gestione delle collisioni}
+
+\textbf{Problema} Bisogna gestire ogni tipo di collisione, in maniera comprensibile e facile da riutilizzare in diverse situazioni.
+
+\textbf{Soluzione} Creazione della classe Collider che gestisce al suo interno tutta la logica che riguarda il controllo delle possibili collisioni, rendendo l'utilizzo dei suoi metodi veloce ed intuitivo. La classe sfrutta il pattern \textit{Facade}, in quanto fornisce alle altre classi un'interfaccia semplice tramite i propri metodi, nascondendo la logica implementativa. La realizzazione è riassunta in Figura~\ref{fig:uml_collider}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm]{ColliderDiagram.png}
+    \caption{Diagramma UML del Collider e delle classi con cui interagisce}
+    \label{fig:uml_collider}
+\end{figure}
+\paragraph{Gestione degli effetti sonori}
+
+\textbf{Problema} Serve una funzionalità in grado di manipolare in modo semplice e intuitivo i vari file audio presenti nel gioco.
+
+\textbf{Soluzione} Sviluppo della utility class AudioManager, che anch'essa sfrutta il pattern \textit{Facade} per offrire una interfacciabilità comoda tramite i propri metodi statici. La classe si serve della libreria \textit{javax.sound.sampled} per implementare pochi ma efficienti metodi per il progetto. La realizzazione è riassunta in Figura~\ref{fig:uml_audiomanager}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=12cm]{AudioManagerDiagram.png}
+    \caption{Diagramma UML del pattern \textit{Facade} utilizzato per AudioManager}
+    \label{fig:uml_audiomanager}
+\end{figure}
+\paragraph{Implementazione del Player}
+\textbf{Problema} Necessità di creare la classe che gestisce il giocatore, rendendola semplice e possibilmente modificabile per eventuali cambiamenti futuri.
+
+\textbf{Soluzione} Sfruttare il pattern \textit{Strategy} per creare una gerarchia
+di classi utilizzabili in contesti diversi che non richiedono di conoscere 
+l'implementazione. In questo caso si ha una interfaccia generale Entity, sfruttata
+anche per l'implementazione dei nemici, e una interfaccia Player che la estende 
+e viene implementata da PlayerImpl, per rendere più semplici eventuali implementazioni 
+future più complesse. La classe PlayerImpl inoltre, come spiegato in precedenza, 
+delega alla classe PlayerController la logica di aggiornamento del proprio stato,
+per ridurre la propria complessità. La realizzazione è riassunta in Figura~\ref{fig:uml_player}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=3cm]{PlayerDiagram.png}
+    \caption{Diagramma UML del pattern \textit{Strategy} utilizzato per Entity, Player e PlayerImpl}
+    \label{fig:uml_player}
+\end{figure}
 \section{Sviluppo}
-\section{Testing automatizzato}
+\subsection{Testing automatizzato}
 
 Il testing automatico serve per evitare regressioni e garantire che le funzionalità principali rimangano corrette dopo ogni modifica.  
 Nel progetto sono stati adottati test completamente automatici basati su JUnit, senza intervento umano.
@@ -379,7 +448,7 @@ I test coprono in modo minimale ma significativo il Livello 3 e la persistenza d
 In questo modo il test automatico intercetta errori tipici (mappa incoerente, associazioni mancanti, persistenza non salvata) e rende possibile rilevare regressioni in modo affidabile.
 
 \subsection{Note di sviluppo}
-\subsection{CAPACCI SIMONE}
+\subsubsection{Capacci Simone}
 \paragraph{Uso di librerie di terze parti}
 usati in :
 \begin{sloppypar}
@@ -393,7 +462,7 @@ usati in :
 \paragraph{parte di codice riadattata da internet}
 FontFactory.
 
-\section{BARTOLETTI ELEONORA}
+\subsubsection{Bartoletti Eleonora}
 
 \paragraph{Feature avanzate Java utilizzate (con esempi di codice):}
 \begin{itemize}
@@ -439,8 +508,8 @@ utilizzati ad esempio in:
 
 
 \section{Commenti finali}
-
-\subsection{CAPACCI SIMONE}
+\subsection{Autovalutazione e lavori futuri}
+\subsubsection{Capacci Simone}
 All’interno del gruppo mi sono occupato principalmente della progettazione
 e dell’implementazione delle componenti legate al caricamento dei livelli primo e secondo,
  In particolare la creazione di tiles e della struttura intera della mappa relativa al primo livello.
@@ -449,11 +518,11 @@ parti legate interfaccia utente (menu , negozio(creazione di skin e possibilità
 
 Non sono completamente soddisfatto del mio lavoro in quanto per mancanza di tempo non sono riuscito a modellare lo shop e la gestione skin come volevo per mancanza di tempo. Nonostante ciò, penso sia stata un ottima esperienza formativa che mi ha permesso di consolidare e migliorare le mie competenze di programmazione.
 
-\section{Bartoletti}
+\subsubsection{Bartoletti Eleonora}
 La realizzazione di questo progetto per me è stata rivelatrice: in particolare, mi ha aiutato a capire che il lavoro di gruppo è fondamentale, e che lo sarà sempre di più nel mondo del lavoro. Mi è servito a realizzare che il teamworking è una cosa su cui devo ancora lavorare, ma sono convinta di essere nella giusta strada. Un gruppo unito e che si aiuta a vicenda ha sicuramente una riuscita migliore del lavoro del singolo. 
 Detto questo, ritengo che il gruppo nella totalità abbia lavorato molto bene, nonostante le normali e, molte volte necessarie, divergenze riguardo il da farsi.
 
-\subsection{GENTILI SIMONE}
+\subsubsection{Gentili Simone}
 Mi sono occupato principalmente della progettazione dei nemici, della loro cortteta creazione e movimento allinterno dei livello 1 e 2.
 Ho inoltre lavorato alla totale struttora del livello 2 con i propri oggeti e alla correta visione del player e degli oggeti allinterno dei primi due livelli durante la fase di gioco.
 \end{document}

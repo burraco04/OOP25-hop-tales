@@ -1,8 +1,0 @@
-\contentsline {section}{\numberline {1}Analisi}{2}{}%
-\contentsline {subsection}{\numberline {1.1}Descrizione e requisiti}{2}{}%
-\contentsline {paragraph}{Requisiti funzionali}{2}{}%
-\contentsline {paragraph}{Requisiti non funzionali}{2}{}%
-\contentsline {subsection}{\numberline {1.2}Modello del Dominio}{3}{}%
-\contentsline {section}{\numberline {2}Design}{3}{}%
-\contentsline {section}{\numberline {3}Sviluppo}{4}{}%
-\contentsline {section}{\numberline {4}Commenti finali}{4}{}%

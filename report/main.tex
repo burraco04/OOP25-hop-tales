@@ -86,7 +86,7 @@ Considerando che il gioco è diviso in due sezioni decisamente diverse, ovvero l
 \subsubsection{Capacci Simone}
 \paragraph{Caricamento dei livelli tramite DTO, Mapper e Factory}
 \par
-Problema:
+\paragraph{Problema :}
 Il gioco deve caricare i livelli da file esterni, descritti tramite una
 rappresentazione persistente (file JSON).
 Era necessario evitare che il modello di gioco dipendesse direttamente dalla
@@ -94,30 +94,29 @@ struttura dei file. Inoltre, il sistema deve permettere l’aggiunta di nuovi
 livelli senza richiedere modifiche al codice del modello.
 
 
-Soluzione:
+\paragraph{Soluzione :}
 La soluzione adottata consente di utilizzare più file JSON per definire livelli
 differenti, permettendo l’aggiunta di nuovi livelli in futuro senza modificare il
 modello di gioco.
 
-I file di livello vengono deserializzati dalla classe LevelLoader, che produce
-strutture dati intermedie prive di logica (LevelData, EntityData,
-MacroData). Tali classi svolgono il ruolo di DTO (Data Transfer Object) e
+I file di livello vengono deserializzati dalla classe \textit{LevelLoader}, che produce
+strutture dati intermedie prive di logica (\textit{LevelData}, \textit{EntityData},
+\textit{MacroData}). Tali classi svolgono il ruolo di DTO (Data Transfer Object) e
 rappresentano esclusivamente i dati necessari al trasferimento delle informazioni.
 
-Pattern usato: DTO (Data Transfer Object) 
+\paragraph{Pattern usato :} \textit{DTO} (Data Transfer Object)\newline 
 Un DTO è un oggetto che contiene solo dati, senza logica applicativa, ed è
 utilizzato per trasferire informazioni tra diversi strati dell’applicazione,
 mantenendo il modello indipendente dai dettagli di persistenza.
 
 La conversione dai DTO agli oggetti del dominio è demandata a un componente
-dedicato, EntityFactory (Factory Method), che si occupa di istanziare le corrette entità di gioco
+dedicato, \textit{EntityFactory} (\textit{Factory Method}), che si occupa di istanziare le corrette entità di gioco
 a partire dai dati deserializzati, cosi che la logica di conversione è centralizzata in un
 unico punto.
 
-Il Gamecontroller coordina il processo di caricamento utilizzando i DTO e il mapper
+Il \textit{GameController} coordina il processo di caricamento utilizzando i DTO e il mapper
 per inizializzare lo stato del mondo di gioco.
-
-Pattern usati:Factory Method, Mapper.
+\paragraph{Pattern usati :} \textit{Factory Method}, \textit{Mapper}.\newline
 Il Factory Method centralizza la creazione degli oggetti, nascondendo al
 chiamante le classi concrete utilizzate.
 
@@ -125,7 +124,7 @@ Il Mapper si occupa di convertire dati da una rappresentazione a
 un’altra, tipicamente da oggetti di trasferimento (DTO) a oggetti del dominio,
 mantenendo separata la logica di conversione dal modello.
 
-Motivazione:
+\paragraph{Motivazione :}
 Questa soluzione permette di mantenere il modello indipendente, centralizzare la logica di creazione delle entità, facilitare l’estensione del sistema con nuovi tipi di entità o nuovi
 formati di livello.
 \begin{figure}[H]
@@ -137,25 +136,25 @@ formati di livello.
 
 \paragraph{Gestione degli stati dell’applicazione}
 \par
-Problema:
+\paragraph{Problema :}
 L’applicazione presenta diverse modalità operative (menu principale, selezione del
 livello, negozio, opzioni e gioco), che devono essere gestite in modo coerente e
 esclusivo.
 Una gestione basata su condizioni sparse avrebbe reso il sistema
 difficile da estendere e manutenere.
 
-Soluzione:
+\paragraph{Soluzione :}
 Gli stati dell’applicazione sono rappresentati tramite un’enumerazione (State)
 che descrive in modo esplicito tutte le modalità operative.
-Il ControllerMenu utilizza tale rappresentazione per gestire le transizioni tra
+Il \textit{ControllerMenu} utilizza tale rappresentazione per gestire le transizioni tra
 gli stati e decidere quale componente della view visualizzare.
 
-Pattern usati: State (variante semplificata basata su enumerazioni)
+\paragraph{Pattern usato :} \textit{State} (variante semplificata basata su enumerazioni)
 gli stati dell’applicazione sono rappresentati tramite
 un’enumerazione che rende esplicite le modalità operative possibili e consente
 al controller di gestire in modo centralizzato le transizioni tra gli stati.
 
-Motivazioni:
+\paragraph{Motivazioni:}
 Si rendono espliciti gli stati dell’applicazione, centralizza la gestione delle transizioni e si semplifica l'aggiunta di nuove modalità operative.
 \begin{figure}[H]
     \centering
@@ -164,22 +163,23 @@ Si rendono espliciti gli stati dell’applicazione, centralizza la gestione dell
     \label{fig:uml-menu-state}
 \end{figure}
 \paragraph{Gestione delle animazioni e delle risorse grafiche}
-Problema:
+\par
+\paragraph{Problema :}
 Le entità di gioco richiedono animazioni basate su sequenze di immagini e una
 gestione efficiente delle risorse grafiche.
 Una gestione diretta delle immagini all’interno delle singole entità come inizialmente pensato avrebbe
 portato a duplicazione di codice e spreco di risorse.
 
-Soluzione:
+\paragraph{Soluzione :}
 La gestione delle animazioni è separata dalla gestione delle risorse grafiche:
-la classe Animation incapsula la logica temporale dei frame, mentre Draw
-delega ad Animation la selezione del frame corretto da visualizzare.
+la classe \textit{Animation} incapsula la logica temporale dei frame, mentre \textit{Draw} 
+delega ad \textit{Animation} la selezione del frame corretto da visualizzare.
 Il caricamento e il caching delle immagini sono centralizzati nella classe
-Draw(Factory), che evita il caricamento ripetuto delle stesse risorse grafiche.
+\textit{Draw}(\textit{Factory}), che evita il caricamento ripetuto delle stesse risorse grafiche.
 
-Pattern usati: Factory(per la creazione e gestione delle risorse)
+\paragraph{Pattern usati :} \textit{Factory}(per la creazione e gestione delle risorse)
 
-Motivazione:
+\paragraph{Motivazione :}
 Riduce la duplicazione del codice e migliora le prestazioni tramite caching;
 
 \begin{figure}[H]
@@ -194,31 +194,29 @@ Riduce la duplicazione del codice e migliora le prestazioni tramite caching;
 
 \paragraph{Gestione del Livello 3 (mappa, entità, interazioni)}
 \par
-\paragraph{Problema:}
+\paragraph{Problema :}
 Il livello 3 richiede una mappa complessa con oggetti eterogenei (porte, massi, pulsanti, piattaforme mobili, teletrasporti) e una logica fisica specifica (gravità, collisioni, teletrasporto, interazioni con porte e pulsanti). È necessario mantenere il pattern MVC e non intrecciare il rendering con la logica di gioco.
 
-\paragraph{Soluzione adottata:}
+\paragraph{Soluzione adottata :}
 \begin{itemize}
-  \item Model: `LevelModel` mantiene lo stato del livello (mappa, entità, immagini, associazioni logiche).
-  \item Controller: `LevelLogic` esegue il tick di gioco, gestendo input, fisica, interazioni e condizioni di vittoria/sconfitta.
-  \item View: `FireboyWatergirlLevel` + `LevelRenderer` mostrano la scena e delegano la logica al controller.
+  \item Model: \textit{LevelModel} mantiene lo stato del livello (mappa, entità, immagini, associazioni logiche).
+  \item Controller: \textit{LevelLogic} esegue il tick di gioco, gestendo input, fisica, interazioni e condizioni di vittoria/sconfitta.
+  \item View: \textit{FireboyWatergirlLevel} + \textit{LevelRenderer} mostrano la scena e delegano la logica al controller.
 \end{itemize}
 
 Le associazioni “porta–pulsante” e “teletrasporto–destinazione” vengono costruite una sola volta da `LevelBuilder` usando funzioni di mapping tra tile e oggetti.
 
-\paragraph{Alternative considerate:}
+\paragraph{Alternative considerate :}
 \begin{itemize}
   \item God class unica che gestisce rendering e logica: scartata perché infrange MVC e rende difficile isolare bug.
   \item Ogni oggetto con logica autonoma (porte, pulsanti, teleporters autogestiti): scartata per eccessiva frammentazione e difficoltà di coordinamento temporale (tick unico).
 \end{itemize}
 
-\paragraph{Pro/Contro:}
+\paragraph{Pro/Contro :}
 \begin{itemize}
-  \item Pro: separazione netta di responsabilità, logica testabile, rendering sostituibile.
-  \item Contro: più classi e passaggi di dati (model-controller-view) rispetto a una soluzione monolitica.
+  \item Pro : separazione netta di responsabilità, logica testabile, rendering sostituibile.
+  \item Contro : più classi e passaggi di dati (model-controller-view) rispetto a una soluzione monolitica.
 \end{itemize}
-
-\paragraph{UML:}
 
 \begin{figure}[H]
     \centering
@@ -227,26 +225,26 @@ Le associazioni “porta–pulsante” e “teletrasporto–destinazione” veng
     \label{fig:uml_design_1}
 \end{figure}
 
-\paragraph{Pattern utilizzati:}
+\paragraph{Pattern utilizzati :}
 \begin{itemize}
-  \item Template Method (variante leggera): `AbstractWorldEntity` definisce l’interfaccia comune `draw(...)` e fornisce il metodo condiviso `drawTiled(...)`. Le entità (Boulder, Door, MovingPlatform) specializzano il comportamento grafico. È una forma di Template Method: la “struttura” della renderizzazione è fornita dalla superclasse e le sottoclassi completano il comportamento.
+  \item \textit{Template Method} (variante leggera): \textit{AbstractWorldEntity} definisce l’interfaccia comune `draw(...)` e fornisce il metodo condiviso `drawTiled(...)`. Le entità (Boulder, Door, MovingPlatform) specializzano il comportamento grafico. È una forma di \textit{Template Method}: la “struttura” della renderizzazione è fornita dalla superclasse e le sottoclassi completano il comportamento.
 \end{itemize}
 
 \paragraph{Associazioni logiche (porte, pulsanti, teleport)}
 
-\paragraph{Problema:}
+\paragraph{Problema :}
 Nella mappa del livello 3 esistono oggetti che devono essere collegati logicamente: pulsanti che aprono porte , teleport che portano a specifiche coordinate.  
 Il collegamento non può essere hardcoded nella logica del controller.
 
-\paragraph{Soluzione adottata:}
-Nel `LevelBuilder` si costruiscono mappe:
+\paragraph{Soluzione adottata :}
+Nel \textit{LevelBuilder} si costruiscono mappe:
 \begin{itemize}
   \item `buttonToDoorId`: associazione tile–id porta
   \item `teleportDestTile`: associazione tile–destinazione
 \end{itemize}
 Queste strutture vengono poi usate da `LevelInteractions` durante il runtime.
 
-\paragraph{Alternative considerate:}
+\paragraph{Alternative considerate :}
 \begin{itemize}
   \item Hardcode nel controller: scartato per bassa manutenibilità.
   \item Configurazione esterna (JSON): scartata per evitare modifiche strutturali al progetto.
@@ -254,11 +252,10 @@ Queste strutture vengono poi usate da `LevelInteractions` durante il runtime.
 
 \paragraph{Pro/Contro:}
 \begin{itemize}
-  \item Pro: maggiore chiarezza, logica separata e riutilizzabile.
-  \item Contro: aggiunta di step di build (ma una tantum).
+  \item Pro : maggiore chiarezza, logica separata e riutilizzabile.
+  \item Contro : aggiunta di step di build (ma una tantum).
 \end{itemize}
 
-\paragraph{UML:}
 \begin{figure}[H]
     \centering
     \includegraphics[width=8cm]{Figure2Bartoletti.png}
@@ -266,19 +263,19 @@ Queste strutture vengono poi usate da `LevelInteractions` durante il runtime.
     \label{fig:uml_design_2}
 \end{figure}
 
-\paragraph{Pattern utilizzati}
+\paragraph{Pattern utilizzato :}
 \begin{itemize}
-  \item Separazione delle responsabilità: `LevelInteractions` centralizza le interazioni (porte, teleport) mantenendo la logica di movimento in `LevelLogic` e il rendering nella view.
+  \item Separazione delle responsabilità: \textit{LevelInteractions} centralizza le interazioni (porte, teleport) mantenendo la logica di movimento in \textit{LevelLogic} e il rendering nella view.
 \end{itemize}
 
 
 \paragraph{Persistenza monete e skin (CoinStorage)}
 \par
-\paragraph{Problema:}
+\paragraph{Problema :}
 Le monete raccolte e le skin acquistate devono essere persistenti fra sessioni. È necessario leggere e scrivere su file evitando duplicazioni e mantenendo compatibilità con l’economia del gioco.
 
 \paragraph{Soluzione adottata:}
-`CoinStorage` centralizza:
+\textit{CoinStorage} centralizza:
 \begin{itemize}
   \item conteggio monete
   \item lettura/scrittura su `coins.txt`
@@ -286,19 +283,18 @@ Le monete raccolte e le skin acquistate devono essere persistenti fra sessioni. 
 \end{itemize}
 Lo stato viene caricato all’avvio e aggiornato dopo ogni acquisto/collezione.
 
-\paragraph{Alternative considerate:}
+\paragraph{Alternative considerate :}
 \begin{itemize}
   \item Scrivere file separati: scartato per maggiore complessità.
   \item Salvataggio in JSON: scartato per non introdurre dipendenze extra e mantenere semplicità.
 \end{itemize}
 
-\paragraph{Pro/Contro:}
+\paragraph{Pro/Contro :}
 \begin{itemize}
   \item Pro: persistenza stabile, file unico e facile da ispezionare.
   \item Contro: struttura rigida (3 righe per skin, ordine fisso).
 \end{itemize}
 
-\paragraph{UML:}
 \begin{figure}[H]
     \centering
     \includegraphics[width=8cm]{Figure3Bartoletti.png}
@@ -306,29 +302,16 @@ Lo stato viene caricato all’avvio e aggiornato dopo ogni acquisto/collezione.
     \label{fig:uml_design_3}
 \end{figure}
 
-\paragraph{Pattern utilizzati}
-\begin{itemize}
-  \item Separazione delle responsabilità: `LevelInteractions` centralizza le interazioni (porte, teleport) mantenendo la logica di movimento in `LevelLogic` e il rendering nella view.
-\end{itemize}
-
-
-\paragraph{Contro-esempio UML (diagramma fatto male) :}
-Un diagramma “cattivo” è quello che mescola tutto in una sola classe o include dettagli implementativi inutili (metodi privati, variabili temporanee). 
-
-Esempio errato: un’unica classe `Level3` con campi di rendering, logica, input, salvataggio monete e disegno UI.  
-
-Questo viola il principio di separazione delle responsabilità e rende impossibile capire la struttura reale.
-
 \subsubsection{Gentili Simone}
 \paragraph{Struttura base dei nemici}
 \par
 
-\paragraph{Problema} I nemici presenti nel gioco appartengono a tipologie diverse, ma condividono la stessa struttura di base e gran parte del comportamento. 
+\paragraph{Problema :} I nemici presenti nel gioco appartengono a tipologie diverse, ma condividono la stessa struttura di base e gran parte del comportamento. 
 Questo portava alla creazione di classi molto simili tra loro, con duplicazione di codice e difficoltà di manutenzione.
 
-\paragraph{Soluzione} Per risolvere il problema è stato utilizzato il \textit{pattern Template Method}. È stata introdotta una classe astratta \textit{AbstractEnemyImpl} 
+\paragraph{Soluzione :} Per risolvere il problema è stato utilizzato il \textit{pattern Template Method}. È stata introdotta una classe astratta \textit{AbstractEnemyImpl} 
 che definisce lo scheletro comune del comportamento dei nemici. Il metodo template è \textbf{update()} 
-che stabilisce l'ordine fisso delle operazioni di aggiornamento (movimento orizzontale, salto e gravità).
+che stabilisce l’ordine fisso delle operazioni di aggiornamento (movimento orizzontale, salto e gravità).
 La personalizzazione del comportamento avviene tramite:
 
 \begin{itemize}
@@ -343,23 +326,23 @@ La personalizzazione del comportamento avviene tramite:
     \label{fig:uml_AbstractEnemy_structure}
 \end{figure}
 
-Grazie a questa struttura l'aggiunta di un nuovo tipo di enemy è molto semplice e di facile manutenzione.
+Grazie a questa struttura l’aggiunta di un nuovo tipo o la modica delle specifiche di movimento di un enemy è molto semplice e di facile manutenzione.
 
 \paragraph{Creazione dei nemici}
 \par
-\paragraph{Problema} 
+\paragraph{Problema :} 
 Nel gioco esistono diversi tipi di nemici, ciascuno con comportamenti e caratteristiche specifiche, 
 che devono essere inseriti nei livelli in posizioni precise. Senza una gestione centralizzata la creazione di ogni nemico comporterebbe 
 la duplicazione di codice e un aumento delle dipendenze tra classi, rendendo difficile la manutenzione.
 
-\paragraph{Soluzione} 
+\paragraph{Soluzione :} 
 Per risolvere il problema è stato utilizzato il \textit{pattern Factory Method}. È stata introdotta la classe \textbf{EnemyFactory}, 
 responsabile della creazione degli oggetti \textit{Enemy}. La factory decide quale implementazione concreta istanziare in base al tipo di nemico, 
-definito dalla classe di tipo ENUM \textbf{EnemyType}, restituendo sempre un riferimento all'interfaccia \textit{Enemy}. In questo modo la logica di creazione è centralizzata e le dipendenze dalle classi sono ridotte. 
+definito dalla classe di tipo ENUM \textbf{EnemyType}, restituendo sempre un riferimento all’interfaccia \textit{Enemy}. In questo modo la logica di creazione è centralizzata e le dipendenze dalle classi sono ridotte. 
 Questo comporta: 
 
 \begin{itemize}
-    \item una facilità d'uso; quando c'è bisogno di creare un nemico basta richiamare il metodo \textbf{createEnemy()} della factory
+    \item una facilità d’uso; quando c’è bisogno di creare un nemico basta richiamare il metodo \textbf{createEnemy()} della factory.
     \item la logica di creazione dei nemici è centralizzata nella factory, evitando che altre classi debbano conoscere i dettagli delle implementazioni concrete.
 \end{itemize}
 
@@ -371,14 +354,14 @@ Questo comporta:
 \end{figure}
 
 La \textbf{EnemyFactory} rimane separata dalla (\textbf{EntityFactory}) perché i nemici e le entità statiche hanno logiche diversi; 
-ciò violerebbe il \textit{Single Responsibility Principle} e renderebbe il codice più difficile da mantenere ed estendere.  
+se fosse unita violerebbe il \textit{Single Responsibility Principle} e renderebbe il codice più difficile da mantenere ed estendere.  
 
 \subsubsection{Casadei Enrico}
 \paragraph{Gestione del controller in fase di gioco}
+\par
+\paragraph{Problema :}  Nella fase di gioco la parte implementativa legata al Model è piuttosto corposa, di conseguenza la logica per ogni update chiamato dal Controller potrebbe creare delle classi troppo grandi con molti compiti diversi.
 
-\textbf{Problema}  Nella fase di gioco la parte implementativa legata al Model è piuttosto corposa, di conseguenza la logica per ogni update chiamato dal Controller potrebbe creare delle classi troppo grandi con molti compiti diversi.
-
-\textbf{Soluzione}  Suddivisione della parte del Controller legata alla fase di gioco in più classi, seguendo l' \textit{Observer pattern}.
+\paragraph{Soluzione :}  Suddivisione della parte del Controller legata alla fase di gioco in più classi, seguendo l' \textit{Observer pattern}.
 La classe GameController sarà \textit{Observable}, mentre le classi PlayerController, EnemyController e CollectablesController saranno gli \textit{Observers}. Il GameController si serve di un Timer che richiama ad una certa frequenza il metodo del GameController che notifica gli \textit{Observers}. Questi ultimi quindi richiamano l'update della parte del Model che li riguarda. 
 Per il PlayerController ho preferito gestire la logica al suo interno per non appesantire troppo la classe del Player, mentre per il CollectablesController mi sono servito di una classe helper comune ai vari \textit{Collectables} chiamata CollectableManager. La realizzazione è riassunta in Figura~\ref{fig:uml_controller}.
 \begin{figure}[H]
@@ -388,10 +371,10 @@ Per il PlayerController ho preferito gestire la logica al suo interno per non ap
     \label{fig:uml_controller}
 \end{figure}
 \paragraph{Gestione delle collisioni}
+\par
+\paragraph{Problema :} Bisogna gestire ogni tipo di collisione, in maniera comprensibile e facile da riutilizzare in diverse situazioni.
 
-\textbf{Problema} Bisogna gestire ogni tipo di collisione, in maniera comprensibile e facile da riutilizzare in diverse situazioni.
-
-\textbf{Soluzione} Creazione della classe Collider che gestisce al suo interno tutta la logica che riguarda il controllo delle possibili collisioni, rendendo l'utilizzo dei suoi metodi veloce ed intuitivo. La classe sfrutta il pattern \textit{Facade}, in quanto fornisce alle altre classi un'interfaccia semplice tramite i propri metodi, nascondendo la logica implementativa. La realizzazione è riassunta in Figura~\ref{fig:uml_collider}.
+\paragraph{Soluzione :} Creazione della classe Collider che gestisce al suo interno tutta la logica che riguarda il controllo delle possibili collisioni, rendendo l'utilizzo dei suoi metodi veloce ed intuitivo. La classe sfrutta il pattern \textit{Facade}, in quanto fornisce alle altre classi un'interfaccia semplice tramite i propri metodi, nascondendo la logica implementativa. La realizzazione è riassunta in Figura~\ref{fig:uml_collider}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=10cm]{ColliderDiagram.png}
@@ -399,10 +382,10 @@ Per il PlayerController ho preferito gestire la logica al suo interno per non ap
     \label{fig:uml_collider}
 \end{figure}
 \paragraph{Gestione degli effetti sonori}
+\par
+\paragraph{Problema :} Serve una funzionalità in grado di manipolare in modo semplice e intuitivo i vari file audio presenti nel gioco.
 
-\textbf{Problema} Serve una funzionalità in grado di manipolare in modo semplice e intuitivo i vari file audio presenti nel gioco.
-
-\textbf{Soluzione} Sviluppo della utility class AudioManager, che anch'essa sfrutta il pattern \textit{Facade} per offrire una interfacciabilità comoda tramite i propri metodi statici. La classe si serve della libreria \textit{javax.sound.sampled} per implementare pochi ma efficienti metodi per il progetto. La realizzazione è riassunta in Figura~\ref{fig:uml_audiomanager}.
+\paragraph{Soluzione :} Sviluppo della utility class AudioManager, che anch'essa sfrutta il pattern \textit{Facade} per offrire una interfacciabilità comoda tramite i propri metodi statici. La classe si serve della libreria \textit{javax.sound.sampled} per implementare pochi ma efficienti metodi per il progetto. La realizzazione è riassunta in Figura~\ref{fig:uml_audiomanager}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=12cm]{AudioManagerDiagram.png}
@@ -410,9 +393,10 @@ Per il PlayerController ho preferito gestire la logica al suo interno per non ap
     \label{fig:uml_audiomanager}
 \end{figure}
 \paragraph{Implementazione del Player}
-\textbf{Problema} Necessità di creare la classe che gestisce il giocatore, rendendola semplice e possibilmente modificabile per eventuali cambiamenti futuri.
+\par
+\paragraph{Problema :} Necessità di creare la classe che gestisce il giocatore, rendendola semplice e possibilmente modificabile per eventuali cambiamenti futuri.
 
-\textbf{Soluzione} Sfruttare il pattern \textit{Strategy} per creare una gerarchia
+\paragraph{Soluzione :} Sfruttare il pattern \textit{Strategy} per creare una gerarchia
 di classi utilizzabili in contesti diversi che non richiedono di conoscere 
 l'implementazione. In questo caso si ha una interfaccia generale Entity, sfruttata
 anche per l'implementazione dei nemici, e una interfaccia Player che la estende 
@@ -426,6 +410,7 @@ per ridurre la propria complessità. La realizzazione è riassunta in Figura~\re
     \caption{Diagramma UML del pattern \textit{Strategy} utilizzato per Entity, Player e PlayerImpl}
     \label{fig:uml_player}
 \end{figure}
+
 \section{Sviluppo}
 \subsection{Testing automatizzato}
 
@@ -447,9 +432,6 @@ I test coprono in modo minimale ma significativo:
   \item \textbf{GameController e PlayerController}: viene testata la chiamata dei metodi update e il corretto funzionamento della logica legata al Player   .
 \end{itemize}
 
-
-In questo modo il test automatico intercetta errori tipici (mappa incoerente, associazioni mancanti, persistenza non salvata) e rende possibile rilevare regressioni in modo affidabile.
-
 \subsection{Note di sviluppo}
 \subsubsection{Capacci Simone}
 \paragraph{Uso di librerie di terze parti}
@@ -457,7 +439,7 @@ usati in :
 \begin{sloppypar}
   \url{https://github.com/burraco04/OOP25-hop-tales/blob/a4aaf040e954816289de773d2bdcfe55a6639e04/src/main/java/deserialization/level/LevelLoader.java#L8}
 \end{sloppypar}
-\paragraph{Uso di method reference}
+\paragraph{Uso di method reference :}
 \begin{sloppypar}
   \url{https://github.com/burraco04/OOP25-hop-tales/blob/a4aaf040e954816289de773d2bdcfe55a6639e04/src/main/java/view/utils/Draw.java#L39C2-L39C61}
 \end{sloppypar}
@@ -497,17 +479,17 @@ Nessun codice copiato integralmente da risorse esterne. Le scelte di implementaz
 
 \subsubsection{Gentili Simone}
 \paragraph{Uso di lambda expressions}
-utilizzati ad esempio in:
+utilizzati ad esempio in :
 \begin{sloppypar}
   \url{https://github.com/burraco04/OOP25-hop-tales/blob/e8d6cd9bf68d214d4bf5f25293e49066bc76d247/src/main/java/controller/impl/EnemyController.java#L31}
 \end{sloppypar}
 
 \subsubsection{Casadei Enrico}
-\paragraph{Uso di lambda expressions:}
+\paragraph{Uso di lambda expressions :}
 \begin{sloppypar}
   \url{https://github.com/burraco04/OOP25-hop-tales/blob/6daf410c5458683661c141251516f26d5f0a6975/src/main/java/view/api/AbstractResultPanel.java#L44}
 \end{sloppypar}
-\paragraph{Uso di \textit{javax.sound.sampled} per gestione audio in:}
+\paragraph{Uso di \textit{javax.sound.sampled} per gestione audio in :}
 \begin{sloppypar}
   \url{https://github.com/burraco04/OOP25-hop-tales/blob/6daf410c5458683661c141251516f26d5f0a6975/src/main/java/controller/AudioManager.java#L21}
 \end{sloppypar}
@@ -521,28 +503,48 @@ e dell’implementazione delle componenti legate al caricamento dei livelli prim
 alla gestione delle risorse grafiche e delle animazioni, nonché di
 parti legate interfaccia utente (menu , negozio(creazione di skin e possibilità di comprarle), opzioni).
 
-Non sono completamente soddisfatto del mio lavoro in quanto per mancanza di tempo non sono riuscito a modellare lo shop e la gestione skin come volevo per mancanza di tempo. Nonostante ciò, penso sia stata un ottima esperienza formativa che mi ha permesso di consolidare e migliorare le mie competenze di programmazione.
+Non sono completamente soddisfatto del mio lavoro in quanto per mancanza di tempo non sono riuscito a modellare lo shop e la gestione skin. Nonostante ciò, penso sia stata un ottima esperienza formativa che mi ha permesso di consolidare e migliorare le mie competenze di programmazione.
 
 \subsubsection{Bartoletti Eleonora}
-La realizzazione di questo progetto per me è stata rivelatrice: in particolare, mi ha aiutato a capire che il lavoro di gruppo è fondamentale, e che lo sarà sempre di più nel mondo del lavoro. Mi è servito a realizzare che il teamworking è una cosa su cui devo ancora lavorare, ma sono convinta di essere nella giusta strada. Un gruppo unito e che si aiuta a vicenda ha sicuramente una riuscita migliore del lavoro del singolo. 
+La realizzazione di questo progetto per me è stata rivelatrice: in particolare, mi ha aiutato a capire che il lavoro di gruppo è fondamentale, 
+e che lo sarà sempre di più nel mondo del lavoro. Mi è servito a realizzare che il teamworking è una cosa su cui devo ancora lavorare, 
+ma sono convinta di essere nella giusta strada. Un gruppo unito e che si aiuta a vicenda ha sicuramente una riuscita migliore del lavoro del singolo. 
 Detto questo, ritengo che il gruppo nella totalità abbia lavorato molto bene, nonostante le normali e, molte volte necessarie, divergenze riguardo il da farsi.
 
 \subsubsection{Gentili Simone}
-Mi sono occupato principalmente della progettazione dei nemici, della loro corretta creazione e movimento allinterno dei livello 1 e 2.
-Ho inoltre lavorato alla totale struttura del livello 2 con i propri oggetti e alla corretta visione del player e degli oggetti allinterno dei primi due livelli durante la fase di gioco.
+Mi sono occupato principalmente della progettazione dei nemici, della loro corretta creazione e movimento all’interno dei livello 1 e 2.
+Ho inoltre lavorato alla totale struttura del livello 2 con i propri oggetti e alla corretta visione del player e degli oggetti all’interno dei primi due livelli durante la fase di gioco. 
+Con questo progetto ho capito che gran parte del lavoro non è solo progettare ma è avere una buona organizzazione con il resto del team. 
+Avrei voluto esplorare di più su diversi nemici ma mi ritengo comunque soddisfatto di aver fatto questa esperienza sicuramente in un futuro lavorativo.
+
 
 \subsubsection{Casadei Enrico}
 La mia parte riguardava la gestione del giocatore, della logica delle collisioni e della gestione degli effetti sonori. Inoltre mi sono occuppato dello sviluppo della parte del Controller legata alla fase di gioco.
 Purtroppo non mi sento soddisfatto di come ho lavorato. Lavorare in gruppo è stata sicuramente un'esperienza formativa e utile per
 il futuro ma anche molto impegnativa, causando così difficoltà nella realizzazione del progetto e nel rispetto delle scadenze.
 
-
+\clearpage
+\section*{Guida Utente}
+\addcontentsline{toc}{section}{Guida Utente}
 Il gioco una volta aperto avrà una scermata principale menu dalla quale si potra andare nella sezione dei livelli, delle opzioni e dello shop, 
-una volta entrati in start e selezionato un livello si potra muovere il player premendo \textbf{A} per muoverlo a sinistra, \textbf{D} per muoverlo a destra, 
-\textbf{W} oppure \textbf{barra spaziatrice} per saltare (se tenuto premuto continua a saltare ogni volta che tocca un blocco solido) e \textbf{S} per cadere più velocemente (Solo quando si è in aria).
-Una volta raggiunta la porta a fine livello 1 e 2 si potrsa preme \textbf{E} per tornale al menu principale.
-Invece nel livello 3 si potrà muovere due player uno utilizzando \textbf{A} per muoverlo a sinistra, \textbf{D} per muoverlo a destra, 
-\textbf{W} per saltare e l'altro player userà \textbf{freccia →} per muoverlo a sinistra, \textbf{freccia ←} per muoverlo a destra, 
-\textbf{freccia ↑} per saltare.
-Una volta che entrambi i player saranno arrivati alla porta finale si potrà premere \textbf{R} per riprovare il livello obbure \textbf{H} per tornale al menu principale.
+una volta entrati in start e selezionato un livello si potra muovere il player premendo : 
+\begin{itemize}
+    \item \textbf{A} per muoverlo a sinistra
+    \item \textbf{D} per muoverlo a destra
+    \item \textbf{W} oppure \textbf{barra spaziatrice} per saltare (se tenuto premuto continua a saltare ogni volta che tocca un blocco solido)
+    \item \textbf{S} per cadere più velocemente (Solo quando si è in aria)
+\end{itemize}  
+Una volta raggiunta la porta a fine livello 1 e 2 si potrsa preme : \textbf{E} per tornale al menu principale.
+Invece nel livello 3 si potrà muovere due player uno utilizzando
+\begin{itemize}
+    \item \textbf{A} per muoverlo a sinistra
+    \item \textbf{D} per muoverlo a destra
+    \item \textbf{W} per saltare
+\end{itemize} 
+e l'altro player userà \begin{itemize}
+    \item \textbf{freccia →} per muoverlo a sinistra
+    \item \textbf{freccia ←} per muoverlo a destra
+    \item \textbf{freccia ↑} per saltare
+\end{itemize} 
+Una volta che entrambi i player saranno arrivati alla porta finale si potrà premere : \textbf{R} per riprovare il livello obbure : \textbf{H} per tornale al menu principale.
 \end{document}

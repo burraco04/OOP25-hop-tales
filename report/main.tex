@@ -431,19 +431,22 @@ per ridurre la propria complessità. La realizzazione è riassunta in Figura~\re
 
 Il testing automatico serve per evitare regressioni e garantire che le funzionalità principali rimangano corrette dopo ogni modifica.  
 Nel progetto sono stati adottati test completamente automatici basati su JUnit, senza intervento umano.
-I test coprono in modo minimale ma significativo il Livello 3 e la persistenza delle risorse:
+I test coprono in modo minimale ma significativo:
 
 \begin{itemize}
-  \item \textbf{Enemy}: nel quale viene testato il movimento dei nemici in modo correto, la correta crazione dei tipi di nemici nel livello.
+  \item \textbf{Enemy}: nel quale viene testato il corretto movimento dei nemici, la corretta creazione dei tipi di nemici nel livello.
   \item \textbf{Player}: nel quale viene testate le interazioni del player con i powerup e il danno subito.
   \item \textbf{Livello 3}: testiamo che la mappa venga caricata correttamente, 
   che le entità principali vengano create (porte, massi, bottoni, teleport, piattaforme) e che le associazioni logiche (pulsante--porta, teleport--destinazione) siano consistenti con le costanti di gioco.
-  \item \textbf{Map}: nel quale viene testata il correto caricamento delle mappe dei livelli 1 e 2, 
+  \item \textbf{Map}: nel quale viene testata il corretto caricamento delle mappe dei livelli 1 e 2, 
   creazione delle entita al suo interno e delle interazioni nel world.
   \item \textbf{CoinStorage}: testiamo la lettura/scrittura da file, 
   verificando il caricamento delle monete e dei flag di acquisto delle skin e la persistenza di un acquisto.
   \item \textbf{Collider}: nel quale viene testata le collisioni con nemici, powerup, monete, blocchi solidi e blocchi hazard.
+  \item \textbf{AudioManager}: nel quale viene testato il corretto funzionamento dei metodi.
+  \item \textbf{GameController e PlayerController}: viene testata la chiamata dei metodi update e il corretto funzionamento della logica legata al Player   .
 \end{itemize}
+
 
 In questo modo il test automatico intercetta errori tipici (mappa incoerente, associazioni mancanti, persistenza non salvata) e rende possibile rilevare regressioni in modo affidabile.
 
@@ -492,20 +495,22 @@ FontFactory.
 \paragraph{Codice riadattato o preso da fonti esterne}
 Nessun codice copiato integralmente da risorse esterne. Le scelte di implementazione per il livello 3 sono originali; eventuali ispirazioni generali (es. gestione del loop di gioco) derivano da conoscenze pregresse e documentazione standard Java/Swing.
 
-\section{Gentili Simone}
+\subsubsection{Gentili Simone}
 \paragraph{Uso di lambda expressions}
 utilizzati ad esempio in:
 \begin{sloppypar}
   \url{https://github.com/burraco04/OOP25-hop-tales/blob/e8d6cd9bf68d214d4bf5f25293e49066bc76d247/src/main/java/controller/impl/EnemyController.java#L31}
 \end{sloppypar}
-\paragraph{Uso di librerie di terza parte(SpotBugs / FindBugs)}
-\begin{sloppypar}
-  \url{https://github.com/burraco04/OOP25-hop-tales/blob/e8d6cd9bf68d214d4bf5f25293e49066bc76d247/src/main/java/model/entities/impl/AbstractEnemyImpl.java#L3}
-\end{sloppypar}
-\begin{sloppypar}
-  \url{https://github.com/burraco04/OOP25-hop-tales/blob/e8d6cd9bf68d214d4bf5f25293e49066bc76d247/src/main/java/controller/impl/EnemyController.java#L4}
-\end{sloppypar}
 
+\subsubsection{Casadei Enrico}
+\paragraph{Uso di lambda expressions:}
+\begin{sloppypar}
+  \url{https://github.com/burraco04/OOP25-hop-tales/blob/6daf410c5458683661c141251516f26d5f0a6975/src/main/java/view/api/AbstractResultPanel.java#L44}
+\end{sloppypar}
+\paragraph{Uso di \textit{javax.sound.sampled} per gestione audio in:}
+\begin{sloppypar}
+  \url{https://github.com/burraco04/OOP25-hop-tales/blob/6daf410c5458683661c141251516f26d5f0a6975/src/main/java/controller/AudioManager.java#L21}
+\end{sloppypar}
 
 \section{Commenti finali}
 \subsection{Autovalutazione e lavori futuri}
@@ -523,9 +528,13 @@ La realizzazione di questo progetto per me è stata rivelatrice: in particolare,
 Detto questo, ritengo che il gruppo nella totalità abbia lavorato molto bene, nonostante le normali e, molte volte necessarie, divergenze riguardo il da farsi.
 
 \subsubsection{Gentili Simone}
-Mi sono occupato principalmente della progettazione dei nemici, della loro cortteta creazione e movimento allinterno dei livello 1 e 2.
-Ho inoltre lavorato alla totale struttora del livello 2 con i propri oggeti e alla correta visione del player e degli oggeti allinterno dei primi due livelli durante la fase di gioco.
+Mi sono occupato principalmente della progettazione dei nemici, della loro corretta creazione e movimento allinterno dei livello 1 e 2.
+Ho inoltre lavorato alla totale struttura del livello 2 con i propri oggetti e alla corretta visione del player e degli oggetti allinterno dei primi due livelli durante la fase di gioco.
 
+\subsubsection{Casadei Enrico}
+La mia parte riguardava la gestione del giocatore, della logica delle collisioni e della gestione degli effetti sonori. Inoltre mi sono occuppato dello sviluppo della parte del Controller legata alla fase di gioco.
+Purtroppo non mi sento soddisfatto di come ho lavorato. Lavorare in gruppo è stata sicuramente un'esperienza formativa e utile per
+il futuro ma anche molto impegnativa, causando così difficoltà nella realizzazione del progetto e nel rispetto delle scadenze.
 
 
 Il gioco una volta aperto avrà una scermata principale menu dalla quale si potra andare nella sezione dei livelli, delle opzioni e dello shop, 

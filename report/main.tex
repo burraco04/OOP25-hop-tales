@@ -1,5 +1,5 @@
-\documentclass{article}
-\usepackage{graphicx} % Required for inserting images
+\documentclass{report}
+\usepackage{graphicx}
 \usepackage{chngcntr}
 \usepackage{float}
 \usepackage{hyperref}
@@ -20,7 +20,7 @@ Eleonora Bartoletti,
 }
 \date{February 2026}
 
-\renewcommand{\contentsname}{Indice} % cambia "Contents" in "Indice"
+\renewcommand{\contentsname}{Indice}
 
 \begin{document}
 
@@ -28,9 +28,9 @@ Eleonora Bartoletti,
 
 \newpage
 
-\tableofcontents  % genera l’indice
+\tableofcontents
 
-\section{ Analisi}
+\section{Analisi}
 \subsection{Descrizione e requisiti}
 Il gruppo si pone come obiettivo la realizzazione di un gioco platformer chiamato Hop-Tales. Il gioco si sviluppa in 3 livelli: nel primo il giocatore si muove in avanti evitando i nemici fino a raggiungere un castello posto alla fine del livello; nel secondo livello, simile al primo, si utilizza un secondo personaggio che a fine livello raggiunge lo stesso castello; nel terzo livello, da giocare in due, il gioco diventa un puzzle-platformer, in cui i due personaggi devono risolvere dei mini-puzzle per finalmente riunirsi.
 \paragraph{Requisiti funzionali}
@@ -161,7 +161,7 @@ Si rendono espliciti gli stati dell’applicazione, centralizza la gestione dell
     \centering
     \includegraphics[width=\textwidth]{menu_state.png}
     \caption{Diagramma UML della gestione degli stati dell'applicazione}
-    \label{fig:uml-level-loading}
+    \label{fig:uml-menu-state}
 \end{figure}
 \paragraph{Gestione delle animazioni e delle risorse grafiche}
 Problema:
@@ -186,7 +186,7 @@ Riduce la duplicazione del codice e migliora le prestazioni tramite caching;
     \centering
     \includegraphics[width=\textwidth]{Draw.png}
     \caption{Diagramma gestione animazioni e risorse grafiche}
-    \label{fig:uml-level-loading}
+    \label{fig:uml-draw}
 \end{figure}
 
 
@@ -492,7 +492,7 @@ FontFactory.
 \paragraph{Codice riadattato o preso da fonti esterne}
 Nessun codice copiato integralmente da risorse esterne. Le scelte di implementazione per il livello 3 sono originali; eventuali ispirazioni generali (es. gestione del loop di gioco) derivano da conoscenze pregresse e documentazione standard Java/Swing.
 
-\section{GENTILI SIMONE}
+\section{Gentili Simone}
 \paragraph{Uso di lambda expressions}
 utilizzati ad esempio in:
 \begin{sloppypar}

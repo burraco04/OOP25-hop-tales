@@ -1,6 +1,7 @@
 package view.impl;
 
 import controller.api.ControllerMenu;
+import view.api.AbstractResultPanel;
 
 /**
  * Game over panel.

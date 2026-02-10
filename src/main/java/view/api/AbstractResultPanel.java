@@ -1,4 +1,4 @@
-package view.impl;
+package view.api;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;

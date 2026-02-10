@@ -2,10 +2,7 @@ package model;
 
 import java.awt.Color;
 
-import javax.swing.JButton;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import view.utils.ShopButtonFactory;
 
 /**
  * Class used for storing constants shared by classes present in the model section of the project.
@@ -115,10 +112,6 @@ public final class GameConstants {
     public static final int LEVEL3_TELEPORT_DESTINATION_4_COLUMN_INDEX = 34;
     public static final int[] LEVEL3_TELEPORT_SOURCE_4_ROW_INDEXES = {17, 18, 19};
     public static final int LEVEL3_TELEPORT_SOURCE_4_COLUMN_INDEX = 14;
-    public static final JButton SKINDEFAULT = ShopButtonFactory.build("/img/Player_1_frame_1.png");
-    public static final JButton SKINSHARK = ShopButtonFactory.build("/img/squalo_frame_1.png");
-    public static final JButton SKINPURPLE = ShopButtonFactory.build("/img/purple_player_frame_1.png");
-    public static final JButton SKINGHOST = ShopButtonFactory.build("/img/ghost_frame_1.png");
 
     private GameConstants() { }
 

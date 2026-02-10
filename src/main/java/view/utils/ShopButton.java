@@ -35,6 +35,10 @@ public class ShopButton extends JPanel {
     private static final Color DEFAULT_COLOR = new Color(208, 208, 208);
     private static final Color MAIN_COLOR = new Color(144, 238, 144);
     private static final String SKIN_COST_STRING = "20$";
+    private static final JButton SKINDEFAULT = ShopButtonFactory.build("/img/Player_1_frame_1.png");
+    private static final JButton SKINSHARK = ShopButtonFactory.build("/img/squalo_frame_1.png");
+    private static final JButton SKINPURPLE = ShopButtonFactory.build("/img/purple_player_frame_1.png");
+    private static final JButton SKINGHOST = ShopButtonFactory.build("/img/ghost_frame_1.png");
     private final transient ShopModel shopModel;
 
     private final GridLayout grid;
@@ -53,10 +57,10 @@ public class ShopButton extends JPanel {
      this.shopModel = shopModel;
 
     this.allButtons = new JButton[] {
-        GameConstants.SKINDEFAULT,
-        GameConstants.SKINSHARK,
-        GameConstants.SKINPURPLE,
-        GameConstants.SKINGHOST,
+        SKINDEFAULT,
+        SKINSHARK,
+        SKINPURPLE,
+        SKINGHOST,
     };
 
     this.background = CreateBackground.create("/img/Shopback.png");
@@ -68,31 +72,31 @@ public class ShopButton extends JPanel {
     private void initUI() {
     setLayout(this.grid);
 
-    GameConstants.SKINDEFAULT.setText("DEFAULT");
-    GameConstants.SKINSHARK.setText(SKIN_COST_STRING);
-    GameConstants.SKINPURPLE.setText(SKIN_COST_STRING);
-    GameConstants.SKINGHOST.setText(SKIN_COST_STRING);
+    SKINDEFAULT.setText("DEFAULT");
+    SKINSHARK.setText(SKIN_COST_STRING);
+    SKINPURPLE.setText(SKIN_COST_STRING);
+    SKINGHOST.setText(SKIN_COST_STRING);
 
-    GameConstants.SKINDEFAULT.addActionListener(e ->
-        onSkinButtonClick(SkinId.DEFAULT, GameConstants.SKINDEFAULT,
+    SKINDEFAULT.addActionListener(e ->
+        onSkinButtonClick(SkinId.DEFAULT, SKINDEFAULT,
             "img/Player_1_frame_1.png", "img/Player_1_frame_2.png"));
 
-    GameConstants.SKINSHARK.addActionListener(e ->
-        onSkinButtonClick(SkinId.SHARK, GameConstants.SKINSHARK,
+    SKINSHARK.addActionListener(e ->
+        onSkinButtonClick(SkinId.SHARK, SKINSHARK,
             "img/squalo_frame_1.png", "img/squalo_frame_2.png"));
 
-    GameConstants.SKINPURPLE.addActionListener(e ->
-        onSkinButtonClick(SkinId.PURPLE, GameConstants.SKINPURPLE,
+    SKINPURPLE.addActionListener(e ->
+        onSkinButtonClick(SkinId.PURPLE, SKINPURPLE,
             "img/purple_player_frame_1.png", "img/purple_player_frame_2.png"));
 
-    GameConstants.SKINGHOST.addActionListener(e ->
-        onSkinButtonClick(SkinId.GHOST, GameConstants.SKINGHOST,
+    SKINGHOST.addActionListener(e ->
+        onSkinButtonClick(SkinId.GHOST, SKINGHOST,
             "img/ghost_frame_1.png", "img/ghost_frame_2.png"));
 
-    add(GameConstants.SKINDEFAULT);
-    add(GameConstants.SKINPURPLE);
-    add(GameConstants.SKINSHARK);
-    add(GameConstants.SKINGHOST);
+    add(SKINDEFAULT);
+    add(SKINPURPLE);
+    add(SKINSHARK);
+    add(SKINGHOST);
 
     paintButton(this.allButtons);
 
@@ -167,13 +171,13 @@ public class ShopButton extends JPanel {
     }
 
     private SkinId idOf(final JButton b) {
-    if (b == GameConstants.SKINDEFAULT) {
+    if (b == SKINDEFAULT) {
         return SkinId.DEFAULT;
     }
-    if (b == GameConstants.SKINSHARK) {
+    if (b == SKINSHARK) {
         return SkinId.SHARK;
     }
-    if (b == GameConstants.SKINPURPLE) {
+    if (b == SKINPURPLE) {
         return SkinId.PURPLE;
     }
     return SkinId.GHOST;

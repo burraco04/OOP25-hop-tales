@@ -41,19 +41,16 @@ public class Camera {
         final int leftBound = x + deadZonePx;
         final int rightBound = x + screenWidthPx - deadZonePx;
 
-        //Player troppo a destra
         if (playerWorldX > rightBound) {
             x += playerWorldX - rightBound;
         } else if (playerWorldX < leftBound) {
             x -= leftBound - playerWorldX;
         }
 
-        // limite sinistro
         if (x < 0) {
             x = 0;
         }
 
-        // limite destro
         if (x > maxX) {
             x = maxX;
         }

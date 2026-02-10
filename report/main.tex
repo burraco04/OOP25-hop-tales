@@ -362,21 +362,21 @@ ciò violerebbe il \textit{Single Responsibility Principle} e renderebbe il codi
 
 Il testing automatico serve per evitare regressioni e garantire che le funzionalità principali rimangano corrette dopo ogni modifica.  
 Nel progetto sono stati adottati test completamente automatici basati su JUnit, senza intervento umano.
-
 I test coprono in modo minimale ma significativo il Livello 3 e la persistenza delle risorse:
 
 \begin{itemize}
-  \item \textbf{Livello 3}: testiamo che la mappa venga caricata correttamente, che le entità principali vengano create (porte, massi, bottoni, teleport, piattaforme) e che le associazioni logiche (pulsante--porta, teleport--destinazione) siano consistenti con le costanti di gioco.
-  \item \textbf{CoinStorage}: testiamo la lettura/scrittura da file, verificando il caricamento delle monete e dei flag di acquisto delle skin e la persistenza di un acquisto.
+  \item \textbf{Enemy}: nel quale viene testato il movimento dei nemici in modo correto, la correta crazione dei tipi di nemici nel livello.
+  \item \textbf{Player}: nel quale viene testate le interazioni del player con i powerup e il danno subito.
+  \item \textbf{Livello 3}: testiamo che la mappa venga caricata correttamente, 
+  che le entità principali vengano create (porte, massi, bottoni, teleport, piattaforme) e che le associazioni logiche (pulsante--porta, teleport--destinazione) siano consistenti con le costanti di gioco.
+  \item \textbf{Map}: nel quale viene testata il correto caricamento delle mappe dei livelli 1 e 2, 
+  creazione delle entita al suo interno e delle interazioni nel world.
+  \item \textbf{CoinStorage}: testiamo la lettura/scrittura da file, 
+  verificando il caricamento delle monete e dei flag di acquisto delle skin e la persistenza di un acquisto.
+  \item \textbf{Collider}: nel quale viene testata le collisioni con nemici, powerup, monete, blocchi solidi e blocchi hazard.
 \end{itemize}
 
 In questo modo il test automatico intercetta errori tipici (mappa incoerente, associazioni mancanti, persistenza non salvata) e rende possibile rilevare regressioni in modo affidabile.
-
-\paragraph{Note sui criteri di qualità}
-\begin{itemize}
-  \item \textbf{Elementi positivi}: test automatici eseguiti con JUnit, nessuna interazione manuale richiesta.
-  \item \textbf{Elementi negativi evitati}: non sono presenti test manuali, né test che falliscono o non inclusi nel sorgente.
-\end{itemize}
 
 \subsection{Note di sviluppo}
 \subsection{CAPACCI SIMONE}

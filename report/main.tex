@@ -303,6 +303,60 @@ Esempio errato: un’unica classe `Level3` con campi di rendering, logica, input
 
 Questo viola il principio di separazione delle responsabilità e rende impossibile capire la struttura reale.
 
+\subsubsection{Gentili Simone}
+\subsubsection{Struttura base dei nemici}
+
+\paragraph{Problema} I nemici presenti nel gioco appartengono a tipologie diverse, ma condividono la stessa struttura di base e gran parte del comportamento. 
+Questo portava alla creazione di classi molto simili tra loro, con duplicazione di codice e difficoltà di manutenzione.
+
+\paragraph{Soluzione} Per risolvere il problema è stato utilizzato il \textit{pattern Template Method}. È stata introdotta una classe astratta AbstractEnemyImpl 
+che definisce lo scheletro comune del comportamento dei nemici. Il metodo template è \textbf{update()} 
+che stabilisce l’ordine fisso delle operazioni di aggiornamento (movimento orizzontale, salto e gravità).
+La personalizzazione del comportamento avviene tramite:
+
+\begin{itemize}
+    \item il metodo astratto \textbf{getSpeed()}, obbligatorio per ogni sottoclasse
+    \item i metodi hook \textbf{moveHorizontalStep()}, \textbf{jumpStep()} e \textbf{gravityStep()} che possono essere sovrascritti dalle sottoclassi
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{AbstracEnemy_template.png}
+    \caption{Diagramma UML della struttura dei nemici}
+    \label{fig:uml_AbstractEnemy_structure}
+\end{figure}
+
+Grazie a questa struttura l'aggiunta di un nuovo tipo di enemy è molto semplice e di facile manutenzione.
+
+\subsubsection{Creazione dei nemici}
+
+\paragraph{Problema} 
+Nel gioco esistono diversi tipi di nemici, ciascuno con comportamenti e caratteristiche specifiche, 
+che devono essere inseriti nei livelli in posizioni precise. Senza una gestione centralizzata la creazione di ogni nemico comporterebbe 
+la duplicazione di codice e un aumento delle dipendenze tra classi, rendendo difficile la manutenzione e l’estensione del sistema.
+
+\paragraph{Soluzione} 
+Per risolvere il problema è stato utilizzato il \textit{pattern Factory Method}. È stata introdotta la classe \textbf{EnemyFactory}, 
+responsabile della creazione degli oggetti \textit{Enemy}. La factory decide quale implementazione concreta istanziare in base al tipo di nemico, 
+definito dalla classe di tipo ENUM \textbf{EnemyType}, restituendo sempre un riferimento all’interfaccia \textit{Enemy}. In questo modo la logica di creazione è centralizzata e le dipendenze dalle classi sono ridotte. 
+Questo comporta : 
+
+\begin{itemize}
+    \item una facilità d'uso; quando c’è bisogno di creare un nemico basta richiamare il metodo \textbf{createEnemy()} della factory
+    \item la logica di creazione dei nemici è centralizzata nella factory, evitando che altre classi debbano conoscere i dettagli delle implementazioni concrete.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{EnemyFactory.png}
+    \caption{Diagramma UML della creazione dei nemici}
+    \label{fig:uml_EnemyFactory}
+\end{figure}
+
+La \textbf{EnemyFactory} rimane separata dalla (\textbf{EntityFactory}) perché i nemici e le entità statiche hanno logiche diversi; 
+ciò violerebbe il \textit{Single Responsibility Principle} e renderebbe il codice più difficile da mantenere ed estendere.  
+
+
 \section{Sviluppo}
 \section{Testing automatizzato}
 
@@ -384,4 +438,8 @@ Non sono completamente soddisfatto del mio lavoro in quanto per mancanza di temp
 \section{Bartoletti}
 La realizzazione di questo progetto per me è stata rivelatrice: in particolare, mi ha aiutato a capire che il lavoro di gruppo è fondamentale, e che lo sarà sempre di più nel mondo del lavoro. Mi è servito a realizzare che il teamworking è una cosa su cui devo ancora lavorare, ma sono convinta di essere nella giusta strada. Un gruppo unito e che si aiuta a vicenda ha sicuramente una riuscita migliore del lavoro del singolo. 
 Detto questo, ritengo che il gruppo nella totalità abbia lavorato molto bene, nonostante le normali e, molte volte necessarie, divergenze riguardo il da farsi.
+
+\subsection{GENTILI SIMONE}
+Mi sono occupato principalmente della progettazione dei nemici, della loro creazione e del loro correto movimento allinterno del livello.
+Ho inoltre lavorato alla totale struttora del livello 2 con i propri oggeti e alla correta visione del player allinterno dei livello 1 e 2 con l'implementazione di camera
 \end{document}
